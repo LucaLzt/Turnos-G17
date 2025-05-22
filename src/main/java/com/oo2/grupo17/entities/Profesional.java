@@ -20,10 +20,10 @@ public class Profesional extends Persona {
 	private Integer matricula;
 	
 	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
-	/*
+	
 	@OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
 	private Set<Turno> lstTurnos = new HashSet<>();
-	*/
+	
 	
 	@ManyToMany
 	@JoinTable(name = "profesionalTarea", joinColumns = @JoinColumn(name = "profesional_id"), inverseJoinColumns = @JoinColumn(name = "tarea_id"))

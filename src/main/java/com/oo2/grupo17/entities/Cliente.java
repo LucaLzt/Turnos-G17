@@ -18,9 +18,9 @@ public class Cliente extends Persona{
 	private Integer nroCliente;
 	
 	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
-	/*
+	
 	@OneToMany(mappedBy = "cliente")
 	private Set<Turno> lstTurnos = new HashSet<>();
-	*/
+	
 	
 }
