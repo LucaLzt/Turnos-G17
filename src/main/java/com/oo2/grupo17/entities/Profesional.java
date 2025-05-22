@@ -28,5 +28,23 @@ public class Profesional extends Persona {
 	@ManyToMany
 	@JoinTable(name = "profesionalTarea", joinColumns = @JoinColumn(name = "profesional_id"), inverseJoinColumns = @JoinColumn(name = "tarea_id"))
 	private Set<Tarea> tareasHabilitadas = new HashSet<>();
+	
+	// Getters y Setters
+	
+	public Integer getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(Integer matricula) {
+		this.matricula = matricula;
+	}
+
+	public Set<Tarea> getTareasHabilitadas() {
+		return tareasHabilitadas;
+	}
+
+	public void setTareasHabilitadas(Set<Tarea> tareasHabilitadas) {
+		this.tareasHabilitadas = tareasHabilitadas;
+	}
 
 }

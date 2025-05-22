@@ -2,11 +2,8 @@ package com.oo2.grupo17.dtos;
 
 import java.util.Set;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter @Setter
 @NoArgsConstructor
 public class ProfesionalDto extends PersonaDto{
 	
@@ -19,6 +16,24 @@ public class ProfesionalDto extends PersonaDto{
 			Set<Long> tareasHabilitadasIds) {
 		super(nombre, dni, contacto);
 		this.matricula = matricula;
+		this.tareasHabilitadasIds = tareasHabilitadasIds;
+	}
+	
+	// Getters y Setters
+
+	public Integer getMatricula() {
+		return matricula;
+	}
+
+	protected void setMatricula(Integer matricula) {
+		this.matricula = matricula;
+	}
+
+	public Set<Long> getTareasHabilitadasIds() {
+		return tareasHabilitadasIds;
+	}
+
+	public void setTareasHabilitadasIds(Set<Long> tareasHabilitadasIds) {
 		this.tareasHabilitadasIds = tareasHabilitadasIds;
 	}
 	

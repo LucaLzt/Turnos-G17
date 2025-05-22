@@ -6,8 +6,6 @@ import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -22,5 +20,15 @@ public class Cliente extends Persona{
 	@OneToMany(mappedBy = "cliente")
 	private Set<Turno> lstTurnos = new HashSet<>();
 	*/
+	
+	// Getters y Setters
+	
+	public Integer getNroCliente() {
+		return nroCliente;
+	}
+
+	public void setNroCliente(Integer nroCliente) {
+		this.nroCliente = nroCliente;
+	}
 	
 }
