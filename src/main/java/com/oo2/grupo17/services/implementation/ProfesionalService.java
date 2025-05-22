@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ProfesionalDto;
+import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.ITareaRepository;
@@ -26,6 +27,11 @@ public class ProfesionalService
 		super(profesionalRepository, modelMapper, ProfesionalDto.class);
 		this.profesionalRepository = profesionalRepository;
 		this.tareaRepository = tareaRepository;
+	}
+	
+	@Override
+	protected Class<Profesional> getEntityClass() {
+		return Profesional.class;
 	}
 	
 	@Override

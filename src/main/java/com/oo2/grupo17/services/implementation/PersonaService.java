@@ -4,20 +4,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.PersonaDto;
 import com.oo2.grupo17.entities.Persona;
+import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.repositories.IPersonaRepository;
 import com.oo2.grupo17.services.IPersonaService;
 
 @Service("personaService")
-public class PersonaService<T extends Persona, D extends PersonaDto> implements IPersonaService<D> {
+public abstract class PersonaService<T extends Persona, D extends PersonaDto> implements IPersonaService<D> {
 	
 	protected final IPersonaRepository<T> personaRepository;
 	protected final ModelMapper modelMapper;
+	protected abstract Class<T> getEntityClass();
 	protected final Class<D> dtoClass;
 	
 	public PersonaService(IPersonaRepository<T> personaRepository,
@@ -43,7 +43,7 @@ public class PersonaService<T extends Persona, D extends PersonaDto> implements 
 
 	@Override
 	public D insertOrUpdate(D dto) {
-		 T entity = modelMapper.map(dto, personaRepository.getEntityClass());
+		 T entity = modelMapper.map(dto, getEntityClass());
 		 T savedEntity = personaRepository.save(entity);
 		 return modelMapper.map(savedEntity, dtoClass);
 	}
@@ -57,6 +57,6 @@ public class PersonaService<T extends Persona, D extends PersonaDto> implements 
 			return false;
 		}
 	}
-
+	
 }
 

@@ -10,15 +10,10 @@ import org.springframework.data.repository.query.Param;
 import com.oo2.grupo17.entities.Persona;
 
 @NoRepositoryBean // Indica que es una interfaz base, no un repositorio concreto
-public interface IPersonaRepository <T extends Persona> extends JpaRepository<T, Long>{
-	
-	Class<T> getEntityClass();
+public interface IPersonaRepository <T extends Persona> extends JpaRepository<T, Long> {
 	
 	List<T>findByNombreContainingIgnoreCase(String nombre);
 	
 	List<T> findByDni(int dni);
-	
-	@Query("SELECT p FROM #{#EntityName} p WHERE p.contacto.email = :email")
-	List<T> findByEmailContacto(@Param("email") String email);
 	
 }

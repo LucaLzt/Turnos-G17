@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.TareaDto;
 import com.oo2.grupo17.entities.Tarea;
 import com.oo2.grupo17.repositories.ITareaRepository;
 import com.oo2.grupo17.services.ITareaService;
 
+@Service("tareaService")
 public class TareaService implements ITareaService {
 
 	private final ITareaRepository tareaRepository;
