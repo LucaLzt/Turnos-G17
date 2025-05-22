@@ -21,13 +21,13 @@ public class Contacto {
 	@Id
 	private Long id;
 	
-	@Column(name="email")
+	@Column(name="email", nullable = false)
 	private String email;
 	
-	@Column(name="movil")
+	@Column(name="movil", nullable = false)
 	private int movil;
 	
-	@Column(name="telefono")
+	@Column(name="telefono", nullable = false)
 	private int telefono;
 	
 	@OneToOne
@@ -38,7 +38,7 @@ public class Contacto {
 	@OneToOne(mappedBy = "contacto", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Direccion direccion;
 	
-	@Column(name="createdat")
+	@Column(name="createdat", nullable = false)
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 	

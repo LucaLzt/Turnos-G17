@@ -7,31 +7,37 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="Persona")
-public class Persona {
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="tipo_persona", discriminatorType=DiscriminatorType.STRING)
+public abstract class Persona {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="nombre")
+	@Column(name="nombre", nullable = false)
 	private String nombre;
 	
-	@Column(name="dni")
+	@Column(name="dni", nullable = false)
 	private int dni;
 	
 	@OneToOne(mappedBy = "persona", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Contacto contacto;
 	
-	@Column(name="createdat")
+	@Column(name="createdat", nullable = false)
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 	

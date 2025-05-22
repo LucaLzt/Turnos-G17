@@ -15,16 +15,16 @@ public class Direccion {
 	@Id
 	private Long id;
 	
-	@Column(name="calle")
+	@Column(name="calle", nullable = false)
 	private String calle;
 	
-	@Column(name="altura")
+	@Column(name="altura", nullable = false)
 	private int altura;
 	
-	@Column(name="localidad")
+	@Column(name="localidad", nullable = false)
 	private String localidad;
 	
-	@Column(name="provincia")
+	@Column(name="provincia", nullable = false)
 	private String provincia;
 	
 	@OneToOne
