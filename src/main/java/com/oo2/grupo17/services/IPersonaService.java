@@ -3,14 +3,15 @@ package com.oo2.grupo17.services;
 import java.util.List;
 
 import com.oo2.grupo17.dtos.PersonaDto;
-import com.oo2.grupo17.entities.Persona;
 
-public interface IPersonaService {
+public interface IPersonaService<T extends PersonaDto>{
 	
-	public abstract List<Persona> getAll();
+	List<T> findAll();
 	
-	public abstract PersonaDto insertOrUpdate(PersonaDto personaModel);
+	T findById(Long id);
 	
-	public abstract boolean remove(Long id);
+	T insertOrUpdate(T dto);
+	
+	boolean remove(Long id);
 
 }

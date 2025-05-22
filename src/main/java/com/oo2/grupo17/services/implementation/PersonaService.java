@@ -1,6 +1,7 @@
 package com.oo2.grupo17.services.implementation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +14,38 @@ import com.oo2.grupo17.repositories.IPersonaRepository;
 import com.oo2.grupo17.services.IPersonaService;
 
 @Service("personaService")
-public class PersonaService implements IPersonaService {
+public class PersonaService<T extends Persona, D extends PersonaDto> implements IPersonaService<D> {
 	
-	@Autowired
-	@Qualifier("personaRepository")
-	private IPersonaRepository<Persona> personaRepository;
+	protected final IPersonaRepository<T> personaRepository;
+	protected final ModelMapper modelMapper;
+	protected final Class<D> dtoClass;
 	
-	@Autowired
-	private ModelMapper modelMapper;
-	
-	@Override
-	public List<Persona> getAll() {
-		return personaRepository.findAll();
+	public PersonaService(IPersonaRepository<T> personaRepository,
+						ModelMapper modelMapper,
+						Class<D> dtoClass) {
+		this.personaRepository = personaRepository;
+		this.modelMapper = modelMapper;
+		this.dtoClass = dtoClass;
 	}
 	
 	@Override
-	public PersonaDto insertOrUpdate(PersonaDto personaDto) {
-		Persona persona = modelMapper.map(personaDto, Persona.class);
-		Persona savedPersona = personaRepository.save(persona);
-		return modelMapper.map(savedPersona, PersonaDto.class);
+	public List<D> findAll() {
+		return personaRepository.findAll().stream()
+				.map(entity -> modelMapper.map(entity, dtoClass))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public D findById(Long id) {
+		T entity = personaRepository.findById(id).orElseThrow();
+		return modelMapper.map(entity, dtoClass);
+	}
+
+	@Override
+	public D insertOrUpdate(D dto) {
+		 T entity = modelMapper.map(dto, personaRepository.getEntityClass());
+		 T savedEntity = personaRepository.save(entity);
+		 return modelMapper.map(savedEntity, dtoClass);
 	}
 	
 	@Override
