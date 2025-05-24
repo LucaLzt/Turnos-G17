@@ -17,8 +17,12 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter @Setter
 @Table(name="Persona")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipo_persona", discriminatorType=DiscriminatorType.STRING)
@@ -26,7 +30,7 @@ public abstract class Persona {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private @Setter(AccessLevel.PROTECTED) Long id;
 	
 	@Column(name="nombre", nullable = false)
 	private String nombre;
@@ -44,47 +48,5 @@ public abstract class Persona {
 	@Column(name="updatedat")
 	@UpdateTimestamp
 	private LocalDateTime updatedAt;
-	
-	// Getters y Setters
-
-	public Long getId() {
-		return id;
-	}
-
-	protected void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public int getDni() {
-		return dni;
-	}
-
-	public void setDni(int dni) {
-		this.dni = dni;
-	}
-
-	public Contacto getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(Contacto contacto) {
-		this.contacto = contacto;
-	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
 	
 }

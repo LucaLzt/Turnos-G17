@@ -7,13 +7,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter @Setter
 @Table(name="Direccion")
 public class Direccion {
 	
 	@Id
-	private Long id;
+	private @Setter(AccessLevel.PROTECTED) Long id;
 	
 	@Column(name="calle", nullable = false)
 	private String calle;
@@ -31,55 +35,5 @@ public class Direccion {
 	@MapsId
 	@JoinColumn(name="id")
 	private Contacto contacto;
-	
-	// Getters y Setters
-
-	public Long getId() {
-		return id;
-	}
-
-	protected void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getCalle() {
-		return calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
-
-	public int getAltura() {
-		return altura;
-	}
-
-	public void setAltura(int altura) {
-		this.altura = altura;
-	}
-
-	public String getLocalidad() {
-		return localidad;
-	}
-
-	public void setLocalidad(String localidad) {
-		this.localidad = localidad;
-	}
-
-	public String getProvincia() {
-		return provincia;
-	}
-
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
-	}
-
-	public Contacto getContacto() {
-		return contacto;
-	}
-
-	public void setContacto(Contacto contacto) {
-		this.contacto = contacto;
-	}
 	
 }
