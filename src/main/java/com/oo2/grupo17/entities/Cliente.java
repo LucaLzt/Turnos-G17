@@ -12,10 +12,10 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@DiscriminatorValue("CLIENTE")
+@DiscriminatorValue("PERSONA")
 public class Cliente extends Persona{
 	
-	@Column(name="nroCliente", nullable = false)
+	@Column(name="nroCliente", nullable = true)
 	private Integer nroCliente;
 	
 	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)

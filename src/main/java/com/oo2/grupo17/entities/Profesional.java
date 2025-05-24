@@ -19,7 +19,7 @@ import lombok.Setter;
 @DiscriminatorValue("PROFESIONAL")
 public class Profesional extends Persona {
 	
-	@Column(name="matricula", nullable = false)
+	@Column(name="matricula", nullable = true)
 	private Integer matricula;
 	
 	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
