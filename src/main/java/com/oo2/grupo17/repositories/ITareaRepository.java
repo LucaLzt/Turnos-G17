@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.oo2.grupo17.entities.Tarea;
 
 @Repository
-public interface ITareaRepository extends JpaRepository<Tarea, Long> {
+public interface ITareaRepository extends JpaRepository<Tarea, Long>  {
 	
-	Tarea findByNombre(String nombre);
+	// Ver que poner
 	
 }

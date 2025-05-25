@@ -1,54 +1,75 @@
 package com.oo2.grupo17.services.implementation;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.entities.Cliente;
+import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.ITareaRepository;
 import com.oo2.grupo17.services.IProfesionalService;
 
-@Service("profesionalService")
-public class ProfesionalService 
-	extends PersonaService<Profesional, ProfesionalDto> 
-	implements IProfesionalService {
+@Service
+public class ProfesionalService implements IProfesionalService {
 	
 	private final IProfesionalRepository profesionalRepository;
 	private final ITareaRepository tareaRepository;
+	private final ModelMapper modelMapper;
 	
 	public ProfesionalService(IProfesionalRepository profesionalRepository,
 							ITareaRepository tareaRepository,
 							ModelMapper modelMapper) {
-		super(profesionalRepository, modelMapper, ProfesionalDto.class);
 		this.profesionalRepository = profesionalRepository;
 		this.tareaRepository = tareaRepository;
+		this.modelMapper = modelMapper;
 	}
-	
+
 	@Override
-	protected Class<Profesional> getEntityClass() {
-		return Profesional.class;
+	public ProfesionalDto save(ProfesionalDto profesionalDto) {
+		Profesional profesional = modelMapper.map(profesionalDto, Profesional.class);
+		if(profesional.getContacto() == null) {
+			profesional.setContacto(new Contacto());
+		}
+		Profesional saved = profesionalRepository.save(profesional);
+		return modelMapper.map(saved, ProfesionalDto.class);
 	}
-	
+
 	@Override
-	public Set<ProfesionalDto> findByTareaHabilitada(String nombreTarea) {
-		return profesionalRepository.findByTareasHabilitadas_Nombre(nombreTarea).stream()
-				.map(prof -> modelMapper.map(prof, ProfesionalDto.class))
-				.collect(Collectors.toSet());
+	public ProfesionalDto findById(Long id) {
+		Profesional profesional = profesionalRepository.findById(id)
+				.orElseThrow();
+		return modelMapper.map(profesional, ProfesionalDto.class);
 	}
-	
+
 	@Override
-	public void asignarTareas(Long idProfesional, Set<Long> tareasIds) {
-		Profesional profesional = profesionalRepository.findById(idProfesional).orElseThrow();
-		profesional.setTareasHabilitadas(
-				tareaRepository.findAllById(tareasIds).stream().collect(Collectors.toSet())		
-		);
-		profesionalRepository.save(profesional);
+	public List<ProfesionalDto> findAll() {
+		return profesionalRepository.findAll()
+				.stream()
+				.map(object -> modelMapper.map(object, ProfesionalDto.class))
+				.collect(Collectors.toList());
 	}
-	
+
+	@Override
+	public ProfesionalDto update(Long id, ProfesionalDto profesionalDto) {
+		Profesional profesional = profesionalRepository.findById(id)
+				.orElseThrow();
+		profesional.setNombre(profesionalDto.getNombre());
+		profesional.setDni(profesionalDto.getDni());
+		profesional.setMatricula(profesionalDto.getMatricula());
+		Profesional updated = profesionalRepository.save(profesional);
+		return modelMapper.map(updated, ProfesionalDto.class);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		profesionalRepository.deleteById(id);
+	}
 
 }

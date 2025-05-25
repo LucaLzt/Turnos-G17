@@ -1,13 +1,19 @@
 package com.oo2.grupo17.services;
 
-import java.util.Set;
+import java.util.List;
 
 import com.oo2.grupo17.dtos.ProfesionalDto;
 
-public interface IProfesionalService extends IPersonaService<ProfesionalDto>{
+public interface IProfesionalService {
 	
-	Set<ProfesionalDto> findByTareaHabilitada(String nombreTarea);
-	
-	void asignarTareas(Long idProfesional, Set<Long> tareaIds);
+    ProfesionalDto save(ProfesionalDto profesionalDto);
+
+    ProfesionalDto findById(Long id);
+   
+    List<ProfesionalDto> findAll();
+
+    ProfesionalDto update(Long id, ProfesionalDto profesionalDto);
+
+    void deleteById(Long id);
 	
 }

@@ -1,5 +1,7 @@
 package com.oo2.grupo17.dtos;
 
+import com.oo2.grupo17.entities.Contacto;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +14,9 @@ public class PersonaDto {
 	protected @Setter(AccessLevel.PROTECTED) Long id;
 	private String nombre;
 	private int dni;
-	private ContactoDto contacto;
+	private Contacto contacto;
 
-	public PersonaDto(String nombre, int dni, ContactoDto contacto) {
+	public PersonaDto(String nombre, int dni, Contacto contacto) {
 		super();
 		this.nombre = nombre;
 		this.dni = dni;
