@@ -1,11 +1,14 @@
 package com.oo2.grupo17.repositories;
 
-import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.oo2.grupo17.entities.Profesional;
 
-public interface IProfesionalRepository extends IPersonaRepository<Profesional> {
+@Repository
+public interface IProfesionalRepository extends JpaRepository<Profesional, Long>  {
 
-	List<Profesional> findByTareasHabilitadas_Nombre(String nombreTarea);
+	// Ver que poner
 	
 }

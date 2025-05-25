@@ -12,7 +12,7 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@DiscriminatorValue("PERSONA")
+@DiscriminatorValue("CLIENTE")
 public class Cliente extends Persona{
 	
 	@Column(name="nroCliente", nullable = true)

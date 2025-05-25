@@ -11,7 +11,7 @@ import com.oo2.grupo17.entities.Tarea;
 import com.oo2.grupo17.repositories.ITareaRepository;
 import com.oo2.grupo17.services.ITareaService;
 
-@Service("tareaService")
+@Service
 public class TareaService implements ITareaService {
 
 	private final ITareaRepository tareaRepository;
@@ -23,33 +23,39 @@ public class TareaService implements ITareaService {
 	}
 
 	@Override
-	public List<TareaDto> findAll() {
-		return tareaRepository.findAll().stream()
-				.map(entity -> modelMapper.map(entity, TareaDto.class))
-				.collect(Collectors.toList());
-	}
-
-	@Override
-	public TareaDto findById(Long id) {
-		Tarea entity = tareaRepository.findById(id).orElseThrow();
-		return modelMapper.map(entity, TareaDto.class);
-	}
-
-	@Override
-	public TareaDto insertOrUpdate(TareaDto dto) {
-		Tarea entity = modelMapper.map(dto, Tarea.class);
-		Tarea saved = tareaRepository.save(entity);
+	public TareaDto save(TareaDto tareaDto) {
+		Tarea tarea = modelMapper.map(tareaDto, Tarea.class);
+		Tarea saved = tareaRepository.save(tarea);
 		return modelMapper.map(saved, TareaDto.class);
 	}
 
 	@Override
-	public boolean remove(Long id) {
-		try {
-			tareaRepository.deleteById(id);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
+	public TareaDto findById(Long id) {
+		Tarea tarea = tareaRepository.findById(id)
+				.orElseThrow();
+		return modelMapper.map(tarea, TareaDto.class);
+	}
+
+	@Override
+	public List<TareaDto> findAll() {
+		return tareaRepository.findAll()
+				.stream()
+				.map(object -> modelMapper.map(object, TareaDto.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public TareaDto update(Long id, TareaDto tareaDto) {
+		Tarea tarea = tareaRepository.findById(id)
+				.orElseThrow();
+		tarea.setNombre(tareaDto.getNombre());
+		Tarea updated = tareaRepository.save(tarea);
+		return modelMapper.map(updated, TareaDto.class);
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		tareaRepository.deleteById(id);
 	}
 	
 }

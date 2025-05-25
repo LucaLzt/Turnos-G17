@@ -4,8 +4,16 @@ import java.util.List;
 
 import com.oo2.grupo17.dtos.ClienteDto;
 
-public interface IClienteService extends IPersonaService<ClienteDto> {
+public interface IClienteService {
 	
-	List<ClienteDto> findByNroCliente(Integer nroCliente);
+    ClienteDto save(ClienteDto clienteDto);
+
+    ClienteDto findById(Long id);
+   
+    List<ClienteDto> findAll();
+
+    ClienteDto update(Long id, ClienteDto clienteDto);
+
+    void deleteById(Long id);
 	
 }
