@@ -1,5 +1,6 @@
 package com.oo2.grupo17.services.implementation;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -7,11 +8,10 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
-import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Profesional;
+import com.oo2.grupo17.entities.Tarea;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.ITareaRepository;
 import com.oo2.grupo17.services.IProfesionalService;
@@ -36,6 +36,9 @@ public class ProfesionalService implements IProfesionalService {
 		Profesional profesional = modelMapper.map(profesionalDto, Profesional.class);
 		if(profesional.getContacto() == null) {
 			profesional.setContacto(new Contacto());
+		}
+		if(profesional.getTareasHabilitadas() == null) {
+			profesional.setTareasHabilitadas(new HashSet<>());
 		}
 		Profesional saved = profesionalRepository.save(profesional);
 		return modelMapper.map(saved, ProfesionalDto.class);
@@ -70,6 +73,27 @@ public class ProfesionalService implements IProfesionalService {
 	@Override
 	public void deleteById(Long id) {
 		profesionalRepository.deleteById(id);
+	}
+	
+	@Override
+	public ProfesionalDto asociarTareaId(Long tareaId, ProfesionalDto profesionalDto) {
+		Profesional profesional = modelMapper.map(profesionalDto, Profesional.class);
+		Tarea tarea = tareaRepository.findById(tareaId)
+				.orElseThrow();
+		profesional.getTareasHabilitadas().add(tarea);
+		profesionalRepository.save(profesional);
+		Profesional updated = profesionalRepository.save(profesional);
+		return modelMapper.map(updated, ProfesionalDto.class);
+	};
+	
+	@Override
+	public ProfesionalDto asociarTareaNombre(String tareaNombre, ProfesionalDto profesionalDto) {
+		Profesional profesional = modelMapper.map(profesionalDto, Profesional.class);
+		Tarea tarea = tareaRepository.findByNombreIgnoreCase(tareaNombre)
+				.orElseThrow();
+		profesional.getTareasHabilitadas().add(tarea);
+		Profesional updated = profesionalRepository.save(profesional);
+		return modelMapper.map(updated, ProfesionalDto.class);
 	}
 
 }
