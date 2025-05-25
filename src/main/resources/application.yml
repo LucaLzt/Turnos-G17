@@ -6,7 +6,7 @@ spring:
  jpa:
   show-sql: true
   hibernate:
-   ddl-auto: create # cambiar por update cuando esté todo terminado
+   ddl-auto: update # cambiar por update cuando esté todo terminado
   properties:
    dialect: org.hibernate.dialect.MySQL5Dialect
  thymeleaf:

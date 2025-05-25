@@ -16,8 +16,8 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@Table(name="Tarea")
-public class Tarea {
+@Table(name="Especialidad")
+public class Especialidad {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Tarea {
 	@Column(name="nombre", nullable = false)
 	private String nombre;
 	
-	@ManyToMany(mappedBy = "tareasHabilitadas")
+	@ManyToMany(mappedBy = "especialidadesHabilitadas")
 	private Set<Profesional> profesionales = new HashSet<>();
 	
 }

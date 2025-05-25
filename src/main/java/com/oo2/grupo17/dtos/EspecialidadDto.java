@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class TareaDto {
+public class EspecialidadDto {
 	
 	private @Setter(AccessLevel.PROTECTED) Long id;
 	private String nombre;
@@ -16,7 +16,7 @@ public class TareaDto {
 	private Set<Long> profesionalesIds;
 	*/
 	
-	public TareaDto(Long id, String nombre) {
+	public EspecialidadDto(Long id, String nombre) {
 		super();
 		this.id = id;
 		this.nombre = nombre;

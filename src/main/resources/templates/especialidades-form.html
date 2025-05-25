@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Seleccionar Especialidades</title>
+</head>
+<body>
+    <h1>Seleccionar Especialidades para <span th:text="${profesional.nombre}"></span></h1>
+    
+    <form th:action="@{/profesionales/{id}/especialidades(id=${profesional.id})}" 
+          th:object="${form}" method="post">
+        
+        <div th:each="especialidad : ${todasEspecialidades}">
+            <input type="checkbox" 
+                   th:id="'especialidad_' + ${especialidad.id}"
+                   th:value="${especialidad.id}"
+                   th:field="*{especialidadesSeleccionadas}">
+            <label th:for="'especialidad_' + ${especialidad.id}" 
+                   th:text="${especialidad.nombre}"></label>
+        </div>
+        
+        <button type="submit">Guardar Especialidades</button>
+    </form>
+</body>
+</html>

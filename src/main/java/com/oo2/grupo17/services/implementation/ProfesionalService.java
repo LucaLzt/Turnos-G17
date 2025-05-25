@@ -2,7 +2,6 @@ package com.oo2.grupo17.services.implementation;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -11,23 +10,23 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Profesional;
-import com.oo2.grupo17.entities.Tarea;
+import com.oo2.grupo17.entities.Especialidad;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
-import com.oo2.grupo17.repositories.ITareaRepository;
+import com.oo2.grupo17.repositories.IEspecialidadRepository;
 import com.oo2.grupo17.services.IProfesionalService;
 
 @Service
 public class ProfesionalService implements IProfesionalService {
 	
 	private final IProfesionalRepository profesionalRepository;
-	private final ITareaRepository tareaRepository;
+	private final IEspecialidadRepository especialidadRepository;
 	private final ModelMapper modelMapper;
 	
 	public ProfesionalService(IProfesionalRepository profesionalRepository,
-							ITareaRepository tareaRepository,
+							IEspecialidadRepository especialidadRepository,
 							ModelMapper modelMapper) {
 		this.profesionalRepository = profesionalRepository;
-		this.tareaRepository = tareaRepository;
+		this.especialidadRepository = especialidadRepository;
 		this.modelMapper = modelMapper;
 	}
 
@@ -37,8 +36,8 @@ public class ProfesionalService implements IProfesionalService {
 		if(profesional.getContacto() == null) {
 			profesional.setContacto(new Contacto());
 		}
-		if(profesional.getTareasHabilitadas() == null) {
-			profesional.setTareasHabilitadas(new HashSet<>());
+		if(profesional.getEspecialidadesHabilitadas() == null) {
+			profesional.setEspecialidadesHabilitadas(new HashSet<>());
 		}
 		Profesional saved = profesionalRepository.save(profesional);
 		return modelMapper.map(saved, ProfesionalDto.class);
@@ -76,22 +75,22 @@ public class ProfesionalService implements IProfesionalService {
 	}
 	
 	@Override
-	public ProfesionalDto asociarTareaId(Long tareaId, ProfesionalDto profesionalDto) {
+	public ProfesionalDto asociarEspecialidadId(Long especialidadId, ProfesionalDto profesionalDto) {
 		Profesional profesional = modelMapper.map(profesionalDto, Profesional.class);
-		Tarea tarea = tareaRepository.findById(tareaId)
+		Especialidad tarea = especialidadRepository.findById(especialidadId)
 				.orElseThrow();
-		profesional.getTareasHabilitadas().add(tarea);
+		profesional.getEspecialidadesHabilitadas().add(tarea);
 		profesionalRepository.save(profesional);
 		Profesional updated = profesionalRepository.save(profesional);
 		return modelMapper.map(updated, ProfesionalDto.class);
-	};
+	}
 	
 	@Override
-	public ProfesionalDto asociarTareaNombre(String tareaNombre, ProfesionalDto profesionalDto) {
+	public ProfesionalDto asociarEspecialidadNombre(String especialidadNombre, ProfesionalDto profesionalDto) {
 		Profesional profesional = modelMapper.map(profesionalDto, Profesional.class);
-		Tarea tarea = tareaRepository.findByNombreIgnoreCase(tareaNombre)
+		Especialidad tarea = especialidadRepository.findByNombreIgnoreCase(especialidadNombre)
 				.orElseThrow();
-		profesional.getTareasHabilitadas().add(tarea);
+		profesional.getEspecialidadesHabilitadas().add(tarea);
 		Profesional updated = profesionalRepository.save(profesional);
 		return modelMapper.map(updated, ProfesionalDto.class);
 	}

@@ -29,7 +29,9 @@ public class Profesional extends Persona {
 	*/
 	
 	@ManyToMany
-	@JoinTable(name = "profesionalTarea", joinColumns = @JoinColumn(name = "profesional_id"), inverseJoinColumns = @JoinColumn(name = "tarea_id"))
-	private Set<Tarea> tareasHabilitadas = new HashSet<>();
+	@JoinTable(name = "profesionalEspecialidad", 
+			joinColumns = @JoinColumn(name = "profesional_id"), 
+			inverseJoinColumns = @JoinColumn(name = "especialidad_id"))
+	private Set<Especialidad> especialidadesHabilitadas = new HashSet<>();
 
 }

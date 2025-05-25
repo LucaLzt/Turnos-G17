@@ -12,8 +12,8 @@ public interface IProfesionalService {
     ProfesionalDto update(Long id, ProfesionalDto profesionalDto);
     void deleteById(Long id);
     
-    ProfesionalDto asociarTareaId(Long tareaId, ProfesionalDto profesionalDto);
-    ProfesionalDto asociarTareaNombre(String tareaNombre, ProfesionalDto profesionalDto);
+    ProfesionalDto asociarEspecialidadId(Long especialidadId, ProfesionalDto profesionalDto);
+    ProfesionalDto asociarEspecialidadNombre(String especialidadNombre, ProfesionalDto profesionalDto);
     
     
 	
