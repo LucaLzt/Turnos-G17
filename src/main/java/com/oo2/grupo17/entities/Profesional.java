@@ -22,16 +22,19 @@ public class Profesional extends Persona {
 	@Column(name="matricula", nullable = true)
 	private Integer matricula;
 	
-	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
-	/*
-	@OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
-	private Set<Turno> lstTurnos = new HashSet<>();
-	*/
-	
 	@ManyToMany
 	@JoinTable(name = "profesionalEspecialidad", 
 			joinColumns = @JoinColumn(name = "profesional_id"), 
 			inverseJoinColumns = @JoinColumn(name = "especialidad_id"))
 	private Set<Especialidad> especialidadesHabilitadas = new HashSet<>();
+	
+	@OneToMany(mappedBy="profesional", cascade=CascadeType.ALL, orphanRemoval=true)
+	private Set<Disponibilidad> disponibilidades = new HashSet<>();
+	
+	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
+	/*
+	@OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
+	private Set<Turno> lstTurnos = new HashSet<>();
+	*/
 
 }
