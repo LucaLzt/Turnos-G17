@@ -7,14 +7,13 @@ import com.oo2.grupo17.dtos.ProfesionalDto;
 public interface IProfesionalService {
 	
     ProfesionalDto save(ProfesionalDto profesionalDto);
+    
     ProfesionalDto findById(Long id);
+    
     List<ProfesionalDto> findAll();
+    
     ProfesionalDto update(Long id, ProfesionalDto profesionalDto);
+    
     void deleteById(Long id);
     
-    ProfesionalDto asociarEspecialidadId(Long especialidadId, ProfesionalDto profesionalDto);
-    ProfesionalDto asociarEspecialidadNombre(String especialidadNombre, ProfesionalDto profesionalDto);
-    
-    
-	
 }

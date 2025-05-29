@@ -23,11 +23,9 @@ public class Profesional extends Persona {
 	@Column(name="matricula", nullable = true)
 	private Integer matricula;
 	
-	@ManyToMany
-	@JoinTable(name = "profesionalEspecialidad", 
-			joinColumns = @JoinColumn(name = "profesional_id"), 
-			inverseJoinColumns = @JoinColumn(name = "especialidad_id"))
-	private Set<Especialidad> especialidadesHabilitadas = new HashSet<>();
+	@ManyToOne
+	@JoinColumn(name = "especialidad_id", nullable = true)
+	private Especialidad especialidad;
 	
 	@OneToMany(mappedBy="profesional", cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Disponibilidad> disponibilidades = new HashSet<>();
