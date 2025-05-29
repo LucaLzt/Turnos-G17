@@ -23,17 +23,17 @@ public class EspecialidadService implements IEspecialidadService {
 	}
 
 	@Override
-	public EspecialidadDto save(EspecialidadDto tareaDto) {
-		Especialidad tarea = modelMapper.map(tareaDto, Especialidad.class);
-		Especialidad saved = especialidadRepository.save(tarea);
+	public EspecialidadDto save(EspecialidadDto especialidadDto) {
+		Especialidad espe = modelMapper.map(especialidadDto, Especialidad.class);
+		Especialidad saved = especialidadRepository.save(espe);
 		return modelMapper.map(saved, EspecialidadDto.class);
 	}
 
 	@Override
 	public EspecialidadDto findById(Long id) {
-		Especialidad tarea = especialidadRepository.findById(id)
+		Especialidad espe = especialidadRepository.findById(id)
 				.orElseThrow();
-		return modelMapper.map(tarea, EspecialidadDto.class);
+		return modelMapper.map(espe, EspecialidadDto.class);
 	}
 
 	@Override
@@ -45,11 +45,11 @@ public class EspecialidadService implements IEspecialidadService {
 	}
 
 	@Override
-	public EspecialidadDto update(Long id, EspecialidadDto tareaDto) {
-		Especialidad tarea = especialidadRepository.findById(id)
+	public EspecialidadDto update(Long id, EspecialidadDto especialidadDto) {
+		Especialidad espe = especialidadRepository.findById(id)
 				.orElseThrow();
-		tarea.setNombre(tareaDto.getNombre());
-		Especialidad updated = especialidadRepository.save(tarea);
+		espe.setNombre(especialidadDto.getNombre());
+		Especialidad updated = especialidadRepository.save(espe);
 		return modelMapper.map(updated, EspecialidadDto.class);
 	}
 
