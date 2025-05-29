@@ -3,6 +3,7 @@ package com.oo2.grupo17.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -18,10 +19,7 @@ public class Cliente extends Persona{
 	@Column(name="nroCliente", nullable = true)
 	private Integer nroCliente;
 	
-	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
-	/*
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Turno> lstTurnos = new HashSet<>();
-	*/
 	
 }

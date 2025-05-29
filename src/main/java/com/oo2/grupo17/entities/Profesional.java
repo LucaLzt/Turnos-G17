@@ -37,10 +37,7 @@ public class Profesional extends Persona {
 	@ManyToMany(mappedBy = "profesionales")
 	private Set<Servicio> servicios = new HashSet<>();
 	
-	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
-	/*
-	@OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Turno> lstTurnos = new HashSet<>();
-	*/
 
 }

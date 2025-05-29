@@ -13,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.DisponibilidadDto;
-import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.repositories.IDisponibilidadRepository;
