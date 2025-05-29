@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -13,21 +12,21 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 @Entity
 @Table(name="Contacto")
 public class Contacto {
-	
+
 	@Id
 	private Long id;
-	
-	@Column(name="email", nullable = false)
+
 	private String email;
 	
-	@Column(name="movil", nullable = false)
 	private int movil;
 	
-	@Column(name="telefono", nullable = false)
 	private int telefono;
 	
 	@OneToOne
@@ -35,8 +34,10 @@ public class Contacto {
 	@JoinColumn(name="id")
 	private Persona persona;
 	
-	@OneToOne(mappedBy = "contacto", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToOne
+	@JoinColumn(name="direccion_id")
 	private Direccion direccion;
+	
 	
 	@Column(name="createdat", nullable = false)
 	@CreationTimestamp
