@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,14 +23,21 @@ public class Profesional extends Persona {
 	@Column(name="matricula", nullable = true)
 	private Integer matricula;
 	
-	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
-	/*
-	@OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL)
-	private Set<Turno> lstTurnos = new HashSet<>();
-	*/
+	@ManyToOne
+	@JoinColumn(name = "especialidad_id", nullable = true)
+	private Especialidad especialidad;
 	
-	@ManyToMany
-	@JoinTable(name = "profesionalTarea", joinColumns = @JoinColumn(name = "profesional_id"), inverseJoinColumns = @JoinColumn(name = "tarea_id"))
-	private Set<Tarea> tareasHabilitadas = new HashSet<>();
+	@OneToMany(mappedBy="profesional", cascade=CascadeType.ALL, orphanRemoval=true)
+	private Set<Disponibilidad> disponibilidades = new HashSet<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "lugar_id", nullable = true)
+	private Lugar lugar;
+	
+	@ManyToMany(mappedBy = "profesionales")
+	private Set<Servicio> servicios = new HashSet<>();
+	
+	@OneToMany(mappedBy = "profesional", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Turno> lstTurnos = new HashSet<>();
 
 }

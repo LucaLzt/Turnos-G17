@@ -1,33 +1,26 @@
 package com.oo2.grupo17.services.implementation;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
-import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
-import com.oo2.grupo17.repositories.ITareaRepository;
 import com.oo2.grupo17.services.IProfesionalService;
 
 @Service
 public class ProfesionalService implements IProfesionalService {
 	
 	private final IProfesionalRepository profesionalRepository;
-	private final ITareaRepository tareaRepository;
 	private final ModelMapper modelMapper;
 	
 	public ProfesionalService(IProfesionalRepository profesionalRepository,
-							ITareaRepository tareaRepository,
 							ModelMapper modelMapper) {
 		this.profesionalRepository = profesionalRepository;
-		this.tareaRepository = tareaRepository;
 		this.modelMapper = modelMapper;
 	}
 
