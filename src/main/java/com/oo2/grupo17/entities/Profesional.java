@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,10 @@ public class Profesional extends Persona {
 	
 	@OneToMany(mappedBy="profesional", cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Disponibilidad> disponibilidades = new HashSet<>();
+	
+	@ManyToOne
+	@JoinColumn(name = "lugar_id", nullable = true)
+	private Lugar lugar;
 	
 	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)
 	/*
