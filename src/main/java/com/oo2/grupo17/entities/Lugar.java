@@ -38,7 +38,7 @@ public class Lugar {
 	@OneToMany(mappedBy = "lugar", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Profesional> profesionales = new HashSet<>();
 	
-	@ManyToMany(mappedBy = "lugaresServicios")
+	@ManyToMany(mappedBy = "lugares")
 	private Set<Servicio> servicios = new HashSet<>();
 	
 }

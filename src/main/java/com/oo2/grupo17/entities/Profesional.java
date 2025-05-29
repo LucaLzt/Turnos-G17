@@ -36,7 +36,7 @@ public class Profesional extends Persona {
 	@JoinColumn(name = "lugar_id", nullable = true)
 	private Lugar lugar;
 	
-	@ManyToMany(mappedBy = "profesionalesServicio")
+	@ManyToMany(mappedBy = "profesionales")
 	private Set<Servicio> servicios = new HashSet<>();
 	
 	// Hacer la entidad Turno antes de descomentar esto (Fijarse si la relacion esta bien)

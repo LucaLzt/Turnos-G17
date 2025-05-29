@@ -100,7 +100,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 					Disponibilidad disp = new Disponibilidad();
 					disp.setProfesional(profesional);
 					disp.setInicio(inicioTurno);
-					disp.setDuracion(duracionTurno.ofMinutes(60));
+					disp.setDuracion(duracionTurno);
 					disp.setOcupado(false);
 					
 					// objetos.add(modelMapper.map(disp, Disponibilidad.class));
