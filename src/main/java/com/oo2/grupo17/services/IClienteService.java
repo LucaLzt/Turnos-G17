@@ -3,6 +3,7 @@ package com.oo2.grupo17.services;
 import java.util.List;
 
 import com.oo2.grupo17.dtos.ClienteDto;
+import com.oo2.grupo17.dtos.ClienteRegistroDto;
 
 public interface IClienteService {
 	
@@ -15,5 +16,7 @@ public interface IClienteService {
     ClienteDto update(Long id, ClienteDto clienteDto);
 
     void deleteById(Long id);
+    
+    public void registrarCliente(ClienteRegistroDto registroDto);
 	
 }

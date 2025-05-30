@@ -1,20 +1,17 @@
 package com.oo2.grupo17.services.implementation;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
-import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.entities.RoleEntity;
 import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.UserEntity;
@@ -32,17 +29,15 @@ public class ClienteService implements IClienteService {
 	private final IUserRepository userRepository;
 	private final IRoleRepository roleRepository;
 	private final IContactoRepository contactoRepository;
-	private final PasswordEncoder passwordEncoder;
 	private final IClienteRepository clienteRepository;
     private final ModelMapper modelMapper;
 
 	public ClienteService(IUserRepository userRepository, IRoleRepository roleRepository,
-			IContactoRepository contactoRepository, PasswordEncoder passwordEncoder,
-			IClienteRepository clienteRepository, ModelMapper modelMapper) {
+			IContactoRepository contactoRepository, IClienteRepository clienteRepository,
+			ModelMapper modelMapper) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.contactoRepository = contactoRepository;
-		this.passwordEncoder = passwordEncoder;
 		this.clienteRepository = clienteRepository;
 		this.modelMapper = modelMapper;
 	}
@@ -87,60 +82,18 @@ public class ClienteService implements IClienteService {
 		clienteRepository.deleteById(id);
 	}
 	
-	/*
-	@Transactional
+	@Override @Transactional
 	public void registrarCliente(ClienteRegistroDto registroDto) {
-	    // 1. Verificar si el rol existe
-	    RoleEntity clienteRole = roleRepository.findByType(RoleType.CLIENTE)
-	        .orElseThrow(() -> new RuntimeException("Error: Rol CLIENTE no encontrado"));
-	    
-	    // 2. Crear UserEntity
-	    UserEntity user = new UserEntity();
-	    user.setUsername(registroDto.getEmail());
-	    user.setPassword(encryptPassword(registroDto.getPassword()));
-	    user.setActive(true);
-	    user.setRoleEntities(Set.of(clienteRole));
-	    
-	    // 3. Crear Cliente
-	    Cliente cliente = new Cliente();
-	    cliente.setNombre(registroDto.getNombre());
-	    cliente.setDni(registroDto.getDni());
-	    clienteRepository.save(cliente);
-	    Cliente clienteSaved = clienteRepository.findByDni(registroDto.getDni())
-	    		.orElseThrow();
-	    
-	    // 4. Crear Contacto
-	    Contacto contacto = new Contacto();
-	    contacto.setEmail(registroDto.getEmail());
-	    contacto.setMovil(registroDto.getMovil());
-	    contacto.setTelefono(registroDto.getTelefono());
-	    
-	    // 5. Se asocia el contacto al cliente
-	    clienteSaved.setContacto(contacto);
-	    clienteRepository.save(clienteSaved);
-	    
-	    
-	    // 6. Establecer relación bidireccional
-	    user.setCliente(clienteSaved);
-	    clienteSaved.setUser(user);
-	    
-	    // 5. Guardar (solo el User, el cascade se encarga del Cliente)
-	    userRepository.save(user);
-	}
-	*/
-	
-	@Transactional
-	public void registrarCliente(ClienteRegistroDto registroDto) {
-	    // 1. Buscar rol
+	    // 1. Busco rol
 	    RoleEntity clienteRole = roleRepository.findByType(RoleType.CLIENTE)
 	        .orElseThrow(() -> new RuntimeException("Error: Rol CLIENTE no encontrado"));
 
-	    // 2. Crear Cliente (sin contacto)
+	    // 2. Creo Cliente (sin contacto)
 	    Cliente cliente = new Cliente();
 	    cliente.setNombre(registroDto.getNombre());
 	    cliente.setDni(registroDto.getDni());
 
-	    // 3. Crear UserEntity y asociar Cliente
+	    // 3. Creo UserEntity y asocio Cliente
 	    UserEntity user = new UserEntity();
 	    user.setUsername(registroDto.getEmail());
 	    user.setPassword(encryptPassword(registroDto.getPassword()));
@@ -149,24 +102,25 @@ public class ClienteService implements IClienteService {
 	    user.setCliente(cliente);
 	    cliente.setUser(user);
 
-	    // 4. Guardar User (esto persiste Cliente)
+	    // 4. Guardo User (esto persiste Cliente)
 	    userRepository.save(user);
 
-	    // 5. Crear Contacto y asociar Cliente
+	    // 5. Creo Contacto y asocio Cliente
 	    Contacto contacto = new Contacto();
 	    contacto.setEmail(registroDto.getEmail());
 	    contacto.setMovil(registroDto.getMovil());
 	    contacto.setTelefono(registroDto.getTelefono());
-	    contacto.setPersona(cliente); // Esto es lo ÚNICO necesario
+	    contacto.setPersona(cliente);
 
-	    // 6. Guardar Contacto (JPA le pone el id del Cliente)
+	    // 6. Guardo Contacto
 	    contactoRepository.save(contacto);
 
-	    // 7. (Opcional) Asociar el contacto al cliente y updatear
+	    // 7. Asocio el contacto al cliente y updateo
 	    cliente.setContacto(contacto);
 	    clienteRepository.save(cliente);
 	}
-
+	
+	// --- MÉTODO AUXILIAR PARA ENCRIPTAR CONTRASEÑAS --- //
     private String encryptPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
         return passwordEncoder.encode(password);
