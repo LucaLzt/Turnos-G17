@@ -1,0 +1,130 @@
+body {
+    background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-card {
+    background: #fff;
+    padding: 2.5rem 2rem 2rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.2);
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2d3e50;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    margin-bottom: 0.4rem;
+    color: #34495e;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 0.7rem 0.8rem;
+    border: 1px solid #b2bec3;
+    border-radius: 6px;
+    outline: none;
+    font-size: 1rem;
+    background: #f4f8fb;
+    transition: border 0.2s;
+}
+
+input[type="text"],
+input[type="email"] {
+    padding: 0.7rem 0.8rem;
+    border: 1px solid #b2bec3;
+    border-radius: 6px;
+    outline: none;
+    font-size: 1rem;
+    background: #f4f8fb;
+    transition: border 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border: 1.5px solid #5e72e4;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(90deg, #5e72e4 0%, #825ee4 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.08rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.2rem;
+    transition: background 0.22s;
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, #825ee4 0%, #5e72e4 100%);
+}
+
+.message {
+    margin-top: 1.1rem;
+    padding: 0.6rem;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.message.error {
+    color: #e74c3c;
+    background: #fdecea;
+    border: 1px solid #ffb3b3;
+}
+
+.message.success {
+    color: #27ae60;
+    background: #eafaf1;
+    border: 1px solid #b1f1c6;
+}
+
+.register-link {
+    margin-top: 1.3rem;
+    text-align: center;
+    font-size: 1rem;
+    color: #636e72;
+}
+
+.btn-secondary {
+    color: #5e72e4;
+    background: none;
+    border: none;
+    font-weight: 600;
+    margin-left: 0.2rem;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.btn-secondary:hover {
+    color: #825ee4;
+}
