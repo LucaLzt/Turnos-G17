@@ -34,13 +34,13 @@ public class AuthController {
         return ViewRouteHelper.USER_LOGIN;
     }
 
-    @GetMapping("/registerAccount")
+    @GetMapping("/register")
     public String registerAccount(Model model) {
         model.addAttribute("cliente", new ClienteRegistroDto());
         return ViewRouteHelper.CLIENTE_REGISTER;
     }
 
-    @PostMapping("/registerAccount")
+    @PostMapping("/register")
     public String processRegisterAccount(@ModelAttribute("cliente") ClienteRegistroDto clienteDto,
                                          BindingResult result) {
         if (result.hasErrors()) {
