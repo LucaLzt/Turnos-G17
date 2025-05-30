@@ -1,8 +1,6 @@
 package com.oo2.grupo17.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,11 +25,9 @@ public class UserEntity implements UserDetails {
     @Setter(AccessLevel.NONE)
     private Integer id;
     
-    @NotBlank
     @Column(name = "username", nullable = false)
     private String username;
 
-    @NotBlank
     @Column(name = "password", nullable = false)
     private String password;
     
@@ -44,7 +40,6 @@ public class UserEntity implements UserDetails {
     @Column(name = "active_user", nullable = false)
     private boolean active;
 
-    @NotNull
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = RoleEntity.class)
     @JoinTable(
             name = "users_roles",

@@ -13,7 +13,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +35,6 @@ public class RoleEntity {
     @Setter(AccessLevel.NONE)
     private Integer id;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "name_role", nullable = false, length = 80, unique = true)
     private RoleType type;
@@ -49,7 +47,7 @@ public class RoleEntity {
     @UpdateTimestamp
     private Timestamp updateAt;
 
-    public RoleEntity(@NotNull RoleType type){
+    public RoleEntity(RoleType type){
         this.type = type;
     }
 }
