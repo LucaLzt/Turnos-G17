@@ -46,15 +46,20 @@ public class UsersSeeder implements CommandLineRunner {
                 .roleEntities(Set.of(roleRepository.findByType(RoleType.ADMIN).get()))
                 .build();
     }
-
+    
     private void loadRoles() {
-        if (roleRepository.count() == 0){
-            roleRepository.save(buildRole(RoleType.CLIENTE));
-            roleRepository.save(buildRole(RoleType.ADMIN));
-            roleRepository.save(buildRole(RoleType.PROFESIONAL));
+        createRoleIfNotExists(RoleType.CLIENTE);
+        createRoleIfNotExists(RoleType.ADMIN);
+        createRoleIfNotExists(RoleType.PROFESIONAL);
+    }
+    
+    // --- GENERO UN PROCEDIMIENTO PARA CREAR ROLES PASADOS POR PARÁMETROS SI NO EXISTEN --- //
+    private void createRoleIfNotExists(RoleType roleType) {
+        if (roleRepository.findByType(roleType).isEmpty()) {
+            roleRepository.save(buildRole(roleType));
         }
     }
-
+    
     private RoleEntity buildRole(RoleType roleType) {
         return RoleEntity.builder()
                 .type(roleType)

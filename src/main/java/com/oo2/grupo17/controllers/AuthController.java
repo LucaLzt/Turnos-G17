@@ -14,8 +14,6 @@ import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.implementation.ClienteService;
 
-import jakarta.servlet.http.HttpSession;
-
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
