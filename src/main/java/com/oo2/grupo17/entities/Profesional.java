@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +30,10 @@ public class Profesional extends Persona {
 	
 	@OneToMany(mappedBy="profesional", cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Disponibilidad> disponibilidades = new HashSet<>();
+	
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private UserEntity user;
 	
 	@ManyToOne
 	@JoinColumn(name = "lugar_id", nullable = true)
