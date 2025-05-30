@@ -1,13 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>Panel Cliente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <h1>Bienvenido</h1>
-    <a sec:authorize="hasRole('CLIENTE')">Hola soy un cliente</a>
-	<a sec:authorize="hasRole('PROFESIONAL')">Hola soy un profesional</a>
-
+	<div class="navbar">
+	    <div class="brand">MiTurno</div>
+	    <a hth:href="@{/cliente/perfil}" title="Ir a mi perfil">
+	      <i class="fas fa-user profile-icon"></i>
+	    </a>
+	</div>
+    <div class="main-content" style="background:none;">
+        <div class="actions-grid">
+            <a th:href="@{/cliente/solicitar-turno}" class="action-card">
+                <i class="fas fa-calendar-plus card-icon"></i>
+                <div class="card-title">Solicitar Turno</div>
+                <div class="card-desc">Reservá un nuevo turno de manera fácil y rápida.</div>
+            </a>
+            <a th:href="@{/cliente/historial-turnos}" class="action-card">
+                <i class="fas fa-history card-icon"></i>
+                <div class="card-title">Historial de Turnos</div>
+                <div class="card-desc">Consultá y gestioná tus turnos pasados y próximos.</div>
+            </a>
+            <a th:href="@{/cliente/servicios}" class="action-card">
+                <i class="fas fa-list-alt card-icon"></i>
+                <div class="card-title">Ver Servicios</div>
+                <div class="card-desc">Explorá los servicios disponibles antes de solicitar tu turno.</div>
+            </a>
+            <a th:href="@{/cliente/lugares}" class="action-card">
+                <i class="fas fa-map-marker-alt card-icon"></i>
+                <div class="card-title">Lugares Disponibles</div>
+                <div class="card-desc">Encontrá sucursales o espacios donde podés reservar turnos.</div>
+            </a>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,109 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.navbar {
+    width: 100%;
+    background: linear-gradient(135deg, #4242a5 0%, #5e72e4 100%);
+    box-shadow: 0 2px 16px rgba(44, 62, 80, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 2.2rem;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.navbar .brand {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    letter-spacing: 0.5px;
+}
+
+.profile-icon {
+  font-size: 1.8rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.navbar .profile-icon:hover {
+    color: #e4e4e4;
+}
+.main-content {
+    padding-top: 5.5rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: none;
+}
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Siempre 4 columnas */
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.action-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
+    padding: 2.4rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.16s, box-shadow 0.2s;
+    cursor: pointer;
+    min-height: 200px;
+}
+.action-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(44, 62, 80, 0.18);
+}
+.action-card .card-icon {
+    font-size: 2.6rem;
+    color: #5e72e4;
+    margin-bottom: 1.2rem;
+}
+.action-card .card-title {
+    font-size: 1.18rem;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+    color: #2d3e50;
+}
+.action-card .card-desc {
+    font-size: 0.98rem;
+    color: #636e72;
+    text-align: center;
+}
+
+@media (max-width: 1100px) {
+    .actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+}
+@media (max-width: 700px) {
+    .actions-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .action-card {
+        min-height: 150px;
+        padding: 1.5rem 0.6rem 1.2rem 0.6rem;
+    }
+    .navbar {
+        padding: 0.7rem 1.1rem;
+    }
+    .main-content {
+        padding-top: 4.5rem;
+    }
+}
