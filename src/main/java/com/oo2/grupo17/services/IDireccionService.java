@@ -15,5 +15,7 @@ public interface IDireccionService {
     DireccionDto update(Long id, DireccionDto direccionDto);
 
     void deleteById(Long id);
+    
+    public DireccionDto findByContactoEmail(String email);
 	
 }

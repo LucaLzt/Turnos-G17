@@ -11,4 +11,9 @@ public class ViewRouteHelper {
     //Home
     public static final String HOME_INDEX = "home/index";
     
+    //Cliente
+    public static final String CLIENTE_PERFIL = "cliente/perfil";
+    public static final String CLIENTE_CONTACTO = "cliente/modificar-contacto";
+    public static final String CLIENTE_DIRECCION = "cliente/modificar-direccion";
+    
 }

@@ -18,5 +18,7 @@ public interface IClienteService {
     void deleteById(Long id);
     
     public void registrarCliente(ClienteRegistroDto registroDto);
+    
+    public ClienteDto findByEmail(String email);
 	
 }

@@ -1,6 +1,5 @@
 package com.oo2.grupo17.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,9 +16,12 @@ import com.oo2.grupo17.services.implementation.ClienteService;
 @Controller
 @RequestMapping("/auth")
 public class AuthController {
-
-    @Autowired
+	
     private ClienteService clienteService;
+     
+    public AuthController(ClienteService clienteService) {
+    	this.clienteService = clienteService;
+    }
 
     // GET: /auth/login
     @GetMapping("/login")

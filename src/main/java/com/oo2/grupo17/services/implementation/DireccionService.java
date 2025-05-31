@@ -4,19 +4,26 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.DireccionDto;
+import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Direccion;
+import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IDireccionRepository;
 import com.oo2.grupo17.services.IDireccionService;
 
+@Service
 public class DireccionService implements IDireccionService {
 	
 	private final IDireccionRepository direccionRepository;
+	private final IContactoRepository contactoRepository;
 	private final ModelMapper modelMapper;
 	
-	public DireccionService(IDireccionRepository direccionRepository, ModelMapper modelMapper) {
+	public DireccionService(IDireccionRepository direccionRepository, IContactoRepository contactoRepository
+			, ModelMapper modelMapper) {
 		this.direccionRepository = direccionRepository;
+		this.contactoRepository = contactoRepository;
 		this.modelMapper = modelMapper;
 	}
 
@@ -55,6 +62,17 @@ public class DireccionService implements IDireccionService {
 	@Override
 	public void deleteById(Long id) {
 		direccionRepository.deleteById(id);
+	}
+	
+	@Override
+	public DireccionDto findByContactoEmail(String email) {
+		Contacto contacto = contactoRepository.findByEmail(email)
+				.orElseThrow();
+		Direccion direccion = contacto.getDireccion();
+		if(direccion == null) {
+			return null;
+		}
+		return modelMapper.map(direccion, DireccionDto.class);
 	}
 
 }

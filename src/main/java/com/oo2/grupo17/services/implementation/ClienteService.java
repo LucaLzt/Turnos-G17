@@ -104,20 +104,30 @@ public class ClienteService implements IClienteService {
 
 	    // 4. Guardo User (esto persiste Cliente)
 	    userRepository.save(user);
+	    
+	    // 5. Genero el numero de cliente en base al id del cliente
+	    cliente.setNroCliente(String.format("%06d", cliente.getId()));
 
-	    // 5. Creo Contacto y asocio Cliente
+	    // 6. Creo Contacto y asocio Cliente
 	    Contacto contacto = new Contacto();
 	    contacto.setEmail(registroDto.getEmail());
 	    contacto.setMovil(registroDto.getMovil());
 	    contacto.setTelefono(registroDto.getTelefono());
 	    contacto.setPersona(cliente);
 
-	    // 6. Guardo Contacto
+	    // 7. Guardo Contacto
 	    contactoRepository.save(contacto);
 
-	    // 7. Asocio el contacto al cliente y updateo
+	    // 8. Asocio el contacto al cliente y updateo
 	    cliente.setContacto(contacto);
 	    clienteRepository.save(cliente);
+	}
+	
+	@Override
+	public ClienteDto findByEmail(String email) {
+		Cliente cliente = clienteRepository.findByEmail(email)
+				.orElseThrow();
+		return modelMapper.map(cliente, ClienteDto.class);
 	}
 	
 	// --- MÉTODO AUXILIAR PARA ENCRIPTAR CONTRASEÑAS --- //
