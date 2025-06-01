@@ -18,50 +18,52 @@
         <div class="form-title">
             <i class="fas fa-map-marked-alt"></i> Modificar Lugar
         </div>
-        <form th:action="@{'/lugares/' + ${lugar.id} + '/modificar'}" method="post" th:object="${lugar}">
-            <div class="form-group">
-                <label for="calle">Calle</label>
-                <input type="text" th:field="*{direccion.calle}" id="calle" placeholder="Ej: Av. Siempre Viva" required>
-            </div>
-            <div class="form-group">
-                <label for="numero">Altura</label>
-                <input type="text" th:field="*{direccion.altura}" id="altura" placeholder="Ej: 742" required>
-            </div>
+		<form th:action="@{'/lugares/' + ${lugar.id} + '/modificar'}" method="post" th:object="${lugar}">
+			<div class="form-group">
+				<label for="calle">Calle</label>
+				<input type="text" th:field="*{direccion.calle}" id="calle" placeholder="Ej: Av. Siempre Viva" required>
+			</div>
+			<div class="form-group">
+				<label for="numero">Altura</label>
+				<input type="text" th:field="*{direccion.altura}" id="altura" placeholder="Ej: 742" required>
+			</div>
 			<div class="form-group">
 				<label for="provincia"><i class="fas fa-flag"></i> Provincia</label>
 				<select id="provincia" th:field="*{direccion.provinciaId}" required>
 					<option value="" disabled th:if="*{direccion.provinciaId == null}" selected>Seleccione una provincia</option>
-					<option th:each="prov : ${provincias}"
-						th:value="${prov.id}"
-						th:text="${prov.nombre}">
-					</option>
+				    <option th:each="prov : ${provincias}"
+				   		th:value="${prov.id}"
+				        th:text="${prov.nombre}">
+				    </option>
 				</select>
+			</div>
 			<div class="form-group">
 				<label for="localidad"><i class="fas fa-city"></i> Localidad</label>
 				<select id="localidad" th:field="*{direccion.localidadId}" required>
-					<option value="" disabled th:if="*{direccion.localidadId == null}" selected>Seleccione una localidad</option>
-					<option th:each="loc : ${localidades}"
-						th:value="${loc.id}"
-						th:text="${loc.nombre}">
-					</option>
+				    <option value="" disabled th:if="*{direccion.localidadId == null}" selected>Seleccione una localidad</option>
+				    <option th:each="loc : ${localidades}"
+				    	th:value="${loc.id}"
+				    	th:text="${loc.nombre}">
+				    </option>
 				</select>
 			</div>
+			<div class="form-group">
+				<label for="horarioApertura">Horario de Apertura</label>
+				<input type="time" th:field="*{horarioApertura}" id="horarioApertura" required>
 			</div>
-            <div class="form-group">
-                <label for="horarioApertura">Horario de Apertura</label>
-                <input type="time" th:field="*{horarioApertura}" id="horarioApertura" required>
-            </div>
-            <div class="form-group">
-                <label for="horarioCierre">Horario de Cierre</label>
-                <input type="time" th:field="*{horarioCierre}" id="horarioCierre" required>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-check"></i> Modificar
-                </button>
-                <a th:href="@{/admin/administrar-lugares}" class="btn-cancel">Cancelar</a>
-            </div>
-        </form>
+			<div class="form-group">
+				<label for="horarioCierre">Horario de Cierre</label>
+				<input type="time" th:field="*{horarioCierre}" id="horarioCierre" required>
+			</div>
+			<div class="form-actions">
+				<button type="submit" class="btn-submit">
+					<i class="fas fa-check"></i> Agregar
+				</button>
+				<a th:href="@{/admin/administrar-lugares}" class="btn-cancel">Cancelar</a>
+			</div>
+		</form>
     </div>
 </body>
 </html>
+
+

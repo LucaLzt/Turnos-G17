@@ -10,7 +10,6 @@ import com.oo2.grupo17.dtos.ProvinciaDto;
 import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.repositories.ILocalidadRepository;
-import com.oo2.grupo17.repositories.IProvinciaRepository;
 import com.oo2.grupo17.services.ILocalidadService;
 
 @Service

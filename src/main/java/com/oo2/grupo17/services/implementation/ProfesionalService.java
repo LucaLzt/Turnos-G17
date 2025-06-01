@@ -23,7 +23,6 @@ import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IProfesionalService;
 
 import jakarta.transaction.Transactional;
-import lombok.Builder;
 
 @Service
 public class ProfesionalService implements IProfesionalService {
