@@ -1,5 +1,7 @@
 package com.oo2.grupo17.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import lombok.Builder;
 
 @Controller @Builder
 @RequestMapping("/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 	
 	private final IProfesionalService profesionalService;
@@ -44,6 +47,12 @@ public class AdminController {
 	@GetMapping("/administrar-lugares")
 	public String administrarLugares() {
 		return ViewRouteHelper.ADMIN_LUGARES;
+	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		SecurityContextHolder.clearContext();
+		return "redirect:/auth/login?logout";
 	}
 	
 }

@@ -45,11 +45,13 @@ public class SecurityConfiguration {
                     login.defaultSuccessUrl("/auth/loginSuccess", true);
                     login.permitAll();
                 })
-                .logout(logout -> {
-                    logout.logoutUrl("/auth/logout");
-                    logout.logoutSuccessUrl("/auth/login");
-                    logout.permitAll();
-                })
+                .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/auth/login?logout")
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID")
+                )
                 .build();
     }
 

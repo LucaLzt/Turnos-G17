@@ -3,6 +3,7 @@ package com.oo2.grupo17.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,7 @@ import lombok.Builder;
 
 @Controller @Builder
 @RequestMapping("/cliente")
+@PreAuthorize("hasRole('ROLE_CLIENTE')")
 public class ClienteController {
 	
 	private final IClienteService clienteService;
