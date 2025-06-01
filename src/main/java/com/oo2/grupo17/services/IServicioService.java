@@ -16,4 +16,5 @@ public interface IServicioService {
 
     void deleteById(Long id);
 
+    List<ServicioDto> findAllByOrderByNombreAsc();
 }

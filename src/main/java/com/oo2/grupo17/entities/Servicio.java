@@ -26,7 +26,7 @@ public class Servicio {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private @Setter(AccessLevel.PROTECTED) Long id;
+	private Long id;
 	
 	@Column(name = "nombre")
 	private String nombre;

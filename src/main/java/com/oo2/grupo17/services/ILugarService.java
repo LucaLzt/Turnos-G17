@@ -1,8 +1,10 @@
 package com.oo2.grupo17.services;
 
 import java.util.List;
+import java.util.Set;
 
 import com.oo2.grupo17.dtos.LugarDto;
+import com.oo2.grupo17.entities.Lugar;
 
 
 public interface ILugarService {
@@ -16,5 +18,9 @@ public interface ILugarService {
     LugarDto update(Long id, LugarDto lugarDto);
 
     void deleteById(Long id);
+    
+    Set<LugarDto> findByServiciosId(Long servicio);
+    
+    LugarDto comvertToDto(Lugar lugar);
 
 }

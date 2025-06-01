@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Servicios Disponibles</title>
+    <link th:href="@{/css/servicios.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="container">
+        <h1>Servicios Disponibles</h1>
+        <div class="servicio-grid">
+            <div class="servicio-card" th:each="servicio : ${servicios}">
+                <h2 th:text="${servicio.nombre}">Nombre del Servicio</h2>
+                <p th:text="${servicio.descripcion}">Descripción del servicio</p>
+                <p class="precio">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span th:text="${servicio.precio}">0.00</span>
+                </p>
+				<form th:action="@{'/cliente/servicio/' + ${servicio.id} + '/lugares'}" method="post">
+				    <button type="submit">Ver lugares</button>
+				</form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
