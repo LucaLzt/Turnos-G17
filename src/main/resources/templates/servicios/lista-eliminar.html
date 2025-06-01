@@ -3,22 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Eliminar Servicio</title>
-    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
     </div>
-    <div class="main-content">
-        <h2>Eliminar Servicio</h2>
-        <ul>
-            <li th:each="serv : ${servicios}">
-                <span th:text="${serv.nombre}">Servicio</span> -
-                <a th:href="@{'/servicios/' + ${serv.id} + '/eliminar'}" 
-                   onclick="return confirm('¿Estás seguro de eliminar este servicio?')">Eliminar</a>
-            </li>
-        </ul>
-        <a th:href="@{/admin/administrar-servicios}">Volver</a>
+    <div class="admin-section">
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-trash-alt"></i> Eliminar Servicio
+            </div>
+            <a th:href="@{/admin/administrar-servicios}" class="volver-btn" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+        <div class="lugares-grid">
+            <div th:each="servicio : ${servicios}" class="lugar-card">
+                <div class="lugar-title">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span th:text="${servicio.nombre}"></span>
+                </div>
+                <div class="lugar-info">
+                    <i class="fas fa-align-left"></i>
+                    <span th:text="${servicio.descripcion}"></span>
+                </div>
+                <div class="lugar-horario">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span th:text="${#numbers.formatDecimal(servicio.precio, 1, 'COMMA', 2, 'POINT')}"></span>
+                </div>
+                <div class="form-actions" style="margin-top:1rem;">
+                    <a th:href="@{'/servicios/' + ${servicio.id} + '/eliminar'}"
+                       class="btn-cancel"></a>
+                       <i class="fas fa-trash-alt"></i> Eliminar
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

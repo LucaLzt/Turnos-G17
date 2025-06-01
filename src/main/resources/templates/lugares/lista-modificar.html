@@ -2,10 +2,9 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Lugares</title>
+    <title>Lista de Servicios</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/admin.css}" rel="stylesheet"/>
-    <link th:href="@{/css/lugares.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
@@ -18,36 +17,28 @@
     <div class="admin-section">
         <div class="admin-title-with-btn">
             <div class="admin-title">
-                <i class="fas fa-map-marker-alt"></i> Lista de Lugares
+                <i class="fas fa-list"></i> Lista de Servicios
             </div>
-            <a th:href="@{/admin/administrar-lugares}" class="volver-btn" title="Volver atrás">
+            <a th:href="@{/admin/administrar-servicios}" class="volver-btn" title="Volver atrás">
                 <i class="fas fa-arrow-left"></i>
                 <span>Volver</span>
             </a>
         </div>
-        <div class="lugares-grid">
-            <a th:each="lugar : ${lugares}"
-               th:href="@{'/lugares/' + ${lugar.id} + '/modificar'}"
-               class="lugar-card">
+        <div class="lugares-grid"><!-- misma clase de grilla -->
+            <a th:each="servicio : ${servicios}"
+               th:href="@{'/servicios/' + ${servicio.id} + '/modificar'}"
+               class="lugar-card"><!-- misma clase de tarjeta -->
                 <div class="lugar-title">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span th:text="${lugar.direccion.calle} + ' ' + ${lugar.direccion.altura}"></span>
+                    <i class="fas fa-concierge-bell"></i>
+                    <span th:text="${servicio.nombre}"></span>
                 </div>
-                <div>
-                    <i class="fas fa-flag"></i>
-                    <span th:text="${provinciasMap[lugar.direccion.provinciaId]}"></span>
-                </div>
-                <div>
-                    <i class="fas fa-city"></i>
-                    <span th:text="${localidadesMap[lugar.direccion.localidadId]}"></span>
+                <div class="lugar-info">
+                    <i class="fas fa-align-left"></i>
+                    <span th:text="${servicio.descripcion}"></span>
                 </div>
                 <div class="lugar-horario">
-                    <i class="fas fa-clock"></i>
-                    <span>
-                        <span th:text="'Apertura: ' + ${#strings.substring(lugar.horarioApertura, 0, 5)}"></span>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        <span th:text="'Cierre: ' + ${#strings.substring(lugar.horarioCierre, 0, 5)}"></span>
-                    </span>
+                    <i class="fas fa-dollar-sign"></i>
+                    <span th:text="${#numbers.formatDecimal(servicio.precio, 1, 'COMMA', 2, 'POINT')}"></span>
                 </div>
             </a>
         </div>
