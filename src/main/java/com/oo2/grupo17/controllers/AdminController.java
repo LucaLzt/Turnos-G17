@@ -38,4 +38,14 @@ public class AdminController {
 		return "redirect:/index?registroExitoso";
 	}
 	
+	@GetMapping("/administrar-servicios")
+	public String administrarServicios() {
+		return ViewRouteHelper.ADMIN_SERVICIOS;
+	}
+	
+	@GetMapping("/administrar-lugares")
+	public String administrarLugares() {
+		return ViewRouteHelper.ADMIN_LUGARES;
+	}
+	
 }
