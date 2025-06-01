@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.implementation.ClienteService;
+import com.oo2.grupo17.services.implementation.EmailService;
 
 import lombok.Builder;
 
@@ -19,6 +20,7 @@ import lombok.Builder;
 @RequestMapping("/auth")
 public class AuthController {
 	
+	private EmailService emailService;
     private ClienteService clienteService;
 
     // GET: /auth/login
