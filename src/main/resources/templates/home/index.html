@@ -19,6 +19,7 @@
         </a>
     </div>
     <div class="main-content" style="background:none;">
+		
         <!-- Panel CLIENTE -->
         <div th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" class="panel-actions-grid">
             <a th:href="@{/cliente/solicitar-turno}" class="panel-card">

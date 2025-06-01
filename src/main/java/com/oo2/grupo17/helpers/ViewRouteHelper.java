@@ -16,4 +16,7 @@ public class ViewRouteHelper {
     public static final String CLIENTE_CONTACTO = "cliente/modificar-contacto";
     public static final String CLIENTE_DIRECCION = "cliente/modificar-direccion";
     
+    //Admin
+    public static final String ADMIN_REGISTRAR_PROFESIONAL = "admin/registrar-profesional";
+    
 }
