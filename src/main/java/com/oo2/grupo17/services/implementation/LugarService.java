@@ -11,16 +11,13 @@ import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.services.ILugarService;
 
-@Service
+import lombok.Builder;
+
+@Service @Builder
 public class LugarService implements ILugarService {
 	
 	private final ILugarRepository lugarRepository;
 	private final ModelMapper modelMapper;
-	
-	public LugarService(ILugarRepository lugarRepository, ModelMapper modelMapper) {
-		this.lugarRepository = lugarRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public LugarDto save(LugarDto lugarDto) {

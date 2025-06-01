@@ -12,16 +12,13 @@ import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.repositories.ILocalidadRepository;
 import com.oo2.grupo17.services.ILocalidadService;
 
-@Service
+import lombok.Builder;
+
+@Service @Builder
 public class LocalidadService implements ILocalidadService{
 	
 	private final ILocalidadRepository localidadRepository;
 	private final ModelMapper modelMapper;
-	
-	public LocalidadService(ILocalidadRepository localidadRepository, ModelMapper modelMapper) {
-		this.localidadRepository = localidadRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public LocalidadDto save(LocalidadDto localidadDto) {

@@ -4,21 +4,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.repositories.ITurnoRepository;
 import com.oo2.grupo17.services.ITurnoService;
 
+import lombok.Builder;
+
+@Service @Builder
 public class TurnoService implements ITurnoService {
 	
 	private final ITurnoRepository turnoRepository;
 	private final ModelMapper modelMapper;
-	
-	public TurnoService(ITurnoRepository turnoRepository, ModelMapper modelMapper) {
-		this.turnoRepository = turnoRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public TurnoDto save(TurnoDto turnoDto) {

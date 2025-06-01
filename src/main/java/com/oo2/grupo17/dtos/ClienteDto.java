@@ -3,7 +3,6 @@ package com.oo2.grupo17.dtos;
 import java.util.Set;
 
 import com.oo2.grupo17.entities.Contacto;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

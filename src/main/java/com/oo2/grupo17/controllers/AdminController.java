@@ -12,15 +12,13 @@ import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IProfesionalService;
 
-@Controller
+import lombok.Builder;
+
+@Controller @Builder
 @RequestMapping("/admin")
 public class AdminController {
 	
 	private final IProfesionalService profesionalService;
-	
-	public AdminController(IProfesionalService profesionalService) {
-		this.profesionalService = profesionalService;
-	}
 
 	@GetMapping("/registrar-profesional")
 	public String registrarProfesional(Model model) {

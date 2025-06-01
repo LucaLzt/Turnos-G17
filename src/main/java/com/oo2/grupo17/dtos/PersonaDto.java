@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PersonaDto {
 	
-	protected @Setter(AccessLevel.PROTECTED) Long id;
+	protected Long id;
 	private String nombre;
 	private int dni;
 	private Contacto contacto;

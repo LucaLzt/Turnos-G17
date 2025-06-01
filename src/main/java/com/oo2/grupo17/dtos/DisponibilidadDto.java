@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DisponibilidadDto {
 	
-	private @Setter(AccessLevel.PROTECTED) Long id;
+	private Long id;
 	private ProfesionalDto profesional;
 	private LocalDateTime inicio;
 	private Duration duracion;

@@ -4,21 +4,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.repositories.IServicioRepository;
 import com.oo2.grupo17.services.IServicioService;
 
+import lombok.Builder;
+
+@Service @Builder
 public class ServicioService implements IServicioService {
 	
 	private final IServicioRepository servicioRepository;
 	private final ModelMapper modelMapper;
-	
-	public ServicioService(IServicioRepository servicioRepository, ModelMapper modelMapper) {
-		this.servicioRepository = servicioRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public ServicioDto save(ServicioDto servicioDto) {

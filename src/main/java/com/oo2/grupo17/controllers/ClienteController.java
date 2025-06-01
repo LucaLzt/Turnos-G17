@@ -24,7 +24,9 @@ import com.oo2.grupo17.services.IDireccionService;
 import com.oo2.grupo17.services.ILocalidadService;
 import com.oo2.grupo17.services.IProvinciaService;
 
-@Controller
+import lombok.Builder;
+
+@Controller @Builder
 @RequestMapping("/cliente")
 public class ClienteController {
 	
@@ -33,16 +35,6 @@ public class ClienteController {
 	private final IDireccionService direccionService;
 	private final IProvinciaService provinciaService;
 	private final ILocalidadService localidadService;
-
-	public ClienteController(IClienteService clienteService, IContactoService contactoService,
-			IDireccionService direccionService, IProvinciaService provinciaService,
-			ILocalidadService localidadService) {
-		this.clienteService = clienteService;
-		this.contactoService = contactoService;
-		this.direccionService = direccionService;
-		this.provinciaService = provinciaService;
-		this.localidadService = localidadService;
-	}
 
 	// Muestra el perfil del cliente
 	@GetMapping("/perfil")

@@ -13,15 +13,13 @@ import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.implementation.ClienteService;
 
-@Controller
+import lombok.Builder;
+
+@Controller @Builder
 @RequestMapping("/auth")
 public class AuthController {
 	
     private ClienteService clienteService;
-     
-    public AuthController(ClienteService clienteService) {
-    	this.clienteService = clienteService;
-    }
 
     // GET: /auth/login
     @GetMapping("/login")

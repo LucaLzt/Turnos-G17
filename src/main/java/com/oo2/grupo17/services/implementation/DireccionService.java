@@ -160,31 +160,20 @@ public class DireccionService implements IDireccionService {
 	    Lugar lugarEntity = lugarRepository.findById(lugarDto.getId())
 	            .orElseThrow();
 	    
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    System.out.println("LUGAR ID: " + lugarEntity.getId());
-	    
-	    
 	    // 2. Actualizo los campos del lugar
 	    lugarEntity.setHorarioApertura(lugarDto.getHorarioApertura());
 	    lugarEntity.setHorarioCierre(lugarDto.getHorarioCierre());
 	    
-	    // 2. Obtener la dirección asociada al lugar
+	    // 3. Obtener la dirección asociada al lugar
 	    Direccion direccion = lugarEntity.getDireccion();
 
-	    // 3. Actualizar los campos de la dirección
+	    // 4. Actualizar los campos de la dirección
 	    direccion.setCalle(direccionDto.getCalle());
 	    direccion.setAltura(direccionDto.getAltura());
 	    direccion.setLocalidad(localidadRepository.findById(direccionDto.getLocalidadId()).orElseThrow());
 	    direccion.setProvincia(provinciaRepository.findById(direccionDto.getProvinciaId()).orElseThrow());
 
-	    // 4. Guardar la dirección y luego el lugar
+	    // 5. Guardar la dirección y luego el lugar
 	    direccionRepository.save(direccion);
 	    lugarRepository.save(lugarEntity);
 

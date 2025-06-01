@@ -58,7 +58,6 @@ public class LugaresController {
 		List<LugarDto> lugares = lugarService.findAll();
 		model.addAttribute("lugares", lugares);
 		
-		
 		// 2. Cargo un map de provincias y localidades para el formulario
 		List<Localidad> localidades = localidadService.findAll();
 		List<Provincia> provincias = provinciaService.findAll();
