@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +22,7 @@ public class Localidad {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private @Setter(AccessLevel.PROTECTED) Long id;
+	private Long id;
 	
 	@Column(name="nombre", nullable = false)
 	private String nombre;

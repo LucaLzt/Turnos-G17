@@ -3,6 +3,7 @@ package com.oo2.grupo17.services;
 import java.util.List;
 
 import com.oo2.grupo17.dtos.LugarDto;
+import com.oo2.grupo17.entities.Lugar;
 
 
 public interface ILugarService {
@@ -17,4 +18,5 @@ public interface ILugarService {
 
     void deleteById(Long id);
 
+    List<Lugar> obtenerLugaresPorServicio(Long servicioId);
 }

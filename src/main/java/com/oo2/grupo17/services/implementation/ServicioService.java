@@ -56,4 +56,12 @@ public class ServicioService implements IServicioService {
 		servicioRepository.deleteById(id);
 	}
 	
+	public List<ServicioDto> findAllByOrderByNombreAsc(){
+		return servicioRepository.findAllByOrderByNombreAsc()
+				.stream()
+				.map(object -> modelMapper.map(object, ServicioDto.class))
+				.collect(Collectors.toList());
+	}
+	
+	
 }
