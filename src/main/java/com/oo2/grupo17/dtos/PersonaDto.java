@@ -2,7 +2,6 @@ package com.oo2.grupo17.dtos;
 
 import com.oo2.grupo17.entities.Contacto;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
