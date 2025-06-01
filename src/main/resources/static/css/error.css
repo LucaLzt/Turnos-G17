@@ -1,0 +1,72 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.4rem;
+    text-align: center;
+}
+
+.error-code {
+    font-size: 6rem;
+    color: #294bb2;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.error-title {
+    font-size: 2rem;
+    color: #586ee0;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.error-message {
+    font-size: 1.12rem;
+    color: #444;
+    margin-bottom: 1.8rem;
+}
+
+.error-back-btn {
+    display: inline-block;
+    background: #294bb2;
+    color: #fff;
+    padding: 0.82rem 2.1rem;
+    border-radius: 6px;
+    font-size: 1.08rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(41, 75, 178, 0.10);
+    transition: background 0.17s, color 0.17s, box-shadow 0.17s;
+}
+
+.error-back-btn:hover {
+    background: #172a78;
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+}
+
+@media (max-width: 600px) {
+    .error-code {
+        font-size: 3.2rem;
+    }
+    .error-title {
+        font-size: 1.3rem;
+    }
+    .error-message {
+        font-size: 1rem;
+    }
+    .error-back-btn {
+        font-size: 0.98rem;
+        padding: 0.65rem 1.4rem;
+    }
+}
