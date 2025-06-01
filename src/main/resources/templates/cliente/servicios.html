@@ -17,9 +17,9 @@
                     <i class="fas fa-dollar-sign"></i>
                     <span th:text="${servicio.precio}">0.00</span>
                 </p>
-				<form th:action="@{'/cliente/servicio/' + ${servicio.id} + '/lugares'}" method="post">
-				    <button type="submit">Ver lugares</button>
-				</form>
+				<a th:href="@{'/cliente/servicios/' + ${servicio.id} + '/lugares'}">
+				    Ver lugares
+				</a>
             </div>
         </div>
     </div>

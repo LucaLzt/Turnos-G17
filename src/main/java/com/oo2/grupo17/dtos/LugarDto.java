@@ -4,7 +4,6 @@ import java.time.LocalTime;
 
 import com.oo2.grupo17.entities.Direccion;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class LugarDto {
 	
-	private @Setter(AccessLevel.PROTECTED) Long id;
+	private Long id;
 	private Direccion direccion;
 	private LocalTime horarioApertura;
 	private LocalTime horarioCierre;

@@ -1,7 +1,6 @@
 package com.oo2.grupo17.services.implementation;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -61,20 +60,8 @@ public class LugarService implements ILugarService {
 		lugarRepository.deleteById(id);
 	}
 	
-	public Set<LugarDto> findByServiciosId(Long servicio){
-		Set<Lugar> lugares = lugarRepository.findByServicioId(servicio);
-		return lugares.stream()
-				.map(object -> modelMapper.map(object, LugarDto.class))
-				.collect(Collectors.toSet());
-		
+	public List<Lugar> obtenerLugaresPorServicio(Long servicioId){
+		return lugarRepository.findByServicios_id(servicioId);
 	}
-	
-	public LugarDto comvertToDto(Lugar lugar) {
-    	LugarDto dto = new LugarDto();
-    	dto.setDireccion(lugar.getDireccion());
-    	dto.setHorarioApertura(lugar.getHorarioApertura());
-    	dto.setHorarioCierre(lugar.getHorarioCierre());
-    	return dto;
-    }
 
 }

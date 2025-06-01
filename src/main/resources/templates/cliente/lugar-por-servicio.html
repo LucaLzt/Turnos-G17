@@ -35,10 +35,9 @@
         </a>
         
         <div th:if="${lugares != null and !lugares.isEmpty()}">
-            <div th:each="lugar : ${lugares}" class="lugar-card">
-                <h3 th:text="${lugar.nombre}"></h3>
-                <p><i class="fas fa-map-marker-alt"></i> <span th:text="${lugar.direccion}"></span></p>
-                <!-- Agrega más detalles del lugar si es necesario -->
+			<div th:each="lugar : ${lugares}" class="lugar-card">
+                <h3 th:text="${lugar.direccion.calle} +' ' + ${lugar.direccion.altura} +', ' + ${lugar.direccion.localidad.nombre} + ', ' + ${lugar.direccion.provincia.nombre}"></h3>
+                <p><i class="fas fa-map-marker-alt"></i> <span th:text="${lugar.horarioApertura}+ ' - ' + ${lugar.horarioCierre}"></span></p>
             </div>
         </div>
         
