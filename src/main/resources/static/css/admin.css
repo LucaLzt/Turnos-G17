@@ -7,7 +7,6 @@ html, body {
     box-sizing: border-box;
 }
 
-/* Navbar estilo admin */
 .navbar {
     width: 100%;
     background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
@@ -38,7 +37,6 @@ html, body {
     color: #e4e4e4;
 }
 
-/* Contenedor del formulario */
 .form-container {
     background: #fff;
     max-width: 420px;
@@ -133,15 +131,6 @@ html, body {
     color: #5e72e4;
 }
 
-/* Mensajes de error (opcional) */
-.form-error {
-    color: #c0392b;
-    font-size: 0.98rem;
-    margin-top: -0.7rem;
-    margin-bottom: 1.1rem;
-}
-
-/* Responsive */
 @media (max-width: 600px) {
     .form-container {
         max-width: 98vw;

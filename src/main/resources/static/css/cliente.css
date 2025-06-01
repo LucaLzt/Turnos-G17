@@ -8,16 +8,16 @@ html, body {
 }
 
 .navbar {
-    width: 100%;
-    background: linear-gradient(135deg, #4242a5 0%, #5e72e4 100%);
-    box-shadow: 0 2px 16px rgba(44, 62, 80, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.8rem 2.2rem;
-    top: 0;
-    left: 0;
-    z-index: 100;
+	width: 100%;
+	background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
+	box-shadow: 0 2px 16px rgba(44, 62, 80, 0.08);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.8rem 2.2rem;
+	top: 0;
+	left: 0;
+	z-index: 100;
 }
 
 .navbar .brand {
