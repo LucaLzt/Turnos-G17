@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ServicioDto {
 	
-	private @Setter(AccessLevel.PROTECTED) Long id;
+	private Long id;
 	private String nombre;
 	private String descripcion;
 	private Double precio;

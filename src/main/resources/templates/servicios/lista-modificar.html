@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Servicio</title>
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+    <div class="main-content">
+        <h2>Seleccionar Servicio a Modificar</h2>
+        <ul>
+            <li th:each="serv : ${servicios}">
+                <span th:text="${serv.nombre}">Servicio</span> -
+                <a th:href="@{'/servicios/' + ${serv.id} + '/modificar'}">Modificar</a>
+            </li>
+        </ul>
+        <a th:href="@{/admin/administrar-servicios}">Volver</a>
+    </div>
+</body>
+</html>

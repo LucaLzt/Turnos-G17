@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Servicio</title>
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+    <div class="main-content">
+        <h2>Modificar Servicio</h2>
+        <form th:action="@{'/servicios/' + ${servicio.id} + '/modificar'}" th:object="${servicio}" method="post">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" th:field="*{nombre}" required />
+            <br/>
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" th:field="*{descripcion}" required></textarea>
+            <br/>
+            <button type="submit">Actualizar</button>
+        </form>
+        <a th:href="@{/admin/administrar-servicios}">Volver</a>
+    </div>
+</body>
+</html>
