@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
+import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.RoleEntity;
@@ -20,6 +21,7 @@ import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IClienteService;
+import com.oo2.grupo17.services.IContactoService;
 
 import jakarta.transaction.Transactional;
 
@@ -30,15 +32,17 @@ public class ClienteService implements IClienteService {
 	private final IRoleRepository roleRepository;
 	private final IContactoRepository contactoRepository;
 	private final IClienteRepository clienteRepository;
+	private final IContactoService contactoService;
     private final ModelMapper modelMapper;
 
 	public ClienteService(IUserRepository userRepository, IRoleRepository roleRepository,
 			IContactoRepository contactoRepository, IClienteRepository clienteRepository,
-			ModelMapper modelMapper) {
+			IContactoService contactoService, ModelMapper modelMapper) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.contactoRepository = contactoRepository;
 		this.clienteRepository = clienteRepository;
+		this.contactoService = contactoService;
 		this.modelMapper = modelMapper;
 	}
 
@@ -130,8 +134,18 @@ public class ClienteService implements IClienteService {
 		return modelMapper.map(cliente, ClienteDto.class);
 	}
 	
-	// --- MÉTODO AUXILIAR PARA ENCRIPTAR CONTRASEÑAS --- //
-    private String encryptPassword(String password) {
+	@Override
+	public void updatearContactoUserEntity(ContactoDto contactoDto) {
+		contactoService.update(contactoDto.getId(), contactoDto);
+		Cliente cliente = clienteRepository.findById(contactoDto.getId())
+				.orElseThrow();
+		UserEntity usuario = cliente.getUser();
+    	usuario.setUsername(contactoDto.getEmail());
+    	userRepository.save(usuario);
+	}
+	
+	// --- Método auxiliar para encriptar la contraseña --- //
+	private String encryptPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
         return passwordEncoder.encode(password);
     }

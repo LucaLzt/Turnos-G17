@@ -17,6 +17,6 @@ public class ModelMapperConfig {
         modelMapper.typeMap(Contacto.class, ContactoDto.class)
             .addMappings(mapper -> mapper.map(src -> src.getPersona().getId(), ContactoDto::setId));
 		
-		return new ModelMapper();
+		return modelMapper;
 	}
 }

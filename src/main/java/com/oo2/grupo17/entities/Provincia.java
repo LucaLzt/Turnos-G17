@@ -26,7 +26,14 @@ public class Provincia {
 	@Column(name="nombre", nullable = false)
 	private String nombre;
 	
+	@OneToMany(mappedBy = "provincia")
+	private Set<Localidad> localidades = new HashSet<>();
+	
 	@OneToMany(mappedBy="provincia")
 	private Set<Direccion> direccion = new HashSet<>();
+	
+	public Long getId() {
+		return id;
+	}
 	
 }

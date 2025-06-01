@@ -1,5 +1,7 @@
 package com.oo2.grupo17.entities;
 
+import java.util.Optional;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,5 +36,5 @@ public class Direccion {
 	@ManyToOne
 	@JoinColumn(name="provincia_id")
 	private Provincia provincia;
-	
+
 }

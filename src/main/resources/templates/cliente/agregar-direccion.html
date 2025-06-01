@@ -20,8 +20,9 @@
                 <i class="fas fa-map-marker-alt"></i>
             </div>
             <div class="card-title" style="margin-bottom:1.5rem;">Modificar Dirección</div>
-            <form th:action="@{/cliente/modificar-direccion}" th:object="${direccion}" method="post" class="form-contacto">
+            <form th:action="@{/cliente/agregar-direccion}" th:object="${direccion}" method="post" class="form-contacto">
                 <input type="hidden" th:field="*{id}"/>
+
                 <div class="form-group">
                     <label for="calle"><i class="fas fa-road"></i> Calle</label>
                     <input type="text" id="calle" th:field="*{calle}" required placeholder="Calle"/>
@@ -52,7 +53,7 @@
 				</div>
                 <div class="perfil-buttons" style="margin-top:1.5rem;">
                     <button type="submit" class="perfil-btn" style="justify-content:center;">
-                        <i class="fas fa-save"></i> Guardar Cambios
+                        <i class="fas fa-save"></i> Guardar Direccion
                     </button>
                     <a th:href="@{/cliente/perfil}" class="perfil-btn perfil-btn-cancel">
                         <i class="fas fa-times"></i> Cancelar

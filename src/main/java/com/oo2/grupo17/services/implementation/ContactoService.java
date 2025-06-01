@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.entities.Contacto;
-import com.oo2.grupo17.repositories.IClienteRepository;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.services.IContactoService;
 
@@ -16,13 +15,10 @@ import com.oo2.grupo17.services.IContactoService;
 public class ContactoService implements IContactoService {
 	
 	private final IContactoRepository contactoRepository;
-	private final IClienteRepository clienteRepository;
 	private final ModelMapper modelMapper;
 	
-	public ContactoService(IContactoRepository contactoRepository, ModelMapper modelMapper
-			, IClienteRepository clienteRepository) {
+	public ContactoService(IContactoRepository contactoRepository, ModelMapper modelMapper) {
 		this.contactoRepository = contactoRepository;
-		this.clienteRepository = clienteRepository;
 		this.modelMapper = modelMapper;
 	}
 
@@ -69,6 +65,6 @@ public class ContactoService implements IContactoService {
 		Contacto contacto = contactoRepository.findByEmail(email)
 				.orElseThrow();
 		return modelMapper.map(contacto, ContactoDto.class);
-	};
+	}
 
 }

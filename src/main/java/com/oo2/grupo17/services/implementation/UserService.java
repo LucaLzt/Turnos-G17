@@ -26,4 +26,5 @@ public class UserService implements UserDetailsService {
                 () -> new UsernameNotFoundException(MessageFormat.format("User with username {0} not found", username))
         );
     }
+    
 }

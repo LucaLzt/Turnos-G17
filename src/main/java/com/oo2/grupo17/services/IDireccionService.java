@@ -2,6 +2,7 @@ package com.oo2.grupo17.services;
 
 import java.util.List;
 
+import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
 
 public interface IDireccionService {
@@ -17,5 +18,9 @@ public interface IDireccionService {
     void deleteById(Long id);
     
     public DireccionDto findByContactoEmail(String email);
+    
+    public DireccionDto crearDireccion(ContactoDto contacto, DireccionDto direccionDto);
+    
+    public DireccionDto actualizarDireccion(ContactoDto contactoDto, DireccionDto direccionDto);
 	
 }

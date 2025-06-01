@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
+import com.oo2.grupo17.dtos.ContactoDto;
 
 public interface IClienteService {
 	
@@ -20,5 +21,7 @@ public interface IClienteService {
     public void registrarCliente(ClienteRegistroDto registroDto);
     
     public ClienteDto findByEmail(String email);
+    
+    public void updatearContactoUserEntity(ContactoDto contactoDto);
 	
 }
