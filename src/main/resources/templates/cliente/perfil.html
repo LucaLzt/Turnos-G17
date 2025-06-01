@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Perfil del Cliente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Enlace al CSS externo -->
     <link rel="stylesheet" th:href="@{/css/cliente.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
@@ -39,7 +38,7 @@
                 <a th:href="@{/cliente/modificar-contacto}" class="perfil-btn">
                     <i class="fas fa-user-edit"></i> Modificar contacto
                 </a>
-				<a th:if="${cliente.contacto.direccion == null}" th:href="@{/cliente/agregar-direccion}" class="perfil-btn">
+				<a th:if="${cliente.contacto.direccion == null}" th:href="@{/cliente/modificar-direccion}" class="perfil-btn">
 				    <i class="fas fa-map-marker-alt"></i> Agregar dirección
 				</a>
 				<a th:if="${cliente.contacto.direccion != null}" th:href="@{/cliente/modificar-direccion}" class="perfil-btn">

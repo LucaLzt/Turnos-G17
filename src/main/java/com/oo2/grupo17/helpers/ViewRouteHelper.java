@@ -14,7 +14,6 @@ public class ViewRouteHelper {
     //Cliente
     public static final String CLIENTE_PERFIL = "cliente/perfil";
     public static final String CLIENTE_CONTACTO = "cliente/modificar-contacto";
-    public static final String CLIENTE_DIRECCION = "cliente/agregar-direccion";
-    public static final String CLIENTE_MOD_DIRECCION = "cliente/modificar-direccion";
+    public static final String CLIENTE_DIRECCION = "cliente/modificar-direccion";
     
 }
