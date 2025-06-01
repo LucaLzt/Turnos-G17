@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
+import com.oo2.grupo17.dtos.LugarDto;
 
 public interface IDireccionService {
 	
@@ -17,10 +18,14 @@ public interface IDireccionService {
 
     void deleteById(Long id);
     
-    public DireccionDto findByContactoEmail(String email);
+    DireccionDto findByContactoEmail(String email);
     
-    public DireccionDto crearDireccion(ContactoDto contacto, DireccionDto direccionDto);
+    DireccionDto crearDireccion(ContactoDto contacto, DireccionDto direccionDto);
     
-    public DireccionDto actualizarDireccion(ContactoDto contactoDto, DireccionDto direccionDto);
+    DireccionDto actualizarDireccion(ContactoDto contactoDto, DireccionDto direccionDto);
+
+	DireccionDto crearDireccion(LugarDto lugarDto, DireccionDto direccionDto);
+	
+	DireccionDto actualizarDireccion(LugarDto lugarDto, DireccionDto direccionDto);
 	
 }

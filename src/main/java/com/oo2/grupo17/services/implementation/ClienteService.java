@@ -24,8 +24,9 @@ import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
 
 import jakarta.transaction.Transactional;
+import lombok.Builder;
 
-@Service
+@Service @Builder
 public class ClienteService implements IClienteService {
 	
 	private final IUserRepository userRepository;
@@ -34,17 +35,6 @@ public class ClienteService implements IClienteService {
 	private final IClienteRepository clienteRepository;
 	private final IContactoService contactoService;
     private final ModelMapper modelMapper;
-
-	public ClienteService(IUserRepository userRepository, IRoleRepository roleRepository,
-			IContactoRepository contactoRepository, IClienteRepository clienteRepository,
-			IContactoService contactoService, ModelMapper modelMapper) {
-		this.userRepository = userRepository;
-		this.roleRepository = roleRepository;
-		this.contactoRepository = contactoRepository;
-		this.clienteRepository = clienteRepository;
-		this.contactoService = contactoService;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public ClienteDto save(ClienteDto clienteDto) {

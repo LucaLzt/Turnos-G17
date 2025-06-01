@@ -6,9 +6,13 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class ProvinciaDto {
+public class ProfesionalRegistradoDto {
 	
-	private Long id;
+	private String email;
 	private String nombre;
+	private Integer dni;
+	private Integer matricula;
+	private Integer movil;
+	private Integer telefono;
 	
 }

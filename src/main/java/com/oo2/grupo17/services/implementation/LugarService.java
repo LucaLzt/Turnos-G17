@@ -11,16 +11,13 @@ import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.services.ILugarService;
 
-@Service
+import lombok.Builder;
+
+@Service @Builder
 public class LugarService implements ILugarService {
 	
 	private final ILugarRepository lugarRepository;
 	private final ModelMapper modelMapper;
-	
-	public LugarService(ILugarRepository lugarRepository, ModelMapper modelMapper) {
-		this.lugarRepository = lugarRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public LugarDto save(LugarDto lugarDto) {
@@ -50,7 +47,7 @@ public class LugarService implements ILugarService {
 				.orElseThrow();
 		lugar.setHorarioApertura(lugarDto.getHorarioApertura());
 		lugar.setHorarioCierre(lugarDto.getHorarioCierre());
-		lugar.setDireccion(lugarDto.getDireccion());
+		// lugar.setDireccion(lugarDto.getDireccion());
 		Lugar updated = lugarRepository.save(lugar);
 		return modelMapper.map(updated, LugarDto.class);
 	}

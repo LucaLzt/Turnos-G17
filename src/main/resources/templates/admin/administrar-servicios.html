@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Servicios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user profile-icon"></i>
+        </a>
+    </div>
+    <div class="main-content" style="width:100%;">
+        <div class="admin-section">
+            <div class="admin-title">
+                <i class="fas fa-list-ol"></i> Administración de Servicios
+            </div>
+            <div class="panel-actions-grid">
+                <a th:href="@{/servicios/agregar}" class="panel-card">
+                    <i class="fas fa-plus panel-card-icon"></i>
+                    <div class="panel-card-title">Agregar Servicio</div>
+                    <div class="panel-card-desc">Cree un nuevo servicio para ofrecer a los clientes.</div>
+                </a>
+                <a th:href="@{/servicios/modificar}" class="panel-card">
+                    <i class="fas fa-edit panel-card-icon"></i>
+                    <div class="panel-card-title">Modificar Servicio</div>
+                    <div class="panel-card-desc">Edite la información de servicios existentes.</div>
+                </a>
+                <a th:href="@{/servicios/eliminar}" class="panel-card">
+                    <i class="fas fa-trash-alt panel-card-icon"></i>
+                    <div class="panel-card-title">Eliminar Servicio</div>
+                    <div class="panel-card-desc">Elimine servicios que ya no estén disponibles.</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
