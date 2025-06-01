@@ -12,10 +12,6 @@ public class EspecialidadDto {
 	private @Setter(AccessLevel.PROTECTED) Long id;
 	private String nombre;
 	
-	/* Opcional: Lista de profesionales si se necesita relación inversa
-	private Set<Long> profesionalesIds;
-	*/
-	
 	public EspecialidadDto(Long id, String nombre) {
 		super();
 		this.id = id;

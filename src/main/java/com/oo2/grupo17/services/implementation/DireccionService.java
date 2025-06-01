@@ -63,8 +63,6 @@ public class DireccionService implements IDireccionService {
 				.orElseThrow();
 		direccion.setAltura(direccionDto.getAltura());
 		direccion.setCalle(direccionDto.getCalle());
-		// direccion.setLocalidad(modelMapper.map(direccionDto.getLocalidad(), Localidad.class));
-	    // direccion.setProvincia(modelMapper.map(direccionDto.getProvincia(), Provincia.class));
 		Direccion updated = direccionRepository.save(direccion);
 		return modelMapper.map(updated, DireccionDto.class);
 	}
@@ -99,10 +97,8 @@ public class DireccionService implements IDireccionService {
 	    Contacto contactoEntity = contactoRepository.findById(contactoDto.getId())
 	        .orElseThrow();
 
-	    // 3. Asociar la dirección
+	    // 3. Asociar la dirección y guardo el contacto
 	    contactoEntity.setDireccion(savedDireccion);
-
-	    // 4. Guardar el contacto actualizado
 	    contactoRepository.save(contactoEntity);
 
 	    return modelMapper.map(savedDireccion, DireccionDto.class);
@@ -110,10 +106,11 @@ public class DireccionService implements IDireccionService {
 	
 	@Override
 	public DireccionDto actualizarDireccion(ContactoDto contactoDto, DireccionDto direccionDto) {
-		
+		// 1. Traigo la dirección existente de la base de datos
 		Direccion direccion = direccionRepository.findById(direccionDto.getId())
 				.orElseThrow();
 		
+		// 2. Actualizo los campos de la dirección
 		direccion.setCalle(direccionDto.getCalle());
 		direccion.setAltura(direccionDto.getAltura());
 		Long provinciaId = direccionDto.getProvinciaId();
@@ -121,17 +118,18 @@ public class DireccionService implements IDireccionService {
 		direccion.setLocalidad(localidadRepository.findById(localidadId).orElseThrow());
 		direccion.setProvincia(provinciaRepository.findById(provinciaId).orElseThrow());
 		
+		// 3. Guardo la dirección actualizada
 		Direccion updated = direccionRepository.save(direccion);
 		
+		// 4. Traigo el contacto existete de la base de datos
 		Contacto contactoEntity = contactoRepository.findById(contactoDto.getId())
 				.orElseThrow();
 		
+		// 5. Actualizo la dirección del contacto y guardo
 		contactoEntity.setDireccion(updated);
-		
 		contactoRepository.save(contactoEntity);
 		
 		return modelMapper.map(updated, DireccionDto.class);
-		
 	}
 
 }

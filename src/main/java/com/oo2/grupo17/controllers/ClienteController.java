@@ -103,23 +103,32 @@ public class ClienteController {
 	}
 	
 	// Muestra el formulario para agregar una dirección
-	@GetMapping("/agregar-direccion")
-	public String agregarDireccion(Model model, Principal principal) {
+	@GetMapping("/modificar-direccion")
+	public String modificarDireccion(Model model, Principal principal) {
 		
-		// Obtengo las listas de provincias y localidades
+		// 1. Obtengo las listas de provincias y localidades
 		List<Provincia> provincias = provinciaService.findAll();
 		List<Localidad> localidades = localidadService.findAll();
 		
-		// Agrego un objeto DireccionDto y las listas al modelo
-		model.addAttribute("direccion", new DireccionDto());
+		// 2. Verifico si el contacto tiene una dirección asocidada
+		String email = principal.getName();
+		ContactoDto contacto = contactoService.findByEmail(email);
+		if(contacto.getDireccion() == null) {
+			model.addAttribute("direccion", new DireccionDto()); // Se pasa un objeto vacío
+		} else {
+			DireccionDto direccion = direccionService.findByContactoEmail(email); // Se pasa un objeto existent
+			model.addAttribute("direccion", direccion);
+		}
+		
+		// 3. Agrego las listas al modelo
 		model.addAttribute("provincias", provincias);
 		model.addAttribute("localidades", localidades);
 		return ViewRouteHelper.CLIENTE_DIRECCION;
 	}
 	
 	// Agrega una nueva dirección y la asocia al contacto del cliente
-	@PostMapping("/agregar-direccion")
-	public String agregarDireccionUpdatear(@ModelAttribute("direccion") DireccionDto direccionDto,
+	@PostMapping("/modificar-direccion")
+	public String modificarDireccionUpdatear(@ModelAttribute("direccion") DireccionDto direccionDto,
 			Model model, BindingResult result, Principal principal) {
 		
 		// Validar los datos de la dirección
@@ -134,50 +143,13 @@ public class ClienteController {
 		ContactoDto contacto = contactoService.findByEmail(email);
 		
 		// 3. Actualizar el contacto con la nueva dirección
-		direccionService.crearDireccion(contacto, direccionDto);
+		if(contacto.getDireccion() == null) {
+			direccionService.crearDireccion(contacto, direccionDto);
+		} else {
+			direccionService.actualizarDireccion(contacto, direccionDto);
+		}
 		
 		// 4. Redirigir al perfil del cliente
-		ClienteDto cliente = clienteService.findByEmail(email);
-		if(cliente != null) {
-			model.addAttribute("cliente", cliente);
-		}
-		return ViewRouteHelper.CLIENTE_PERFIL;
-	}
-	
-	// Muestra el formulario para modificar la dirección del cliente
-	@GetMapping("/modificar-direccion")
-	public String modificarDireccion(Model model, Principal principal) {
-		
-		// Obtiene el email del usuario autenticado
-		String email = principal.getName();
-		
-		// Obtiene la dirección y la listas de provincias y localidades
-		DireccionDto direccion = direccionService.findByContactoEmail(email);
-		List<Provincia> provincias = provinciaService.findAll();
-		List<Localidad> localidades = localidadService.findAll();
-		
-		// Agrega la dirección y las listas al modelo
-		model.addAttribute("direccion", direccion);
-		model.addAttribute("provincias", provincias);
-		model.addAttribute("localidades", localidades);
-		return ViewRouteHelper.CLIENTE_MOD_DIRECCION;
-	}
-	
-	// Actualiza la dirección del cliente
-	@PostMapping("/modificar-direccion")
-	public String modificarDireccionUpdatear(@ModelAttribute("direccion") DireccionDto direccionDto,
-			Model model, BindingResult result, Principal principal) {
-		
-		// Validar los datos de la dirección
-		if(result.hasErrors()) {
-	        return ViewRouteHelper.CLIENTE_MOD_DIRECCION;
-	    }
-		
-		String email = principal.getName();
-		ContactoDto contacto = contactoService.findByEmail(email);
-		
-		direccionService.actualizarDireccion(contacto, direccionDto);
-		
 		ClienteDto cliente = clienteService.findByEmail(email);
 		if(cliente != null) {
 			model.addAttribute("cliente", cliente);
