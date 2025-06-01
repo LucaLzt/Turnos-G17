@@ -13,20 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.services.IServicioService;
-//import com.oo2.grupo17.services.IServicioService;
 
-@Controller
+import lombok.Builder;
+
+@Controller @Builder
 @RequestMapping("/servicios")
 public class ServiciosController {
 	
 	private final IServicioService servicioService;
 	
-	
-	public ServiciosController(IServicioService servicioService) {
-		super();
-		this.servicioService = servicioService;
-	}
-
 	@GetMapping("/agregar")
 	public String agregarServicio(Model model) {
 		model.addAttribute("servicio", new ServicioDto());

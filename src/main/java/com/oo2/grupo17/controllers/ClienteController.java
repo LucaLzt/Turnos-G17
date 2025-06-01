@@ -29,7 +29,6 @@ import com.oo2.grupo17.services.ILocalidadService;
 import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProvinciaService;
 import com.oo2.grupo17.services.IServicioService;
-import com.oo2.grupo17.services.implementation.ContactoService;
 
 import lombok.Builder;
 
