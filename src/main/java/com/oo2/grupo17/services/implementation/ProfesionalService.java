@@ -25,7 +25,7 @@ import com.oo2.grupo17.services.IProfesionalService;
 import jakarta.transaction.Transactional;
 import lombok.Builder;
 
-@Service
+@Service @Builder
 public class ProfesionalService implements IProfesionalService {
 	
 	private final IProfesionalRepository profesionalRepository;
@@ -33,15 +33,6 @@ public class ProfesionalService implements IProfesionalService {
 	private final IRoleRepository roleRepository;
 	private final IUserRepository userRepository;
 	private final ModelMapper modelMapper;
-
-	public ProfesionalService(IProfesionalRepository profesionalRepository, IContactoRepository contactoRepository,
-			IRoleRepository roleRepository, IUserRepository userRepository, ModelMapper modelMapper) {
-		this.profesionalRepository = profesionalRepository;
-		this.contactoRepository = contactoRepository;
-		this.roleRepository = roleRepository;
-		this.userRepository = userRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public ProfesionalDto save(ProfesionalDto profesionalDto) {

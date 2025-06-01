@@ -1,6 +1,5 @@
 package com.oo2.grupo17.dtos;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

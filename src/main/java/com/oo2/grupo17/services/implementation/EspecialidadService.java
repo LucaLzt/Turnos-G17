@@ -11,16 +11,13 @@ import com.oo2.grupo17.entities.Especialidad;
 import com.oo2.grupo17.repositories.IEspecialidadRepository;
 import com.oo2.grupo17.services.IEspecialidadService;
 
-@Service
+import lombok.Builder;
+
+@Service @Builder
 public class EspecialidadService implements IEspecialidadService {
 
 	private final IEspecialidadRepository especialidadRepository;
 	private final ModelMapper modelMapper;
-	
-	public EspecialidadService(IEspecialidadRepository especialidadRepository, ModelMapper modelMapper) {
-		this.especialidadRepository = especialidadRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public EspecialidadDto save(EspecialidadDto especialidadDto) {

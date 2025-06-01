@@ -10,16 +10,13 @@ import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.repositories.IProvinciaRepository;
 import com.oo2.grupo17.services.IProvinciaService;
 
-@Service
+import lombok.Builder;
+
+@Service @Builder
 public class ProvinciaService implements IProvinciaService{
 	
 	private final IProvinciaRepository provinciaRepository;
 	private final ModelMapper modelMapper;
-
-	public ProvinciaService(IProvinciaRepository provinciaRepository, ModelMapper modelMapper) {
-		this.provinciaRepository = provinciaRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public ProvinciaDto save(ProvinciaDto provinciaDto) {

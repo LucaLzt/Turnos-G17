@@ -11,16 +11,13 @@ import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.services.IContactoService;
 
-@Service
+import lombok.Builder;
+
+@Service @Builder
 public class ContactoService implements IContactoService {
 	
 	private final IContactoRepository contactoRepository;
 	private final ModelMapper modelMapper;
-	
-	public ContactoService(IContactoRepository contactoRepository, ModelMapper modelMapper) {
-		this.contactoRepository = contactoRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public ContactoDto save(ContactoDto contactoDto) {
