@@ -24,10 +24,10 @@
                 <span>Volver</span>
             </a>
         </div>
-        <div class="lugares-grid"><!-- misma clase de grilla -->
+        <div class="lugares-grid">
             <a th:each="servicio : ${servicios}"
                th:href="@{'/servicios/' + ${servicio.id} + '/modificar'}"
-               class="lugar-card"><!-- misma clase de tarjeta -->
+               class="lugar-card">
                 <div class="lugar-title">
                     <i class="fas fa-concierge-bell"></i>
                     <span th:text="${servicio.nombre}"></span>
