@@ -2,40 +2,84 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Panel Cliente</title>
+    <title>Panel Principal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/index.css}" rel="stylesheet"/>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-	<div class="navbar">
-	    <div class="brand">MiTurno</div>
-	    <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
-	      <i class="fas fa-user profile-icon"></i>
-	    </a>
-	</div>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+        <!-- Según el rol, el perfil lleva a distintas rutas -->
+        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/admin/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user profile-icon"></i>
+        </a>
+        <a th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" th:href="@{/cliente/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user profile-icon"></i>
+        </a>
+    </div>
     <div class="main-content" style="background:none;">
-        <div class="actions-grid">
-            <a th:href="@{/cliente/solicitar-turno}" class="action-card">
-                <i class="fas fa-calendar-plus card-icon"></i>
-                <div class="card-title">Solicitar Turno</div>
-                <div class="card-desc">Reservá un nuevo turno de manera fácil y rápida.</div>
+        <!-- Panel CLIENTE -->
+        <div th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" class="panel-actions-grid">
+            <a th:href="@{/cliente/solicitar-turno}" class="panel-card">
+                <i class="fas fa-calendar-plus panel-card-icon"></i>
+                <div class="panel-card-title">Solicitar Turno</div>
+                <div class="panel-card-desc">Reservá un nuevo turno de manera fácil y rápida.</div>
             </a>
-            <a th:href="@{/cliente/historial-turnos}" class="action-card">
-                <i class="fas fa-history card-icon"></i>
-                <div class="card-title">Historial de Turnos</div>
-                <div class="card-desc">Consultá y gestioná tus turnos pasados y próximos.</div>
+            <a th:href="@{/cliente/historial-turnos}" class="panel-card">
+                <i class="fas fa-history panel-card-icon"></i>
+                <div class="panel-card-title">Historial de Turnos</div>
+                <div class="panel-card-desc">Consultá y gestioná tus turnos pasados y próximos.</div>
             </a>
-            <a th:href="@{/cliente/servicios}" class="action-card">
-                <i class="fas fa-list-alt card-icon"></i>
-                <div class="card-title">Ver Servicios</div>
-                <div class="card-desc">Explorá los servicios disponibles antes de solicitar tu turno.</div>
+            <a th:href="@{/cliente/servicios}" class="panel-card">
+                <i class="fas fa-list-alt panel-card-icon"></i>
+                <div class="panel-card-title">Ver Servicios</div>
+                <div class="panel-card-desc">Explorá los servicios disponibles antes de solicitar tu turno.</div>
             </a>
-            <a th:href="@{/cliente/lugares}" class="action-card">
-                <i class="fas fa-map-marker-alt card-icon"></i>
-                <div class="card-title">Lugares Disponibles</div>
-                <div class="card-desc">Encontrá sucursales o espacios donde podés reservar turnos.</div>
+            <a th:href="@{/cliente/lugares}" class="panel-card">
+                <i class="fas fa-map-marker-alt panel-card-icon"></i>
+                <div class="panel-card-title">Lugares Disponibles</div>
+                <div class="panel-card-desc">Encontrá sucursales o espacios donde podés reservar turnos.</div>
             </a>
+        </div>
+
+        <!-- Panel ADMINISTRADOR -->
+        <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="admin-section">
+            <div class="admin-title">
+                <i class="fas fa-user-shield"></i> Panel de Administración
+            </div>
+            <div class="panel-actions-grid">
+                <a th:href="@{/admin/registrar-profesional}" class="panel-card">
+                    <i class="fas fa-user-plus panel-card-icon"></i>
+                    <div class="panel-card-title">Registrar Profesional</div>
+                    <div class="panel-card-desc">Agregá nuevos profesionales para sumar a tu equipo.</div>
+                </a>
+                <a th:href="@{/admin/administrar-profesional}" class="panel-card">
+                    <i class="fas fa-user-cog panel-card-icon"></i>
+                    <div class="panel-card-title">Administrar Profesional</div>
+                    <div class="panel-card-desc">Editá, eliminá o gestioná la información de los profesionales.</div>
+                </a>
+                <a th:href="@{/admin/administrar-turnos}" class="panel-card">
+                    <i class="fas fa-calendar-check panel-card-icon"></i>
+                    <div class="panel-card-title">Administrar Turnos</div>
+                    <div class="panel-card-desc">Controlá, reasigná o cancelá turnos de manera centralizada.</div>
+                </a>
+                <a th:href="@{/admin/administrar-servicios}" class="panel-card">
+                    <i class="fas fa-list-ol panel-card-icon"></i>
+                    <div class="panel-card-title">Administrar Servicios</div>
+                    <div class="panel-card-desc">Gestioná la oferta de servicios disponibles en el sistema.</div>
+                </a>
+                <a th:href="@{/admin/administrar-lugares}" class="panel-card">
+                    <i class="fas fa-map-marked-alt panel-card-icon"></i>
+                    <div class="panel-card-title">Administrar Lugares</div>
+                    <div class="panel-card-desc">Editá sucursales, direcciones y ubicaciones habilitadas.</div>
+                </a>
+                <a th:href="@{/admin/contactar-profesional}" class="panel-card">
+                    <i class="fas fa-envelope panel-card-icon"></i>
+                    <div class="panel-card-title">Contactar Profesional</div>
+                    <div class="panel-card-desc">Enviá mensajes o notificaciones a los profesionales del sistema.</div>
+                </a>
+            </div>
         </div>
     </div>
 </body>
