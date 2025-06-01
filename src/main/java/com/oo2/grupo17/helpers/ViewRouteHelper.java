@@ -21,4 +21,10 @@ public class ViewRouteHelper {
     public static final String ADMIN_SERVICIOS = "admin/administrar-servicios";
     public static final String ADMIN_LUGARES = "admin/administrar-lugares";
     
+    //Lugares
+    public static final String LUGARES_AGREGAR = "lugares/agregar";
+    public static final String LUGARES_LISTA_MODIFICAR = "lugares/lista-modificar";
+    public static final String LUGARES_MODIFICAR = "lugares/modificar";
+    public static final String LUGARES_LISTA_ELIMINAR = "lugares/lista-eliminar";
+    
 }

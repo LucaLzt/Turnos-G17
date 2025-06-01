@@ -87,6 +87,52 @@ html, body {
     background: #fff;
 }
 
+.form-group select {
+    padding: 0.7rem 0.9rem;
+    border-radius: 7px;
+    border: 1.5px solid #e0e6f7;
+    font-size: 1rem;
+    background: #f7f9fc;
+    color: #294bb2;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color 0.18s, background 0.18s;
+    outline: none;
+}
+
+.form-group select:focus {
+    border-color: #5e72e4;
+    background: #fff;
+}
+
+.form-group select option {
+    font-size: 1rem;
+    color: #222;
+}
+
+.form-group input[type="time"] {
+    padding: 0.7rem 0.9rem;
+    border-radius: 7px;
+    border: 1.5px solid #e0e6f7;
+    font-size: 1rem;
+    background: #f7f9fc;
+    color: #294bb2;
+    transition: border-color 0.18s, background 0.18s;
+    outline: none;
+}
+.form-group input[type="time"]:focus {
+    border-color: #5e72e4;
+    background: #fff;
+}
+
+.form-group label i {
+    color: #294bb2;
+    margin-right: 5px;
+    font-size: 1.02em;
+    vertical-align: middle;
+}
+
 .form-actions {
     display: flex;
     justify-content: flex-end;
@@ -195,6 +241,63 @@ html, body {
     gap: 8px;
 }
 
+.lugares-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto;
+}
+.lugar-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    transition: transform 0.16s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: #222;
+    border: 1.5px solid #e0e6f7;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 180px;
+}
+.lugar-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
+    border: 1.5px solid #294bb2;
+}
+.lugar-card .lugar-title {
+    font-size: 1.13rem;
+    font-weight: 600;
+    color: #294bb2;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.lugar-card .lugar-direccion {
+    font-size: 1rem;
+    color: #222;
+}
+.lugar-card .lugar-info {
+    font-size: 0.97rem;
+    color: #444;
+    display: flex;
+    gap: 1.3rem;
+    margin-bottom: 0.3rem;
+    flex-wrap: wrap;
+}
+.lugar-card .lugar-horario {
+    font-size: 0.96rem;
+    color: #294bb2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.2rem;
+}
+
 @media (max-width: 600px) {
     .form-container {
         max-width: 98vw;
@@ -204,4 +307,11 @@ html, body {
     .navbar {
         padding: 0.7rem 1.1rem;
     }
+	.lugares-grid {
+	    gap: 1rem;
+	}
+	  	.lugar-card {
+		 min-height: 120px;
+	     padding: 1rem 0.5rem 0.8rem 0.5rem;
+	}
 }

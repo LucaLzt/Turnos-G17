@@ -50,7 +50,7 @@ public class LugarService implements ILugarService {
 				.orElseThrow();
 		lugar.setHorarioApertura(lugarDto.getHorarioApertura());
 		lugar.setHorarioCierre(lugarDto.getHorarioCierre());
-		lugar.setDireccion(lugarDto.getDireccion());
+		// lugar.setDireccion(lugarDto.getDireccion());
 		Lugar updated = lugarRepository.save(lugar);
 		return modelMapper.map(updated, LugarDto.class);
 	}
