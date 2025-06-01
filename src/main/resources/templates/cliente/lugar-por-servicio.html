@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lugares para <span th:text="${servicio.nombre}"></span></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        .lugar-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .volver-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lugares disponibles para: <span th:text="${servicio.nombre}"></span></h1>
+        
+        <a th:href="@{/cliente/servicios}" class="volver-btn">
+            <i class="fas fa-arrow-left"></i> Volver a servicios
+        </a>
+        
+        <div th:if="${lugares != null and !lugares.isEmpty()}">
+			<div th:each="lugar : ${lugares}" class="lugar-card">
+                <h3 th:text="${lugar.direccion.calle} +' ' + ${lugar.direccion.altura} +', ' + ${lugar.direccion.localidad.nombre} + ', ' + ${lugar.direccion.provincia.nombre}"></h3>
+                <p><i class="fas fa-map-marker-alt"></i> <span th:text="${lugar.horarioApertura}+ ' - ' + ${lugar.horarioCierre}"></span></p>
+            </div>
+        </div>
+        
+        <div th:if="${lugares == null or lugares.isEmpty()}">
+            <p>No hay lugares disponibles para este servicio actualmente.</p>
+        </div>
+    </div>
+</body>
+</html>

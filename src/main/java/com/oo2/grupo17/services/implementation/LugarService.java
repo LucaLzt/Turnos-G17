@@ -60,4 +60,8 @@ public class LugarService implements ILugarService {
 		lugarRepository.deleteById(id);
 	}
 	
+	public List<Lugar> obtenerLugaresPorServicio(Long servicioId){
+		return lugarRepository.findByServicios_id(servicioId);
+	}
+
 }
