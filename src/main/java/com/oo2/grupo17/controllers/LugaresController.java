@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oo2.grupo17.dtos.LugarDto;
-import com.oo2.grupo17.dtos.LocalidadDto;
-import com.oo2.grupo17.dtos.ProvinciaDto;
 import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
@@ -56,12 +54,11 @@ public class LugaresController {
 	
 	@GetMapping("/modificar")
 	public String modificarLugar(Model model) {
-		// Cargo todos los lugares para mostrarlos en la vista
+		// 1. Cargo todos los lugares para mostrarlos en la vista
 		List<LugarDto> lugares = lugarService.findAll();
 		model.addAttribute("lugares", lugares);
 		
-		
-		// Cargo un map de provincias y localidades para el formulario
+		// 2. Cargo un map de provincias y localidades para el formulario
 		List<Localidad> localidades = localidadService.findAll();
 		List<Provincia> provincias = provinciaService.findAll();
 
@@ -79,12 +76,12 @@ public class LugaresController {
 	
 	@GetMapping("/eliminar")
 	public String eliminarLugar(Model model) {
-		// Cargo todos los lugares para mostrarlos en la vista
+		// 1. Cargo todos los lugares para mostrarlos en la vista
 		List<LugarDto> lugares = lugarService.findAll();
 		model.addAttribute("lugares", lugares);
 		
 		
-		// Cargo un map de provincias y localidades para el formulario
+		// 2. Cargo un map de provincias y localidades para el formulario
 		List<Localidad> localidades = localidadService.findAll();
 		List<Provincia> provincias = provinciaService.findAll();
 
@@ -102,10 +99,15 @@ public class LugaresController {
 	
 	@GetMapping("/{id}/modificar")
 	public String modificarLugar(@ModelAttribute("id") Long id, Model model) {
+		// 1. Cargo el lugar a modificar
 		LugarDto lugar = lugarService.findById(id);
-		model.addAttribute("lugar", lugar);
+		
+		// 2. Cargo las provincias y localidades para el formulario
 		List<Provincia> provincias = provinciaService.findAll();
 		List<Localidad> localidades = localidadService.findAll();
+		
+		// 3. Cargo los atributos al modelo
+		model.addAttribute("lugar", lugar);
 		model.addAttribute("provincias", provincias);
 		model.addAttribute("localidades", localidades);
 		return ViewRouteHelper.LUGARES_MODIFICAR;
@@ -117,14 +119,6 @@ public class LugaresController {
 		if (result.hasErrors()) {
 			return ViewRouteHelper.LUGARES_AGREGAR;
 		}
-		System.out.println("LUGAR ID: " + lugarDto.getId());
-		System.out.println("LUGAR ID: " + lugarDto.getId());
-		System.out.println("LUGAR ID: " + lugarDto.getId());
-		System.out.println("LUGAR ID: " + lugarDto.getId());
-		System.out.println("LUGAR ID: " + lugarDto.getId());
-		System.out.println("LUGAR ID: " + lugarDto.getId());
-		System.out.println("LUGAR ID: " + lugarDto.getId());
-		
 		direccionService.actualizarDireccion(lugarDto, lugarDto.getDireccion());
 		return ViewRouteHelper.ADMIN_LUGARES;
 	}
@@ -133,6 +127,11 @@ public class LugaresController {
 	public String eliminarLugar(@ModelAttribute("id") Long id, Model model) {
 		lugarService.deleteById(id);
 		return ViewRouteHelper.ADMIN_LUGARES;
+	}
+	
+	@GetMapping("/volver")
+	public String volver() {
+		return ViewRouteHelper.HOME_INDEX;
 	}
 	
 }

@@ -1,7 +1,6 @@
 package com.oo2.grupo17.dtos;
 
 import java.time.LocalTime;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -3,46 +3,47 @@ package com.oo2.grupo17.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
+import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.entities.Localidad;
+import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IDireccionService;
 import com.oo2.grupo17.services.ILocalidadService;
+import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProvinciaService;
+import com.oo2.grupo17.services.IServicioService;
 
-@Controller
+import lombok.Builder;
+
+@Controller @Builder
 @RequestMapping("/cliente")
+@PreAuthorize("hasRole('ROLE_CLIENTE')")
 public class ClienteController {
-	
+
+    private final IServicioService servicioService;
+    private final ILugarService lugarService;
 	private final IClienteService clienteService;
 	private final IContactoService contactoService;
 	private final IDireccionService direccionService;
 	private final IProvinciaService provinciaService;
 	private final ILocalidadService localidadService;
-
-	public ClienteController(IClienteService clienteService, IContactoService contactoService,
-			IDireccionService direccionService, IProvinciaService provinciaService,
-			ILocalidadService localidadService) {
-		this.clienteService = clienteService;
-		this.contactoService = contactoService;
-		this.direccionService = direccionService;
-		this.provinciaService = provinciaService;
-		this.localidadService = localidadService;
-	}
 
 	// Muestra el perfil del cliente
 	@GetMapping("/perfil")
@@ -155,6 +156,22 @@ public class ClienteController {
 			model.addAttribute("cliente", cliente);
 		}
 		return ViewRouteHelper.CLIENTE_PERFIL;
+	}
+	
+	@GetMapping("/servicios")
+	public String servicios(Model model) {
+		List<ServicioDto> servicios = servicioService.findAllByOrderByNombreAsc();
+		model.addAttribute("servicios", servicios);
+		return "cliente/servicios";
+	}
+	
+	@GetMapping("/servicios/{id}/lugares")
+	public String lugares(@PathVariable("id") Long servicioId, Model model) {
+		ServicioDto servicio = servicioService.findById(servicioId);
+		List<Lugar> lugares = lugarService.obtenerLugaresPorServicio(servicioId);
+		model.addAttribute("servicio", servicio);
+		model.addAttribute("lugares", lugares);	    
+		return "cliente/lugar-por-servicio";
 	}
 	
 	@GetMapping("/home")

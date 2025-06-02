@@ -80,6 +80,13 @@
                     <div class="panel-card-title">Contactar Profesional</div>
                     <div class="panel-card-desc">Enviá mensajes o notificaciones a los profesionales del sistema.</div>
                 </a>
+				<form th:action="@{/logout}" method="post" style="display:inline;">
+				    <button type="submit" class="panel-card" style="border:none;background:none;cursor:pointer;">
+				        <i class="fas fa-sign-out-alt panel-card-icon"></i>
+				        <div class="panel-card-title">Cerrar Sesión</div>
+				        <div class="panel-card-desc">Finalizá tu sesión de administrador de forma segura.</div>
+				    </button>
+				</form>
             </div>
         </div>
     </div>

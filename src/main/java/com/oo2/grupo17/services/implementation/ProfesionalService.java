@@ -34,8 +34,10 @@ import com.oo2.grupo17.services.IProfesionalService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.Builder;
 
-@Service 
+
+@Service @Builder
 public class ProfesionalService implements IProfesionalService {
 	
 	private final IProfesionalRepository profesionalRepository;
@@ -47,21 +49,6 @@ public class ProfesionalService implements IProfesionalService {
 	private final IUserRepository userRepository;
 	private final ModelMapper modelMapper;
 
-
-	public ProfesionalService(IProfesionalRepository profesionalRepository, IContactoRepository contactoRepository,
-			IServicioRepository servicioRepository, ILugarRepository lugarRepository,
-			IEspecialidadRepository especialidadRepository, IRoleRepository roleRepository,
-			IUserRepository userRepository, ModelMapper modelMapper) {
-		super();
-		this.profesionalRepository = profesionalRepository;
-		this.contactoRepository = contactoRepository;
-		this.servicioRepository = servicioRepository;
-		this.lugarRepository = lugarRepository;
-		this.especialidadRepository = especialidadRepository;
-		this.roleRepository = roleRepository;
-		this.userRepository = userRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public ProfesionalDto save(ProfesionalDto profesionalDto) {
