@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 public class ServicioDto {
-	
+
 	private Long id;
 	private String nombre;
 	private String descripcion;
