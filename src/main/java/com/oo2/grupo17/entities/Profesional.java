@@ -30,7 +30,7 @@ public class Profesional extends Persona {
 	@OneToMany(mappedBy="profesional", cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Disponibilidad> disponibilidades = new HashSet<>();
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
 	

@@ -48,4 +48,8 @@ public class AdminController {
 		return ViewRouteHelper.ADMIN_LUGARES;
 	}
 	
+	@GetMapping("/administrar-profesional")
+	public String administrarProfesional() {
+		return ViewRouteHelper.ADMIN_PROFESIONAL;
+	}
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar Profesionales</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link th:href="@{/css/profesionales.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user profile-icon"></i>
+        </a>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title">
+            <i class="fas fa-user-md"></i> Gestionar Profesionales
+        </div>
+		<a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
+            <i class="fas fa-arrow-left"></i>
+            <span>Volver</span>
+        </a>
+        <div class="profesionales-grid">
+            <a th:each="profesional : ${profesionales}"
+               th:href="@{'/profesionales/' + ${profesional.id} + '/gestion'}"
+               class="profesional-card">
+                <div class="profesional-title">
+                    <i class="fas fa-id-badge"></i>
+                    <span th:text="${profesional.nombre}"></span>
+                </div>
+                <div>
+                    <i class="fas fa-hashtag"></i>
+                    <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                </div>
+                <div>
+                    <i class="fas fa-stethoscope"></i>
+                    <span th:text="${profesional.especialidad != null ? profesional.especialidad.nombre : 'Sin especialidad'}"></span>
+                </div>
+                <div>
+                    <i class="fas fa-briefcase-medical"></i>
+                    <span th:if="${profesional.servicios == null or #lists.isEmpty(profesional.servicios)}">Sin servicios</span>
+					  <span th:if="${profesional.servicios != null and !#lists.isEmpty(profesional.servicios)}">
+					      <span th:each="serv, iterStat : ${profesional.servicios}">
+					          <span th:text="${serv.nombre}"></span><span th:if="${!iterStat.last}">, </span>
+					      </span>
+					  </span>
+						   
+                </div>
+                <div>
+                    <i class="fas fa-hospital"></i>
+                    <span th:text="${profesional.lugar != null ? profesional.lugar.direccion.calle + ' ' + profesional.lugar.direccion.altura : 'Sin lugar'}"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -39,7 +39,7 @@ public abstract class Persona {
 	@Column(name="dni", nullable = false)
 	private int dni;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "contacto_id")
 	private Contacto contacto;
 	
