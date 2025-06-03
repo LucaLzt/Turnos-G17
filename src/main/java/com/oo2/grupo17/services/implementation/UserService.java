@@ -10,14 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.oo2.grupo17.repositories.IUserRepository;
 
-@Service("userService")
+import lombok.Builder;
+
+@Service("userService") @Builder
 public class UserService implements UserDetailsService {
 
     private final IUserRepository userRepository;
-
-    public UserService(IUserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     @Transactional(readOnly = true)
@@ -26,4 +24,5 @@ public class UserService implements UserDetailsService {
                 () -> new UsernameNotFoundException(MessageFormat.format("User with username {0} not found", username))
         );
     }
+    
 }

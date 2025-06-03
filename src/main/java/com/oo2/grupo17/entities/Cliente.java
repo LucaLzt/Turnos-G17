@@ -19,7 +19,7 @@ import lombok.Setter;
 public class Cliente extends Persona{
 	
 	@Column(name="nroCliente", nullable = true)
-	private Integer nroCliente;
+	private String nroCliente;
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Turno> lstTurnos = new HashSet<>();

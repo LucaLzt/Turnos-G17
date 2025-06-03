@@ -15,5 +15,7 @@ public interface IContactoService {
     ContactoDto update(Long id, ContactoDto contactoDto);
 
     void deleteById(Long id);
+    
+    ContactoDto findByEmail(String email);
 	
 }

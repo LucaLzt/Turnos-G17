@@ -19,19 +19,14 @@ import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.services.IDisponibilidadService;
 
-@Service
+import lombok.Builder;
+
+@Service @Builder
 public class DisponibilidadService implements IDisponibilidadService {
 	
 	private final IProfesionalRepository profesionalRepository;
 	private final IDisponibilidadRepository disponibilidadRepository;
 	private final ModelMapper modelMapper;
-	
-	public DisponibilidadService(IProfesionalRepository profesionalRepository,
-			IDisponibilidadRepository disponibilidadRepository, ModelMapper modelMapper) {
-		this.profesionalRepository = profesionalRepository;
-		this.disponibilidadRepository = disponibilidadRepository;
-		this.modelMapper = modelMapper;
-	}
 	
 	@Override
 	public DisponibilidadDto save(DisponibilidadDto disponbilidadDto) {

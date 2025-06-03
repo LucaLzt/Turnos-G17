@@ -10,7 +10,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,12 +20,19 @@ public class Provincia {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private @Setter(AccessLevel.PROTECTED) Long id;
+	private Long id;
 	
 	@Column(name="nombre", nullable = false)
 	private String nombre;
 	
+	@OneToMany(mappedBy = "provincia")
+	private Set<Localidad> localidades = new HashSet<>();
+	
 	@OneToMany(mappedBy="provincia")
 	private Set<Direccion> direccion = new HashSet<>();
+	
+	public Long getId() {
+		return id;
+	}
 	
 }

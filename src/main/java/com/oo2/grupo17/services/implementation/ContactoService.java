@@ -11,16 +11,13 @@ import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.services.IContactoService;
 
-@Service
+import lombok.Builder;
+
+@Service @Builder
 public class ContactoService implements IContactoService {
 	
 	private final IContactoRepository contactoRepository;
 	private final ModelMapper modelMapper;
-	
-	public ContactoService(IContactoRepository contactoRepository, ModelMapper modelMapper) {
-		this.contactoRepository = contactoRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public ContactoDto save(ContactoDto contactoDto) {
@@ -50,7 +47,7 @@ public class ContactoService implements IContactoService {
 				.orElseThrow();
 		contacto.setEmail(contactoDto.getEmail());
 		contacto.setMovil(contactoDto.getMovil());
-		contacto.setTelefono(contacto.getTelefono());
+		contacto.setTelefono(contactoDto.getTelefono());
 		Contacto updated = contactoRepository.save(contacto);
 		return modelMapper.map(updated, ContactoDto.class);
 	}
@@ -58,6 +55,13 @@ public class ContactoService implements IContactoService {
 	@Override
 	public void deleteById(Long id) {
 		contactoRepository.deleteById(id);
+	}
+	
+	@Override
+	public ContactoDto findByEmail(String email) {
+		Contacto contacto = contactoRepository.findByEmail(email)
+				.orElseThrow();
+		return modelMapper.map(contacto, ContactoDto.class);
 	}
 
 }

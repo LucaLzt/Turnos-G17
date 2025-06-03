@@ -1,6 +1,5 @@
 package com.oo2.grupo17.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,14 +13,14 @@ import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.implementation.ClienteService;
 
-@Controller
+import lombok.Builder;
+
+@Controller @Builder
 @RequestMapping("/auth")
 public class AuthController {
-
-    @Autowired
+	
     private ClienteService clienteService;
 
-    // GET: /auth/login
     @GetMapping("/login")
     public String login(Model model,
                         @RequestParam(name="error", required=false) String error,
@@ -47,7 +46,6 @@ public class AuthController {
         return "redirect:/auth/login?registroExitoso";
     }
 
-    // GET: /auth/loginSuccess
     @GetMapping("/loginSuccess")
     public String loginCheck() {
         return "redirect:/index";

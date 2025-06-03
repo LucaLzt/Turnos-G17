@@ -34,5 +34,5 @@ public class Direccion {
 	@ManyToOne
 	@JoinColumn(name="provincia_id")
 	private Provincia provincia;
-	
+
 }

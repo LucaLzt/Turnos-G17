@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Lugares</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user profile-icon"></i>
+        </a>
+    </div>
+    <div class="main-content" style="width:100%;">
+        <div class="admin-section">
+            <div class="admin-title">
+                <i class="fas fa-map-marked-alt panel-card-icon"></i> Administración de Lugares
+            </div>
+            <div class="panel-actions-grid">
+                <a th:href="@{/lugares/agregar}" class="panel-card">
+                    <i class="fas fa-plus panel-card-icon"></i>
+                    <div class="panel-card-title">Agregar Lugar</div>
+                    <div class="panel-card-desc">Cree un nuevo lugar para ofrecer a los clientes.</div>
+                </a>
+                <a th:href="@{/lugares/modificar}" class="panel-card">
+                    <i class="fas fa-edit panel-card-icon"></i>
+                    <div class="panel-card-title">Modificar Lugar</div>
+                    <div class="panel-card-desc">Edite la información de lugares existentes.</div>
+                </a>
+                <a th:href="@{/lugares/eliminar}" class="panel-card">
+                    <i class="fas fa-trash-alt panel-card-icon"></i>
+                    <div class="panel-card-title">Eliminar Lugar</div>
+                    <div class="panel-card-desc">Elimine lugares que ya no estén disponibles.</div>
+                </a>
+				<a th:href="@{/index}" class="panel-card">
+					<i class="fas fa-arrow-left panel-card-icon"></i>
+					<div class="panel-card-title">Volver</div>
+					<div class="panel-card-desc">Regresa al panel de administración principal.</div>
+				</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
+import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.RoleEntity;
@@ -20,27 +21,20 @@ import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IClienteService;
+import com.oo2.grupo17.services.IContactoService;
 
 import jakarta.transaction.Transactional;
+import lombok.Builder;
 
-@Service
+@Service @Builder
 public class ClienteService implements IClienteService {
 	
 	private final IUserRepository userRepository;
 	private final IRoleRepository roleRepository;
 	private final IContactoRepository contactoRepository;
 	private final IClienteRepository clienteRepository;
+	private final IContactoService contactoService;
     private final ModelMapper modelMapper;
-
-	public ClienteService(IUserRepository userRepository, IRoleRepository roleRepository,
-			IContactoRepository contactoRepository, IClienteRepository clienteRepository,
-			ModelMapper modelMapper) {
-		this.userRepository = userRepository;
-		this.roleRepository = roleRepository;
-		this.contactoRepository = contactoRepository;
-		this.clienteRepository = clienteRepository;
-		this.modelMapper = modelMapper;
-	}
 
 	@Override
 	public ClienteDto save(ClienteDto clienteDto) {
@@ -104,24 +98,44 @@ public class ClienteService implements IClienteService {
 
 	    // 4. Guardo User (esto persiste Cliente)
 	    userRepository.save(user);
+	    
+	    // 5. Genero el numero de cliente en base al id del cliente
+	    cliente.setNroCliente(String.format("%06d", cliente.getId()));
 
-	    // 5. Creo Contacto y asocio Cliente
+	    // 6. Creo Contacto y asocio Cliente
 	    Contacto contacto = new Contacto();
 	    contacto.setEmail(registroDto.getEmail());
 	    contacto.setMovil(registroDto.getMovil());
 	    contacto.setTelefono(registroDto.getTelefono());
 	    contacto.setPersona(cliente);
 
-	    // 6. Guardo Contacto
+	    // 7. Guardo Contacto
 	    contactoRepository.save(contacto);
 
-	    // 7. Asocio el contacto al cliente y updateo
+	    // 8. Asocio el contacto al cliente y updateo
 	    cliente.setContacto(contacto);
 	    clienteRepository.save(cliente);
 	}
 	
-	// --- MÉTODO AUXILIAR PARA ENCRIPTAR CONTRASEÑAS --- //
-    private String encryptPassword(String password) {
+	@Override
+	public ClienteDto findByEmail(String email) {
+		Cliente cliente = clienteRepository.findByEmail(email)
+				.orElseThrow();
+		return modelMapper.map(cliente, ClienteDto.class);
+	}
+	
+	@Override
+	public void updatearContactoUserEntity(ContactoDto contactoDto) {
+		contactoService.update(contactoDto.getId(), contactoDto);
+		Cliente cliente = clienteRepository.findById(contactoDto.getId())
+				.orElseThrow();
+		UserEntity usuario = cliente.getUser();
+    	usuario.setUsername(contactoDto.getEmail());
+    	userRepository.save(usuario);
+	}
+	
+	// --- Método auxiliar para encriptar la contraseña --- //
+	private String encryptPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
         return passwordEncoder.encode(password);
     }
