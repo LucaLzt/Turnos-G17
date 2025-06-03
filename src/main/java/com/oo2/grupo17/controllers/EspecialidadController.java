@@ -24,57 +24,63 @@ public class EspecialidadController {
 	
 	private final IEspecialidadService especialidadService;
 	
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/agregar")
 	public String agregarEspecialidad(Model model) {
 		model.addAttribute("especialidad", new EspecialidadDto());
-		return "/especialidades/agregar";
+		return ViewRouteHelper.ESPECIALIDADES_AGREGAR;
 	}
 	
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/agregar")
 	public String agregarEspecialidadPost(@ModelAttribute("especialidad") EspecialidadDto especialidad) {
 		especialidadService.save(especialidad);
-		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
+		return "redirect:/admin/administrar-especialidades?agregado=ok";
 	}
 	
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/modificar")
 	public String modificarEspecialidad(Model model) {
 		List<EspecialidadDto> especialidades = especialidadService.findAll();
 		model.addAttribute("especialidades", especialidades);
-		return "/especialidades/lista-modificar";
+		return ViewRouteHelper.ESPECIALIDADES_LISTA_MODIFICAR;
 	}
 	
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/modificar")
 	public String modificarEspecialidad(@PathVariable("id") Long id, Model model) {
 		EspecialidadDto especialidad = especialidadService.findById(id);
 		model.addAttribute("especialidad", especialidad);
-		return "/especialidades/modificar";
+		return ViewRouteHelper.ESPECIALIDADES_MODIFICAR;
 	}
 	
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
 	public String modificarEspecialidadPost(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad, 
-											BindingResult result) {
+			BindingResult result) {
 		if(result.hasErrors()) {
-			return "servicio/modificar";
+			return ViewRouteHelper.ESPECIALIDADES_MODIFICAR;
 		}
 		especialidadService.update(id, especialidad);
-		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
+		return "redirect:/especialidades/modificar?modificado=ok";
 	}
 	
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/eliminar")
 	public String eliminarEspecialidad(Model model) {
 		List<EspecialidadDto> especialidades = especialidadService.findAll();
 		model.addAttribute("especialidades", especialidades);
-		return "/especialidades/lista-eliminar";
+		return ViewRouteHelper.ESPECIALIDADES_LISTA_ELIMINAR;
 	}
 	
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/eliminar")
-	public String eliminarEspecialidad(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad, 
-										BindingResult result) {
+	public String eliminarEspecialidad(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad,
+			BindingResult result) {
 		if(result.hasErrors()) {
-			return "/especialidades/lista-eliminar";
+			return ViewRouteHelper.ESPECIALIDADES_LISTA_ELIMINAR;
 		}
 		especialidadService.deleteById(id);
-		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
+		return "redirect:/especialidades/eliminar?eliminado=ok";
 	}
 }

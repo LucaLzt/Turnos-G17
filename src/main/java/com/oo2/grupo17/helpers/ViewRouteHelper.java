@@ -45,5 +45,19 @@ public class ViewRouteHelper {
     public static final String SERVICIOS_MODIFICAR = "servicios/modificar";
     public static final String SERVICIOS_LISTA_ELIMINAR = "servicios/lista-eliminar";
     
+    //Especialidades
+    public static final String ESPECIALIDADES_AGREGAR = "especialidades/agregar";
+    public static final String ESPECIALIDADES_LISTA_MODIFICAR = "especialidades/lista-modificar";
+    public static final String ESPECIALIDADES_MODIFICAR = "especialidades/modificar";
+    public static final String ESPECIALIDADES_LISTA_ELIMINAR = "especialidades/lista-eliminar";
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
