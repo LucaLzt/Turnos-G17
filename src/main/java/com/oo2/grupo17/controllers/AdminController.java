@@ -53,5 +53,11 @@ public class AdminController {
 	public String administrarProfesional() {
 		return ViewRouteHelper.ADMIN_PROFESIONAL;
 	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		SecurityContextHolder.clearContext();
+		return "redirect:/auth/login?logout";
+	}
 
 }

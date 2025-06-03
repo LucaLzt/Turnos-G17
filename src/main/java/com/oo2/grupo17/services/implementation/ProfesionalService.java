@@ -4,7 +4,6 @@ import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.entities.Contacto;
-import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Especialidad;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Profesional;
@@ -47,6 +45,7 @@ public class ProfesionalService implements IProfesionalService {
 	private final IEspecialidadRepository especialidadRepository;
 	private final IRoleRepository roleRepository;
 	private final IUserRepository userRepository;
+	private final EmailService emailService;
 	private final ModelMapper modelMapper;
 
 
@@ -105,7 +104,7 @@ public class ProfesionalService implements IProfesionalService {
 	public void registrarProfesional(ProfesionalRegistradoDto registroDto) {
 	    // 1. Busco rol
 	    RoleEntity profesionalRole = roleRepository.findByType(RoleType.PROFESIONAL)
-	        .orElseThrow(() -> new RuntimeException("Error: Rol CLIENTE no encontrado"));
+	        .orElseThrow();
 
 	    // 2. Creo Cliente (sin contacto)
 	    Profesional profesional = new Profesional();
@@ -116,14 +115,10 @@ public class ProfesionalService implements IProfesionalService {
 	    // 3. Creo UserEntity y asocio Cliente
 	    UserEntity user = new UserEntity();
 	    user.setUsername(registroDto.getEmail());
-	    user.setPassword(encryptPassword("12345678")); // Por el momento, contraseña fija
-	    
-	    // Cuando implementemos el envío de mails
-	    // user.setPassword(encryptPassword(generarPasswordAleatoria())); <--- Y enviaríamos el mail con la contraseña
-	    // Después el profesional podrá cambiarla en su perfil
-	    
+	    String contraseñaGenerada = generarPasswordAleatoria();
+	    user.setPassword(encryptPassword(contraseñaGenerada));
 	    user.setActive(true);
-	    user.setRoleEntities(Set.of(profesionalRole));
+	    user.setRoleEntities(new HashSet<>(Set.of(profesionalRole)));
 	    user.setProfesional(profesional);
 	    profesional.setUser(user);
 
@@ -143,6 +138,9 @@ public class ProfesionalService implements IProfesionalService {
 	    // 8. Asocio el contacto al cliente y updateo
 	    profesional.setContacto(contacto);
 	    profesionalRepository.save(profesional);
+	    
+	    // 9. Envío correo al profesional con la contraseña generada
+	    emailService.enviarEmailRegistro(registroDto.getEmail(), registroDto.getNombre(), contraseñaGenerada);
 	}
 	
 	// --- Método auxiliar para crear contraseña aleatoria --- //

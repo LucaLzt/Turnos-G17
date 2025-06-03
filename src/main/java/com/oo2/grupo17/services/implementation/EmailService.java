@@ -14,11 +14,18 @@ public class EmailService implements IEmailService {
 	private final JavaMailSender mailSender;
 	
 	@Override
-	public void sendSimpleMessage(String to, String subject, String text) {
+	public void enviarEmailRegistro(String email, String nombre, String password) {
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setTo(to);
-		message.setSubject(subject);
-		message.setText(text);
+		message.setTo(email);
+		message.setSubject("Registro exitoso");
+		message.setText(
+	            "Hola " + nombre + ",\n\n" +
+	            "Tu registro como profesional ha sido exitoso.\n" +
+	            "Tu contraseña es: " + password + "\n\n" +
+	            "Por favor, cambia tu contraseña al iniciar sesión por primera vez.\n\n" +
+	            "Saludos,\n" +
+	            "Equipo de Turnos-G17"
+				);
 		mailSender.send(message);
 	}
 
