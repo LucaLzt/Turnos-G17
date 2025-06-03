@@ -2,16 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Eliminar Servicio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-</head>
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Lugares</title>
+    <title>Lista de Especialidades</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/css/admin.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -37,9 +28,9 @@
             <a th:each="espe : ${especialidades}"
                th:href="@{'/especialidades/' + ${espe.id} + '/eliminar'}"
                class="especialidad-card">
-                <div class="especialidad-title">
-                    <i class="fas fa-stethoscope panel-card-icon"></i>
-                    <span th:text="${espe.nombre}"></span>              
+               <div class="especialidad-title">
+               <i class="fas fa-stethoscope panel-card-icon"></i>
+               <span th:text="${espe.nombre}"></span>              
             </a>
         </div>
     </div>
