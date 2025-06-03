@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
+import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IServicioService;
 
 import lombok.Builder;
@@ -23,6 +25,7 @@ import lombok.Builder;
 public class ServiciosController {
 	
 	private final IServicioService servicioService;
+	private final ILugarService lugarService;
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/agregar")
@@ -35,7 +38,7 @@ public class ServiciosController {
 	@PostMapping("/agregar")
 	public String agregarServicioPost(@ModelAttribute("servicio") ServicioDto servicio) {
 		servicioService.save(servicio);
-		return "redirect:admin/administrar-servicios?agregado=ok";
+		return "redirect:/admin/administrar-servicios?agregado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -48,9 +51,11 @@ public class ServiciosController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/modificar")
-	public String modificarServicio(@ModelAttribute("id") Long id, Model model) {
+	public String modificarServicio(@PathVariable("id") Long id, Model model) {
 		ServicioDto servicio = servicioService.findById(id);
+		List<LugarDto> lugares = lugarService.findAll();
 		model.addAttribute("servicio", servicio);
+		model.addAttribute("lugares", lugares);
 		return ViewRouteHelper.SERVICIOS_MODIFICAR;
 	}
 	

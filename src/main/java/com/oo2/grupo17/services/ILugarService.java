@@ -19,4 +19,6 @@ public interface ILugarService {
     void deleteById(Long id);
 
     List<Lugar> obtenerLugaresPorServicio(Long servicioId);
+
+	List<LugarDto> findAllById(List<Long> lugares);
 }

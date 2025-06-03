@@ -57,8 +57,17 @@ public class LugarService implements ILugarService {
 		lugarRepository.deleteById(id);
 	}
 	
-	public List<Lugar> obtenerLugaresPorServicio(Long servicioId){
+	@Override
+	public List<Lugar> obtenerLugaresPorServicio(Long servicioId) {
 		return lugarRepository.findByServicios_id(servicioId);
 	}
+	
+	@Override
+	public List<LugarDto> findAllById(List<Long> lugares) {
+		return lugarRepository.findAllById(lugares)
+				.stream()
+				.map(object -> modelMapper.map(object, LugarDto.class))
+				.collect(Collectors.toList());
+	};
 
 }

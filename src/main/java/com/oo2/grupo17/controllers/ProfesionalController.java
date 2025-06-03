@@ -112,9 +112,9 @@ public class ProfesionalController {
 			@RequestParam(value = "especialidadId", required = false) Long especialidadId,
 			@RequestParam(value = "serviciosId", required = false) Set<Long> serviciosId,
 			@RequestParam(value = "lugarId", required = false) Long lugarId) {
-		if(especialidadId == null) {
-			System.out.println("adas");
-		}
+		// if(especialidadId == null) {
+		// 	System.out.println("adas");
+		// }
 		profesionalService.asignarDatosProfesional(id, especialidadId, lugarId, serviciosId);
 		return "redirect:/profesionales/gestion?gestionado=ok";
 	};

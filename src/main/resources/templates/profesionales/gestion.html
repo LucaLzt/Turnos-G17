@@ -32,7 +32,7 @@
                 <span th:text="${profesional.matricula}">Matrícula</span>
             </div>
             <div class="form-group">
-                <label for="especialidad">Especialidad:</label>
+            <!--<label for="especialidad">Especialidad:</label>
                 <select id="especialidad" name="especialidadId" required>
                     <option value="">Seleccione una especialidad</option>
                     <option th:each="esp : ${especialidades}"
@@ -40,7 +40,7 @@
                             th:text="${esp.nombre}"
                             th:selected="${profesional.especialidad != null} ? ${esp.id} == ${profesional.especialidad.id} : false">
                     </option>
-                </select>
+                </select>-->    
             </div>
             <div class="form-group">
                 <label for="servicios">Servicios:</label>
