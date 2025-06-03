@@ -48,7 +48,7 @@
         </div>
 		
 		<!-- Panel PROFESIONAL -->
-		<div class="professional-section">
+		<div th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" class="professional-section">
 		    <div class="professional-title">
 		        <i class="fas fa-user-md"></i> Panel del Profesional
 		    </div>
