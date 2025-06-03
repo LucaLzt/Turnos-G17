@@ -52,7 +52,7 @@ public class LugaresController {
 			return ViewRouteHelper.LUGARES_AGREGAR;
 		}
 		direccionService.crearDireccion(lugarDto, lugarDto.getDireccion());	
-		return "redirect:/lugares/modificar?agregado=ok";
+		return "redirect:/admin/administrar-lugares?agregado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

@@ -35,7 +35,7 @@ public class ServiciosController {
 	@PostMapping("/agregar")
 	public String agregarServicioPost(@ModelAttribute("servicio") ServicioDto servicio) {
 		servicioService.save(servicio);
-		return "redirect:/servicios/modificar?agregado=ok";
+		return "redirect:admin/administrar-servicios?agregado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
