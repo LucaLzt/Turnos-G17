@@ -64,4 +64,9 @@ public class LocalidadService implements ILocalidadService{
 		System.out.println("DTO: id=" + dto.getId() + ", nombre=" + dto.getNombre());
 	}
 	
+	@Override
+	public List<Localidad> getLocalidadesPorProvincia(Long idProvincia) {
+		return localidadRepository.findByProvincia_Id(idProvincia);
+	}
+	
 }

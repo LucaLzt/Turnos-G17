@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface ILocalidadRepository extends JpaRepository<Localidad, Long> {
 
     List<Localidad> findByProvincia(Provincia provincia);
+    List<Localidad> findByProvincia_Id(Long idProvincia);
     boolean existsByNombreIgnoreCaseAndProvincia(String nombre, ProvinciaDto provincia);
     List<Localidad> findAllByOrderByNombreAsc();
 	

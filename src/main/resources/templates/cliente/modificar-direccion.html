@@ -31,22 +31,22 @@
                     <input type="number" id="altura" th:field="*{altura}" required placeholder="Altura"/>
                 </div>
 				<div class="form-group">
-					<label for="localidad"><i class="fas fa-city"></i> Localidad</label>
-					<select id="localidad" th:field="*{localidadId}" required>
-						<option value="" disabled th:if="*{localidadId == null}" selected>Seleccione una localidad</option>
-						<option th:each="loc : ${localidades}"
-							th:value="${loc.id}"
-							th:text="${loc.nombre}">
-						</option>
-					</select>
-				</div>
-				<div class="form-group">
 					<label for="provincia"><i class="fas fa-flag"></i> Provincia</label>
 					<select id="provincia" th:field="*{provinciaId}" required>
 						<option value="" disabled th:if="*{provinciaId == null}" selected>Seleccione una provincia</option>
 						<option th:each="prov : ${provincias}"
 							th:value="${prov.id}"
 							th:text="${prov.nombre}">
+						</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="localidad"><i class="fas fa-city"></i> Localidad</label>
+					<select id="localidad" th:field="*{localidadId}" required>
+						<option value="" disabled th:if="*{localidadId == null}" selected>Seleccione una localidad</option>
+						<option th:each="loc : ${localidades}"
+							th:value="${loc.id}"
+							th:text="${loc.nombre}">
 						</option>
 					</select>
 				</div>
@@ -61,5 +61,6 @@
             </form>
         </div>
     </div>
+	<script src="/js/localidad-select.js"></script>
 </body>
 </html>

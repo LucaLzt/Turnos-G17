@@ -48,7 +48,6 @@ public class ProfesionalService implements IProfesionalService {
 	private final EmailService emailService;
 	private final ModelMapper modelMapper;
 
-
 	@Override
 	public ProfesionalDto save(ProfesionalDto profesionalDto) {
 		Profesional profesional = modelMapper.map(profesionalDto, Profesional.class);
@@ -159,7 +158,7 @@ public class ProfesionalService implements IProfesionalService {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
 		return passwordEncoder.encode(password);
 	}
-
+	
 	public void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId) {
 		Profesional profesional = profesionalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profesional no encontrado"));
 		

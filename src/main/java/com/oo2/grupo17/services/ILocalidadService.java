@@ -22,5 +22,7 @@ public interface ILocalidadService {
     public boolean existsByNombreAndProvincia(String nombre, ProvinciaDto provincia);
     
     public void prueba();
+
+	List<Localidad> getLocalidadesPorProvincia(Long idProvincia);
 	
 }
