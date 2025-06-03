@@ -58,6 +58,13 @@ public class AdminController {
 		return ViewRouteHelper.ADMIN_PROFESIONAL;
 	}
 	
+//@PreAuthorize("hashRole('ROLE_ADMIN')")
+	@GetMapping("/administrar-especialidades")
+	public String administrarEspecialidades() {
+		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
+	}
+	
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/logout")
 	public String logout() {

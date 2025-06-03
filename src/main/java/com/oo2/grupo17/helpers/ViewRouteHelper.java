@@ -23,6 +23,7 @@ public class ViewRouteHelper {
     public static final String ADMIN_SERVICIOS = "admin/administrar-servicios";
     public static final String ADMIN_LUGARES = "admin/administrar-lugares";
     public static final String ADMIN_PROFESIONAL = "admin/administrar-profesional";
+    public static final String ADMIN_ESPECIALIDADES = "admin/administrar-especialidades";
     
     //Profesional
     public static final String PROFESIONAL_PERFIL = "profesional/perfil";
