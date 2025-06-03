@@ -17,6 +17,9 @@
         <a th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" th:href="@{/cliente/perfil}" title="Ir a mi perfil">
             <i class="fas fa-user profile-icon"></i>
         </a>
+		<a th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" th:href="@{/profesional/perfil}" title="Ir a mi perfil">
+		    <i class="fas fa-user profile-icon"></i>
+		</a>
     </div>
     <div class="main-content" style="background:none;">
 		
@@ -43,6 +46,35 @@
                 <div class="panel-card-desc">Encontrá sucursales o espacios donde podés reservar turnos.</div>
             </a>
         </div>
+		
+		<!-- Panel PROFESIONAL -->
+		<div class="professional-section">
+		    <div class="professional-title">
+		        <i class="fas fa-user-md"></i> Panel del Profesional
+		    </div>
+		    <div class="panel-actions-grid">
+		        <a th:href="@{/profesional/cancelar-turno}" class="panel-card">
+		            <i class="fas fa-calendar-times panel-card-icon"></i>
+		            <div class="panel-card-title">Cancelar Turno</div>
+		            <div class="panel-card-desc">Cancelá alguno de tus turnos asignados.</div>
+		        </a>
+		        <a th:href="@{/profesional/derivar-turno}" class="panel-card">
+		            <i class="fas fa-random panel-card-icon"></i>
+		            <div class="panel-card-title">Derivar Turno</div>
+		            <div class="panel-card-desc">Derivá un turno a otro profesional si corresponde.</div>
+		        </a>
+		        <a th:href="@{/profesional/servicios-habilitados}" class="panel-card">
+		            <i class="fas fa-briefcase-medical panel-card-icon"></i>
+		            <div class="panel-card-title">Ver Servicios Habilitados</div>
+		            <div class="panel-card-desc">Consultá los servicios en los que estás autorizado a trabajar.</div>
+		        </a>
+		        <a th:href="@{/profesional/contactar-administracion}" class="panel-card">
+		            <i class="fas fa-envelope panel-card-icon"></i>
+		            <div class="panel-card-title">Contactar Administración</div>
+		            <div class="panel-card-desc">Enviá mensajes o consultas a la administración.</div>
+		        </a>
+		    </div>
+		</div>
 
         <!-- Panel ADMINISTRADOR -->
         <div th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="admin-section">
