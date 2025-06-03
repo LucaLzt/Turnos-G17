@@ -17,7 +17,7 @@
     <div class="main-content" style="width:100%;">
         <div class="admin-section">
             <div class="admin-title">
-                <i class="fas fa-map-marked-alt panel-card-icon"></i> Administración de Lugares
+                <i class="fas fa-map-marked-alt panel-card-icon"></i> Administración de Profesionales
             </div>
             <div class="panel-actions-grid">
 				<a th:href="@{/profesionales/modificar}" class="panel-card">
@@ -35,6 +35,11 @@
                     <div class="panel-card-title">Eliminar Profesional</div>
                     <div class="panel-card-desc">Elimine los profesionales que ya no estén disponibles.</div>
                 </a>
+				<a th:href="@{/index}" class="panel-card">
+					<i class="fas fa-arrow-left panel-card-icon"></i>
+					<div class="panel-card-title">Volver</div>
+					<div class="panel-card-desc">Regresa al panel de administración principal.</div>
+				</a>
             </div>
         </div>
     </div>
