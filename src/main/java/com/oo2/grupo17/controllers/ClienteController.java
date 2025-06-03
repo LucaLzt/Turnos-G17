@@ -46,6 +46,7 @@ public class ClienteController {
 	private final ILocalidadService localidadService;
 
 	// Muestra el perfil del cliente
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/perfil")
 	public String perfil(Model model, Principal principal) {
 		
@@ -62,6 +63,7 @@ public class ClienteController {
 	}
 	
 	// Muestra el formulario para modificar el contacto del cliente
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/modificar-contacto")
 	public String modificarContacto(Model model, Principal principal) {
 		String email = principal.getName();
@@ -73,6 +75,7 @@ public class ClienteController {
 	}
 	
 	// Actualiza el contacto del cliente
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@PostMapping("/modificar-contacto")
 	public String modificarContactoUpdatear (@ModelAttribute("contacto") ContactoDto contactoDto,
 			Model model, BindingResult result, Principal principal) {
@@ -95,15 +98,19 @@ public class ClienteController {
 			return "redirect:/auth/login?logout";
 		}
 		
+		/*
 		// Si no cambió el email, cargo la información del cliente para la vista normal
 		ClienteDto cliente = clienteService.findByEmail(emailActual);
 		if(cliente != null) {
 			model.addAttribute("cliente", cliente);
 		}
 	    return ViewRouteHelper.CLIENTE_PERFIL;
+	    */
+		return "redirect:/cliente/perfil?updateContacto=ok";
 	}
 	
 	// Muestra el formulario para agregar una dirección
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/modificar-direccion")
 	public String modificarDireccion(Model model, Principal principal) {
 		
@@ -128,6 +135,7 @@ public class ClienteController {
 	}
 	
 	// Agrega una nueva dirección y la asocia al contacto del cliente
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@PostMapping("/modificar-direccion")
 	public String modificarDireccionUpdatear(@ModelAttribute("direccion") DireccionDto direccionDto,
 			Model model, BindingResult result, Principal principal) {
@@ -158,20 +166,22 @@ public class ClienteController {
 		return ViewRouteHelper.CLIENTE_PERFIL;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/servicios")
 	public String servicios(Model model) {
 		List<ServicioDto> servicios = servicioService.findAllByOrderByNombreAsc();
 		model.addAttribute("servicios", servicios);
-		return "cliente/servicios";
+		return ViewRouteHelper.CLIENTE_SERVICIOS;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/servicios/{id}/lugares")
 	public String lugares(@PathVariable("id") Long servicioId, Model model) {
 		ServicioDto servicio = servicioService.findById(servicioId);
 		List<Lugar> lugares = lugarService.obtenerLugaresPorServicio(servicioId);
 		model.addAttribute("servicio", servicio);
 		model.addAttribute("lugares", lugares);	    
-		return "cliente/lugar-por-servicio";
+		return ViewRouteHelper.CLIENTE_SERVICIOS_LUGARES;
 	}
 	
 	@GetMapping("/home")

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,7 @@ public class LugaresController {
 	private final IDireccionService direccionService;
 	private final ILugarService lugarService;
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/agregar")
 	public String agregarLugar(Model model) {
 		List<Provincia> provincias = provinciaService.findAll();
@@ -42,6 +44,7 @@ public class LugaresController {
 		return ViewRouteHelper.LUGARES_AGREGAR;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/agregar")
 	public String agregarLugarPost(@ModelAttribute("lugar") LugarDto lugarDto,
 			BindingResult result) {
@@ -49,9 +52,10 @@ public class LugaresController {
 			return ViewRouteHelper.LUGARES_AGREGAR;
 		}
 		direccionService.crearDireccion(lugarDto, lugarDto.getDireccion());	
-		return ViewRouteHelper.ADMIN_LUGARES;
+		return "redirect:/lugares/modificar?agregado=ok";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/modificar")
 	public String modificarLugar(Model model) {
 		// 1. Cargo todos los lugares para mostrarlos en la vista
@@ -74,6 +78,7 @@ public class LugaresController {
 		return ViewRouteHelper.LUGARES_LISTA_MODIFICAR;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/eliminar")
 	public String eliminarLugar(Model model) {
 		// 1. Cargo todos los lugares para mostrarlos en la vista
@@ -97,6 +102,7 @@ public class LugaresController {
 		return ViewRouteHelper.LUGARES_LISTA_ELIMINAR;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/modificar")
 	public String modificarLugar(@ModelAttribute("id") Long id, Model model) {
 		// 1. Cargo el lugar a modificar
@@ -113,6 +119,7 @@ public class LugaresController {
 		return ViewRouteHelper.LUGARES_MODIFICAR;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
 	public String modificarLugarPost(@ModelAttribute("lugar") LugarDto lugarDto,
 			BindingResult result) {
@@ -120,13 +127,14 @@ public class LugaresController {
 			return ViewRouteHelper.LUGARES_AGREGAR;
 		}
 		direccionService.actualizarDireccion(lugarDto, lugarDto.getDireccion());
-		return ViewRouteHelper.ADMIN_LUGARES;
+		return "redirect:/lugares/modificar?modificado=ok";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/eliminar")
 	public String eliminarLugar(@ModelAttribute("id") Long id, Model model) {
 		lugarService.deleteById(id);
-		return ViewRouteHelper.ADMIN_LUGARES;
+		return "redirect:/lugares/eliminar?eliminado=ok";
 	}
 	
 	@GetMapping("/volver")

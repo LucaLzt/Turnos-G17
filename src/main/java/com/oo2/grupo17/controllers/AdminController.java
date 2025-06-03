@@ -18,17 +18,18 @@ import lombok.Builder;
 
 @Controller @Builder
 @RequestMapping("/admin")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class AdminController {
 	
 	private final IProfesionalService profesionalService;
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/registrar-profesional")
 	public String registrarProfesional(Model model) {
 		model.addAttribute("profesional", new ProfesionalRegistradoDto());
 		return ViewRouteHelper.ADMIN_REGISTRAR_PROFESIONAL;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/registrar-profesional")
 	public String registrarProfesionalPost(@ModelAttribute("profesional") ProfesionalRegistradoDto profesionalDto,
 			BindingResult result) {
@@ -39,21 +40,25 @@ public class AdminController {
 		return "redirect:/index?registroExitoso";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/administrar-servicios")
 	public String administrarServicios() {
 		return ViewRouteHelper.ADMIN_SERVICIOS;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/administrar-lugares")
 	public String administrarLugares() {
 		return ViewRouteHelper.ADMIN_LUGARES;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/administrar-profesional")
 	public String administrarProfesional() {
 		return ViewRouteHelper.ADMIN_PROFESIONAL;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/logout")
 	public String logout() {
 		SecurityContextHolder.clearContext();

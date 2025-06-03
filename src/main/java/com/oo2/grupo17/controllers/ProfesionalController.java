@@ -3,6 +3,7 @@ package com.oo2.grupo17.controllers;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,45 +35,50 @@ public class ProfesionalController {
 	public final ILugarService lugarService;
 	public final IEspecialidadService especialidadService;
 	
-	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/eliminar")
 	public String eliminarProfesional(Model model) {
 		List<ProfesionalDto> profesionales = profesionalService.findAll();
 		model.addAttribute("profesionales", profesionales);
-		return "/profesionales/lista-eliminar";
+		return ViewRouteHelper.PROFESIONAL_LISTA_ELIMINAR;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/eliminar")
 	public String eliminarProfesional(@ModelAttribute("id") Long id, Model model) {
 		profesionalService.deleteById(id);
-		return ViewRouteHelper.ADMIN_PROFESIONAL;
+		return "redirect:/profesionales/eliminar?eliminado=ok";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/modificar")
 	public String modificarProfesional(Model model) {
 		List<ProfesionalDto> profesionales = profesionalService.findAll();
 		model.addAttribute("profesionales", profesionales);	
-		return "/profesionales/lista-modificar";
+		return ViewRouteHelper.PROFESIONAL_LISTA_MODIFICAR;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/modificar")
 	public String modificarProfesional(@PathVariable("id") Long id, Model model) {
 		ProfesionalDto profesional = profesionalService.findById(id);
 		model.addAttribute("profesional", profesional);
-		return "/profesionales/modificar";
+		return ViewRouteHelper.PROFESIONAL_MODIFICAR;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
 	public String modificarProfesionalPost(@PathVariable("id") Long id, 
-										   @ModelAttribute("profesional") ProfesionalDto profesional, 
-										   BindingResult result) {
+			@ModelAttribute("profesional") 
+			ProfesionalDto profesional, BindingResult result) {
 		if(result.hasErrors()) {
 			return 	ViewRouteHelper.ADMIN_REGISTRAR_PROFESIONAL;
 		}
 		profesionalService.update(id, profesional);
-		return ViewRouteHelper.ADMIN_PROFESIONAL;
+		return "redirect:/profesionales/modificar?modificado=ok";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/gestion")
 	public String gestionarProfesional(Model model) {
 		List<ProfesionalDto> profesionales = profesionalService.findAll();
@@ -83,9 +89,10 @@ public class ProfesionalController {
 		model.addAttribute("servicios", servicios);
 		model.addAttribute("lugares", lugares);
 		model.addAttribute("especialidades", especialidades);		
-		return "/profesionales/lista-gestion";
+		return ViewRouteHelper.PROFESIONAL_LISTA_GESTION;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/gestion")
 	public String gestionarProfesional(@PathVariable("id") Long id, Model model) {
 		ProfesionalDto profesional = profesionalService.findById(id);
@@ -96,17 +103,19 @@ public class ProfesionalController {
 		model.addAttribute("servicios", servicios);
 		model.addAttribute("lugares", lugares);
 		model.addAttribute("especialidades", especialidades);
-		return "/profesionales/gestion";
+		return ViewRouteHelper.PROFESIONAL_GESTION;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/gestion")
-	public String gestionarProfesionalPost(@PathVariable("id") Long id, @RequestParam(value = "especialidadId", required = false) Long especialidadId
-										, @RequestParam(value = "serviciosId", required = false) Set<Long> serviciosId
-										, @RequestParam(value = "lugarId", required = false) Long lugarId) {
+	public String gestionarProfesionalPost(@PathVariable("id") Long id, 
+			@RequestParam(value = "especialidadId", required = false) Long especialidadId,
+			@RequestParam(value = "serviciosId", required = false) Set<Long> serviciosId,
+			@RequestParam(value = "lugarId", required = false) Long lugarId) {
 		if(especialidadId == null) {
 			System.out.println("adas");
 		}
 		profesionalService.asignarDatosProfesional(id, especialidadId, lugarId, serviciosId);
-		return ViewRouteHelper.ADMIN_PROFESIONAL;
+		return "redirect:/profesionales/gestion?gestionado=ok";
 	};
 }
