@@ -2,6 +2,8 @@ package com.oo2.grupo17.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
+import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Provincia;
+import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
@@ -175,6 +179,36 @@ public class ClienteController {
 		model.addAttribute("lugares", lugares);	    
 		return ViewRouteHelper.CLIENTE_SERVICIOS_LUGARES;
 	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
+	@GetMapping("/lugares")
+	public String verLugares(Model model) {
+		List<LugarDto> lugares = lugarService.findAll();
+		List<Localidad> localidades = localidadService.findAll();
+		List<Provincia> provincias = provinciaService.findAll();
+		
+		Map<Long, String> provinciasMap = provincias.stream()
+			.collect(Collectors.toMap(Provincia::getId, Provincia::getNombre));
+		
+		Map<Long, String> localidadesMap = localidades.stream()
+			.collect(Collectors.toMap(Localidad::getId, Localidad::getNombre));
+		
+		model.addAttribute("lugares", lugares);
+		model.addAttribute("provinciasMap", provinciasMap);
+		model.addAttribute("localidadesMap", localidadesMap);
+		return "/cliente/lugares";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_CLIENTE')")
+	@GetMapping("/lugar/{id}/servicios")
+	public String verServicioDelLugar(@PathVariable("id") Long id, Model model) {
+		LugarDto lugar = lugarService.findById(id);
+		List<Servicio> servicios = servicioService.traerServiciosPorLugar(id);
+		model.addAttribute("lugar", lugar);
+		model.addAttribute("servicios", servicios);
+		return "/cliente/servicio-por-lugar";
+	}
+	
 	
 	@GetMapping("/home")
 	public String index() {
