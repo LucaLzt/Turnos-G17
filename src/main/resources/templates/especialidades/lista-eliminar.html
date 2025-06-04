@@ -29,9 +29,9 @@
             <a th:each="espe : ${especialidades}"
                th:href="@{'/especialidades/' + ${espe.id} + '/eliminar'}"
                class="especialidad-card">
-                <div class="especialidad-title">
-                    <i class="fas fa-stethoscope panel-card-icon"></i>
-                    <span th:text="${espe.nombre}"></span>              
+               <div class="especialidad-title">
+               <i class="fas fa-stethoscope panel-card-icon"></i>
+               <span th:text="${espe.nombre}"></span>              
             </a>
         </div>
     </div>
