@@ -14,6 +14,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +26,7 @@ public class Servicio {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private @Setter(AccessLevel.PROTECTED) Long id;
 	
 	@Column(name = "nombre")
 	private String nombre;

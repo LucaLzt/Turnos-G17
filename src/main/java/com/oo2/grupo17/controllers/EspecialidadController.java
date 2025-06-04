@@ -24,19 +24,21 @@ public class EspecialidadController {
 	
 	private final IEspecialidadService especialidadService;
 	
-//	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/agregar")
 	public String agregarEspecialidad(Model model) {
 		model.addAttribute("especialidad", new EspecialidadDto());
 		return "/especialidades/agregar";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/agregar")
 	public String agregarEspecialidadPost(@ModelAttribute("especialidad") EspecialidadDto especialidad) {
 		especialidadService.save(especialidad);
 		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/modificar")
 	public String modificarEspecialidad(Model model) {
 		List<EspecialidadDto> especialidades = especialidadService.findAll();
@@ -44,6 +46,7 @@ public class EspecialidadController {
 		return "/especialidades/lista-modificar";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/modificar")
 	public String modificarEspecialidad(@PathVariable("id") Long id, Model model) {
 		EspecialidadDto especialidad = especialidadService.findById(id);
@@ -51,6 +54,7 @@ public class EspecialidadController {
 		return "/especialidades/modificar";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
 	public String modificarEspecialidadPost(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad, 
 											BindingResult result) {
@@ -61,6 +65,7 @@ public class EspecialidadController {
 		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/eliminar")
 	public String eliminarEspecialidad(Model model) {
 		List<EspecialidadDto> especialidades = especialidadService.findAll();
@@ -68,6 +73,7 @@ public class EspecialidadController {
 		return "/especialidades/lista-eliminar";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/eliminar")
 	public String eliminarEspecialidad(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad, 
 										BindingResult result) {

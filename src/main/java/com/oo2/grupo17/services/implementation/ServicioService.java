@@ -92,5 +92,9 @@ public class ServicioService implements IServicioService {
 				.collect(Collectors.toList());
 	}
 	
+	@Override
+	public List<Servicio> traerServiciosPorLugar(Long lugarId){
+		return servicioRepository.findAllByLugares_Id(lugarId);
+	}
 	
 }

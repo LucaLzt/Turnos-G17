@@ -12,4 +12,6 @@ public interface IServicioRepository extends JpaRepository<Servicio, Long>{
 	
 	// Ver que poner
 	List<Servicio> findAllByOrderByNombreAsc();
+	
+	List<Servicio> findAllByLugares_Id(Long id);
 }
