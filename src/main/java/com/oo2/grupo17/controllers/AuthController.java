@@ -29,6 +29,11 @@ public class AuthController {
         model.addAttribute("logout", logout);
         return ViewRouteHelper.USER_LOGIN;
     }
+    
+    @GetMapping("/loginSuccess")
+    public String loginCheck() {
+        return "redirect:/index";
+    }
 
     @GetMapping("/register")
     public String registerAccount(Model model) {
@@ -37,17 +42,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String processRegisterAccount(@ModelAttribute("cliente") ClienteRegistroDto clienteDto,
-                                         BindingResult result) {
+    public String registerAccountPost(@ModelAttribute("cliente") ClienteRegistroDto clienteDto,
+    		BindingResult result) {
         if (result.hasErrors()) {
             return ViewRouteHelper.CLIENTE_REGISTER;
         }
         clienteService.registrarCliente(clienteDto);
         return "redirect:/auth/login?registroExitoso";
     }
-
-    @GetMapping("/loginSuccess")
-    public String loginCheck() {
-        return "redirect:/index";
-    }
+    
 }

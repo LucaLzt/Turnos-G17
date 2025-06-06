@@ -85,7 +85,6 @@ public class LugaresController {
 		List<LugarDto> lugares = lugarService.findAll();
 		model.addAttribute("lugares", lugares);
 		
-		
 		// 2. Cargo un map de provincias y localidades para el formulario
 		List<Localidad> localidades = localidadService.findAll();
 		List<Provincia> provincias = provinciaService.findAll();
@@ -100,6 +99,13 @@ public class LugaresController {
 		model.addAttribute("localidadesMap", localidadesMap);
 		
 		return ViewRouteHelper.LUGARES_LISTA_ELIMINAR;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping("/{id}/eliminar")
+	public String eliminarLugar(@ModelAttribute("id") Long id, Model model) {
+		lugarService.deleteById(id);
+		return "redirect:/lugares/eliminar?eliminado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -128,13 +134,6 @@ public class LugaresController {
 		}
 		direccionService.actualizarDireccion(lugarDto, lugarDto.getDireccion());
 		return "redirect:/lugares/modificar?modificado=ok";
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/{id}/eliminar")
-	public String eliminarLugar(@ModelAttribute("id") Long id, Model model) {
-		lugarService.deleteById(id);
-		return "redirect:/lugares/eliminar?eliminado=ok";
 	}
 	
 	@GetMapping("/volver")

@@ -44,7 +44,7 @@ public class ProfesionalController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/{id}/eliminar")
+	@PostMapping("/{id}/eliminar")
 	public String eliminarProfesional(@ModelAttribute("id") Long id, Model model) {
 		profesionalService.deleteById(id);
 		return "redirect:/profesionales/eliminar?eliminado=ok";
@@ -109,12 +109,9 @@ public class ProfesionalController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/gestion")
 	public String gestionarProfesionalPost(@PathVariable("id") Long id, 
-			@RequestParam(value = "especialidadId", required = false) Long especialidadId,
-			@RequestParam(value = "serviciosId", required = false) Set<Long> serviciosId,
-			@RequestParam(value = "lugarId", required = false) Long lugarId) {
-		// if(especialidadId == null) {
-		// 	System.out.println("adas");
-		// }
+			@RequestParam(value = "especialidadId") Long especialidadId,
+			@RequestParam(value = "serviciosId") Set<Long> serviciosId,
+			@RequestParam(value = "lugarId") Long lugarId) {
 		profesionalService.asignarDatosProfesional(id, especialidadId, lugarId, serviciosId);
 		return "redirect:/profesionales/gestion?gestionado=ok";
 	};

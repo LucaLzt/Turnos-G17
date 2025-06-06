@@ -74,8 +74,8 @@ public class EspecialidadController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/{id}/eliminar")
-	public String eliminarEspecialidad(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad,
+	@PostMapping("/{id}/eliminar")
+	public String eliminarEspecialidadPost(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad,
 			BindingResult result) {
 		if(result.hasErrors()) {
 			return ViewRouteHelper.ESPECIALIDADES_LISTA_ELIMINAR;
