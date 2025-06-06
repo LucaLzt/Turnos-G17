@@ -11,9 +11,6 @@
     <div class="navbar">
         <div class="brand">MiTurno</div>
         <!-- Según el rol, el perfil lleva a distintas rutas -->
-        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/admin/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
-        </a>
         <a th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" th:href="@{/cliente/perfil}" title="Ir a mi perfil">
             <i class="fas fa-user profile-icon"></i>
         </a>
