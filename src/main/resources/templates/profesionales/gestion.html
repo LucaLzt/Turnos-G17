@@ -22,6 +22,7 @@
             <i class="fas fa-arrow-left"></i>
             <span>Volver</span>
         </a>
+		<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
         <form method="post" th:action="@{'/profesionales/' + ${profesional.id} + '/gestion'}">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
@@ -32,7 +33,7 @@
                 <span th:text="${profesional.matricula}">Matrícula</span>
             </div>
             <div class="form-group">
-            <!--<label for="especialidad">Especialidad:</label>
+            <label for="especialidad">Especialidad:</label>
                 <select id="especialidad" name="especialidadId" required>
                     <option value="">Seleccione una especialidad</option>
                     <option th:each="esp : ${especialidades}"
@@ -40,35 +41,39 @@
                             th:text="${esp.nombre}"
                             th:selected="${profesional.especialidad != null} ? ${esp.id} == ${profesional.especialidad.id} : false">
                     </option>
-                </select>-->    
-            </div>
-            <div class="form-group">
-                <label for="servicios">Servicios:</label>
-                <select id="servicios" name="serviciosId" multiple size="5">
-                    <option th:each="serv : ${servicios}"
-                            th:value="${serv.id}"
-                            th:text="${serv.nombre}"
-                            th:selected="${profesional.servicios != null} ? ${profesional.servicios.contains(serv)} : false">
-                    </option>
-                </select>
-                <br>
-                <small>Puedes seleccionar múltiples servicios manteniendo presionada la tecla Ctrl (Cmd en Mac).</small>
-            </div>
-            <div class="form-group">
-                <label for="lugar">Lugar:</label>
-                <select id="lugar" name="lugarId" required>
-                    <option value="">Seleccione un lugar</option>
-                    <option th:each="lugar : ${lugares}"
-                            th:value="${lugar.id}"
-                            th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"
-                            th:selected="${profesional.lugar != null} ? ${lugar.id} == ${profesional.lugar.id} : false">
-                    </option>
                 </select>
             </div>
+			<div class="form-group">
+               <label for="lugar">Lugar:</label>
+               <select id="lugar" name="lugarId" required>
+                   <option value="">Seleccione un lugar</option>
+                   <option th:each="lugar : ${lugares}"
+                           th:value="${lugar.id}"
+                           th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"
+                           th:selected="${profesional.lugar != null} ? ${lugar.id} == ${profesional.lugar.id} : false">
+                   </option>
+               </select>
+           </div>
+		   <div class="form-group">
+		       <label>Servicios:</label>
+		       <div>
+		           <div th:each="serv : ${servicios}" class="checkbox">
+		               <label>
+		                   <input type="checkbox"
+		                          name="serviciosId"
+		                          th:value="${serv.id}"
+		                          th:checked="${profesional.servicios != null} ? ${profesional.servicios.contains(serv)} : false">
+		                   <span th:text="${serv.nombre}">Nombre Servicio</span>
+		               </label>
+		           </div>
+		       </div>
+		       <small>Puedes marcar o desmarcar los servicios que el profesional podrá ofrecer.</small>
+		   </div>
             <button type="submit" class="btn-guardar">
                 <i class="fas fa-save"></i> Guardar cambios
             </button>
         </form>
     </div>
+	<script src="/js/servicio-select.js"></script>
 </body>
 </html>

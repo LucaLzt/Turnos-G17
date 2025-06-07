@@ -86,6 +86,11 @@ public class ProfesionalService implements IProfesionalService {
 
 	@Override
 	public void deleteById(Long id) {
+		profesionalRepository.deleteById(id);
+	}
+	
+	@Override 
+	public void eliminarProfesional(Long id) {
 		Profesional profesional = profesionalRepository.findById(id)
 				.orElseThrow();
 		
@@ -95,8 +100,28 @@ public class ProfesionalService implements IProfesionalService {
 			servicioRepository.save(servicio);
 		}
 		
-		contactoRepository.deleteById(id);
-		profesionalRepository.deleteById(id);
+		// Elimino el profesional dentro del Lugares al que esta relacionado
+		Lugar lugar = profesional.getLugar();
+		if(lugar != null) {
+			lugar.getProfesionales().remove(profesional);
+			lugarRepository.save(lugar);
+		}
+
+		UserEntity user = userRepository.findByUsername(profesional.getContacto().getEmail()).orElseThrow();
+		Contacto contacto = contactoRepository.findById(id).orElseThrow();
+		
+		profesional.setContacto(null);
+		contacto.setPersona(null);
+		
+		profesionalRepository.save(profesional);
+		contactoRepository.save(contacto);
+		
+		contactoRepository.delete(contacto);
+		
+		profesionalRepository.delete(profesional);
+		
+		userRepository.delete(user);
+
 	}
 	
 	@Override @Transactional
@@ -182,7 +207,7 @@ public class ProfesionalService implements IProfesionalService {
 		} else {
 			profesional.setServicios(Collections.emptySet());
 		}
-		
+	
 		// Asignar Lugar
 		if(lugarId != null) {
 			Lugar lugar = lugarRepository.findById(lugarId).orElseThrow(()-> new EntityNotFoundException("Lugar no encontrado"));

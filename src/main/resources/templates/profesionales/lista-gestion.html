@@ -15,18 +15,20 @@
         </a>
     </div>
     <div class="admin-section">
-        <div class="admin-title">
-            <i class="fas fa-user-md"></i> Gestionar Profesionales
+		<div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-user-md"></i> Lista de Profesionales
+            </div>
+            <a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
         </div>
-		<a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
-            <i class="fas fa-arrow-left"></i>
-            <span>Volver</span>
-        </a>
-        <div class="profesionales-grid">
+        <div class="lugares-grid">
             <a th:each="profesional : ${profesionales}"
                th:href="@{'/profesionales/' + ${profesional.id} + '/gestion'}"
-               class="profesional-card">
-                <div class="profesional-title">
+               class="lugar-card">
+                <div class="lugar-title">
                     <i class="fas fa-id-badge"></i>
                     <span th:text="${profesional.nombre}"></span>
                 </div>

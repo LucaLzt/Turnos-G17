@@ -18,6 +18,8 @@ public interface IProfesionalService {
     
     void deleteById(Long id);
     
+    void eliminarProfesional(Long id);
+    
     public void registrarProfesional(ProfesionalRegistradoDto registroDto);
     
     void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId);
