@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.entities.Contacto;
@@ -28,6 +29,7 @@ import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
+import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IProfesionalService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -45,6 +47,7 @@ public class ProfesionalService implements IProfesionalService {
 	private final IEspecialidadRepository especialidadRepository;
 	private final IRoleRepository roleRepository;
 	private final IUserRepository userRepository;
+	private final IContactoService contactoService;
 	private final EmailService emailService;
 	private final ModelMapper modelMapper;
 
@@ -115,7 +118,8 @@ public class ProfesionalService implements IProfesionalService {
 	    UserEntity user = new UserEntity();
 	    user.setUsername(registroDto.getEmail());
 	    String contraseñaGenerada = generarPasswordAleatoria();
-	    user.setPassword(encryptPassword(contraseñaGenerada));
+	    //user.setPassword(encryptPassword(contraseñaGenerada));
+	    user.setPassword(encryptPassword("1234")); // Para pruebas, usar una contraseña fija
 	    user.setActive(true);
 	    user.setRoleEntities(new HashSet<>(Set.of(profesionalRole)));
 	    user.setProfesional(profesional);
@@ -139,7 +143,7 @@ public class ProfesionalService implements IProfesionalService {
 	    profesionalRepository.save(profesional);
 	    
 	    // 9. Envío correo al profesional con la contraseña generada
-	    emailService.enviarEmailRegistro(registroDto.getEmail(), registroDto.getNombre(), contraseñaGenerada);
+	    // emailService.enviarEmailRegistro(registroDto.getEmail(), registroDto.getNombre(), contraseñaGenerada);
 	}
 	
 	// --- Método auxiliar para crear contraseña aleatoria --- //
@@ -193,4 +197,22 @@ public class ProfesionalService implements IProfesionalService {
 		
 		profesionalRepository.save(profesional);
 	}
+	
+	@Override
+	public ProfesionalDto findByEmail(String email) {
+		Profesional profesional = profesionalRepository.findByEmail(email)
+				.orElseThrow();
+		return modelMapper.map(profesional, ProfesionalDto.class);
+	}
+	
+	@Override 
+	public void updatearContactoUserEntity(ContactoDto contactoDto) {
+		contactoService.update(contactoDto.getId(), contactoDto);
+		Profesional profesional = profesionalRepository.findById(contactoDto.getId())
+				.orElseThrow();
+		UserEntity usuario = profesional.getUser();
+    	usuario.setUsername(contactoDto.getEmail());
+    	userRepository.save(usuario);
+	}
+	
 }

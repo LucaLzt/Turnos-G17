@@ -14,8 +14,8 @@
         <a th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" th:href="@{/cliente/perfil}" title="Ir a mi perfil">
             <i class="fas fa-user profile-icon"></i>
         </a>
-		<a th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" th:href="@{/profesional/perfil}" title="Ir a mi perfil">
-		    <i class="fas fa-user profile-icon"></i>
+		<a th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" th:href="@{/profesionales/perfil}" title="Ir a mi perfil">
+		    <i class="fas fa-user-md profile-icon"></i>
 		</a>
     </div>
     <div class="main-content" style="background:none;">
