@@ -14,7 +14,7 @@
             <i class="fas fa-arrow-left"></i>
             <span>Volver</span>
         </a>
-        <form method="post" th:action="@{'/profesionales/' + ${profesional.id} + '/modificar'}" th:object="${profesional}">
+        <form method="post" th:action="@{'/profesional/' + ${profesional.id} + '/modificar'}" th:object="${profesional}">
             <div>
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" th:field="*{nombre}" required />

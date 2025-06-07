@@ -22,5 +22,5 @@ public interface IProfesionalService {
     
     public void registrarProfesional(ProfesionalRegistradoDto registroDto);
     
-    void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId);
+    ProfesionalDto asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds);
 }

@@ -27,11 +27,11 @@ public class ViewRouteHelper {
     
     //Profesional
     public static final String PROFESIONAL_PERFIL = "profesional/perfil";
-    public static final String PROFESIONAL_LISTA_ELIMINAR = "profesionales/lista-eliminar";
-    public static final String PROFESIONAL_LISTA_MODIFICAR = "profesionales/lista-modificar";
-    public static final String PROFESIONAL_MODIFICAR = "profesionales/modificar";
-    public static final String PROFESIONAL_LISTA_GESTION = "profesionales/lista-gestion";
-    public static final String PROFESIONAL_GESTION = "profesionales/gestion";
+    public static final String PROFESIONAL_LISTA_ELIMINAR = "profesional/lista-eliminar";
+    public static final String PROFESIONAL_LISTA_MODIFICAR = "profesional/lista-modificar";
+    public static final String PROFESIONAL_MODIFICAR = "profesional/modificar";
+    public static final String PROFESIONAL_LISTA_GESTION = "profesional/lista-gestion";
+    public static final String PROFESIONAL_GESTION = "profesional/gestion";
     
     //Lugares
     public static final String LUGARES_AGREGAR = "lugares/agregar";

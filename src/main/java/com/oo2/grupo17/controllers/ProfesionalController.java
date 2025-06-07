@@ -1,7 +1,6 @@
 package com.oo2.grupo17.controllers;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,7 +32,7 @@ import com.oo2.grupo17.services.IServicioService;
 import lombok.Builder;
 
 @Controller @Builder
-@RequestMapping("/profesionales")
+@RequestMapping("/profesional")
 public class ProfesionalController {
 	
 	public final IProfesionalService profesionalService;
@@ -55,7 +54,7 @@ public class ProfesionalController {
 	@PostMapping("/{id}/eliminar")
 	public String eliminarProfesional(@PathVariable("id") Long id) {
 		profesionalService.eliminarProfesional(id);
-		return "redirect:/profesionales/eliminar?eliminado=ok";
+		return "redirect:/profesional/eliminar?eliminado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -83,7 +82,7 @@ public class ProfesionalController {
 			return 	ViewRouteHelper.ADMIN_REGISTRAR_PROFESIONAL;
 		}
 		profesionalService.update(id, profesional);
-		return "redirect:/profesionales/modificar?modificado=ok";
+		return "redirect:/profesional/modificar?modificado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -116,13 +115,11 @@ public class ProfesionalController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/gestion")
-	public String gestionarProfesionalPost(@PathVariable("id") Long id, 
-			@RequestParam(value = "especialidadId") Long especialidadId,
-			@RequestParam(value = "serviciosId", required = false) Set<Long> serviciosId,
-			@RequestParam(value = "lugarId") Long lugarId
-			) {
-		profesionalService.asignarDatosProfesional(id, especialidadId, lugarId, serviciosId);
-		return "redirect:/profesionales/gestion?gestionado=ok";
+	public String gestionarProfesionalPost(@PathVariable("id") Long id, @ModelAttribute("profesional") ProfesionalDto profesional
+										 , @RequestParam(value = "serviciosIds", required = false) List<Long> serviciosIds) {
+		profesional.setServiciosIds(serviciosIds);
+		profesionalService.asignarDatosProfesional(id, profesional, serviciosIds);
+		return "redirect:/profesional/gestion?gestionado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

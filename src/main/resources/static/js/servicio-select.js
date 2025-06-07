@@ -1,46 +1,50 @@
 document.addEventListener('DOMContentLoaded', function() {
     const lugarSelect = document.getElementById('lugar');
-    const serviciosSelect = document.getElementById('servicios');
-    const guardarBtn = document.querySelector('.btn-guardar');
-    const formGroupServicios = serviciosSelect.closest('.form-group');
-    let noServiciosMsg = document.getElementById('no-servicios-msg');
-
-    // Crear el mensaje si no existe
-    if (!noServiciosMsg) {
-        noServiciosMsg = document.createElement('div');
-        noServiciosMsg.id = 'no-servicios-msg';
-        noServiciosMsg.className = 'alert alert-warning';
-        noServiciosMsg.style.display = 'none';
-        noServiciosMsg.textContent = 'Este lugar no tiene servicios asociados. Debe asociar al menos uno antes de continuar.';
-        formGroupServicios.appendChild(noServiciosMsg);
+    const serviciosContainer = document.getElementById('servicios-checkboxes');
+    const noServiciosMsg = document.getElementById('no-servicios-msg');
+    const serviciosInicialesInput = document.getElementById('servicios-iniciales');
+    let serviciosSeleccionados = [];
+    if (serviciosInicialesInput && serviciosInicialesInput.value) {
+        serviciosSeleccionados = serviciosInicialesInput.value.split(',').filter(Boolean);
     }
 
-    function toggleGuardarBtnAndMessage() {
-        const hasOptions = serviciosSelect.options.length > 0;
-        guardarBtn.disabled = !hasOptions;
-        noServiciosMsg.style.display = hasOptions ? 'none' : 'block';
+    function mostrarServicios(lugarId) {
+        serviciosContainer.innerHTML = "";
+        if (!lugarId) {
+            noServiciosMsg.style.display = 'block';
+            return;
+        }
+        fetch('/profesional/servicios-por-lugar/' + lugarId)
+            .then(resp => resp.json())
+            .then(servicios => {
+                if (!servicios || servicios.length === 0) {
+                    noServiciosMsg.style.display = 'block';
+                } else {
+                    noServiciosMsg.style.display = 'none';
+                    let html = '';
+                    servicios.forEach(servicio => {
+                        const checked = serviciosSeleccionados.includes(servicio.id.toString()) ? 'checked' : '';
+                        html += `<label style="margin-right:1em;">
+                            <input type="checkbox" name="serviciosIds" value="${servicio.id}" ${checked}>
+                            ${servicio.nombre}
+                        </label>`;
+                    });
+                    serviciosContainer.innerHTML = html;
+                }
+            })
+            .catch(error => {
+                serviciosContainer.innerHTML = "<span style='color:red;'>Error cargando servicios</span>";
+                noServiciosMsg.style.display = 'block';
+                console.error("Error:", error);
+            });
     }
 
     lugarSelect.addEventListener('change', function() {
-        const lugarId = this.value;
-        serviciosSelect.innerHTML = '';
-        if (lugarId) {
-            fetch(`/profesionales/servicios-por-lugar/${lugarId}`)
-                .then(response => response.json())
-                .then(servicios => {
-                    servicios.forEach(serv => {
-                        const option = document.createElement('option');
-                        option.value = serv.id;
-                        option.textContent = serv.nombre;
-                        serviciosSelect.appendChild(option);
-                    });
-                    toggleGuardarBtnAndMessage();
-                });
-        } else {
-            toggleGuardarBtnAndMessage();
-        }
+        mostrarServicios(this.value);
     });
 
-    // Llama al inicio por si ya hay lugar cargado
-    toggleGuardarBtnAndMessage();
+    // Si ya hay uno seleccionado al cargar:
+    if (lugarSelect.value) {
+        mostrarServicios(lugarSelect.value);
+    }
 });

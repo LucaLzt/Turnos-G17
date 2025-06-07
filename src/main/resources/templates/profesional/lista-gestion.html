@@ -26,7 +26,7 @@
         </div>
         <div class="lugares-grid">
             <a th:each="profesional : ${profesionales}"
-               th:href="@{'/profesionales/' + ${profesional.id} + '/gestion'}"
+               th:href="@{'/profesional/' + ${profesional.id} + '/gestion'}"
                class="lugar-card">
                 <div class="lugar-title">
                     <i class="fas fa-id-badge"></i>
@@ -40,17 +40,21 @@
                     <i class="fas fa-stethoscope"></i>
                     <span th:text="${profesional.especialidad != null ? profesional.especialidad.nombre : 'Sin especialidad'}"></span>
                 </div>
-                <div>
-                    <i class="fas fa-briefcase-medical"></i>
-                    <span th:if="${profesional.servicios == null or #lists.isEmpty(profesional.servicios)}">Sin servicios</span>
-					  <span th:if="${profesional.servicios != null and !#lists.isEmpty(profesional.servicios)}">
-					      <span th:each="serv, iterStat : ${profesional.servicios}">
-					          <span th:text="${serv.nombre}"></span><span th:if="${!iterStat.last}">, </span>
-					      </span>
-					  </span>
-						   
-                </div>
-                <div>
+				<div>
+				    <i class="fas fa-briefcase-medical"></i>
+				    <span th:if="${profesional.serviciosIds == null or #lists.isEmpty(profesional.serviciosIds)}">
+				        Sin servicios
+				    </span>
+				    <span th:if="${profesional.serviciosIds != null and !#lists.isEmpty(profesional.serviciosIds)}">
+				        <span th:each="servId, iterStat : ${profesional.serviciosIds}">
+				            <span th:each="serv : ${servicios}" th:if="${serv.id} == ${servId}">
+				                <span th:text="${serv.nombre}"></span>
+				            </span>
+				            <span th:if="${!iterStat.last}">, </span>
+				        </span>
+				    </span>
+				</div>        
+				<div>
                     <i class="fas fa-hospital"></i>
                     <span th:text="${profesional.lugar != null ? profesional.lugar.direccion.calle + ' ' + profesional.lugar.direccion.altura : 'Sin lugar'}"></span>
                 </div>

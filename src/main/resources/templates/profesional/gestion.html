@@ -18,12 +18,12 @@
         <div class="admin-title">
             <i class="fas fa-user-md"></i> Gestionar Profesional
         </div>
-		<a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
+        <a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
             <i class="fas fa-arrow-left"></i>
             <span>Volver</span>
         </a>
-		<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-        <form method="post" th:action="@{'/profesionales/' + ${profesional.id} + '/gestion'}">
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        <form th:object="${profesional}" method="post" th:action="@{'/profesional/' + ${profesional.id} + '/gestion'}">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <span th:text="${profesional.nombre}">Nombre del profesional</span>
@@ -33,8 +33,8 @@
                 <span th:text="${profesional.matricula}">Matrícula</span>
             </div>
             <div class="form-group">
-            <label for="especialidad">Especialidad:</label>
-                <select id="especialidad" name="especialidadId" required>
+                <label for="especialidad">Especialidad:</label>
+                <select id="especialidad" name="especialidad.id" required>
                     <option value="">Seleccione una especialidad</option>
                     <option th:each="esp : ${especialidades}"
                             th:value="${esp.id}"
@@ -44,31 +44,26 @@
                 </select>
             </div>
 			<div class="form-group">
-               <label for="lugar">Lugar:</label>
-               <select id="lugar" name="lugarId" required>
-                   <option value="">Seleccione un lugar</option>
-                   <option th:each="lugar : ${lugares}"
-                           th:value="${lugar.id}"
-                           th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"
-                           th:selected="${profesional.lugar != null} ? ${lugar.id} == ${profesional.lugar.id} : false">
-                   </option>
-               </select>
-           </div>
-		   <div class="form-group">
-		       <label>Servicios:</label>
-		       <div>
-		           <div th:each="serv : ${servicios}" class="checkbox">
-		               <label>
-		                   <input type="checkbox"
-		                          name="serviciosId"
-		                          th:value="${serv.id}"
-		                          th:checked="${profesional.servicios != null} ? ${profesional.servicios.contains(serv)} : false">
-		                   <span th:text="${serv.nombre}">Nombre Servicio</span>
-		               </label>
-		           </div>
-		       </div>
-		       <small>Puedes marcar o desmarcar los servicios que el profesional podrá ofrecer.</small>
-		   </div>
+			    <label for="lugar">Lugar:</label>
+			    <select id="lugar" name="lugar.id" required>
+			        <option value="">Seleccione un lugar</option>
+			        <option th:each="lugar : ${lugares}"
+			                th:value="${lugar.id}"
+			                th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"
+			                th:selected="${profesional.lugar != null} ? ${lugar.id} == ${profesional.lugar.id} : false">
+			        </option>
+			    </select>
+			</div>
+
+			<div class="form-group" id="servicios-group">
+			    <label>Servicios:</label>
+			    <div id="servicios-checkboxes"></div>
+			    <small>Puedes marcar o desmarcar los servicios que el profesional podrá ofrecer.</small>
+			    <div id="no-servicios-msg" class="alert alert-warning" style="display:none;">
+			        Este lugar no tiene servicios asociados.
+			    </div>
+			</div>
+			<input type="hidden" id="servicios-iniciales" th:value="${#strings.arrayJoin(profesional.serviciosIds, ',')}" />
             <button type="submit" class="btn-guardar">
                 <i class="fas fa-save"></i> Guardar cambios
             </button>

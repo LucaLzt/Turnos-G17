@@ -26,7 +26,7 @@
         </div>
         <div class="lugar-grid">
 			<form th:each="profesional : ${profesionales}"
-				  th:action="@{'/profesionales/' + ${profesional.id} + '/eliminar'}" 
+				  th:action="@{'/profesional/' + ${profesional.id} + '/eliminar'}" 
 				  method="post">
 			    <button type="submit" class="profesional-card">
 					<div class="lugar-title">
