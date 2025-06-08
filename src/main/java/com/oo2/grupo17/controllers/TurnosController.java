@@ -156,7 +156,7 @@ public class TurnosController {
         turno.setDisponibilidad(disp);
 
         // Guardar el turno en la base de datos
-        turnoService.save(turno);
+        turnoService.crearTurno(turno);
 
         // Limpiar la sesión
         model.asMap().remove("turno");
