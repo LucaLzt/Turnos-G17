@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.oo2.grupo17.dtos.DatosContactoDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
+import com.oo2.grupo17.services.IEmailService;
 import com.oo2.grupo17.services.IProfesionalService;
 
 import jakarta.validation.Valid;
@@ -26,6 +28,7 @@ import lombok.Builder;
 public class AdminController {
 	
 	private final IProfesionalService profesionalService;
+	private final IEmailService emailService;
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/registrar-profesional")
@@ -89,6 +92,31 @@ public class AdminController {
 		}
 		profesionalService.generarDisponibilidadesAutomaticas(dto);
 		return "redirect:/admin/administrar-profesional?disponibilidadesGeneradas=ok";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/contactar-profesional")
+	public String contactarProfesional(Model model) {
+		List<ProfesionalDto> profesionales = profesionalService.findAll();
+		model.addAttribute("profesionales", profesionales);
+		model.addAttribute("datosContacto", new DatosContactoDto());
+		return "/admin/contactar-profesional";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping("/contactar-profesional")
+	public String contactarProfesionalPost(@Valid @ModelAttribute("datosContacto") DatosContactoDto dto,
+			BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			List<ProfesionalDto> profesionales = profesionalService.findAll();
+			model.addAttribute("profesionales", profesionales);
+			return "admin/contactar-profesional";
+		}
+		ProfesionalDto profesional = profesionalService.findById(dto.getProfesionalId());
+		emailService.enviarEmail(profesional.getContacto().getEmail(), dto.getAsunto(), dto.getMensaje());
+		
+		return "redirect:/index?mensajeEnviado=ok";
+		
 	}
 	
 	
