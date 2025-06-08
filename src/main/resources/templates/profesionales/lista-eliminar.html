@@ -21,17 +21,19 @@
                 <span>Volver</span>
             </a>
         </div>
-        <div class="profesionales-grid">
+        <div class="lugares-grid">
             <a th:each="profesional : ${profesionales}"
                th:href="@{'/profesionales/' + ${profesional.id} + '/eliminar'}"
-               class="profesional-card">
-                <div class="profesional-title">
+               class="lugar-card">
+                <div class="lugar-title">
                     <i class="fas fa-id-badge"></i>
                     <span th:text="${profesional.nombre}"></span>
                 </div>
-                <div>
-                    <i class="fas fa-hashtag"></i>
-                    <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                <div class="lugar-info">
+                    <span>
+                        <i class="fas fa-hashtag"></i>
+                        <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                    </span>
                 </div>
                 <div>
                     <i class="fas fa-stethoscope"></i>

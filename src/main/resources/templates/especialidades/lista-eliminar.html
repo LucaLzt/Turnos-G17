@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -22,13 +21,18 @@
                 <span>Volver</span>
             </a>
         </div>
-        <div class="especialidades-grid">
+        <div class="lugares-grid">
             <a th:each="espe : ${especialidades}"
                th:href="@{'/especialidades/' + ${espe.id} + '/eliminar'}"
-               class="especialidad-card">
-               <div class="especialidad-title">
-               <i class="fas fa-stethoscope panel-card-icon"></i>
-               <span th:text="${espe.nombre}"></span>              
+               class="lugar-card">
+                <div class="lugar-title">
+                    <i class="fas fa-stethoscope panel-card-icon"></i>
+                    <span th:text="${espe.nombre}"></span>
+                </div>
+				<div class="eliminar-servicio-indicador">
+					<i class="fas fa-trash-alt"></i>
+				    <span>Click para eliminar</span>
+				</div>
             </a>
         </div>
     </div>

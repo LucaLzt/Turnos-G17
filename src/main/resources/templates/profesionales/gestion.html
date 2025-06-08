@@ -11,25 +11,22 @@
     <div class="navbar">
         <div class="brand">MiTurno</div>
     </div>
-    <div class="admin-section">
-        <div class="admin-title">
-            <i class="fas fa-user-md"></i> Gestionar Profesional
+    <div class="form-container">
+        <div class="form-title">
+            <i class="fas fa-user-md"></i>
+            Gestionar Profesional
         </div>
-		<a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
-            <i class="fas fa-arrow-left"></i>
-            <span>Volver</span>
-        </a>
         <form method="post" th:action="@{'/profesionales/' + ${profesional.id} + '/gestion'}">
             <div class="form-group">
-                <label for="nombre">Nombre:</label>
+                <label for="nombre"><i class="fa fa-user"></i> Nombre:</label>
                 <span th:text="${profesional.nombre}">Nombre del profesional</span>
             </div>
             <div class="form-group">
-                <label for="matricula">Matrícula:</label>
+                <label for="matricula"><i class="fa fa-id-card"></i> Matrícula:</label>
                 <span th:text="${profesional.matricula}">Matrícula</span>
             </div>
             <div class="form-group">
-            <!--<label for="especialidad">Especialidad:</label>
+                <label for="especialidad"><i class="fa fa-stethoscope"></i> Especialidad:</label>
                 <select id="especialidad" name="especialidadId" required>
                     <option value="">Seleccione una especialidad</option>
                     <option th:each="esp : ${especialidades}"
@@ -37,10 +34,10 @@
                             th:text="${esp.nombre}"
                             th:selected="${profesional.especialidad != null} ? ${esp.id} == ${profesional.especialidad.id} : false">
                     </option>
-                </select>-->    
+                </select>
             </div>
             <div class="form-group">
-                <label for="servicios">Servicios:</label>
+                <label for="servicios"><i class="fa fa-briefcase-medical"></i> Servicios:</label>
                 <select id="servicios" name="serviciosId" multiple size="5">
                     <option th:each="serv : ${servicios}"
                             th:value="${serv.id}"
@@ -48,11 +45,10 @@
                             th:selected="${profesional.servicios != null} ? ${profesional.servicios.contains(serv)} : false">
                     </option>
                 </select>
-                <br>
                 <small>Puedes seleccionar múltiples servicios manteniendo presionada la tecla Ctrl (Cmd en Mac).</small>
             </div>
             <div class="form-group">
-                <label for="lugar">Lugar:</label>
+                <label for="lugar"><i class="fa fa-map-marker-alt"></i> Lugar:</label>
                 <select id="lugar" name="lugarId" required>
                     <option value="">Seleccione un lugar</option>
                     <option th:each="lugar : ${lugares}"
@@ -62,9 +58,12 @@
                     </option>
                 </select>
             </div>
-            <button type="submit" class="btn-guardar">
-                <i class="fas fa-save"></i> Guardar cambios
-            </button>
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+				<a th:href="@{/profesionales/gestion}" class="btn-cancel">Cancelar</a>
+            </div>
         </form>
     </div>
 </body>
