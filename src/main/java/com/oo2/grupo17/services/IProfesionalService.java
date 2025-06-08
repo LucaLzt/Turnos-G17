@@ -1,7 +1,6 @@
 package com.oo2.grupo17.services;
 
 import java.util.List;
-import java.util.Set;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
@@ -30,7 +29,5 @@ public interface IProfesionalService {
 
 	void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto);
     
-    // void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId);
-
-	// void asignarDatosProfesional(Long id, ProfesionalDto profesional, List<Long> serviciosIds);
+	void asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds);
 }
