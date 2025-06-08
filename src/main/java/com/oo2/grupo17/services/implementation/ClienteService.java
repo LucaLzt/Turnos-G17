@@ -83,16 +83,25 @@ public class ClienteService implements IClienteService {
 	
 	@Override @Transactional
 	public void registrarCliente(ClienteRegistroDto registroDto) {
-	    // 1. Busco rol
+		
+		// 1. Verifico que no exista ni el email ni el dni
+		if (clienteRepository.existsByEmail(registroDto.getEmail())) {
+	        throw new RuntimeException("Ya existe un cliente con ese email.");
+	    }
+	    if (clienteRepository.existsByDni(registroDto.getDni())) {
+	        throw new RuntimeException("Ya existe un cliente con ese DNI.");
+	    }
+		
+	    // 2. Busco rol
 	    RoleEntity clienteRole = roleRepository.findByType(RoleType.CLIENTE)
 	        .orElseThrow(() -> new RolNoEncontradoException("No se encontró el rol: CLIENTE"));
 
-	    // 2. Creo Cliente (sin contacto)
+	    // 3. Creo Cliente (sin contacto)
 	    Cliente cliente = new Cliente();
 	    cliente.setNombre(registroDto.getNombre());
 	    cliente.setDni(registroDto.getDni());
 
-	    // 3. Creo UserEntity y asocio Cliente
+	    // 4. Creo UserEntity y asocio Cliente
 	    UserEntity user = new UserEntity();
 	    user.setUsername(registroDto.getEmail());
 	    user.setPassword(encryptPassword(registroDto.getPassword()));
@@ -101,23 +110,23 @@ public class ClienteService implements IClienteService {
 	    user.setCliente(cliente);
 	    cliente.setUser(user);
 
-	    // 4. Guardo User (esto persiste Cliente)
+	    // 5. Guardo User (esto persiste Cliente)
 	    userRepository.save(user);
 	    
-	    // 5. Genero el numero de cliente en base al id del cliente
+	    // 6. Genero el numero de cliente en base al id del cliente
 	    cliente.setNroCliente(String.format("%06d", cliente.getId()));
 
-	    // 6. Creo Contacto y asocio Cliente
+	    // 7. Creo Contacto y asocio Cliente
 	    Contacto contacto = new Contacto();
 	    contacto.setEmail(registroDto.getEmail());
 	    contacto.setMovil(registroDto.getMovil());
 	    contacto.setTelefono(registroDto.getTelefono());
 	    contacto.setPersona(cliente);
 
-	    // 7. Guardo Contacto
+	    // 8. Guardo Contacto
 	    contactoRepository.save(contacto);
 
-	    // 8. Asocio el contacto al cliente y updateo
+	    // 9. Asocio el contacto al cliente y updateo
 	    cliente.setContacto(contacto);
 	    clienteRepository.save(cliente);
 	}

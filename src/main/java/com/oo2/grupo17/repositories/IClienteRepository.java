@@ -12,10 +12,12 @@ import com.oo2.grupo17.entities.Cliente;
 @Repository
 public interface IClienteRepository extends JpaRepository<Cliente, Long> {
 
-    // Ver que poner
 	Optional<Cliente> findByDni(int dni);
 	
 	@Query("SELECT c FROM Cliente c WHERE c.contacto.email = :email")
 	Optional<Cliente> findByEmail(String email);
+
+	boolean existsByEmail(String email);
+	boolean existsByDni(int dni);
 	
 }

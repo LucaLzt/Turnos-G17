@@ -149,17 +149,26 @@ public class ProfesionalService implements IProfesionalService {
 	
 	@Override @Transactional
 	public void registrarProfesional(ProfesionalRegistradoDto registroDto) {
-	    // 1. Busco rol
+		
+		// 1. Verifico que no exista ni el email ni el dni
+		if (profesionalRepository.existsByEmail(registroDto.getEmail())) {
+			throw new RuntimeException("Ya existe un cliente con ese email.");
+		}
+		if (profesionalRepository.existsByDni(registroDto.getDni())) {
+			throw new RuntimeException("Ya existe un cliente con ese DNI.");
+		}
+		
+	    // 2. Busco rol
 	    RoleEntity profesionalRole = roleRepository.findByType(RoleType.PROFESIONAL)
 	        .orElseThrow(() -> new RolNoEncontradoException("No se encontró el rol: PROFESIONAL"));
 
-	    // 2. Creo Cliente (sin contacto)
+	    // 3. Creo Cliente (sin contacto)
 	    Profesional profesional = new Profesional();
 	    profesional.setNombre(registroDto.getNombre());
 	    profesional.setDni(registroDto.getDni());
 	    profesional.setMatricula(registroDto.getMatricula());
 
-	    // 3. Creo UserEntity y asocio Cliente
+	    // 4. Creo UserEntity y asocio Cliente
 	    UserEntity user = new UserEntity();
 	    user.setUsername(registroDto.getEmail());
 	    String contraseñaGenerada = generarPasswordAleatoria();
@@ -170,7 +179,7 @@ public class ProfesionalService implements IProfesionalService {
 	    user.setProfesional(profesional);
 	    profesional.setUser(user);
 
-	    // 4. Guardo User (esto persiste Cliente)
+	    // 5. Guardo User (esto persiste Cliente)
 	    userRepository.save(user);
 
 	    // 6. Creo Contacto y asocio Cliente

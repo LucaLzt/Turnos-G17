@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.EspecialidadDto;
 import com.oo2.grupo17.entities.Especialidad;
 import com.oo2.grupo17.entities.Profesional;
+import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IEspecialidadRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
@@ -26,6 +27,9 @@ public class EspecialidadService implements IEspecialidadService {
 
 	@Override
 	public EspecialidadDto save(EspecialidadDto especialidadDto) {
+		if(especialidadRepository.existsByNombre(especialidadDto.getNombre())) {
+			throw new EntidadDuplicadaException("La especialidad con nombre " + especialidadDto.getNombre() + " ya existe.");
+		}
 		Especialidad espe = modelMapper.map(especialidadDto, Especialidad.class);
 		Especialidad saved = especialidadRepository.save(espe);
 		return modelMapper.map(saved, EspecialidadDto.class);

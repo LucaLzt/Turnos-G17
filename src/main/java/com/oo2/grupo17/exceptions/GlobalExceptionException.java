@@ -10,31 +10,37 @@ public class GlobalExceptionException {
 	@ExceptionHandler(EntidadNoEncontradaException.class)
 	public String handleEntidadNoEncontrada(EntidadNoEncontradaException ex, Model model) {
 		model.addAttribute("mensaje", ex.getMessage());
-		return "error/entidad-no-encontrada";
+		return "error-personalizados/entidad-no-encontrada";
 	}
 	
     @ExceptionHandler(DniIncorrectoException.class)
     public String handleDniIncorrecto(DniIncorrectoException ex, Model model) {
         model.addAttribute("mensaje", ex.getMessage());
-        return "error/credencial-incorrecta";
+        return "error-personalizados/credencial-incorrecta";
     }
 
     @ExceptionHandler(ContraseñaIncorrectaException.class)
     public String handleContraseñaIncorrecta(ContraseñaIncorrectaException ex, Model model) {
         model.addAttribute("mensaje", ex.getMessage());
-        return "error/credencial-incorrecta";
+        return "error-personalizados/credencial-incorrecta";
     }
 
     @ExceptionHandler(EmailIncorrectoException.class)
     public String handleEmailIncorrecto(EmailIncorrectoException ex, Model model) {
         model.addAttribute("mensaje", ex.getMessage());
-        return "error/credencial-incorrecta";
+        return "error-personalizados/credencial-incorrecta";
     }
     
     @ExceptionHandler(RolNoEncontradoException.class)
     public String handleEmailIncorrecto(RolNoEncontradoException ex, Model model) {
         model.addAttribute("mensaje", ex.getMessage());
-        return "error/rol-no-encontrado";
+        return "error-personalizados/rol-no-encontrado";
+    }
+    
+    @ExceptionHandler(EntidadDuplicadaException.class)
+    public String manejarEntidadDuplicada(EntidadDuplicadaException ex, Model model) {
+        model.addAttribute("errorDuplicado", ex.getMessage());
+        return "error-personalizados/elemento-duplicado";
     }
 	
 }

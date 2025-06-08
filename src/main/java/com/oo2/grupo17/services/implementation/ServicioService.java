@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Servicio;
+import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
@@ -26,6 +27,9 @@ public class ServicioService implements IServicioService {
 
 	@Override
 	public ServicioDto save(ServicioDto servicioDto) {
+		if (servicioRepository.existsByNombre(servicioDto.getNombre())) {
+			throw new EntidadDuplicadaException("El servicio con nombre " + servicioDto.getNombre() + " ya existe.");
+	    }
 		Servicio servicio = modelMapper.map(servicioDto, Servicio.class);
 		Servicio saved = servicioRepository.save(servicio);
 		return modelMapper.map(saved, ServicioDto.class);
