@@ -72,7 +72,7 @@ public class ProfesionalController {
 	@PostMapping("/{id}/eliminar")
 	public String eliminarProfesional(@PathVariable("id") Long id) {
 		profesionalService.eliminarProfesional(id);
-		return "redirect:/profesionales/eliminar?eliminado=ok";
+		return "redirect:/profesional/eliminar?eliminado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -135,7 +135,7 @@ public class ProfesionalController {
 	public String gestionarProfesionalPost(@PathVariable("id") Long id, @ModelAttribute("profesional") ProfesionalDto profesional
 			, @RequestParam(value = "serviciosIds", required = false) List<Long> serviciosIds) {
 		profesional.setServiciosIds(serviciosIds);
-		// profesionalService.asignarDatosProfesional(id, profesional, serviciosIds);
+		profesionalService.asignarDatosProfesional(id, profesional, serviciosIds);
 		return "redirect:/profesional/gestion?gestionado=ok";
 	}
 	

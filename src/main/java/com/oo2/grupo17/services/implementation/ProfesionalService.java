@@ -133,13 +133,6 @@ public class ProfesionalService implements IProfesionalService {
 			servicioRepository.save(servicio);
 		}
 		
-		// Elimino el profesional dentro del Lugares al que esta relacionado
-		Lugar lugar = profesional.getLugar();
-		if(lugar != null) {
-			lugar.getProfesionales().remove(profesional);
-			lugarRepository.save(lugar);
-		}
-
 		 profesional.setContacto(null);
 		 profesional.setUser(null);
 		 profesionalRepository.save(profesional);
@@ -269,5 +262,55 @@ public class ProfesionalService implements IProfesionalService {
 		return profesionalRepository.findByLugar_id(lugarId);
 	}
 	
+	@Override
+	public void asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds) {
+		Profesional profesional = profesionalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profesional no encontrado"));
+		System.out.println(profesionalDto.getEspecialidad());
+		System.out.println(profesionalDto.getEspecialidad());
+		System.out.println(profesionalDto.getEspecialidad());
+		// Asignar Especialidad
+		if(profesionalDto.getEspecialidad() != null) {
+			Especialidad especialidad = especialidadRepository.findById(profesionalDto.getEspecialidad().getId()).orElseThrow(()-> new EntityNotFoundException("Especialidad no encontrada"));
+			profesional.setEspecialidad(especialidad);
+		} else {
+			profesional.setEspecialidad(null);
+		}
+
+		// Asignar Servicios
+	   Set<Servicio> serviciosActuales = new HashSet<>(profesional.getServicios());
+
+	   Set<Servicio> nuevosServicios;
+	   if (serviciosIds != null && !serviciosIds.isEmpty()) {
+	       nuevosServicios = new HashSet<>(servicioRepository.findAllById(serviciosIds));
+	   } else {
+	       nuevosServicios = new HashSet<>();
+	   }
+
+	     // Quitar profesional de los servicios que ya no corresponden
+	   for (Servicio servicio : serviciosActuales) {
+	       if (!nuevosServicios.contains(servicio)) {
+	           servicio.getProfesionales().remove(profesional);
+	           profesional.getServicios().remove(servicio);
+	       }	    
+	   }
+
+	    // 2. Agregar profesional a los nuevos servicios seleccionados
+	   for (Servicio servicio : nuevosServicios) {
+	       servicio.getProfesionales().add(profesional);
+	       profesional.getServicios().add(servicio);
+	   }
+
+	   profesional.setServicios(nuevosServicios);
+
+		// Asignar Lugar
+		if(profesionalDto.getLugar() != null) {
+			Lugar lugar = lugarRepository.findById(profesionalDto.getLugar().getId()).orElseThrow(()-> new EntityNotFoundException("Lugar no encontrado"));
+			profesional.setLugar(lugar);
+		} else {
+			profesional.setLugar(null);
+		}
+
+		profesionalRepository.save(profesional);
+	}
 	
 }
