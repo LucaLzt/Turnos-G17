@@ -57,7 +57,7 @@ public class TurnosController{
     	ClienteDto cliente = clienteService.findByEmail(email);
         Long clienteId = cliente.getId();
 
-        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId); // Asegurate de tener este método
+        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
         model.addAttribute("turnos", turnos);
 
         return "turnos/ListaTurnos";
@@ -69,7 +69,7 @@ public class TurnosController{
     	ClienteDto cliente = clienteService.findByEmail(email);
         Long clienteId = cliente.getId();
 
-        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId); // Asegurate de tener este método
+        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
         model.addAttribute("turnos", turnos);
 
         return "turnos/TurnosACancelar";

@@ -64,20 +64,19 @@
     <h1>Mis Turnos</h1>
     <div class="table-container">
         <table class="turnos-table">
-            <tr>
-                <th>Profesional</th>
-                <th>Especialidad</th>
-                <th>Acciones</th>
-            </tr>
             <tr th:each="turno : ${turnos}">
-                <td th:text="${turno.profesional.nombre}">nombre</td>
-                <td th:text="${turno.profesional.especialidad.nombre}">especialidad</td>
-                <td>
-                    <a th:href="@{'/turnos/detalle/' + ${turno.id}}">
-                        <button>Ver Detalle</button>
-                    </a>
-                </td>
-            </tr>
+    <td th:text="${turno.profesional.nombre}">Nombre Profesional</td>
+    <td th:text="${turno.profesional.especialidad.nombre}">Nombre Especialidad</td>
+    <td>
+        <a th:href="@{'/cliente/detalle/' + ${turno.id}}">
+            <button class="ver-btn">Ver Detalle</button>
+        </a>
+        <a th:href="@{'/cliente/eliminar/' + ${turno.id}}"
+           onclick="return confirm('¿Estás seguro de eliminar este turno?')">
+            <button class="cancelar-btn">Eliminar</button>
+        </a>
+    </td>
+</tr>
         </table>
     </div>
 </body>
