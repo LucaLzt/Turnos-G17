@@ -16,9 +16,9 @@ import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
-import com.oo2.grupo17.services.IDisponibilidadService;
 import com.oo2.grupo17.services.IProfesionalService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -36,7 +36,7 @@ public class AdminController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/registrar-profesional")
-	public String registrarProfesionalPost(@ModelAttribute("profesional") ProfesionalRegistradoDto profesionalDto,
+	public String registrarProfesionalPost(@Valid @ModelAttribute("profesional") ProfesionalRegistradoDto profesionalDto,
 			BindingResult result) {
 		if(result.hasErrors()) {
 			return ViewRouteHelper.ADMIN_REGISTRAR_PROFESIONAL;
@@ -75,12 +75,18 @@ public class AdminController {
 		List<ProfesionalDto> profesionales = profesionalService.findAll();
 		model.addAttribute("profesionales", profesionales);
 		model.addAttribute("datosFormulario", new GenerarDisponibilidadDto());
-		return "/profesionales/generar-disponibilidades";
+		return ViewRouteHelper.PROFESIONAL_DISPONIBILIDADES;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/generar-disponibilidades")
-	public String generarDisponibilidadesPost(@ModelAttribute("datosFormulario") GenerarDisponibilidadDto dto) {
+	public String generarDisponibilidadesPost(@Valid @ModelAttribute("datosFormulario") GenerarDisponibilidadDto dto,
+			BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			List<ProfesionalDto> profesionales = profesionalService.findAll();
+			model.addAttribute("profesionales", profesionales);
+			return ViewRouteHelper.PROFESIONAL_DISPONIBILIDADES;
+		}
 		profesionalService.generarDisponibilidadesAutomaticas(dto);
 		return "redirect:/admin/administrar-profesional?disponibilidadesGeneradas=ok";
 	}

@@ -34,6 +34,7 @@ import com.oo2.grupo17.services.IProfesionalService;
 import com.oo2.grupo17.services.IProvinciaService;
 import com.oo2.grupo17.services.IServicioService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -83,10 +84,9 @@ public class ProfesionalController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
 	public String modificarProfesionalPost(@PathVariable("id") Long id, 
-			@ModelAttribute("profesional") 
-			ProfesionalDto profesional, BindingResult result) {
+			@Valid @ModelAttribute("profesional") ProfesionalDto profesional, BindingResult result) {
 		if(result.hasErrors()) {
-			return 	ViewRouteHelper.ADMIN_REGISTRAR_PROFESIONAL;
+			return 	ViewRouteHelper.PROFESIONAL_MODIFICAR;
 		}
 		profesionalService.update(id, profesional);
 		return "redirect:/profesionales/modificar?modificado=ok";
@@ -157,12 +157,12 @@ public class ProfesionalController {
 		
 	// Actualiza el contacto del profesional
 	@PostMapping("/modificar-contacto")
-	public String modificarContactoPost (@ModelAttribute("contacto") ContactoDto contactoDto,
-			Model model, BindingResult result, Principal principal) {
+	public String modificarContactoPost (@Valid @ModelAttribute("contacto") ContactoDto contactoDto,
+			BindingResult result, Model model, Principal principal) {
 			
 		// Validar los datos del contacto
 		if(result.hasErrors()) {
-			return ViewRouteHelper.CLIENTE_CONTACTO;
+			return ViewRouteHelper.PROFESIONAL_CONTACTO;
 		}
 			
 		// 1. Obtengo el email actual antes de actualizar
@@ -207,12 +207,12 @@ public class ProfesionalController {
 		
 	// Agrega una nueva dirección y la asocia al contacto del profesional
 	@PostMapping("/modificar-direccion")
-	public String modificarDireccionPost(@ModelAttribute("direccion") DireccionDto direccionDto,
-			Model model, BindingResult result, Principal principal) {
+	public String modificarDireccionPost(@Valid @ModelAttribute("direccion") DireccionDto direccionDto,
+			BindingResult result, Model model, Principal principal) {
 			
 		// Validar los datos de la dirección
 		if (result.hasErrors()) {
-	        return ViewRouteHelper.CLIENTE_DIRECCION;
+	        return ViewRouteHelper.PROFESIONAL_DIRECCION;
 	    }
 			
 		// 1. Verificar que el contacto existe

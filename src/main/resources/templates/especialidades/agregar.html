@@ -18,7 +18,8 @@
         <form th:action="@{/especialidades/agregar}" th:object="${especialidad}" method="post">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Traumatologo" required />
+                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Traumatologo"/>
+				<div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn-submit">

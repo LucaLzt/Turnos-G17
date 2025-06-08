@@ -13,27 +13,33 @@
             <form th:action="@{/auth/register}" th:object="${cliente}" method="post">
                 <div class="form-group">
                     <label for="email">Correo electrónico</label>
-                    <input type="email" id="email" th:field="*{email}" placeholder="ejemplo@email.com" required>
+                    <input type="email" id="email" th:field="*{email}" placeholder="ejemplo@email.com">
+                    <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </div>
                 <div class="form-group">
                     <label for="password">Contraseña</label>
-                    <input type="password" id="password" th:field="*{password}" placeholder="Contraseña" required>
+                    <input type="password" id="password" th:field="*{password}" placeholder="Contraseña">
+                    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" th:field="*{nombre}" placeholder="Tu nombre" required>
+                    <input type="text" id="nombre" th:field="*{nombre}" placeholder="Tu nombre">
+                    <div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
                 </div>
                 <div class="form-group">
                     <label for="dni">DNI</label>
-                    <input type="text" id="dni" th:field="*{dni}" placeholder="DNI" required>
+                    <input type="text" id="dni" th:field="*{dni}" placeholder="DNI">
+                    <div class="error" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
                 </div>
                 <div class="form-group">
                     <label for="movil">Móvil</label>
-                    <input type="text" id="movil" th:field="*{movil}" placeholder="Número de móvil" required>
+                    <input type="text" id="movil" th:field="*{movil}" placeholder="Número de móvil">
+                    <div class="error" th:if="${#fields.hasErrors('movil')}" th:errors="*{movil}"></div>
                 </div>
                 <div class="form-group">
                     <label for="telefono">Teléfono</label>
-                    <input type="text" id="telefono" th:field="*{telefono}" placeholder="Número de teléfono" required>
+                    <input type="text" id="telefono" th:field="*{telefono}" placeholder="Número de teléfono">
+                    <div class="error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
                 </div>
                 <button type="submit" class="btn">Registrarse</button>
             </form>

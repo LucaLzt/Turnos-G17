@@ -13,6 +13,7 @@ import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.implementation.ClienteService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -42,7 +43,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerAccountPost(@ModelAttribute("cliente") ClienteRegistroDto clienteDto,
+    public String registerAccountPost(@Valid @ModelAttribute("cliente") ClienteRegistroDto clienteDto,
     		BindingResult result) {
         if (result.hasErrors()) {
             return ViewRouteHelper.CLIENTE_REGISTER;

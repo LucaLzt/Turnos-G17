@@ -35,6 +35,7 @@ import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProvinciaService;
 import com.oo2.grupo17.services.IServicioService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -79,8 +80,8 @@ public class ClienteController {
 	
 	// Actualiza el contacto del cliente
 	@PostMapping("/modificar-contacto")
-	public String modificarContactoPost (@ModelAttribute("contacto") ContactoDto contactoDto,
-			Model model, BindingResult result, Principal principal) {
+	public String modificarContactoPost (@Valid @ModelAttribute("contacto") ContactoDto contactoDto,
+			BindingResult result, Model model,  Principal principal) {
 		
 		// Validar los datos del contacto
 		if(result.hasErrors()) {
@@ -129,8 +130,8 @@ public class ClienteController {
 	
 	// Agrega una nueva dirección y la asocia al contacto del cliente
 	@PostMapping("/modificar-direccion")
-	public String modificarDireccionPost(@ModelAttribute("direccion") DireccionDto direccionDto,
-			Model model, BindingResult result, Principal principal) {
+	public String modificarDireccionPost(@Valid @ModelAttribute("direccion") DireccionDto direccionDto,
+			BindingResult result, Model model ,Principal principal) {
 		
 		// Validar los datos de la dirección
 		if (result.hasErrors()) {

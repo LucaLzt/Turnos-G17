@@ -19,38 +19,50 @@
         <form th:object="${datosFormulario}" th:action="@{/admin/generar-disponibilidades}" method="post">
             <div class="form-group">
                 <label for="profesionalId"><i class="fas fa-user-md"></i> Profesional:</label>
-                <select id="profesionalId" th:field="*{profesionalId}" required>
+                <select id="profesionalId" th:field="*{profesionalId}">
                     <option value="" disabled selected>Seleccione un profesional</option>
                     <option th:each="prof : ${profesionales}"
                             th:value="${prof.id}"
                             th:text="${prof.nombre + ' - Matrícula: ' + prof.matricula + ' - DNI: ' + prof.dni}">
                     </option>
                 </select>
+				<div class="error" th:if="${#fields.hasErrors('profesionalId')}" th:errors="*{profesionalId}"></div>
             </div>
             <div style="display: flex; gap: 1rem;">
                 <div class="form-group" style="flex:1;">
                     <label for="horaInicio"><i class="fas fa-clock"></i> Hora Inicio:</label>
-                    <input type="time" id="horaInicio" th:field="*{horaInicio}" required>
+                    <input type="time" id="horaInicio" th:field="*{horaInicio}">
+					<div class="error" th:if="${#fields.hasErrors('horaInicio')}" th:errors="*{horaInicio}"></div>
                 </div>
                 <div class="form-group" style="flex:1;">
                     <label for="horaFin"><i class="fas fa-clock"></i> Hora Fin:</label>
-                    <input type="time" id="horaFin" th:field="*{horaFin}" required>
+                    <input type="time" id="horaFin" th:field="*{horaFin}">
+					<div class="error" th:if="${#fields.hasErrors('horaFin')}" th:errors="*{horaFin}"></div>
                 </div>
             </div>
+			<div class="form-group">
+			    <div class="error" th:if="${#fields.hasErrors('rangoHorasValido')}" th:errors="*{rangoHorasValido}"></div>
+			</div>
             <div class="form-group">
                 <label for="duracionMinutos"><i class="fas fa-hourglass-half"></i> Duración (minutos):</label>
-                <input type="number" id="duracionMinutos" th:field="*{duracionMinutos}" required min="1">
+                <input type="number" id="duracionMinutos" th:field="*{duracionMinutos}">
+				<div class="error" th:if="${#fields.hasErrors('duracionMinutos')}" th:errors="*{duracionMinutos}"></div>
             </div>
             <div style="display: flex; gap: 1rem;">
 				<div class="form-group">
 				    <label for="fechaInicio"><i class="fa fa-calendar"></i> Fecha Inicio:</label>
-				    <input type="date" id="fechaInicio" th:field="*{fechaInicio}" required>
+				    <input type="date" id="fechaInicio" th:field="*{fechaInicio}">
+					<div class="error" th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}"></div>
 				</div>
 				<div class="form-group">
 				    <label for="fechaFin"><i class="fa fa-calendar"></i> Fecha Fin:</label>
-				    <input type="date" id="fechaFin" th:field="*{fechaFin}" required>
+				    <input type="date" id="fechaFin" th:field="*{fechaFin}">
+					<div class="error" th:if="${#fields.hasErrors('fechaFin')}" th:errors="*{fechaFin}"></div>
 				</div>
             </div>
+			<div class="form-group">
+			    <div class="error" th:if="${#fields.hasErrors('rangoFechasValido')}" th:errors="*{rangoFechasValido}"></div>
+			</div>
             <div class="form-actions">
                 <button type="submit" class="btn-submit">
                     <i class="fas fa-magic"></i>

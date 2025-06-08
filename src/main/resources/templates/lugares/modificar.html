@@ -18,39 +18,48 @@
 		<form th:action="@{'/lugares/' + ${lugar.id} + '/modificar'}" method="post" th:object="${lugar}">
 			<div class="form-group">
 				<label for="calle">Calle</label>
-				<input type="text" th:field="*{direccion.calle}" id="calle" placeholder="Ej: Av. Siempre Viva" required>
+				<input type="text" th:field="*{direccion.calle}" id="calle" placeholder="Ej: Av. Siempre Viva">
+				<div class="error" th:if="${#fields.hasErrors('direccion.calle')}" th:errors="*{direccion.calle}"></div>
 			</div>
 			<div class="form-group">
 				<label for="numero">Altura</label>
-				<input type="text" th:field="*{direccion.altura}" id="altura" placeholder="Ej: 742" required>
+				<input type="text" th:field="*{direccion.altura}" id="altura" placeholder="Ej: 742">
+				<div class="error" th:if="${#fields.hasErrors('direccion.altura')}" th:errors="*{direccion.altura}"></div>
 			</div>
 			<div class="form-group">
 				<label for="provincia"><i class="fas fa-flag"></i> Provincia</label>
-				<select id="provincia" th:field="*{direccion.provinciaId}" required>
+				<select id="provincia" th:field="*{direccion.provinciaId}">
 					<option value="" disabled th:if="*{direccion.provinciaId == null}" selected>Seleccione una provincia</option>
 				    <option th:each="prov : ${provincias}"
 				   		th:value="${prov.id}"
 				        th:text="${prov.nombre}">
 				    </option>
 				</select>
+				<div class="error" th:if="${#fields.hasErrors('direccion.provinciaId')}" th:errors="*{direccion.provinciaId}"></div>
 			</div>
 			<div class="form-group">
 				<label for="localidad"><i class="fas fa-city"></i> Localidad</label>
-				<select id="localidad" th:field="*{direccion.localidadId}" required>
+				<select id="localidad" th:field="*{direccion.localidadId}">
 				    <option value="" disabled th:if="*{direccion.localidadId == null}" selected>Seleccione una localidad</option>
 				    <option th:each="loc : ${localidades}"
 				    	th:value="${loc.id}"
 				    	th:text="${loc.nombre}">
 				    </option>
 				</select>
+				<div class="error" th:if="${#fields.hasErrors('direccion.localidadId')}" th:errors="*{direccion.localidadId}"></div>
 			</div>
 			<div class="form-group">
 				<label for="horarioApertura">Horario de Apertura</label>
-				<input type="time" th:field="*{horarioApertura}" id="horarioApertura" required>
+				<input type="time" th:field="*{horarioApertura}" id="horarioApertura">
+				<div class="error" th:if="${#fields.hasErrors('horarioApertura')}" th:errors="*{horarioApertura}"></div>
 			</div>
 			<div class="form-group">
 				<label for="horarioCierre">Horario de Cierre</label>
-				<input type="time" th:field="*{horarioCierre}" id="horarioCierre" required>
+				<input type="time" th:field="*{horarioCierre}" id="horarioCierre">
+				<div class="error" th:if="${#fields.hasErrors('horarioCierre')}" th:errors="*{horarioCierre}"></div>
+			</div>
+			<div class="form-group">
+			    <div class="error" th:if="${#fields.hasErrors('horarioValido')}" th:errors="*{horarioValido}"></div>
 			</div>
 			<div class="form-actions">
 				<button type="submit" class="btn-submit">
