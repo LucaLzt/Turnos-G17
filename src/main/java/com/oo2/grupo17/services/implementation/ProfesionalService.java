@@ -151,7 +151,7 @@ public class ProfesionalService implements IProfesionalService {
 	public void registrarProfesional(ProfesionalRegistradoDto registroDto) {
 		
 		// 1. Verifico que no exista ni el email ni el dni
-		if (profesionalRepository.existsByEmail(registroDto.getEmail())) {
+		if (profesionalRepository.existsByContacto_Email(registroDto.getEmail())) {
 			throw new RuntimeException("Ya existe un cliente con ese email.");
 		}
 		if (profesionalRepository.existsByDni(registroDto.getDni())) {
@@ -263,5 +263,11 @@ public class ProfesionalService implements IProfesionalService {
             fecha = fecha.plusDays(1);
         }
     }
+	
+	@Override
+	public List<Profesional> obtenerProfesionalesPorLugar(Long lugarId){
+		return profesionalRepository.findByLugar_id(lugarId);
+	}
+	
 	
 }

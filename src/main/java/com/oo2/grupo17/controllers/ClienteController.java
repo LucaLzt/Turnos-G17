@@ -217,6 +217,8 @@ public class ClienteController {
 		return "redirect:/auth/login?logout";
 	}
 	
+	
+	
 	@GetMapping("/home")
 	public String index() {
 		return ViewRouteHelper.HOME_INDEX;

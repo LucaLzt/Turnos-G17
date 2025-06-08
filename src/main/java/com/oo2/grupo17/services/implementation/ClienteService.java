@@ -85,7 +85,7 @@ public class ClienteService implements IClienteService {
 	public void registrarCliente(ClienteRegistroDto registroDto) {
 		
 		// 1. Verifico que no exista ni el email ni el dni
-		if (clienteRepository.existsByEmail(registroDto.getEmail())) {
+		if (clienteRepository.existsByContacto_Email(registroDto.getEmail())) {
 	        throw new RuntimeException("Ya existe un cliente con ese email.");
 	    }
 	    if (clienteRepository.existsByDni(registroDto.getDni())) {
