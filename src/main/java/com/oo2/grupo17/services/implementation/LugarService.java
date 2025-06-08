@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Servicio;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
 import com.oo2.grupo17.services.ILugarService;
@@ -33,7 +34,7 @@ public class LugarService implements ILugarService {
 	@Override
 	public LugarDto findById(Long id) {
 		Lugar lugar = lugarRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el lugar con ID: " + id));
 		return modelMapper.map(lugar, LugarDto.class);
 	}
 
@@ -48,7 +49,7 @@ public class LugarService implements ILugarService {
 	@Override
 	public LugarDto update(Long id, LugarDto lugarDto) {
 		Lugar lugar = lugarRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el lugar con ID: " + id));
 		lugar.setHorarioApertura(lugarDto.getHorarioApertura());
 		lugar.setHorarioCierre(lugarDto.getHorarioCierre());
 		// lugar.setDireccion(lugarDto.getDireccion());
@@ -58,7 +59,8 @@ public class LugarService implements ILugarService {
 
 	@Override
 	public void deleteById(Long id) {
-		Lugar lugar = lugarRepository.findById(id).orElseThrow();
+		Lugar lugar = lugarRepository.findById(id)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el lugar con ID: " + id));
 		
 		// Remuevo el lugar de los servicios relacionados
 		for(Servicio servicio : new HashSet<>(lugar.getServicios())) {

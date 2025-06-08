@@ -28,6 +28,8 @@ import com.oo2.grupo17.entities.RoleEntity;
 import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.entities.UserEntity;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
+import com.oo2.grupo17.exceptions.RolNoEncontradoException;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.IEspecialidadRepository;
@@ -72,7 +74,7 @@ public class ProfesionalService implements IProfesionalService {
 	@Override
 	public ProfesionalDto findById(Long id) {
 		Profesional profesional = profesionalRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + id));
 		
 		ProfesionalDto profesionalDto = modelMapper.map(profesional, ProfesionalDto.class);
 		
@@ -107,7 +109,7 @@ public class ProfesionalService implements IProfesionalService {
 	@Override
 	public ProfesionalDto update(Long id, ProfesionalDto profesionalDto) {
 		Profesional profesional = profesionalRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + id));
 		profesional.setNombre(profesionalDto.getNombre());
 		profesional.setDni(profesionalDto.getDni());
 		profesional.setMatricula(profesionalDto.getMatricula());
@@ -123,7 +125,7 @@ public class ProfesionalService implements IProfesionalService {
 	@Override @Transactional
 	public void eliminarProfesional(Long id) {
 		Profesional profesional = profesionalRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + id));
 		
 		// Elimino el profesional dentro de los servicios a los que esta relacionado
 		for(Servicio servicio : new HashSet<>(profesional.getServicios())) {
@@ -149,7 +151,7 @@ public class ProfesionalService implements IProfesionalService {
 	public void registrarProfesional(ProfesionalRegistradoDto registroDto) {
 	    // 1. Busco rol
 	    RoleEntity profesionalRole = roleRepository.findByType(RoleType.PROFESIONAL)
-	        .orElseThrow();
+	        .orElseThrow(() -> new RolNoEncontradoException("No se encontró el rol: PROFESIONAL"));
 
 	    // 2. Creo Cliente (sin contacto)
 	    Profesional profesional = new Profesional();
@@ -217,7 +219,7 @@ public class ProfesionalService implements IProfesionalService {
 	public void updatearContactoUserEntity(ContactoDto contactoDto) {
 		contactoService.update(contactoDto.getId(), contactoDto);
 		Profesional profesional = profesionalRepository.findById(contactoDto.getId())
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + contactoDto.getId()));
 		UserEntity usuario = profesional.getUser();
     	usuario.setUsername(contactoDto.getEmail());
     	userRepository.save(usuario);
@@ -227,7 +229,7 @@ public class ProfesionalService implements IProfesionalService {
 	public void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto) {
         // 1. Buscar el profesional por ID
         Profesional profesional = profesionalRepository.findById(dto.getProfesionalId())
-            .orElseThrow();
+            .orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + dto.getProfesionalId()));
 
         // 2. Iterar sobre cada día del rango
         LocalDate fecha = dto.getFechaInicio();

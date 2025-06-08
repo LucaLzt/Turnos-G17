@@ -16,6 +16,11 @@ import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.RoleEntity;
 import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.UserEntity;
+import com.oo2.grupo17.exceptions.ContraseñaIncorrectaException;
+import com.oo2.grupo17.exceptions.DniIncorrectoException;
+import com.oo2.grupo17.exceptions.EmailIncorrectoException;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
+import com.oo2.grupo17.exceptions.RolNoEncontradoException;
 import com.oo2.grupo17.repositories.IClienteRepository;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
@@ -49,7 +54,7 @@ public class ClienteService implements IClienteService {
 	@Override
 	public ClienteDto findById(Long id) {
 		Cliente cliente = clienteRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + id));
 		return modelMapper.map(cliente, ClienteDto.class);
 	}
 
@@ -64,7 +69,7 @@ public class ClienteService implements IClienteService {
 	@Override
 	public ClienteDto update(Long id, ClienteDto clienteDto) {
 		Cliente cliente = clienteRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + id));
 		cliente.setNombre(clienteDto.getNombre());
 		cliente.setDni(clienteDto.getDni());
 		Cliente updated = clienteRepository.save(cliente);
@@ -80,7 +85,7 @@ public class ClienteService implements IClienteService {
 	public void registrarCliente(ClienteRegistroDto registroDto) {
 	    // 1. Busco rol
 	    RoleEntity clienteRole = roleRepository.findByType(RoleType.CLIENTE)
-	        .orElseThrow(() -> new RuntimeException("Error: Rol CLIENTE no encontrado"));
+	        .orElseThrow(() -> new RolNoEncontradoException("No se encontró el rol: CLIENTE"));
 
 	    // 2. Creo Cliente (sin contacto)
 	    Cliente cliente = new Cliente();
@@ -120,7 +125,7 @@ public class ClienteService implements IClienteService {
 	@Override
 	public ClienteDto findByEmail(String email) {
 		Cliente cliente = clienteRepository.findByEmail(email)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con Email: " + email));
 		return modelMapper.map(cliente, ClienteDto.class);
 	}
 	
@@ -128,7 +133,7 @@ public class ClienteService implements IClienteService {
 	public void updatearContactoUserEntity(ContactoDto contactoDto) {
 		contactoService.update(contactoDto.getId(), contactoDto);
 		Cliente cliente = clienteRepository.findById(contactoDto.getId())
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + contactoDto.getId()));
 		UserEntity usuario = cliente.getUser();
     	usuario.setUsername(contactoDto.getEmail());
     	userRepository.save(usuario);
@@ -139,21 +144,21 @@ public class ClienteService implements IClienteService {
 		
 		// 1. Busco el cliente, el contacto y el usuario desde la base de datos
 		Cliente cliente = clienteRepository.findByEmail(email)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con Email: " + email));
 		Contacto contacto = contactoRepository.findByEmail(email)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con Email: " + email));
 		UserEntity user = userRepository.findByUsername(email)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el user con Email: " + email));
 		
 		// 2. Valido los datos con los encontrados
 		if(cliente.getDni() != dni) {
-			throw new RuntimeException("ERROR: DNI incorrecto");
+			throw new DniIncorrectoException("ERROR: Dni incorrecto");
 		}
 		if(!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
-			throw new RuntimeException("ERROR: Contraseña incorrecta");
+			throw new ContraseñaIncorrectaException("ERROR: Contraseña incorrecta");
 		}
 		if(!contacto.getEmail().equals(email)) {
-			throw new RuntimeException("ERROR: Email incorrecto");
+			throw new EmailIncorrectoException("ERROR: Email incorrecto");
 		}
 		
 		// 3. Desvinculo al contacto de cliente (Persona)

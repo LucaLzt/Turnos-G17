@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Servicio;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
 import com.oo2.grupo17.services.IServicioService;
@@ -34,7 +35,7 @@ public class ServicioService implements IServicioService {
 	public ServicioDto findById(Long id) {
 		// 1. Obtengo el servicio por ID desde la base de datos
 		Servicio servicio = servicioRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el servicio con ID: " + id));
 		
 		// 2. Mapeo el servicio a ServicioDto
 		ServicioDto servicioDto = modelMapper.map(servicio, ServicioDto.class);
@@ -62,7 +63,7 @@ public class ServicioService implements IServicioService {
 	public ServicioDto update(Long id, ServicioDto servicioDto) {
 		// 1. Obtengo el servicio por ID desde la base de datos
 		Servicio servicio = servicioRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el servicio con ID: " + id));
 		
 		// 2. Actualizo los campos simples del servicio
 		servicio.setNombre(servicioDto.getNombre());

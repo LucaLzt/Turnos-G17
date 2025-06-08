@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.entities.Contacto;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.services.IContactoService;
 
@@ -29,7 +30,7 @@ public class ContactoService implements IContactoService {
 	@Override
 	public ContactoDto findById(Long id) {
 		Contacto contacto = contactoRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con ID: " + id));
 		return modelMapper.map(contacto, ContactoDto.class);
 	}
 
@@ -44,7 +45,7 @@ public class ContactoService implements IContactoService {
 	@Override
 	public ContactoDto update(Long id, ContactoDto contactoDto) {
 		Contacto contacto = contactoRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con ID: " + id));
 		contacto.setEmail(contactoDto.getEmail());
 		contacto.setMovil(contactoDto.getMovil());
 		contacto.setTelefono(contactoDto.getTelefono());
@@ -60,7 +61,7 @@ public class ContactoService implements IContactoService {
 	@Override
 	public ContactoDto findByEmail(String email) {
 		Contacto contacto = contactoRepository.findByEmail(email)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con Email: " + email));
 		return modelMapper.map(contacto, ContactoDto.class);
 	}
 

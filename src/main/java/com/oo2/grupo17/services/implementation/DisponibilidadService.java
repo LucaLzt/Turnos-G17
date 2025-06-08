@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.DisponibilidadDto;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Profesional;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.services.IDisponibilidadService;
@@ -38,7 +39,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 	@Override
 	public DisponibilidadDto findById(Long id) {
 		Disponibilidad disp = disponibilidadRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el disponibilidad con ID: " + id));
 		return modelMapper.map(disp, DisponibilidadDto.class);
 	}
 
@@ -53,7 +54,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 	@Override
 	public DisponibilidadDto updateOcupacion(Long id, DisponibilidadDto disponbilidadDto) {
 		Disponibilidad disp = disponibilidadRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el disponibilidad con ID: " + id));
 		if(disp.isOcupado() == false) {
 			disp.setOcupado(true);
 		} else {
@@ -77,7 +78,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 		}
 		
 		Profesional profesional = profesionalRepository.findById(profesionalId)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + profesionalId));
 		
 		List<Disponibilidad> objetos = new ArrayList<>();
 		LocalDate fechaActual = fechaInicio;

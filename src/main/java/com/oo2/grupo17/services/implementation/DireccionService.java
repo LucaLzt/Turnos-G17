@@ -12,6 +12,7 @@ import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Direccion;
 import com.oo2.grupo17.entities.Lugar;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IDireccionRepository;
 import com.oo2.grupo17.repositories.ILocalidadRepository;
@@ -41,7 +42,7 @@ public class DireccionService implements IDireccionService {
 	@Override
 	public DireccionDto findById(Long id) {
 		Direccion direccion = direccionRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el direccion con ID: " + id));
 		return modelMapper.map(direccion, DireccionDto.class);
 	}
 
@@ -56,7 +57,7 @@ public class DireccionService implements IDireccionService {
 	@Override
 	public DireccionDto update(Long id, DireccionDto direccionDto) {
 		Direccion direccion = direccionRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el direccion con ID: " + id));
 		direccion.setAltura(direccionDto.getAltura());
 		direccion.setCalle(direccionDto.getCalle());
 		Direccion updated = direccionRepository.save(direccion);
@@ -71,7 +72,7 @@ public class DireccionService implements IDireccionService {
 	@Override
 	public DireccionDto findByContactoEmail(String email) {
 		Contacto contacto = contactoRepository.findByEmail(email)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con Email: " + email));
 		Direccion direccion = contacto.getDireccion();
 		if(direccion == null) {
 			return null;
@@ -91,7 +92,7 @@ public class DireccionService implements IDireccionService {
 
 	    // 2. Buscar el contacto real de la base
 	    Contacto contactoEntity = contactoRepository.findById(contactoDto.getId())
-	        .orElseThrow();
+	        .orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con ID: " + contactoDto.getId()));
 
 	    // 3. Asociar la dirección y guardo el contacto
 	    contactoEntity.setDireccion(savedDireccion);
@@ -104,7 +105,7 @@ public class DireccionService implements IDireccionService {
 	public DireccionDto actualizarDireccion(ContactoDto contactoDto, DireccionDto direccionDto) {
 		// 1. Traigo la dirección existente de la base de datos
 		Direccion direccion = direccionRepository.findById(direccionDto.getId())
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el direccion con ID: " + direccionDto.getId()));
 		
 		// 2. Actualizo los campos de la dirección
 		direccion.setCalle(direccionDto.getCalle());
@@ -119,7 +120,7 @@ public class DireccionService implements IDireccionService {
 		
 		// 4. Traigo el contacto existente de la base de datos
 		Contacto contactoEntity = contactoRepository.findById(contactoDto.getId())
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con ID: " + contactoDto.getId()));
 		
 		// 5. Actualizo la dirección del contacto y guardo
 		contactoEntity.setDireccion(updated);
@@ -158,7 +159,7 @@ public class DireccionService implements IDireccionService {
 	public DireccionDto actualizarDireccion(LugarDto lugarDto, DireccionDto direccionDto) {
 	    // 1. Buscar el lugar existente
 	    Lugar lugarEntity = lugarRepository.findById(lugarDto.getId())
-	            .orElseThrow();
+	            .orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el lugar con ID: " + lugarDto.getId()));
 	    
 	    // 2. Actualizo los campos del lugar
 	    lugarEntity.setHorarioApertura(lugarDto.getHorarioApertura());
