@@ -33,10 +33,10 @@
                     <b>Número de Matrícula:</b>
                     <span th:text="${profesional.matricula}"></span>
                 </li>
-                <li>
-                    <b>Especialidad:</b>
-                    <span th:text="${profesional.especialidad.nombre}"></span>
-                </li>
+				<li>
+				    <b>Especialidad:</b>
+				    <span th:text="${profesional.especialidad != null && profesional.especialidad.nombre != null ? profesional.especialidad.nombre : 'Sin Especialidad'}"></span>
+				</li>
             </ul>
             <div class="perfil-buttons">
                 <a th:href="@{/profesional/modificar-contacto}" class="perfil-btn">
