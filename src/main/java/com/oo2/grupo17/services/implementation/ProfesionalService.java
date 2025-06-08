@@ -132,6 +132,13 @@ public class ProfesionalService implements IProfesionalService {
 			servicio.getProfesionales().remove(profesional);
 			servicioRepository.save(servicio);
 		}
+
+		Set<Disponibilidad> d = profesional.getDisponibilidades();
+		
+		profesional.setDisponibilidades(null);
+		for(Disponibilidad dispo : d) {
+			disponibilidadRepository.delete(dispo);
+		}
 		
 		 profesional.setContacto(null);
 		 profesional.setUser(null);

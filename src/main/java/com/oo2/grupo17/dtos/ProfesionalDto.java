@@ -1,7 +1,9 @@
 package com.oo2.grupo17.dtos;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.oo2.grupo17.entities.Contacto;
 
@@ -21,14 +23,18 @@ public class ProfesionalDto extends PersonaDto {
 	private EspecialidadDto especialidad;
 	private List<Long> serviciosIds = new ArrayList<>();
 	private LugarDto lugar;
-	// private Set<TurnoDto> turnos;  <-- Crear el TurnoDto antes de descomentar esto (Se usa TurnoDto porque se necesitan detalles)
+	private Set<TurnoDto> turnos = new HashSet<>();
 	
-	// Agregar Set<TurnoDto> cuando se construya
-	public ProfesionalDto(String nombre, int dni, Contacto contacto, Integer matricula,
-			EspecialidadDto especialidad) {
+	public ProfesionalDto(String nombre, int dni, Contacto contacto,Integer matricula,
+			EspecialidadDto especialidad, List<Long> serviciosIds, LugarDto lugar, Set<TurnoDto> turnos) {
 		super(nombre, dni, contacto);
 		this.matricula = matricula;
 		this.especialidad = especialidad;
+		this.serviciosIds = serviciosIds;
+		this.lugar = lugar;
+		this.turnos = turnos;
 	}
+
+	
 	
 }
