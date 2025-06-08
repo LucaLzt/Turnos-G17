@@ -59,7 +59,7 @@ public class LugarService implements ILugarService {
 		return modelMapper.map(lugar, LugarDto.class);
 	}
 
-	@Override
+	@Override 
 	public List<LugarDto> findAll() {
 		return lugarRepository.findAll()
 				.stream()
