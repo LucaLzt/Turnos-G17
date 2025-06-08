@@ -55,5 +55,10 @@ public class TurnoService implements ITurnoService {
 	public void eliminarTurno(Long id) {
 	    turnoRepository.deleteById(id);
 	}
+	
+	@Override
+	public List<Turno> buscarTurnosPorProfesionalId(Long profesionalId) {
+	    return turnoRepository.findByProfesionalId(profesionalId);
+	}
 
 }

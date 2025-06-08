@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
+import com.oo2.grupo17.entities.Turno;
 
 public interface IProfesionalService {
 	
@@ -21,4 +22,8 @@ public interface IProfesionalService {
     public void registrarProfesional(ProfesionalRegistradoDto registroDto);
     
     void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId);
+    
+    public ProfesionalDto findByEmail(String email) ;
+    
+    //public List<Turno> buscarTurnosPorProfesionalId(Long profesionalId);
 }

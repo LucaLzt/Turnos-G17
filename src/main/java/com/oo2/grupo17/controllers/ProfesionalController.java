@@ -1,5 +1,6 @@
 package com.oo2.grupo17.controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -14,15 +15,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.EspecialidadDto;
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ServicioDto;
+import com.oo2.grupo17.dtos.TurnoDto;
+import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IEspecialidadService;
 import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProfesionalService;
 import com.oo2.grupo17.services.IServicioService;
+import com.oo2.grupo17.services.ITurnoService;
 
 import lombok.Builder;
 
@@ -34,6 +39,7 @@ public class ProfesionalController {
 	public final IServicioService servicioService;
 	public final ILugarService lugarService;
 	public final IEspecialidadService especialidadService;
+	public final ITurnoService turnoService;
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/eliminar")
@@ -118,4 +124,37 @@ public class ProfesionalController {
 		profesionalService.asignarDatosProfesional(id, especialidadId, lugarId, serviciosId);
 		return "redirect:/profesionales/gestion?gestionado=ok";
 	};
+	
+	@GetMapping("/home")
+	public String index() {
+		return ViewRouteHelper.HOME_INDEX;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
+	@GetMapping("/cancelar-turno")
+    public String cancelarTurnosProfesional(Model model, Principal principal) {
+    	String email = principal.getName();
+    	ProfesionalDto profesional = profesionalService.findByEmail(email);
+        Long profesionalId = profesional.getId();
+        
+
+        List<Turno> turnos = turnoService.buscarTurnosPorProfesionalId(profesionalId);
+        System.out.println(turnos.get(0).getId());
+        model.addAttribute("turnos", turnos);
+
+        return "profesionales/TurnosACancelar";
+    }
+	
+	@GetMapping("/detalle/{id}")
+    public String detalleTurno(@PathVariable("id") long id, Model model) {
+        TurnoDto turno = turnoService.findById(id);
+        model.addAttribute("turno", turno);
+        return "profesionales/DetalleTurno";
+    }
+	
+	@GetMapping("/eliminar/{id}")
+    public String eliminarTurno(@PathVariable Long id) {
+        turnoService.eliminarTurno(id);
+        return "redirect:/profesionales/cancelar-turno"; 
+    }
 }

@@ -17,6 +17,8 @@ public interface ITurnoService {
     
     List<Turno> buscarTurnosPorClienteId(Long clienteId);
     
+    List<Turno> buscarTurnosPorProfesionalId(Long profesionalId);
+    
     void eliminarTurno(Long id);
 	
 }
