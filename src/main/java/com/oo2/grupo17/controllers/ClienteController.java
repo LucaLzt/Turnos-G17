@@ -22,10 +22,12 @@ import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ServicioDto;
+import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.entities.Servicio;
+import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
@@ -34,6 +36,7 @@ import com.oo2.grupo17.services.ILocalidadService;
 import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProvinciaService;
 import com.oo2.grupo17.services.IServicioService;
+import com.oo2.grupo17.services.ITurnoService;
 
 import jakarta.validation.Valid;
 import lombok.Builder;
@@ -50,6 +53,7 @@ public class ClienteController {
 	private final IDireccionService direccionService;
 	private final IProvinciaService provinciaService;
 	private final ILocalidadService localidadService;
+	private final ITurnoService turnoService;
 
 	// Muestra el perfil del cliente
 	@GetMapping("/perfil")
@@ -229,5 +233,47 @@ public class ClienteController {
 		SecurityContextHolder.clearContext();
 		return "redirect:/auth/login?logout";
 	}
+	
+	@GetMapping("/turnos")
+    public String menuTurnos() {
+        return "cliente/turnos"; 
+    }
+	
+	@GetMapping("/detalle/{id}")
+    public String detalleTurno(@PathVariable("id") long id, Model model) {
+        TurnoDto turno = turnoService.findById(id);
+        model.addAttribute("turno", turno);
+        return "cliente/DetalleTurno";
+    }
+    @PreAuthorize("hasRole('ROLE_CLIENTE')")
+    @GetMapping("/lista")
+    public String cantidadTurnosCliente(Model model, Principal principal) {
+    	String email = principal.getName();
+    	ClienteDto cliente = clienteService.findByEmail(email);
+        Long clienteId = cliente.getId();
+
+        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
+        model.addAttribute("turnos", turnos);
+
+        return "cliente/ListaTurnos";
+    }
+    
+    @GetMapping("/cancelar")
+    public String cancelarTurnosCliente(Model model, Principal principal) {
+    	String email = principal.getName();
+    	ClienteDto cliente = clienteService.findByEmail(email);
+        Long clienteId = cliente.getId();
+
+        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
+        model.addAttribute("turnos", turnos);
+
+        return "cliente/TurnosACancelar";
+    }
+    
+    @GetMapping("/eliminar/{id}")
+    public String eliminarTurno(@PathVariable Long id) {
+        turnoService.deleteById(id);
+        return "redirect:/cliente/cancelar"; 
+    }
 		
 }
