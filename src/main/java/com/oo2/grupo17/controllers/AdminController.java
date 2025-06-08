@@ -1,5 +1,7 @@
 package com.oo2.grupo17.controllers;
 
+import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
+import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
+import com.oo2.grupo17.services.IDisponibilidadService;
 import com.oo2.grupo17.services.IProfesionalService;
 
 import lombok.Builder;
@@ -62,6 +67,22 @@ public class AdminController {
 	@GetMapping("/administrar-especialidades")
 	public String administrarEspecialidades() {
 		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/generar-disponibilidades")
+	public String generarDisponibilidades(Model model) {
+		List<ProfesionalDto> profesionales = profesionalService.findAll();
+		model.addAttribute("profesionales", profesionales);
+		model.addAttribute("datosFormulario", new GenerarDisponibilidadDto());
+		return "/profesionales/generar-disponibilidades";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping("/generar-disponibilidades")
+	public String generarDisponibilidadesPost(@ModelAttribute("datosFormulario") GenerarDisponibilidadDto dto) {
+		profesionalService.generarDisponibilidadesAutomaticas(dto);
+		return "redirect:/admin/administrar-profesional?disponibilidadesGeneradas=ok";
 	}
 	
 	

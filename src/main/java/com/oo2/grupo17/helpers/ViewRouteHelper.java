@@ -36,6 +36,7 @@ public class ViewRouteHelper {
     public static final String PROFESIONAL_GESTION = "profesionales/gestion";
     public static final String PROFESIONAL_CONTACTO = "profesional/modificar-contacto";
     public static final String PROFESIONAL_DIRECCION = "profesional/modificar-direccion";
+    public static final String PROFESIONAL_DISPONIBILIDADES = "profesionales/generar-disponibilidades";
     
     //Lugares
     public static final String LUGARES_AGREGAR = "lugares/agregar";

@@ -1,6 +1,10 @@
 package com.oo2.grupo17.services.implementation;
 
 import java.security.SecureRandom;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -12,9 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ContactoDto;
+import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.entities.Contacto;
+import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Especialidad;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Profesional;
@@ -23,6 +29,7 @@ import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.entities.UserEntity;
 import com.oo2.grupo17.repositories.IContactoRepository;
+import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.IEspecialidadRepository;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
@@ -41,6 +48,7 @@ import lombok.Builder;
 public class ProfesionalService implements IProfesionalService {
 	
 	private final IProfesionalRepository profesionalRepository;
+	private final IDisponibilidadRepository disponibilidadRepository;
 	private final IContactoRepository contactoRepository;
 	private final IServicioRepository servicioRepository;
 	private final ILugarRepository lugarRepository;
@@ -214,5 +222,35 @@ public class ProfesionalService implements IProfesionalService {
     	usuario.setUsername(contactoDto.getEmail());
     	userRepository.save(usuario);
 	}
+	
+	@Override
+	public void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto) {
+        // 1. Buscar el profesional por ID
+        Profesional profesional = profesionalRepository.findById(dto.getProfesionalId())
+            .orElseThrow();
+
+        // 2. Iterar sobre cada día del rango
+        LocalDate fecha = dto.getFechaInicio();
+        while (!fecha.isAfter(dto.getFechaFin())) {
+
+            // 3. Para cada día, iterar sobre las horas disponibles
+            LocalTime hora = dto.getHoraInicio();
+            while (!hora.plusMinutes(dto.getDuracionMinutos()).isAfter(dto.getHoraFin())) {
+                // 4. Crear y guardar la disponibilidad
+                Disponibilidad disponibilidad = new Disponibilidad();
+                disponibilidad.setProfesional(profesional);
+                disponibilidad.setInicio(LocalDateTime.of(fecha, hora));
+                disponibilidad.setDuracion(Duration.ofMinutes(dto.getDuracionMinutos()));
+                disponibilidad.setOcupado(false);
+
+                disponibilidadRepository.save(disponibilidad);
+
+                // 5. Avanzar al siguiente turno
+                hora = hora.plusMinutes(dto.getDuracionMinutos());
+            }
+            // 6. Avanzar al siguiente día
+            fecha = fecha.plusDays(1);
+        }
+    }
 	
 }

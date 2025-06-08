@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.oo2.grupo17.dtos.ContactoDto;
+import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 
@@ -26,4 +27,6 @@ public interface IProfesionalService {
 	ProfesionalDto findByEmail(String email);
 
 	void updatearContactoUserEntity(ContactoDto contactoDto);
+
+	void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto);
 }
