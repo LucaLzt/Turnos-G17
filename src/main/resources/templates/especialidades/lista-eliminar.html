@@ -10,9 +10,6 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
-        </a>
     </div>
     <div class="admin-section">
         <div class="admin-title-with-btn">
@@ -24,17 +21,19 @@
                 <span>Volver</span>
             </a>
         </div>
-        <div class="lugar-grid">
-			<form th:each="especialidad : ${especialidades}" 
-				  th:action="@{'/especialidades/' + ${especialidad.id} + '/eliminar'}" 
-				  method="post">
-			    <button type="submit" class="lugar-card">
-			        <div class="lugar-title">
-			            <i class="fas fa-stethoscope panel-card-icon"></i>
-			            <span th:text="${especialidad.nombre}"></span>
-			        </div>
-			    </button>
-			</form>
+        <div class="lugares-grid">
+            <a th:each="espe : ${especialidades}"
+               th:href="@{'/especialidades/' + ${espe.id} + '/eliminar'}"
+               class="lugar-card">
+                <div class="lugar-title">
+                    <i class="fas fa-stethoscope panel-card-icon"></i>
+                    <span th:text="${espe.nombre}"></span>
+                </div>
+				<div class="eliminar-servicio-indicador">
+					<i class="fas fa-trash-alt"></i>
+				    <span>Click para eliminar</span>
+				</div>
+            </a>
         </div>
     </div>
 </body>

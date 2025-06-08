@@ -23,5 +23,7 @@ public interface IClienteService {
     public ClienteDto findByEmail(String email);
     
     public void updatearContactoUserEntity(ContactoDto contactoDto);
+
+	void eliminarCuenta(String email, String password, int dni);
 	
 }

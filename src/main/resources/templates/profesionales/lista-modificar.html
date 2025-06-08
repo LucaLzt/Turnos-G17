@@ -12,7 +12,7 @@
         <div class="brand">MiTurno</div>
     </div>
     <div class="admin-section">
-		<div class="admin-title-with-btn">
+        <div class="admin-title-with-btn">
             <div class="admin-title">
                 <i class="fas fa-user-md"></i> Lista de Profesionales
             </div>
@@ -34,10 +34,18 @@
                         <i class="fas fa-hashtag"></i>
                         <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
                     </span>
+                    <span>
+                        <i class="fas fa-id-card"></i>
+                        <span th:text="'DNI: ' + ${profesional.dni}"></span>
+                    </span>
                 </div>
                 <div>
                     <i class="fas fa-stethoscope"></i>
-                    <span th:text="'DNI: ' + ${profesional.dni}"></span>
+                    <span th:text="${profesional.especialidad != null ? profesional.especialidad.nombre : 'Sin especialidad'}"></span>
+                </div>
+                <div>
+                    <i class="fas fa-briefcase-medical"></i>
+                    <span th:text="${#lists.isEmpty(profesional.servicios) ? 'Sin servicios' : #strings.arrayJoin(profesional.servicios.![nombre], ', ')}"></span>
                 </div>
             </a>
         </div>

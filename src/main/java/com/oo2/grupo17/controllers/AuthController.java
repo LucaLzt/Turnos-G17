@@ -13,6 +13,7 @@ import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.implementation.ClienteService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -29,6 +30,11 @@ public class AuthController {
         model.addAttribute("logout", logout);
         return ViewRouteHelper.USER_LOGIN;
     }
+    
+    @GetMapping("/loginSuccess")
+    public String loginCheck() {
+        return "redirect:/index";
+    }
 
     @GetMapping("/register")
     public String registerAccount(Model model) {
@@ -37,17 +43,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String processRegisterAccount(@ModelAttribute("cliente") ClienteRegistroDto clienteDto,
-                                         BindingResult result) {
+    public String registerAccountPost(@Valid @ModelAttribute("cliente") ClienteRegistroDto clienteDto,
+    		BindingResult result) {
         if (result.hasErrors()) {
             return ViewRouteHelper.CLIENTE_REGISTER;
         }
         clienteService.registrarCliente(clienteDto);
         return "redirect:/auth/login?registroExitoso";
     }
-
-    @GetMapping("/loginSuccess")
-    public String loginCheck() {
-        return "redirect:/index";
-    }
+    
 }

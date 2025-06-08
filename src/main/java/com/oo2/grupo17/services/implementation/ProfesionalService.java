@@ -1,6 +1,10 @@
 package com.oo2.grupo17.services.implementation;
 
 import java.security.SecureRandom;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -11,9 +15,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oo2.grupo17.dtos.ContactoDto;
+import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.entities.Contacto;
+import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Especialidad;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Profesional;
@@ -22,12 +29,14 @@ import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.entities.UserEntity;
 import com.oo2.grupo17.repositories.IContactoRepository;
+import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.IEspecialidadRepository;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
+import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IProfesionalService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -39,12 +48,14 @@ import lombok.Builder;
 public class ProfesionalService implements IProfesionalService {
 	
 	private final IProfesionalRepository profesionalRepository;
+	private final IDisponibilidadRepository disponibilidadRepository;
 	private final IContactoRepository contactoRepository;
 	private final IServicioRepository servicioRepository;
 	private final ILugarRepository lugarRepository;
 	private final IEspecialidadRepository especialidadRepository;
 	private final IRoleRepository roleRepository;
 	private final IUserRepository userRepository;
+	private final IContactoService contactoService;
 	private final EmailService emailService;
 	private final ModelMapper modelMapper;
 
@@ -150,7 +161,8 @@ public class ProfesionalService implements IProfesionalService {
 	    UserEntity user = new UserEntity();
 	    user.setUsername(registroDto.getEmail());
 	    String contraseñaGenerada = generarPasswordAleatoria();
-	    user.setPassword(encryptPassword(contraseñaGenerada));
+	    //user.setPassword(encryptPassword(contraseñaGenerada));
+	    user.setPassword(encryptPassword("1234")); // Para pruebas, usar una contraseña fija
 	    user.setActive(true);
 	    user.setRoleEntities(new HashSet<>(Set.of(profesionalRole)));
 	    user.setProfesional(profesional);
@@ -174,7 +186,7 @@ public class ProfesionalService implements IProfesionalService {
 	    profesionalRepository.save(profesional);
 	    
 	    // 9. Envío correo al profesional con la contraseña generada
-	    emailService.enviarEmailRegistro(registroDto.getEmail(), registroDto.getNombre(), contraseñaGenerada);
+	    // emailService.enviarEmailRegistro(registroDto.getEmail(), registroDto.getNombre(), contraseñaGenerada);
 	}
 	
 	// --- Método auxiliar para crear contraseña aleatoria --- //
@@ -195,56 +207,50 @@ public class ProfesionalService implements IProfesionalService {
 	}
 	
 	@Override
-	public ProfesionalDto asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds) {
-		Profesional profesional = profesionalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profesional no encontrado"));
-		System.out.println(profesionalDto.getEspecialidad());
-		System.out.println(profesionalDto.getEspecialidad());
-		System.out.println(profesionalDto.getEspecialidad());
-		// Asignar Especialidad
-		if(profesionalDto.getEspecialidad() != null) {
-			Especialidad especialidad = especialidadRepository.findById(profesionalDto.getEspecialidad().getId()).orElseThrow(()-> new EntityNotFoundException("Especialidad no encontrada"));
-			profesional.setEspecialidad(especialidad);
-		} else {
-			profesional.setEspecialidad(null);
-		}
-		
-		// Asignar Servicios
-	   Set<Servicio> serviciosActuales = new HashSet<>(profesional.getServicios());
-	  
-	   Set<Servicio> nuevosServicios;
-	   if (serviciosIds != null && !serviciosIds.isEmpty()) {
-	       nuevosServicios = new HashSet<>(servicioRepository.findAllById(serviciosIds));
-	   } else {
-	       nuevosServicios = new HashSet<>();
-	   }
-
-	     // Quitar profesional de los servicios que ya no corresponden
-	   for (Servicio servicio : serviciosActuales) {
-	       if (!nuevosServicios.contains(servicio)) {
-	           servicio.getProfesionales().remove(profesional);
-	           profesional.getServicios().remove(servicio);
-	       }	    
-	   }
-
-	    // 2. Agregar profesional a los nuevos servicios seleccionados
-	   for (Servicio servicio : nuevosServicios) {
-	       servicio.getProfesionales().add(profesional);
-	       profesional.getServicios().add(servicio);
-	   }
-	    
-	   profesional.setServicios(nuevosServicios);
-		
-		// Asignar Lugar
-		if(profesionalDto.getLugar() != null) {
-			Lugar lugar = lugarRepository.findById(profesionalDto.getLugar().getId()).orElseThrow(()-> new EntityNotFoundException("Lugar no encontrado"));
-			profesional.setLugar(lugar);
-		} else {
-			profesional.setLugar(null);
-		}
-		
-		Profesional update = profesionalRepository.save(profesional);
-		return modelMapper.map(update, ProfesionalDto.class);
+	public ProfesionalDto findByEmail(String email) {
+		Profesional profesional = profesionalRepository.findByEmail(email)
+				.orElseThrow();
+		return modelMapper.map(profesional, ProfesionalDto.class);
 	}
 	
+	@Override 
+	public void updatearContactoUserEntity(ContactoDto contactoDto) {
+		contactoService.update(contactoDto.getId(), contactoDto);
+		Profesional profesional = profesionalRepository.findById(contactoDto.getId())
+				.orElseThrow();
+		UserEntity usuario = profesional.getUser();
+    	usuario.setUsername(contactoDto.getEmail());
+    	userRepository.save(usuario);
+	}
+	
+	@Override
+	public void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto) {
+        // 1. Buscar el profesional por ID
+        Profesional profesional = profesionalRepository.findById(dto.getProfesionalId())
+            .orElseThrow();
+
+        // 2. Iterar sobre cada día del rango
+        LocalDate fecha = dto.getFechaInicio();
+        while (!fecha.isAfter(dto.getFechaFin())) {
+
+            // 3. Para cada día, iterar sobre las horas disponibles
+            LocalTime hora = dto.getHoraInicio();
+            while (!hora.plusMinutes(dto.getDuracionMinutos()).isAfter(dto.getHoraFin())) {
+                // 4. Crear y guardar la disponibilidad
+                Disponibilidad disponibilidad = new Disponibilidad();
+                disponibilidad.setProfesional(profesional);
+                disponibilidad.setInicio(LocalDateTime.of(fecha, hora));
+                disponibilidad.setDuracion(Duration.ofMinutes(dto.getDuracionMinutos()));
+                disponibilidad.setOcupado(false);
+
+                disponibilidadRepository.save(disponibilidad);
+
+                // 5. Avanzar al siguiente turno
+                hora = hora.plusMinutes(dto.getDuracionMinutos());
+            }
+            // 6. Avanzar al siguiente día
+            fecha = fecha.plusDays(1);
+        }
+    }
 	
 }

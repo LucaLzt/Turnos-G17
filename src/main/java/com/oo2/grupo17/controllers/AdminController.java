@@ -1,5 +1,7 @@
 package com.oo2.grupo17.controllers;
 
+import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,10 +12,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.oo2.grupo17.dtos.DatosContactoDto;
+import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
+import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
+import com.oo2.grupo17.services.IEmailService;
 import com.oo2.grupo17.services.IProfesionalService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -21,6 +28,7 @@ import lombok.Builder;
 public class AdminController {
 	
 	private final IProfesionalService profesionalService;
+	private final IEmailService emailService;
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/registrar-profesional")
@@ -31,7 +39,7 @@ public class AdminController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/registrar-profesional")
-	public String registrarProfesionalPost(@ModelAttribute("profesional") ProfesionalRegistradoDto profesionalDto,
+	public String registrarProfesionalPost(@Valid @ModelAttribute("profesional") ProfesionalRegistradoDto profesionalDto,
 			BindingResult result) {
 		if(result.hasErrors()) {
 			return ViewRouteHelper.ADMIN_REGISTRAR_PROFESIONAL;
@@ -62,6 +70,53 @@ public class AdminController {
 	@GetMapping("/administrar-especialidades")
 	public String administrarEspecialidades() {
 		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/generar-disponibilidades")
+	public String generarDisponibilidades(Model model) {
+		List<ProfesionalDto> profesionales = profesionalService.findAll();
+		model.addAttribute("profesionales", profesionales);
+		model.addAttribute("datosFormulario", new GenerarDisponibilidadDto());
+		return ViewRouteHelper.PROFESIONAL_DISPONIBILIDADES;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping("/generar-disponibilidades")
+	public String generarDisponibilidadesPost(@Valid @ModelAttribute("datosFormulario") GenerarDisponibilidadDto dto,
+			BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			List<ProfesionalDto> profesionales = profesionalService.findAll();
+			model.addAttribute("profesionales", profesionales);
+			return ViewRouteHelper.PROFESIONAL_DISPONIBILIDADES;
+		}
+		profesionalService.generarDisponibilidadesAutomaticas(dto);
+		return "redirect:/admin/administrar-profesional?disponibilidadesGeneradas=ok";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/contactar-profesional")
+	public String contactarProfesional(Model model) {
+		List<ProfesionalDto> profesionales = profesionalService.findAll();
+		model.addAttribute("profesionales", profesionales);
+		model.addAttribute("datosContacto", new DatosContactoDto());
+		return "/admin/contactar-profesional";
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping("/contactar-profesional")
+	public String contactarProfesionalPost(@Valid @ModelAttribute("datosContacto") DatosContactoDto dto,
+			BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			List<ProfesionalDto> profesionales = profesionalService.findAll();
+			model.addAttribute("profesionales", profesionales);
+			return "admin/contactar-profesional";
+		}
+		ProfesionalDto profesional = profesionalService.findById(dto.getProfesionalId());
+		emailService.enviarEmail(profesional.getContacto().getEmail(), dto.getAsunto(), dto.getMensaje());
+		
+		return "redirect:/index?mensajeEnviado=ok";
+		
 	}
 	
 	

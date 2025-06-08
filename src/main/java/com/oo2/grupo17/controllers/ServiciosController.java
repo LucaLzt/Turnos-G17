@@ -18,6 +18,7 @@ import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IServicioService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -36,7 +37,11 @@ public class ServiciosController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/agregar")
-	public String agregarServicioPost(@ModelAttribute("servicio") ServicioDto servicio) {
+	public String agregarServicioPost(@Valid @ModelAttribute("servicio") ServicioDto servicio,
+			BindingResult result) {
+		if(result.hasErrors()) {
+			return ViewRouteHelper.SERVICIOS_AGREGAR;
+		}
 		servicioService.save(servicio);
 		return "redirect:/admin/administrar-servicios?agregado=ok";
 	}
@@ -61,8 +66,12 @@ public class ServiciosController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
-	public String modificarServicioPost(@PathVariable("id") Long id, @ModelAttribute("servicio") ServicioDto servicio,BindingResult result) {
+	public String modificarServicioPost(@PathVariable("id") Long id, 
+			@Valid @ModelAttribute("servicio") ServicioDto servicio, BindingResult result,
+			Model model) {
 		if(result.hasErrors()) {
+			List<LugarDto> lugares = lugarService.findAll();
+			model.addAttribute("lugares", lugares);
 			return ViewRouteHelper.SERVICIOS_MODIFICAR;
 		}
 		servicioService.update(id, servicio);

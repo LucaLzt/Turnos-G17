@@ -18,12 +18,14 @@
         <form th:action="@{'/especialidades/' + ${especialidad.id} + '/modificar'}" th:object="${especialidad}" method="post">
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Traumatologo" required />
-		    <div class="form-actions">
-                <button type="submit" class="btn-submit">
+                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Traumatologo" />
+				<div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+		    	<div class="form-actions">
+                	<button type="submit" class="btn-submit">
                     <i class="fas fa-save"></i> Actualizar
                 </button>
                 <a th:href="@{/admin/administrar-especialidades}" class="btn-cancel">Cancelar</a>
+				</div>
             </div>
         </form>
     </div>

@@ -16,6 +16,7 @@ import com.oo2.grupo17.dtos.EspecialidadDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IEspecialidadService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -33,7 +34,11 @@ public class EspecialidadController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/agregar")
-	public String agregarEspecialidadPost(@ModelAttribute("especialidad") EspecialidadDto especialidad) {
+	public String agregarEspecialidadPost(@Valid @ModelAttribute("especialidad") EspecialidadDto especialidad,
+			BindingResult result) {
+		if(result.hasErrors()) {
+			return ViewRouteHelper.ESPECIALIDADES_AGREGAR;
+		}
 		especialidadService.save(especialidad);
 		return "redirect:/admin/administrar-especialidades?agregado=ok";
 	}
@@ -56,8 +61,8 @@ public class EspecialidadController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
-	public String modificarEspecialidadPost(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad, 
-			BindingResult result) {
+	public String modificarEspecialidadPost(@PathVariable("id") Long id, 
+			@Valid @ModelAttribute("especialidad") EspecialidadDto especialidad, BindingResult result) {
 		if(result.hasErrors()) {
 			return ViewRouteHelper.ESPECIALIDADES_MODIFICAR;
 		}

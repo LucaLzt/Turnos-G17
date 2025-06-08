@@ -28,5 +28,14 @@ public class EmailService implements IEmailService {
 				);
 		mailSender.send(message);
 	}
+	
+	@Override
+	public void enviarEmail(String email, String asunto, String mensaje) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email);
+		message.setSubject(asunto + " - Servicio Turnos G17");
+		message.setText(mensaje);
+		mailSender.send(message);
+	}
 
 }

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Perfil del Cliente</title>
+    <title>Perfil del Profesional</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/cliente.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -10,44 +10,48 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
+        <a th:href="@{/profesionales/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user-md profile-icon"></i>
         </a>
     </div>
     <div class="main-content">
         <div class="action-card perfil-card">
             <div class="card-icon">
-                <i class="fas fa-id-card"></i>
+                <i class="fas fa-user-md"></i>
             </div>
             <div class="card-title" style="margin-bottom:1.5rem;">Mi Perfil</div>
             <ul class="perfil-list">
                 <li>
-                    <b>Nro Cliente:</b>
-                    <span th:text="${cliente.nroCliente}"></span>
-                </li>
-                <li>
                     <b>Nombre:</b>
-                    <span th:text="${cliente.nombre}"></span>
+                    <span th:text="${profesional.nombre}"></span>
                 </li>
                 <li>
                     <b>DNI:</b>
-                    <span th:text="${cliente.dni}"></span>
+                    <span th:text="${profesional.dni}"></span>
+                </li>
+                <li>
+                    <b>Número de Matrícula:</b>
+                    <span th:text="${profesional.matricula}"></span>
+                </li>
+                <li>
+                    <b>Especialidad:</b>
+                    <span th:text="${profesional.especialidad.nombre}"></span>
                 </li>
             </ul>
             <div class="perfil-buttons">
-                <a th:href="@{/cliente/modificar-contacto}" class="perfil-btn">
+                <a th:href="@{/profesionales/modificar-contacto}" class="perfil-btn">
                     <i class="fas fa-user-edit"></i> Modificar contacto
                 </a>
-				<a th:if="${cliente.contacto.direccion == null}" th:href="@{/cliente/modificar-direccion}" class="perfil-btn">
-				    <i class="fas fa-map-marker-alt"></i> Agregar dirección
+				<a th:if="${profesional.contacto.direccion == null}" th:href="@{/profesionales/modificar-direccion}" class="perfil-btn">
+					<i class="fas fa-map-marker-alt"></i> Agregar dirección
 				</a>
-				<a th:if="${cliente.contacto.direccion != null}" th:href="@{/cliente/modificar-direccion}" class="perfil-btn">
-				    <i class="fas fa-map-marker-alt"></i> Modificar dirección
+				<a th:if="${profesional.contacto.direccion != null}" th:href="@{/profesionales/modificar-direccion}" class="perfil-btn">
+					<i class="fas fa-map-marker-alt"></i> Modificar dirección
 				</a>
                 <a th:href="@{/index}" class="perfil-btn">
                     <i class="fas fa-home"></i> Volver al inicio
                 </a>
-                <a th:href="@{/cliente/logout}" class="perfil-btn">
+                <a th:href="@{/profesionales/logout}" class="perfil-btn">
                     <i class="fas fa-key"></i> Cerrar sesión
                 </a>
             </div>

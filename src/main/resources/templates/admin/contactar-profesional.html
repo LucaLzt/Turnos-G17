@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contactar Profesional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+    <div class="form-container">
+        <div class="form-title">
+            <i class="fas fa-envelope"></i>
+            Contactar Profesional
+        </div>
+        <form th:object="${datosContacto}" th:action="@{/admin/contactar-profesional}" method="post">
+            <div class="form-group">
+                <label for="profesionalId"><i class="fas fa-user-md"></i> Profesional:</label>
+                <select id="profesionalId" th:field="*{profesionalId}">
+                    <option value="" disabled selected>Seleccione un profesional</option>
+                    <option th:each="prof : ${profesionales}"
+                            th:value="${prof.id}"
+                            th:text="${prof.nombre + ' - Matrícula: ' + prof.matricula + ' - DNI: ' + prof.dni}">
+                    </option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('profesionalId')}" th:errors="*{profesionalId}"></div>
+            </div>
+            <div class="form-group">
+                <label for="asunto"><i class="fas fa-heading"></i> Asunto:</label>
+                <input type="text" id="asunto" th:field="*{asunto}" placeholder="Ingrese el asunto" required>
+                <div class="error" th:if="${#fields.hasErrors('asunto')}" th:errors="*{asunto}"></div>
+            </div>
+            <div class="form-group">
+                <label for="mensaje"><i class="fas fa-comment-dots"></i> Mensaje:</label>
+                <textarea id="mensaje" th:field="*{mensaje}" rows="6" placeholder="Escriba el mensaje para el profesional" required></textarea>
+                <div class="error" th:if="${#fields.hasErrors('mensaje')}" th:errors="*{mensaje}"></div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i>
+                    Enviar Mensaje
+                </button>
+                <a th:href="@{/admin/administrar-profesional}" class="btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

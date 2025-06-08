@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ContactoDto;
@@ -34,6 +35,7 @@ import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProvinciaService;
 import com.oo2.grupo17.services.IServicioService;
 
+import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
@@ -50,7 +52,6 @@ public class ClienteController {
 	private final ILocalidadService localidadService;
 
 	// Muestra el perfil del cliente
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/perfil")
 	public String perfil(Model model, Principal principal) {
 		
@@ -67,7 +68,6 @@ public class ClienteController {
 	}
 	
 	// Muestra el formulario para modificar el contacto del cliente
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/modificar-contacto")
 	public String modificarContacto(Model model, Principal principal) {
 		String email = principal.getName();
@@ -79,10 +79,9 @@ public class ClienteController {
 	}
 	
 	// Actualiza el contacto del cliente
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@PostMapping("/modificar-contacto")
-	public String modificarContactoUpdatear (@ModelAttribute("contacto") ContactoDto contactoDto,
-			Model model, BindingResult result, Principal principal) {
+	public String modificarContactoPost (@Valid @ModelAttribute("contacto") ContactoDto contactoDto,
+			BindingResult result, Model model,  Principal principal) {
 		
 		// Validar los datos del contacto
 		if(result.hasErrors()) {
@@ -106,7 +105,6 @@ public class ClienteController {
 	}
 	
 	// Muestra el formulario para agregar una dirección
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/modificar-direccion")
 	public String modificarDireccion(Model model, Principal principal) {
 		
@@ -131,10 +129,9 @@ public class ClienteController {
 	}
 	
 	// Agrega una nueva dirección y la asocia al contacto del cliente
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@PostMapping("/modificar-direccion")
-	public String modificarDireccionPost(@ModelAttribute("direccion") DireccionDto direccionDto,
-			Model model, BindingResult result, Principal principal) {
+	public String modificarDireccionPost(@Valid @ModelAttribute("direccion") DireccionDto direccionDto,
+			BindingResult result, Model model ,Principal principal) {
 		
 		// Validar los datos de la dirección
 		if (result.hasErrors()) {
@@ -162,17 +159,15 @@ public class ClienteController {
 		return "redirect:/cliente/perfil?updateDireccion=ok";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/servicios")
-	public String servicios(Model model) {
+	public String verServicios(Model model) {
 		List<ServicioDto> servicios = servicioService.findAllByOrderByNombreAsc();
 		model.addAttribute("servicios", servicios);
 		return ViewRouteHelper.CLIENTE_SERVICIOS;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/servicios/{id}/lugares")
-	public String lugares(@PathVariable("id") Long servicioId, Model model) {
+	public String verLugaresServicio(@PathVariable("id") Long servicioId, Model model) {
 		ServicioDto servicio = servicioService.findById(servicioId);
 		List<Lugar> lugares = lugarService.obtenerLugaresPorServicio(servicioId);
 		model.addAttribute("servicio", servicio);
@@ -180,7 +175,6 @@ public class ClienteController {
 		return ViewRouteHelper.CLIENTE_SERVICIOS_LUGARES;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/lugares")
 	public String verLugares(Model model) {
 		List<LugarDto> lugares = lugarService.findAll();
@@ -196,19 +190,32 @@ public class ClienteController {
 		model.addAttribute("lugares", lugares);
 		model.addAttribute("provinciasMap", provinciasMap);
 		model.addAttribute("localidadesMap", localidadesMap);
-		return "/cliente/lugares";
+		return ViewRouteHelper.CLIENTE_LUGARES;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_CLIENTE')")
 	@GetMapping("/lugar/{id}/servicios")
-	public String verServicioDelLugar(@PathVariable("id") Long id, Model model) {
+	public String verServiciosLugar(@PathVariable("id") Long id, Model model) {
 		LugarDto lugar = lugarService.findById(id);
 		List<Servicio> servicios = servicioService.traerServiciosPorLugar(id);
 		model.addAttribute("lugar", lugar);
 		model.addAttribute("servicios", servicios);
-		return "/cliente/servicio-por-lugar";
+		return ViewRouteHelper.CLIENTE_LUGARES_SERVICIOS;
 	}
 	
+	@GetMapping("/eliminar-cuenta")
+	public String eliminarCuenta() {
+		return "/cliente/eliminar-cuenta";
+	}
+	
+	@PostMapping("/eliminar-cuenta")
+	public String eliminarCuentaPost (@RequestParam("email") String email,
+			@RequestParam("password") String password, @RequestParam("dni") int dni) {
+		
+		// Elimina la cuenta del cliente
+		clienteService.eliminarCuenta(email, password, dni);
+		SecurityContextHolder.clearContext();
+		return "redirect:/auth/login?logout";
+	}
 	
 	@GetMapping("/home")
 	public String index() {

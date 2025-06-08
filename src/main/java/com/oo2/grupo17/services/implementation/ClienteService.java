@@ -124,7 +124,7 @@ public class ClienteService implements IClienteService {
 		return modelMapper.map(cliente, ClienteDto.class);
 	}
 	
-	@Override
+	@Override 
 	public void updatearContactoUserEntity(ContactoDto contactoDto) {
 		contactoService.update(contactoDto.getId(), contactoDto);
 		Cliente cliente = clienteRepository.findById(contactoDto.getId())
@@ -133,6 +133,39 @@ public class ClienteService implements IClienteService {
     	usuario.setUsername(contactoDto.getEmail());
     	userRepository.save(usuario);
 	}
+	
+	@Override @Transactional
+	public void eliminarCuenta(String email, String password, int dni) {
+		
+		// 1. Busco el cliente, el contacto y el usuario desde la base de datos
+		Cliente cliente = clienteRepository.findByEmail(email)
+				.orElseThrow();
+		Contacto contacto = contactoRepository.findByEmail(email)
+				.orElseThrow();
+		UserEntity user = userRepository.findByUsername(email)
+				.orElseThrow();
+		
+		// 2. Valido los datos con los encontrados
+		if(cliente.getDni() != dni) {
+			throw new RuntimeException("ERROR: DNI incorrecto");
+		}
+		if(!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+			throw new RuntimeException("ERROR: Contraseña incorrecta");
+		}
+		if(!contacto.getEmail().equals(email)) {
+			throw new RuntimeException("ERROR: Email incorrecto");
+		}
+		
+		// 3. Desvinculo al contacto de cliente (Persona)
+		cliente.setContacto(null);
+		clienteRepository.save(cliente);
+		
+		// 3. Elimino el contacto, el cliente y el usuario
+		contactoRepository.delete(contacto);
+		clienteRepository.delete(cliente);
+		userRepository.delete(user);
+		
+	};
 	
 	// --- Método auxiliar para encriptar la contraseña --- //
 	private String encryptPassword(String password) {

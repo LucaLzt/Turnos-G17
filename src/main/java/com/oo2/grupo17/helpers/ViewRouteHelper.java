@@ -17,6 +17,8 @@ public class ViewRouteHelper {
     public static final String CLIENTE_DIRECCION = "cliente/modificar-direccion";
     public static final String CLIENTE_SERVICIOS = "cliente/servicios";
     public static final String CLIENTE_SERVICIOS_LUGARES = "cliente/lugar-por-servicio";
+    public static final String CLIENTE_LUGARES = "cliente/lugares";
+    public static final String CLIENTE_LUGARES_SERVICIOS = "cliente/servicio-por-lugar";
     
     //Admin
     public static final String ADMIN_REGISTRAR_PROFESIONAL = "admin/registrar-profesional";
@@ -27,11 +29,14 @@ public class ViewRouteHelper {
     
     //Profesional
     public static final String PROFESIONAL_PERFIL = "profesional/perfil";
-    public static final String PROFESIONAL_LISTA_ELIMINAR = "profesional/lista-eliminar";
-    public static final String PROFESIONAL_LISTA_MODIFICAR = "profesional/lista-modificar";
-    public static final String PROFESIONAL_MODIFICAR = "profesional/modificar";
-    public static final String PROFESIONAL_LISTA_GESTION = "profesional/lista-gestion";
-    public static final String PROFESIONAL_GESTION = "profesional/gestion";
+    public static final String PROFESIONAL_LISTA_ELIMINAR = "profesionales/lista-eliminar";
+    public static final String PROFESIONAL_LISTA_MODIFICAR = "profesionales/lista-modificar";
+    public static final String PROFESIONAL_MODIFICAR = "profesionales/modificar";
+    public static final String PROFESIONAL_LISTA_GESTION = "profesionales/lista-gestion";
+    public static final String PROFESIONAL_GESTION = "profesionales/gestion";
+    public static final String PROFESIONAL_CONTACTO = "profesional/modificar-contacto";
+    public static final String PROFESIONAL_DIRECCION = "profesional/modificar-direccion";
+    public static final String PROFESIONAL_DISPONIBILIDADES = "profesionales/generar-disponibilidades";
     
     //Lugares
     public static final String LUGARES_AGREGAR = "lugares/agregar";
