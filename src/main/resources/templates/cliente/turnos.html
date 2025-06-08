@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Turnos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+        <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user profile-icon"></i>
+        </a>
+    </div>
+
+    <div class="main-content" style="background:none;">
+        <div class="panel-actions-grid">
+
+            <a th:href="@{/cliente/lista}" class="panel-card">
+                <i class="fas fa-list panel-card-icon"></i>
+                <div class="panel-card-title">Listar Turnos</div>
+                <div class="panel-card-desc">Visualizá tus turnos agendados y su información.</div>
+            </a>
+
+            <a th:href="@{/cliente/cancelar}" class="panel-card">
+                <i class="fas fa-calendar-times panel-card-icon"></i>
+                <div class="panel-card-title">Cancelar Turno</div>
+                <div class="panel-card-desc">Elegí y cancelá alguno de tus turnos asignados.</div>
+            </a>
+
+        </div>
+    </div>
+</body>
+</html>

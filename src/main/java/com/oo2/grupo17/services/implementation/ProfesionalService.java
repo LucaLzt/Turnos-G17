@@ -17,8 +17,10 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
+import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
+import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Especialidad;
@@ -37,6 +39,7 @@ import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
+import com.oo2.grupo17.repositories.ITurnoRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IProfesionalService;
@@ -60,6 +63,7 @@ public class ProfesionalService implements IProfesionalService {
 	private final IContactoService contactoService;
 	private final EmailService emailService;
 	private final ModelMapper modelMapper;
+	private final ITurnoRepository turnoRepository;
 
 	@Override
 	public ProfesionalDto save(ProfesionalDto profesionalDto) {
