@@ -1,5 +1,6 @@
 package com.oo2.grupo17.services.implementation;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.entities.Lugar;
+import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.repositories.ILugarRepository;
+import com.oo2.grupo17.repositories.IServicioRepository;
 import com.oo2.grupo17.services.ILugarService;
 
 import lombok.Builder;
@@ -17,6 +20,7 @@ import lombok.Builder;
 public class LugarService implements ILugarService {
 	
 	private final ILugarRepository lugarRepository;
+	private final IServicioRepository servicioRepository;
 	private final ModelMapper modelMapper;
 
 	@Override
@@ -54,6 +58,14 @@ public class LugarService implements ILugarService {
 
 	@Override
 	public void deleteById(Long id) {
+		Lugar lugar = lugarRepository.findById(id).orElseThrow();
+		
+		// Remuevo el lugar de los servicios relacionados
+		for(Servicio servicio : new HashSet<>(lugar.getServicios())) {
+			servicio.getLugares().remove(lugar);
+			servicioRepository.save(servicio);
+		}
+		
 		lugarRepository.deleteById(id);
 	}
 	

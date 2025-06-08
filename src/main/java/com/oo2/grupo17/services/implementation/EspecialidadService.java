@@ -1,6 +1,7 @@
 package com.oo2.grupo17.services.implementation;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.EspecialidadDto;
 import com.oo2.grupo17.entities.Especialidad;
+import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.repositories.IEspecialidadRepository;
+import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.services.IEspecialidadService;
 
 import lombok.Builder;
@@ -17,6 +20,7 @@ import lombok.Builder;
 public class EspecialidadService implements IEspecialidadService {
 
 	private final IEspecialidadRepository especialidadRepository;
+	private final IProfesionalRepository profesionalRepository;
 	private final ModelMapper modelMapper;
 
 	@Override
@@ -52,7 +56,17 @@ public class EspecialidadService implements IEspecialidadService {
 
 	@Override
 	public void deleteById(Long id) {
-		especialidadRepository.deleteById(id);
+		Especialidad especialidad = especialidadRepository.findById(id).orElseThrow();
+		
+		Set<Profesional> profesionales = especialidad.getProfesionales();
+		
+		for(Profesional p : profesionales) {
+			p.setEspecialidad(null);
+			profesionalRepository.save(p);
+		}
+		especialidad.setProfesionales(null);
+		
+		especialidadRepository.delete(especialidad);
 	}
 	
 }

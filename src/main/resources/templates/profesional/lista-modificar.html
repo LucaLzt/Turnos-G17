@@ -12,7 +12,7 @@
         <div class="brand">MiTurno</div>
     </div>
     <div class="admin-section">
-        <div class="admin-title-with-btn">
+		<div class="admin-title-with-btn">
             <div class="admin-title">
                 <i class="fas fa-user-md"></i> Lista de Profesionales
             </div>
@@ -23,7 +23,7 @@
         </div>
         <div class="lugares-grid">
             <a th:each="profesional : ${profesionales}"
-               th:href="@{'/profesionales/' + ${profesional.id} + '/eliminar'}"
+               th:href="@{'/profesionales/' + ${profesional.id} + '/modificar'}"
                class="lugar-card">
                 <div class="lugar-title">
                     <i class="fas fa-id-badge"></i>
@@ -37,7 +37,7 @@
                 </div>
                 <div>
                     <i class="fas fa-stethoscope"></i>
-                    <span th:text="${profesional.especialidad != null ? profesional.especialidad.nombre : 'Sin especialidad'}"></span>
+                    <span th:text="'DNI: ' + ${profesional.dni}"></span>
                 </div>
             </a>
         </div>

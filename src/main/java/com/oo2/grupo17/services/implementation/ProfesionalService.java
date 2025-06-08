@@ -73,15 +73,35 @@ public class ProfesionalService implements IProfesionalService {
 	public ProfesionalDto findById(Long id) {
 		Profesional profesional = profesionalRepository.findById(id)
 				.orElseThrow();
-		return modelMapper.map(profesional, ProfesionalDto.class);
+		
+		ProfesionalDto profesionalDto = modelMapper.map(profesional, ProfesionalDto.class);
+		
+		List<Long> serviciosIds = profesional.getServicios().stream().map(Servicio::getId).collect(Collectors.toList());
+		
+		profesionalDto.setServiciosIds(serviciosIds);
+		
+		return profesionalDto;
 	}
 
 	@Override
 	public List<ProfesionalDto> findAll() {
-		return profesionalRepository.findAll()
-				.stream()
-				.map(object -> modelMapper.map(object, ProfesionalDto.class))
-				.collect(Collectors.toList());
+	    return profesionalRepository.findAll()
+	        .stream()
+	        .map(object -> {
+	            ProfesionalDto dto = modelMapper.map(object, ProfesionalDto.class);
+	            // Suponiendo que object.getServicios() devuelve List<Servicio>
+	            if (object.getServicios() != null) {
+	                List<Long> serviciosIds = object.getServicios()
+	                    .stream()
+	                    .map(servicio -> servicio.getId())
+	                    .collect(Collectors.toList());
+	                dto.setServiciosIds(serviciosIds);
+	            } else {
+	                dto.setServiciosIds(Collections.emptyList());
+	            }
+	            return dto;
+	        })
+	        .collect(Collectors.toList());
 	}
 
 	@Override
@@ -97,6 +117,11 @@ public class ProfesionalService implements IProfesionalService {
 
 	@Override
 	public void deleteById(Long id) {
+		profesionalRepository.deleteById(id);
+	}
+	
+	@Override @Transactional
+	public void eliminarProfesional(Long id) {
 		Profesional profesional = profesionalRepository.findById(id)
 				.orElseThrow();
 		
@@ -106,8 +131,18 @@ public class ProfesionalService implements IProfesionalService {
 			servicioRepository.save(servicio);
 		}
 		
-		contactoRepository.deleteById(id);
-		profesionalRepository.deleteById(id);
+		// Elimino el profesional dentro del Lugares al que esta relacionado
+		Lugar lugar = profesional.getLugar();
+		if(lugar != null) {
+			lugar.getProfesionales().remove(profesional);
+			lugarRepository.save(lugar);
+		}
+
+		 profesional.setContacto(null);
+		 profesional.setUser(null);
+		 profesionalRepository.save(profesional);
+
+		 profesionalRepository.deleteById(id);
 	}
 	
 	@Override @Transactional
@@ -169,41 +204,6 @@ public class ProfesionalService implements IProfesionalService {
 	private String encryptPassword(String password) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
 		return passwordEncoder.encode(password);
-	}
-	
-	public void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId) {
-		Profesional profesional = profesionalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profesional no encontrado"));
-		
-		// Asignar Especialidad
-		if(especialidadId != null) {
-			Especialidad especialidad = especialidadRepository.findById(especialidadId).orElseThrow(()-> new EntityNotFoundException("Especialidad no encontrada"));
-			profesional.setEspecialidad(especialidad);
-		} else {
-			profesional.setEspecialidad(null);
-		}
-		
-		// Asignar Servicios
-		if(serviciosId != null && !serviciosId.isEmpty()) {
-			Set<Servicio> servicios = new HashSet<>(servicioRepository.findAllById(serviciosId));
-			// Como servicio es la clase fuerte en la relacion ManyToMany, le agrego el profesional a cada servicio seleccionado 
-			for(Servicio servicio : servicios) {
-				servicio.getProfesionales().add(profesional);
-				servicioRepository.save(servicio);
-			}
-			profesional.setServicios(servicios);
-		} else {
-			profesional.setServicios(Collections.emptySet());
-		}
-		
-		// Asignar Lugar
-		if(lugarId != null) {
-			Lugar lugar = lugarRepository.findById(lugarId).orElseThrow(()-> new EntityNotFoundException("Lugar no encontrado"));
-			profesional.setLugar(lugar);
-		} else {
-			profesional.setLugar(null);
-		}
-		
-		profesionalRepository.save(profesional);
 	}
 	
 	@Override

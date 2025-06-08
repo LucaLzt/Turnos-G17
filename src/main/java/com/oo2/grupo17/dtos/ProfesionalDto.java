@@ -1,6 +1,7 @@
 package com.oo2.grupo17.dtos;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.oo2.grupo17.entities.Contacto;
 
@@ -18,7 +19,7 @@ public class ProfesionalDto extends PersonaDto {
     private Integer matricula;
 	
 	private EspecialidadDto especialidad;
-	private Set<ServicioDto> servicios;
+	private List<Long> serviciosIds = new ArrayList<>();
 	private LugarDto lugar;
 	// private Set<TurnoDto> turnos;  <-- Crear el TurnoDto antes de descomentar esto (Se usa TurnoDto porque se necesitan detalles)
 	

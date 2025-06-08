@@ -80,11 +80,7 @@ public class EspecialidadController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/eliminar")
-	public String eliminarEspecialidadPost(@PathVariable("id") Long id, @ModelAttribute("especialidad") EspecialidadDto especialidad,
-			BindingResult result) {
-		if(result.hasErrors()) {
-			return ViewRouteHelper.ESPECIALIDADES_LISTA_ELIMINAR;
-		}
+	public String eliminarEspecialidad(@PathVariable("id") Long id) {
 		especialidadService.deleteById(id);
 		return "redirect:/especialidades/eliminar?eliminado=ok";
 	}

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
@@ -24,10 +25,12 @@ import com.oo2.grupo17.dtos.EspecialidadDto;
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ServicioDto;
-import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Lugar;
-import com.oo2.grupo17.entities.Provincia;
+import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
+import com.oo2.grupo17.repositories.IProfesionalRepository;
+import com.oo2.grupo17.entities.Localidad;
+import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IDireccionService;
 import com.oo2.grupo17.services.IEspecialidadService;
@@ -41,15 +44,16 @@ import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
-@RequestMapping("/profesionales")
+@RequestMapping("/profesional")
 public class ProfesionalController {
 	
-	public final IProfesionalService profesionalService;
-	public final IContactoService contactoService;
-	public final IServicioService servicioService;
-	public final ILugarService lugarService;
-	public final IEspecialidadService especialidadService;
+	private final IProfesionalService profesionalService;
+	private final IProfesionalRepository profesionalRepository;
+	private final IContactoService contactoService;
+	private final IServicioService servicioService;
+	private final ILugarService lugarService;
 	private final IDireccionService direccionService;
+	private final IEspecialidadService especialidadService;
 	private final IProvinciaService provinciaService;
 	private final ILocalidadService localidadService;
 	
@@ -63,9 +67,9 @@ public class ProfesionalController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/eliminar")
-	public String eliminarProfesional(@ModelAttribute("id") Long id, Model model) {
-		profesionalService.deleteById(id);
-		return "redirect:/profesionales/eliminar?eliminado=ok";
+	public String eliminarProfesional(@PathVariable("id") Long id) {
+		profesionalService.eliminarProfesional(id);
+		return "redirect:/profesional/eliminar?eliminado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -92,7 +96,7 @@ public class ProfesionalController {
 			return 	ViewRouteHelper.PROFESIONAL_MODIFICAR;
 		}
 		profesionalService.update(id, profesional);
-		return "redirect:/profesionales/modificar?modificado=ok";
+		return "redirect:/profesional/modificar?modificado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -125,14 +129,22 @@ public class ProfesionalController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/gestion")
-	public String gestionarProfesionalPost(@PathVariable("id") Long id, 
-			@RequestParam(value = "especialidadId") Long especialidadId,
-			@RequestParam(value = "serviciosId") Set<Long> serviciosId,
-			@RequestParam(value = "lugarId") Long lugarId) {
-		profesionalService.asignarDatosProfesional(id, especialidadId, lugarId, serviciosId);
-		return "redirect:/profesionales/gestion?gestionado=ok";
-	};
+	public String gestionarProfesionalPost(@PathVariable("id") Long id, @ModelAttribute("profesional") ProfesionalDto profesional
+			, @RequestParam(value = "serviciosIds", required = false) List<Long> serviciosIds) {
+		profesional.setServiciosIds(serviciosIds);
+		profesionalService.asignarDatosProfesional(id, profesional, serviciosIds);
+		return "redirect:/profesional/gestion?gestionado=ok";
+	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/servicios-por-lugar/{lugarId}")
+	@ResponseBody
+	public List<ServicioDto> getServiciosPorLugar(@PathVariable Long lugarId){
+		List<Servicio> servicios = servicioService.traerServiciosPorLugar(lugarId);
+		return servicios.stream()
+				.map(serv -> new ServicioDto(serv.getId(), serv.getNombre(), serv.getDescripcion(), serv.getPrecio(), serv.getLugares().stream().map(Lugar::getId).collect(Collectors.toList())))
+				.collect(Collectors.toList());
+	}
 	
 	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/perfil")

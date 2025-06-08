@@ -3,6 +3,7 @@ package com.oo2.grupo17.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ServicioDto {
 
 	private Long id;
