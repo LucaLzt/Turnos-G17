@@ -122,6 +122,15 @@ public class DisponibilidadService implements IDisponibilidadService {
 	}
 	
 	@Override
+	public List<DisponibilidadDto> obtenerDisponibilidadesPorProfesionalLibres(Long profesionalId) {
+	    LocalDateTime ahora = LocalDateTime.now();
+	    return disponibilidadRepository.findByProfesionalIdAndInicioAfterAndOcupadoFalse(profesionalId, ahora)
+	        .stream()
+	        .map(disponibilidad -> modelMapper.map(disponibilidad, DisponibilidadDto.class))
+	        .collect(Collectors.toList());
+	}
+	
+	@Override
 	public List<DisponibilidadDto> obtenerDisponibilidadesPorProfesional(Long profesionalId) {
 	    LocalDateTime ahora = LocalDateTime.now();
 	    return disponibilidadRepository.findByProfesionalIdAndInicioAfter(profesionalId, ahora)

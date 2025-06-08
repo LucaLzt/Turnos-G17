@@ -10,6 +10,8 @@ import com.oo2.grupo17.entities.Profesional;
 
 public interface IDisponibilidadRepository extends JpaRepository<Disponibilidad, Long> {
 
+	List<Disponibilidad> findByProfesionalIdAndInicioAfterAndOcupadoFalse(Long profesionalId, LocalDateTime fechaActual);
+	
 	List<Disponibilidad> findByProfesionalIdAndInicioAfter(Long profesionalId, LocalDateTime fechaActual);
 	
 	boolean existsByProfesionalAndInicio(Profesional profesional, LocalDateTime inicio);

@@ -13,5 +13,7 @@ public interface ITurnoService {
     List<TurnoDto> findAll();
 
     void deleteById(Long id);
+
+	void crearTurno(TurnoDto turnoDto);
 	
 }

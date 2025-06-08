@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <title>Elegir Disponibilidad</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title">
+            <i class="fas fa-map-marker-alt"></i>
+            <p>Turno para: <span th:text="${turno.cliente.nombre}"></span></p>
+        </div>
+        <div class="admin-title">
+            <i class="fas fa-map-marker-alt"></i>
+            <p>Servicio: <span th:text="${turno.servicio.nombre}"></span></p>
+        </div>
+        <div class="admin-title">
+            <i class="fas fa-map-marker-alt"></i>
+            <p>Lugar: <span th:text="${lugar.direccion.calle + lugar.direccion.altura +'  '+  localidad.nombre +'  '+  provincia.nombre }"></span> </p>
+        </div>
+        <div class="admin-title">
+            <i class="fas fa-user"></i>
+            <p>Profesional: <span th:text="${profesional.nombre}"></span></p>
+        </div>
+    </div>
+
+    <div class="admin-section">
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-calendar-alt"></i>
+                Disponibilidades disponibles:
+            </div>
+            <a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-profesional'}" class="volver-btn" title="Volver a Profesionales">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a profesionales</span>
+            </a>
+        </div>
+        <div th:if="${disponibilidades != null and !disponibilidades.isEmpty()}" class="profesionales-grid">
+            <div th:each="disponibilidad : ${disponibilidades}" class="profesional-card">
+                <div class="profesional-title">
+                    <i class="fas fa-clock"></i>
+                    <span th:text="${#temporals.format(disponibilidad.inicio, 'dd/MM/yyyy HH:mm')}"></span>
+                    <!-- Podés mostrar también la duración si querés -->
+                    <span th:text="' - ' + ${disponibilidad.duracion.toMinutes()} + ' min.'"></span>
+                </div>
+                <!-- FORMULARIO PARA ELEGIR DISPONIBILIDAD -->
+				<form th:action="@{'/cliente/solicitar-turno/confirmar'}" method="post" style="display:inline;">
+				    <input type="hidden" name="disponibilidadId" th:value="${disponibilidad.id}" />
+				    <button type="submit" class="elegir-btn">Elegir</button>
+				</form>
+            </div>
+        </div>
+        <div th:if="${disponibilidades == null or disponibilidades.isEmpty()}" style="color: #c00; margin-top: 2em;">
+            <i class="fas fa-exclamation-circle"></i>
+            No hay disponibilidades para este profesional en este lugar.
+        </div>
+    </div>
+</body>
+</html>

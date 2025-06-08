@@ -22,6 +22,8 @@ public interface IDisponibilidadService {
     public void generarDisponibilidadesAutomaticas(Long profesionalId, LocalTime horaIncio, LocalTime horaFin,
     		Duration duracionTurno, LocalDate fechaInicio, LocalDate fechaFin);
 
+	List<DisponibilidadDto> obtenerDisponibilidadesPorProfesionalLibres(Long profesionalId);
+
 	List<DisponibilidadDto> obtenerDisponibilidadesPorProfesional(Long profesionalId);
     
 }

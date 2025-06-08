@@ -13,13 +13,12 @@
     </div>
 	<div class="admin-section">
 		<div class="admin-title">
-		               <i class="fas fa-map-marker-alt"></i>
-					   <p>Turno para: <span th:text="${turno.cliente.nombre}"></span></p>
-					   
+		    <i class="fas fa-map-marker-alt"></i>
+			<p>Turno para: <span th:text="${turno.cliente.nombre}"></span></p> 
 		</div>
 		<div class="admin-title">
-						<i class="fas fa-map-marker-alt"></i>
-						<p>Servicio: <span th:text="${turno.servicio.nombre}"></span></p>
+			<i class="fas fa-map-marker-alt"></i>
+			<p>Servicio: <span th:text="${turno.servicio.nombre}"></span></p>
 		</div>
 	</div>
     <div class="admin-section">
@@ -51,19 +50,15 @@
                     <span th:text="${lugar.horarioApertura} + ' - ' + ${lugar.horarioCierre}"></span>
                 </div>
 				<div class="form-actions" style="margin-top: 1rem;">
-				
-								 <a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-profesional'}" class="btn-submit">
-								                <i class="fas fa-map-marker-alt"></i> Elegir Profesional 
-								   </a>
-					</div>
+					<a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-profesional'}" class="btn-submit">
+						<i class="fas fa-map-marker-alt"></i> Elegir Profesional 
+					</a>
+				</div>
             </div>
-		
         </div>
         <div th:if="${lugares == null or lugares.isEmpty()}">
             <p>No hay lugares disponibles para este servicio actualmente.</p>
         </div>
-		
-		
     </div>
 </body>
 </html>

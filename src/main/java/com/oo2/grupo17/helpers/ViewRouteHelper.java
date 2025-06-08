@@ -62,6 +62,7 @@ public class ViewRouteHelper {
     public static final String TURNO_SOLICITUD_ELEGIR = "turno/elegir-servicio";
     public static final String TURNO_SOLICITUD_ELEGIR_LUGAR = "turno/elegir-lugar";
     public static final String TURNO_SOLICITUD_ELEGIR_PROFESIONAL = "turno/elegir-profesional";
+    public static final String TURNO_SOLICITUD_ELEGIR_DISPONIBILIDAD = "turno/elegir-disponibilidad";
     
     
     

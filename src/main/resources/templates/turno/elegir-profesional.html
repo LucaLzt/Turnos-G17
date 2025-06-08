@@ -13,20 +13,17 @@
     </div>
     <div class="admin-section">
 		<div class="admin-title">
-				               <i class="fas fa-map-marker-alt"></i>
-							   <p>Turno para: <span th:text="${turno.cliente.nombre}"></span></p>
-							   
-				</div>
-				<div class="admin-title">
-								<i class="fas fa-map-marker-alt"></i>
-								<p>Servicio: <span th:text="${turno.servicio.nombre}"></span></p>
-				</div>
-				<div class="admin-title">
-								<i class="fas fa-map-marker-alt"></i>
-								<p>Lugar: <span th:text="${lugar.direccion.calle + lugar.direccion.altura +'  '+  localidad.nombre +'  '+  provincia.nombre }"></span> </p>
-									
-					
-								</div>
+			<i class="fas fa-map-marker-alt"></i>
+			<p>Turno para: <span th:text="${turno.cliente.nombre}"></span></p>			   
+		</div>
+		<div class="admin-title">
+			<i class="fas fa-map-marker-alt"></i>
+			<p>Servicio: <span th:text="${turno.servicio.nombre}"></span></p>
+		</div>
+		<div class="admin-title">
+			<i class="fas fa-map-marker-alt"></i>
+			<p>Lugar: <span th:text="${lugar.direccion.calle + lugar.direccion.altura +'  '+  localidad.nombre +'  '+  provincia.nombre }"></span> </p>		
+		</div>
 		</div>
 		<div class="admin-section">
         <div class="admin-title-with-btn">
@@ -40,26 +37,17 @@
             </a>
         </div>
         <div th:if="${profesionales != null and !profesionales.isEmpty()}" class="profesionales-grid">
-            <div th:each="profesional : ${profesionales}" class="profesional-card">
-                <div class="profesional-title">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span th:text="${profesional.nombre}">Nombre del Profesional</span>
-                </div>
-                <div class="lugar-info">
-                    <i class="fas fa-city"></i>
-                 
-                    <span>, </span>
-                    <i class="fas fa-flag"></i>
-                   
-                </div>
-                <div class="lugar-horario">
-                    <i class="fas fa-clock"></i>
-             
-                </div>
-            </div>
+			<div th:each="profesional : ${profesionales}" class="profesional-card">
+			    <div class="profesional-title">
+			        <i class="fas fa-map-marker-alt"></i>
+			        <span th:text="${profesional.nombre}">Nombre del Profesional</span>
+			    </div>
+			    <!-- BOTÓN PARA ELEGIR PROFESIONAL -->
+			    <a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-profesional/' + ${profesional.id}} + '/elegir-horario'" class="elegir-btn">
+			        Elegir
+			    </a>
+			</div>
         </div>
-     
     </div>
-	
 </body>
 </html>
