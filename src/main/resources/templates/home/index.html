@@ -65,6 +65,11 @@
 		            <div class="panel-card-title">Ver Servicios Habilitados</div>
 		            <div class="panel-card-desc">Consultá los servicios en los que estás autorizado a trabajar.</div>
 		        </a>
+				<a th:href="@{/profesional/ver-disponibilidades}" class="panel-card">
+					<i class="fas fa-calendar-check panel-card-icon"></i>
+					<div class="panel-card-title">Ver Disponibilidades</div>
+					<div class="panel-card-desc">Consultá las disponibilidades ocupadas y libres</div>
+				</a>
 				<form th:action="@{/logout}" method="post" style="display:inline;">
 				    <button type="submit" class="panel-card" style="border:none;background:none;cursor:pointer;">
 				        <i class="fas fa-sign-out-alt panel-card-icon"></i>

@@ -114,6 +114,15 @@ public class DisponibilidadService implements IDisponibilidadService {
 		
 	}
 	
+	@Override
+	public List<DisponibilidadDto> obtenerDisponibilidadesPorProfesional(Long profesionalId) {
+	    LocalDateTime ahora = LocalDateTime.now();
+	    return disponibilidadRepository.findByProfesionalIdAndInicioAfter(profesionalId, ahora)
+	        .stream()
+	        .map(disponibilidad -> modelMapper.map(disponibilidad, DisponibilidadDto.class))
+	        .collect(Collectors.toList());
+	}
+	
 	// --- Métodos Auxiliares (PRIVADOS) --- //
 	private boolean esFinDeSemana(LocalDate fecha) {
 		return fecha.getDayOfWeek() == DayOfWeek.SATURDAY ||

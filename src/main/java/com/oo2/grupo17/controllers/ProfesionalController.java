@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
+import com.oo2.grupo17.dtos.DisponibilidadDto;
 import com.oo2.grupo17.dtos.EspecialidadDto;
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
@@ -33,6 +34,7 @@ import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IDireccionService;
+import com.oo2.grupo17.services.IDisponibilidadService;
 import com.oo2.grupo17.services.IEspecialidadService;
 import com.oo2.grupo17.services.ILocalidadService;
 import com.oo2.grupo17.services.ILugarService;
@@ -49,6 +51,7 @@ public class ProfesionalController {
 	
 	private final IProfesionalService profesionalService;
 	private final IProfesionalRepository profesionalRepository;
+	private final IDisponibilidadService disponibilidadService;
 	private final IContactoService contactoService;
 	private final IServicioService servicioService;
 	private final ILugarService lugarService;
@@ -258,4 +261,15 @@ public class ProfesionalController {
 		// model.addAttribute("servicios", servicios);
 		return "profesional/lista-servicios.html";
 	}
+	
+	@GetMapping("/ver-disponibilidades")
+	public String verDisponibilidades(Model model, Principal principal) {
+	    ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
+	    List<DisponibilidadDto> disponibilidades = disponibilidadService.obtenerDisponibilidadesPorProfesional(profesional.getId());
+	    model.addAttribute("profesional", profesional);
+	    model.addAttribute("disponibilidades", disponibilidades);
+	    return "profesional/ver-disponibilidades";
+	}
+	
+	
 }
