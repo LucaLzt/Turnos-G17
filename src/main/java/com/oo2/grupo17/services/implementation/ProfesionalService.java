@@ -109,7 +109,7 @@ public class ProfesionalService implements IProfesionalService {
 		profesionalRepository.deleteById(id);
 	}
 	
-	@Override 
+	@Override @Transactional
 	public void eliminarProfesional(Long id) {
 		Profesional profesional = profesionalRepository.findById(id)
 				.orElseThrow();
