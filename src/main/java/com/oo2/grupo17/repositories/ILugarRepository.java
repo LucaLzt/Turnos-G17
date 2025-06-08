@@ -11,5 +11,6 @@ import com.oo2.grupo17.entities.Lugar;
 public interface ILugarRepository extends JpaRepository<Lugar, Long>{
 	
 	// Ver que poner
+
 	List<Lugar> findByServicios_id(Long servicioId);
 }

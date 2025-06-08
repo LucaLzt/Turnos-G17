@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
+import com.oo2.grupo17.entities.Lugar;
+import com.oo2.grupo17.entities.Profesional;
 
 public interface IProfesionalService {
 	
@@ -13,6 +15,8 @@ public interface IProfesionalService {
     ProfesionalDto findById(Long id);
     
     List<ProfesionalDto> findAll();
+    
+    List<Profesional> obtenerProfesionalesPorLugar(Long lugarId);
     
     ProfesionalDto update(Long id, ProfesionalDto profesionalDto);
     

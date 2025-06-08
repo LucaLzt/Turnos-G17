@@ -51,8 +51,11 @@ public class ViewRouteHelper {
     public static final String ESPECIALIDADES_MODIFICAR = "especialidades/modificar";
     public static final String ESPECIALIDADES_LISTA_ELIMINAR = "especialidades/lista-eliminar";
     
-    
-    
+    //Turno
+    public static final String TURNO_SOLICITUD = "turno/solicitar-turno";
+    public static final String TURNO_SOLICITUD_ELEGIR = "turno/elegir-servicio";
+    public static final String TURNO_SOLICITUD_ELEGIR_LUGAR = "turno/elegir-lugar";
+    public static final String TURNO_SOLICITUD_ELEGIR_PROFESIONAL = "turno/elegir-profesional";
     
     
     

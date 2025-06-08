@@ -193,4 +193,13 @@ public class ProfesionalService implements IProfesionalService {
 		
 		profesionalRepository.save(profesional);
 	}
+	@Override
+
+	public List<Profesional> obtenerProfesionalesPorLugar(Long lugarId){
+		return profesionalRepository.findByLugar_id(lugarId);
+	}
+	
+	
+	
+	
 }
