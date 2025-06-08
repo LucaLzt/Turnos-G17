@@ -2,7 +2,9 @@ package com.oo2.grupo17.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +25,7 @@ import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.entities.Localidad;
+import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IContactoService;
@@ -236,4 +239,11 @@ public class ProfesionalController {
 		return "redirect:/profesionales/perfil?updateDireccion=ok";
 	}
 	
+	@GetMapping("/servicios-habilitados")
+	public String verServiciosHabilitados(Model model, Principal principal) {
+		ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
+		Set<ServicioDto> servicios = profesional.getServicios();
+		model.addAttribute("servicios", servicios);
+		return "profesional/lista-servicios.html";
+	}
 }
