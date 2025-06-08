@@ -69,14 +69,14 @@ public class ProfesionalController {
 	@PostMapping("/{id}/eliminar")
 	public String eliminarProfesional(@PathVariable("id") Long id) {
 		profesionalService.eliminarProfesional(id);
-		return "redirect:/profesional/eliminar?eliminado=ok";
+		return "redirect:/profesionales/eliminar?eliminado=ok";
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/modificar")
 	public String modificarProfesional(Model model) {
 		List<ProfesionalDto> profesionales = profesionalService.findAll();
-		model.addAttribute("profesionales", profesionales);	
+		model.addAttribute("profesionales", profesionales);
 		return ViewRouteHelper.PROFESIONAL_LISTA_MODIFICAR;
 	}
 	
@@ -132,7 +132,7 @@ public class ProfesionalController {
 	public String gestionarProfesionalPost(@PathVariable("id") Long id, @ModelAttribute("profesional") ProfesionalDto profesional
 			, @RequestParam(value = "serviciosIds", required = false) List<Long> serviciosIds) {
 		profesional.setServiciosIds(serviciosIds);
-		profesionalService.asignarDatosProfesional(id, profesional, serviciosIds);
+		// profesionalService.asignarDatosProfesional(id, profesional, serviciosIds);
 		return "redirect:/profesional/gestion?gestionado=ok";
 	}
 	
@@ -254,8 +254,8 @@ public class ProfesionalController {
 	@GetMapping("/servicios-habilitados")
 	public String verServiciosHabilitados(Model model, Principal principal) {
 		ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
-		Set<ServicioDto> servicios = profesional.getServicios();
-		model.addAttribute("servicios", servicios);
+		// Set<ServicioDto> servicios = profesional.getServicios();
+		// model.addAttribute("servicios", servicios);
 		return "profesional/lista-servicios.html";
 	}
 }

@@ -23,12 +23,14 @@ public interface IProfesionalService {
     void eliminarProfesional(Long id);
     
     public void registrarProfesional(ProfesionalRegistradoDto registroDto);
-    
-    // void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId);
 
 	ProfesionalDto findByEmail(String email);
 
 	void updatearContactoUserEntity(ContactoDto contactoDto);
 
 	void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto);
+    
+    // void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId);
+
+	// void asignarDatosProfesional(Long id, ProfesionalDto profesional, List<Long> serviciosIds);
 }

@@ -29,13 +29,14 @@ public class ViewRouteHelper {
     
     //Profesional
     public static final String PROFESIONAL_PERFIL = "profesional/perfil";
+    public static final String PROFESIONAL_CONTACTO = "profesional/modificar-contacto";
+    public static final String PROFESIONAL_DIRECCION = "profesional/modificar-direccion";
+    
     public static final String PROFESIONAL_LISTA_ELIMINAR = "profesionales/lista-eliminar";
     public static final String PROFESIONAL_LISTA_MODIFICAR = "profesionales/lista-modificar";
     public static final String PROFESIONAL_MODIFICAR = "profesionales/modificar";
     public static final String PROFESIONAL_LISTA_GESTION = "profesionales/lista-gestion";
     public static final String PROFESIONAL_GESTION = "profesionales/gestion";
-    public static final String PROFESIONAL_CONTACTO = "profesional/modificar-contacto";
-    public static final String PROFESIONAL_DIRECCION = "profesional/modificar-direccion";
     public static final String PROFESIONAL_DISPONIBILIDADES = "profesionales/generar-disponibilidades";
     
     //Lugares

@@ -23,7 +23,7 @@
         </div>
         <div class="lugares-grid">
             <a th:each="profesional : ${profesionales}"
-               th:href="@{'/profesionales/' + ${profesional.id} + '/modificar'}"
+               th:href="@{'/profesional/' + ${profesional.id} + '/modificar'}"
                class="lugar-card">
                 <div class="lugar-title">
                     <i class="fas fa-id-badge"></i>
@@ -42,10 +42,6 @@
                 <div>
                     <i class="fas fa-stethoscope"></i>
                     <span th:text="${profesional.especialidad != null ? profesional.especialidad.nombre : 'Sin especialidad'}"></span>
-                </div>
-                <div>
-                    <i class="fas fa-briefcase-medical"></i>
-                    <span th:text="${#lists.isEmpty(profesional.servicios) ? 'Sin servicios' : #strings.arrayJoin(profesional.servicios.![nombre], ', ')}"></span>
                 </div>
             </a>
         </div>

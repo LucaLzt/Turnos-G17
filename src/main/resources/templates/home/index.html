@@ -14,7 +14,7 @@
         <a th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" th:href="@{/cliente/perfil}" title="Ir a mi perfil">
             <i class="fas fa-user profile-icon"></i>
         </a>
-		<a th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" th:href="@{/profesionales/perfil}" title="Ir a mi perfil">
+		<a th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" th:href="@{/profesional/perfil}" title="Ir a mi perfil">
 		    <i class="fas fa-user-md profile-icon"></i>
 		</a>
     </div>
@@ -60,7 +60,7 @@
 		            <div class="panel-card-title">Derivar Turno</div>
 		            <div class="panel-card-desc">Derivá un turno a otro profesional si corresponde.</div>
 		        </a>
-		        <a th:href="@{/profesionales/servicios-habilitados}" class="panel-card">
+		        <a th:href="@{/profesional/servicios-habilitados}" class="panel-card">
 		            <i class="fas fa-briefcase-medical panel-card-icon"></i>
 		            <div class="panel-card-title">Ver Servicios Habilitados</div>
 		            <div class="panel-card-desc">Consultá los servicios en los que estás autorizado a trabajar.</div>

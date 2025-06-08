@@ -10,7 +10,7 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/profesionales/perfil}" title="Ir a mi perfil">
+        <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
             <i class="fas fa-user-md profile-icon"></i>
         </a>
     </div>
@@ -20,7 +20,7 @@
                 <i class="fas fa-map-marker-alt"></i>
             </div>
             <div class="card-title" style="margin-bottom:1.5rem;">Modificar Dirección</div>
-            <form th:action="@{/profesionales/modificar-direccion}" th:object="${direccion}" method="post" class="form-contacto">
+            <form th:action="@{/profesional/modificar-direccion}" th:object="${direccion}" method="post" class="form-contacto">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="form-group">
                     <label for="calle"><i class="fas fa-road"></i> Calle</label>
@@ -58,7 +58,7 @@
                     <button type="submit" class="perfil-btn" style="justify-content:center;">
                         <i class="fas fa-save"></i> Guardar Cambios
                     </button>
-                    <a th:href="@{/profesionales/perfil}" class="perfil-btn perfil-btn-cancel">
+                    <a th:href="@{/profesional/perfil}" class="perfil-btn perfil-btn-cancel">
                         <i class="fas fa-times"></i> Cancelar
                     </a>
                 </div>

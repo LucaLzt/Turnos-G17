@@ -10,7 +10,7 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/profesionales/perfil}" title="Ir a mi perfil">
+        <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
             <i class="fas fa-user-md profile-icon"></i>
         </a>
     </div>
@@ -39,19 +39,19 @@
                 </li>
             </ul>
             <div class="perfil-buttons">
-                <a th:href="@{/profesionales/modificar-contacto}" class="perfil-btn">
+                <a th:href="@{/profesional/modificar-contacto}" class="perfil-btn">
                     <i class="fas fa-user-edit"></i> Modificar contacto
                 </a>
-				<a th:if="${profesional.contacto.direccion == null}" th:href="@{/profesionales/modificar-direccion}" class="perfil-btn">
+				<a th:if="${profesional.contacto.direccion == null}" th:href="@{/profesional/modificar-direccion}" class="perfil-btn">
 					<i class="fas fa-map-marker-alt"></i> Agregar dirección
 				</a>
-				<a th:if="${profesional.contacto.direccion != null}" th:href="@{/profesionales/modificar-direccion}" class="perfil-btn">
+				<a th:if="${profesional.contacto.direccion != null}" th:href="@{/profesional/modificar-direccion}" class="perfil-btn">
 					<i class="fas fa-map-marker-alt"></i> Modificar dirección
 				</a>
                 <a th:href="@{/index}" class="perfil-btn">
                     <i class="fas fa-home"></i> Volver al inicio
                 </a>
-                <a th:href="@{/profesionales/logout}" class="perfil-btn">
+                <a th:href="@{/logout}" class="perfil-btn">
                     <i class="fas fa-key"></i> Cerrar sesión
                 </a>
             </div>

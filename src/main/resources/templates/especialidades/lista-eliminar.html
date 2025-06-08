@@ -22,18 +22,16 @@
             </a>
         </div>
         <div class="lugares-grid">
-            <a th:each="espe : ${especialidades}"
-               th:href="@{'/especialidades/' + ${espe.id} + '/eliminar'}"
-               class="lugar-card">
-                <div class="lugar-title">
-                    <i class="fas fa-stethoscope panel-card-icon"></i>
-                    <span th:text="${espe.nombre}"></span>
-                </div>
-				<div class="eliminar-servicio-indicador">
-					<i class="fas fa-trash-alt"></i>
-				    <span>Click para eliminar</span>
-				</div>
-            </a>
+			<form th:each="especialidad : ${especialidades}" 
+			    th:action="@{'/especialidades/' + ${especialidad.id} + '/eliminar'}"
+			    method="post">
+				<button type="submit" class="lugar-card">
+					<div class="lugar-title">
+						<i class="fas fa-stethoscope panel-card-icon"></i>
+						<span th:text="${especialidad.nombre}"></span>
+					</div>
+				</button>
+			</form>
         </div>
     </div>
 </body>

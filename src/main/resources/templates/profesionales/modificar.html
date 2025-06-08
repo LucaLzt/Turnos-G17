@@ -14,7 +14,7 @@
         <div class="form-title">
             <i class="fas fa-user-md"></i> Modificar Profesional
         </div>
-        <form method="post" th:action="@{'/profesionales/' + ${profesional.id} + '/modificar'}" th:object="${profesional}">
+        <form method="post" th:action="@{'/profesional/' + ${profesional.id} + '/modificar'}" th:object="${profesional}">
             <div class="form-group">
                 <label for="nombre"><i class="fa fa-user"></i> Nombre:</label>
                 <input type="text" id="nombre" th:field="*{nombre}"/>

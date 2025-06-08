@@ -97,4 +97,9 @@ public class ServicioService implements IServicioService {
 		return servicioRepository.findAllByLugares_Id(lugarId);
 	}
 	
+	@Override
+	public List<Servicio> findAllByIds(Set<Long> todosLosServiciosIds) {
+		return servicioRepository.findAllById(todosLosServiciosIds);
+	}
+	
 }

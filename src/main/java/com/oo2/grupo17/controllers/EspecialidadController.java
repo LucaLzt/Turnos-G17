@@ -80,8 +80,9 @@ public class EspecialidadController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/eliminar")
-	public String eliminarEspecialidad(@PathVariable("id") Long id) {
+	public String eliminarEspecialidadPost(@PathVariable("id") Long id) {
 		especialidadService.deleteById(id);
 		return "redirect:/especialidades/eliminar?eliminado=ok";
 	}
+	
 }
