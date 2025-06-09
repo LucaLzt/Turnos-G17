@@ -11,6 +11,7 @@ public class TurnoDto {
 	private Long id;
 	private ClienteDto cliente;
 	private ProfesionalDto profesional;
+	private LugarDto lugar;
 	private ServicioDto servicio;
 	private DisponibilidadDto disponibilidad;
 	

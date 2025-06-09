@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Servicio;
+import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
 import com.oo2.grupo17.services.IServicioService;
@@ -25,6 +27,9 @@ public class ServicioService implements IServicioService {
 
 	@Override
 	public ServicioDto save(ServicioDto servicioDto) {
+		if (servicioRepository.existsByNombre(servicioDto.getNombre())) {
+			throw new EntidadDuplicadaException("El servicio con nombre " + servicioDto.getNombre() + " ya existe.");
+	    }
 		Servicio servicio = modelMapper.map(servicioDto, Servicio.class);
 		Servicio saved = servicioRepository.save(servicio);
 		return modelMapper.map(saved, ServicioDto.class);
@@ -34,7 +39,7 @@ public class ServicioService implements IServicioService {
 	public ServicioDto findById(Long id) {
 		// 1. Obtengo el servicio por ID desde la base de datos
 		Servicio servicio = servicioRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el servicio con ID: " + id));
 		
 		// 2. Mapeo el servicio a ServicioDto
 		ServicioDto servicioDto = modelMapper.map(servicio, ServicioDto.class);
@@ -62,7 +67,7 @@ public class ServicioService implements IServicioService {
 	public ServicioDto update(Long id, ServicioDto servicioDto) {
 		// 1. Obtengo el servicio por ID desde la base de datos
 		Servicio servicio = servicioRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el servicio con ID: " + id));
 		
 		// 2. Actualizo los campos simples del servicio
 		servicio.setNombre(servicioDto.getNombre());
@@ -92,5 +97,14 @@ public class ServicioService implements IServicioService {
 				.collect(Collectors.toList());
 	}
 	
+	@Override
+	public List<Servicio> traerServiciosPorLugar(Long lugarId){
+		return servicioRepository.findAllByLugares_Id(lugarId);
+	}
+	
+	@Override
+	public List<Servicio> findAllByIds(Set<Long> todosLosServiciosIds) {
+		return servicioRepository.findAllById(todosLosServiciosIds);
+	}
 	
 }

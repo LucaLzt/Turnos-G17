@@ -15,10 +15,13 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.DisponibilidadDto;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Profesional;
+import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.services.IDisponibilidadService;
 
+import jakarta.transaction.Transactional;
 import lombok.Builder;
 
 @Service @Builder
@@ -38,7 +41,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 	@Override
 	public DisponibilidadDto findById(Long id) {
 		Disponibilidad disp = disponibilidadRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el disponibilidad con ID: " + id));
 		return modelMapper.map(disp, DisponibilidadDto.class);
 	}
 
@@ -53,7 +56,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 	@Override
 	public DisponibilidadDto updateOcupacion(Long id, DisponibilidadDto disponbilidadDto) {
 		Disponibilidad disp = disponibilidadRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el disponibilidad con ID: " + id));
 		if(disp.isOcupado() == false) {
 			disp.setOcupado(true);
 		} else {
@@ -68,7 +71,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 		disponibilidadRepository.deleteById(id);
 	}
 
-	@Override
+	@Override @Transactional
 	public void generarDisponibilidadesAutomaticas(Long profesionalId, LocalTime horaIncio, LocalTime horaFin,
 			Duration duracionTurno, LocalDate fechaInicio, LocalDate fechaFin) {
 		
@@ -77,7 +80,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 		}
 		
 		Profesional profesional = profesionalRepository.findById(profesionalId)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + profesionalId));
 		
 		List<Disponibilidad> objetos = new ArrayList<>();
 		LocalDate fechaActual = fechaInicio;
@@ -90,6 +93,11 @@ public class DisponibilidadService implements IDisponibilidadService {
 				LocalDateTime finJornada = LocalDateTime.of(fechaActual, horaFin);
 				
 				while(inicioTurno.plus(duracionTurno).isBefore(finJornada.plusSeconds(1))) {
+					
+					if (disponibilidadRepository.existsByProfesionalAndInicio(profesional, inicioTurno)) {
+				        throw new EntidadDuplicadaException("Ya existe una disponibilidad para " + profesional.getNombre() + 
+				            " el " + inicioTurno);
+				    }
 					
 					Disponibilidad disp = new Disponibilidad();
 					disp.setProfesional(profesional);
@@ -111,6 +119,24 @@ public class DisponibilidadService implements IDisponibilidadService {
 		
 		disponibilidadRepository.saveAll(objetos);
 		
+	}
+	
+	@Override
+	public List<DisponibilidadDto> obtenerDisponibilidadesPorProfesionalLibres(Long profesionalId) {
+	    LocalDateTime ahora = LocalDateTime.now();
+	    return disponibilidadRepository.findByProfesionalIdAndInicioAfterAndOcupadoFalse(profesionalId, ahora)
+	        .stream()
+	        .map(disponibilidad -> modelMapper.map(disponibilidad, DisponibilidadDto.class))
+	        .collect(Collectors.toList());
+	}
+	
+	@Override
+	public List<DisponibilidadDto> obtenerDisponibilidadesPorProfesional(Long profesionalId) {
+	    LocalDateTime ahora = LocalDateTime.now();
+	    return disponibilidadRepository.findByProfesionalIdAndInicioAfter(profesionalId, ahora)
+	        .stream()
+	        .map(disponibilidad -> modelMapper.map(disponibilidad, DisponibilidadDto.class))
+	        .collect(Collectors.toList());
 	}
 	
 	// --- Métodos Auxiliares (PRIVADOS) --- //

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lugares para [[${servicio.nombre}]]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+	<div class="admin-section">
+		<div class="admin-title">
+		    <i class="fas fa-map-marker-alt"></i>
+			<p>Turno para: <span th:text="${turno.cliente.nombre}"></span></p> 
+		</div>
+		<div class="admin-title">
+			<i class="fas fa-map-marker-alt"></i>
+			<p>Servicio: <span th:text="${turno.servicio.nombre}"></span></p>
+		</div>
+	</div>
+    <div class="admin-section">
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-map-marker-alt"></i>
+                Lugares disponibles para: <span th:text="${servicio.nombre}"></span>
+            </div>
+            <a th:href="@{/cliente/solicitar-turno}" class="volver-btn" title="Volver a servicios">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a servicios</span>
+            </a>
+        </div>
+        <div th:if="${lugares != null and !lugares.isEmpty()}" class="lugares-grid">
+            <div th:each="lugar : ${lugares}" class="lugar-card">
+                <div class="lugar-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span th:text="${lugar.direccion.calle} +' ' + ${lugar.direccion.altura}"></span>
+                </div>
+                <div class="lugar-info">
+                    <i class="fas fa-city"></i>
+                    <span th:text="${lugar.direccion.localidad.nombre}"></span>
+                    <span>, </span>
+                    <i class="fas fa-flag"></i>
+                    <span th:text="${lugar.direccion.provincia.nombre}"></span>
+                </div>
+                <div class="lugar-horario">
+                    <i class="fas fa-clock"></i>
+                    <span th:text="${lugar.horarioApertura} + ' - ' + ${lugar.horarioCierre}"></span>
+                </div>
+				<div class="form-actions" style="margin-top: 1rem;">
+					<a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-profesional'}" class="btn-submit">
+						<i class="fas fa-map-marker-alt"></i> Elegir Profesional 
+					</a>
+				</div>
+            </div>
+        </div>
+        <div th:if="${lugares == null or lugares.isEmpty()}">
+            <p>No hay lugares disponibles para este servicio actualmente.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -10,27 +10,31 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
-        </a>
     </div>
     <div class="main-content" style="width:100%;">
         <div class="admin-section">
             <div class="admin-title">
-                <i class="fas fa-map-marked-alt panel-card-icon"></i> Administración de Profesionales
+                <i class="fas fa-user-cog panel-card-icon"></i> Administración de Profesionales
             </div>
             <div class="panel-actions-grid">
-				<a th:href="@{/profesionales/modificar}" class="panel-card">
+				<a th:href="@{/profesional/modificar}" class="panel-card">
 				    <i class="fas fa-edit panel-card-icon"></i>
 				    <div class="panel-card-title">Editar Datos De Profesional</div>
 				    <div class="panel-card-desc">Edite la información de profesionales existentes.</div>
 				</a>
-				<a th:href="@{/profesionales/gestion}" class="panel-card">
+				<a th:href="@{/profesional/gestion}" class="panel-card">
 				    <i class="fas fa-edit panel-card-icon"></i>
 				    <div class="panel-card-title">Gestionar Profesional</div>
 				    <div class="panel-card-desc">Gestionar especialidad, lugar de trabajo y servicios de profesionales existentes.</div>
 				</a>
-	            <a th:href="@{/profesionales/eliminar}" class="panel-card">
+				<a th:href="@{/admin/generar-disponibilidades}" class="panel-card">
+				    <i class="fas fa-calendar-check panel-card-icon"></i>
+				    <div class="panel-card-title">Generar Disponibilidades</div>
+				    <div class="panel-card-desc">
+				        Creá turnos de forma automática para los profesionales.
+				    </div>
+				</a>
+	            <a th:href="@{/profesional/eliminar}" class="panel-card">
                     <i class="fas fa-trash-alt panel-card-icon"></i>
                     <div class="panel-card-title">Eliminar Profesional</div>
                     <div class="panel-card-desc">Elimine los profesionales que ya no estén disponibles.</div>

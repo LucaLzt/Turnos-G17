@@ -1,0 +1,213 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Navbar */
+.navbar {
+	width: 100%;
+	background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
+	box-shadow: 0 2px 16px rgba(44, 62, 80, 0.08);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.8rem 2.2rem;
+	top: 0;
+	left: 0;
+	z-index: 100;
+}
+
+.navbar .brand {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    letter-spacing: 0.5px;
+}
+
+.profile-icon {
+    font-size: 1.8rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.navbar .profile-icon:hover {
+    color: #e4e4e4;
+}
+
+/* Main Content */
+.main-content {
+    padding-top: 5.5rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: none;
+}
+
+/* Card */
+.action-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
+    padding: 2.4rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.16s, box-shadow 0.2s;
+    min-height: 200px;
+    min-width: 320px;
+    max-width: 370px;
+    width: 100%;
+}
+
+.action-card.perfil-card {
+    max-width: 680px;
+}
+
+.card-icon {
+    font-size: 2.2rem;
+    color: #5e72e4;
+    margin-bottom: 0.8rem;
+    text-align: center;
+}
+
+.titulo-seccion {
+    font-size: 1.45rem;
+    font-weight: 600;
+    margin-bottom: 1.45rem;
+    color: #2d3e50;
+    text-align: center;
+    letter-spacing: 0.4px;
+}
+
+/* Tabla de Disponibilidades */
+.disponibilidad-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 0.5rem;
+}
+.disponibilidad-table th, .disponibilidad-table td {
+    border: 1px solid #e5e9f2;
+    padding: 0.6rem 0.9rem;
+    font-size: 1.08rem;
+    text-align: center;
+}
+.disponibilidad-table th {
+    background-color: #f4f7fb;
+    color: #2d3e50;
+    font-weight: 600;
+}
+.estado-libre {
+    color: #198754;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.estado-ocupado {
+    color: #e74c3c;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.detalle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.45rem 0.98rem;
+    background: linear-gradient(90deg, #5e72e4 0%, #4242a5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-size: 1.01rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    cursor: pointer;
+}
+.detalle-btn:hover, .detalle-btn:focus {
+    background: linear-gradient(90deg, #4242a5 0%, #5e72e4 100%);
+    color: #e2e2e2;
+    transform: scale(1.04);
+}
+.sin-disponibilidades {
+    text-align: center;
+    color: #a9acb6;
+    font-size: 1.1rem;
+    padding: 1.2rem 0 1.6rem 0;
+}
+
+/* Botones de acción en el card */
+.perfil-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+    align-items: stretch;
+}
+
+.perfil-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 0;
+    background: linear-gradient(90deg, #5e72e4 0%, #4242a5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.08rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    cursor: pointer;
+    text-align: center;
+}
+
+.perfil-btn:hover, .perfil-btn:focus {
+    background: linear-gradient(90deg, #4242a5 0%, #5e72e4 100%);
+    transform: translateY(-2px) scale(1.02);
+    color: #e2e2e2;
+}
+
+.perfil-btn-cancel {
+    background: #e74c3c;
+    background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.perfil-btn-cancel:hover, .perfil-btn-cancel:focus {
+    background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
+    color: #fff;
+}
+
+.detalle-btn[disabled], .detalle-btn.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
+	filter: grayscale(0.5);
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .action-card {
+        min-height: 150px;
+        padding: 1.5rem 0.6rem 1.2rem 0.6rem;
+    }
+    .action-card.perfil-card {
+        max-width: 99vw;
+    }
+    .navbar {
+        padding: 0.7rem 1.1rem;
+    }
+    .main-content {
+        padding-top: 4.5rem;
+    }
+    .disponibilidad-table th, .disponibilidad-table td {
+        font-size: 0.99rem;
+        padding: 0.42rem 0.4rem;
+    }
+}

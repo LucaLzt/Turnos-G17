@@ -10,9 +10,6 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
-        </a>
     </div>
     <div class="admin-section">
         <div class="admin-title-with-btn">
@@ -25,30 +22,36 @@
             </a>
         </div>
         <div class="lugares-grid">
-            <a th:each="lugar : ${lugares}"
-               th:href="@{'/lugares/' + ${lugar.id} + '/eliminar'}"
-               class="lugar-card">
-                <div class="lugar-title">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span th:text="${lugar.direccion.calle} + ' ' + ${lugar.direccion.altura}"></span>
-                </div>
-                <div>
-                    <i class="fas fa-flag"></i>
-                    <span th:text="${provinciasMap[lugar.direccion.provinciaId]}"></span>
-                </div>
-                <div>
-                    <i class="fas fa-city"></i>
-                    <span th:text="${localidadesMap[lugar.direccion.localidadId]}"></span>
-                </div>
-                <div class="lugar-horario">
-                    <i class="fas fa-clock"></i>
-                    <span>
-                        <span th:text="'Apertura: ' + ${#strings.substring(lugar.horarioApertura, 0, 5)}"></span>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;
-                        <span th:text="'Cierre: ' + ${#strings.substring(lugar.horarioCierre, 0, 5)}"></span>
-                    </span>
-                </div>
-            </a>
+			<form th:each="lugar : ${lugares}"
+			      th:action="@{'/lugares/' + ${lugar.id} + '/eliminar'}"
+			      method="post"
+			      class="lugar-card"
+			      style="display: flex; flex-direction: column; align-items: flex-start; cursor: pointer;">
+			    <div class="lugar-title">
+			        <i class="fas fa-map-marker-alt"></i>
+			        <span th:text="${lugar.direccion.calle} + ' ' + ${lugar.direccion.altura}"></span>
+			    </div>
+			    <div>
+			        <i class="fas fa-flag"></i>
+			        <span th:text="${provinciasMap[lugar.direccion.provinciaId]}"></span>
+			    </div>
+			    <div>
+			        <i class="fas fa-city"></i>
+			        <span th:text="${localidadesMap[lugar.direccion.localidadId]}"></span>
+			    </div>
+			    <div class="lugar-horario">
+			        <i class="fas fa-clock"></i>
+			        <span>
+			            <span th:text="'Apertura: ' + ${#strings.substring(lugar.horarioApertura, 0, 5)}"></span>
+			            &nbsp;&nbsp;|&nbsp;&nbsp;
+			            <span th:text="'Cierre: ' + ${#strings.substring(lugar.horarioCierre, 0, 5)}"></span>
+			        </span>
+			    </div>
+			    <button type="submit" class="eliminar-servicio-indicador" style="background: none; border: none; color: inherit; padding: 0; cursor: pointer;">
+			        <i class="fas fa-trash-alt"></i>
+			        <span>Click para eliminar</span>
+			    </button>
+			</form>
         </div>
     </div>
 </body>

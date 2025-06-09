@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Elegir Profesional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link th:href="@{/css/disponibilidad.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title">
+            <i class="fas fa-user"></i>
+            <span>Turno para:</span>
+            <span th:text="${turno.cliente.nombre}"></span>
+        </div>
+        <div class="admin-title">
+            <i class="fas fa-briefcase-medical"></i>
+            <span>Servicio:</span>
+            <span th:text="${turno.servicio.nombre}"></span>
+        </div>
+        <div class="admin-title">
+            <i class="fas fa-location-dot"></i>
+            <span>Lugar:</span>
+            <span th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura + '  ' +  localidad.nombre + '  ' + provincia.nombre}"></span>
+        </div>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-user-md"></i>
+                <span>Profesionales disponibles:</span>
+            </div>
+            <a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-lugar'}" class="volver-btn" title="Volver a Lugares">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a lugares</span>
+            </a>
+        </div>
+        <div th:if="${profesionales != null and !profesionales.isEmpty()}" class="horarios-grid">
+            <div th:each="profesional, iterStat : ${profesionales}"
+                 th:class="'profesional-card ' + (${iterStat.index} % 2 == 0 ? 'bg1' : 'bg2')">
+                <div class="profesional-title">
+                    <i class="fas fa-user"></i>
+                    <span th:text="${profesional.nombre}">Nombre del Profesional</span>
+                </div>
+                <!-- BOTÓN PARA ELEGIR PROFESIONAL -->
+                <a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-profesional/' + ${profesional.id} + '/elegir-horario'}"
+                   class="elegir-btn">
+                    Elegir
+                </a>
+            </div>
+        </div>
+        <div th:if="${profesionales == null or profesionales.isEmpty()}" style="color: #c00; margin-top: 2em;">
+            <i class="fas fa-exclamation-circle"></i>
+            No hay profesionales disponibles en este lugar para el servicio seleccionado.
+        </div>
+    </div>
+</body>
+</html>

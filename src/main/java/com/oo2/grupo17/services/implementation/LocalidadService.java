@@ -9,6 +9,7 @@ import com.oo2.grupo17.dtos.LocalidadDto;
 import com.oo2.grupo17.dtos.ProvinciaDto;
 import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Provincia;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.ILocalidadRepository;
 import com.oo2.grupo17.services.ILocalidadService;
 
@@ -30,7 +31,7 @@ public class LocalidadService implements ILocalidadService{
 	@Override
 	public LocalidadDto findById(Long id) {
 		Localidad localidad = localidadRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la localidad con ID: " + id));
 		return modelMapper.map(localidad, LocalidadDto.class);
 	}
 
@@ -54,14 +55,6 @@ public class LocalidadService implements ILocalidadService{
 	@Override
 	public boolean existsByNombreAndProvincia(String nombre, ProvinciaDto provincia) {
 		return localidadRepository.existsByNombreIgnoreCaseAndProvincia(nombre, provincia);
-	}
-	
-	@Override
-	public void prueba() {
-		Localidad localidad = localidadRepository.findAll().get(0);
-		System.out.println("Entidad: id=" + localidad.getId() + ", nombre=" + localidad.getNombre());
-		LocalidadDto dto = modelMapper.map(localidad, LocalidadDto.class);
-		System.out.println("DTO: id=" + dto.getId() + ", nombre=" + dto.getNombre());
 	}
 	
 	@Override

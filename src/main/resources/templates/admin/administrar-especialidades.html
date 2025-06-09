@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Especialidades</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+    <div class="main-content" style="width:100%;">
+        <div class="admin-section">
+            <div class="admin-title">
+                <i class="fas fa-stethoscope panel-card-icon"></i> Administración de Especialidades
+            </div>
+            <div class="panel-actions-grid">
+                <a th:href="@{/especialidades/agregar}" class="panel-card">
+                    <i class="fas fa-plus panel-card-icon"></i>
+                    <div class="panel-card-title">Agregar Especialidad</div>
+                    <div class="panel-card-desc">Cree una nueva especialidad para ofrecer a los clientes.</div>
+                </a>
+                <a th:href="@{/especialidades/modificar}" class="panel-card">
+                    <i class="fas fa-edit panel-card-icon"></i>
+                    <div class="panel-card-title">Modificar Especialidad</div>
+                    <div class="panel-card-desc">Edite la información de especialidades existentes.</div>
+                </a>
+                <a th:href="@{/especialidades/eliminar}" class="panel-card">
+                    <i class="fas fa-trash-alt panel-card-icon"></i>
+                    <div class="panel-card-title">Eliminar Especialidad</div>
+                    <div class="panel-card-desc">Elimine especialidades que ya no estén disponibles.</div>
+                </a>
+				<a th:href="@{/index}" class="panel-card">
+					<i class="fas fa-arrow-left panel-card-icon"></i>
+					<div class="panel-card-title">Volver</div>
+					<div class="panel-card-desc">Regresa al panel de administración principal.</div>
+				</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

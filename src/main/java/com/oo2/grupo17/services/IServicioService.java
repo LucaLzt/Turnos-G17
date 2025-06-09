@@ -1,8 +1,10 @@
 package com.oo2.grupo17.services;
 
 import java.util.List;
+import java.util.Set;
 
 import com.oo2.grupo17.dtos.ServicioDto;
+import com.oo2.grupo17.entities.Servicio;
 
 public interface IServicioService {
 	
@@ -17,4 +19,8 @@ public interface IServicioService {
     void deleteById(Long id);
 
     List<ServicioDto> findAllByOrderByNombreAsc();
+    
+    List<Servicio> traerServiciosPorLugar(Long lugarId);
+
+	List<Servicio> findAllByIds(Set<Long> todosLosServiciosIds);
 }

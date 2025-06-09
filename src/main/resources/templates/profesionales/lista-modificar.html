@@ -10,29 +10,34 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
-        </a>
     </div>
     <div class="admin-section">
-        <div class="admin-title">
-            <i class="fas fa-user-md"></i> Lista de Profesionales
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-user-md"></i> Lista de Profesionales
+            </div>
+            <a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
         </div>
-		<a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
-            <i class="fas fa-arrow-left"></i>
-            <span>Volver</span>
-        </a>
-        <div class="profesionales-grid">
+        <div class="lugares-grid">
             <a th:each="profesional : ${profesionales}"
-               th:href="@{'/profesionales/' + ${profesional.id} + '/modificar'}"
-               class="profesional-card">
-                <div class="profesional-title">
+               th:href="@{'/profesional/' + ${profesional.id} + '/modificar'}"
+               class="lugar-card">
+                <div class="lugar-title">
                     <i class="fas fa-id-badge"></i>
                     <span th:text="${profesional.nombre}"></span>
                 </div>
-                <div>
-                    <i class="fas fa-hashtag"></i>
-                    <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                <div class="lugar-info">
+                    <span>
+                        <i class="fas fa-hashtag"></i>
+                        <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                    </span>
+                    <span>
+                        <i class="fas fa-id-card"></i>
+                        <span th:text="'DNI: ' + ${profesional.dni}"></span>
+                    </span>
                 </div>
                 <div>
                     <i class="fas fa-stethoscope"></i>

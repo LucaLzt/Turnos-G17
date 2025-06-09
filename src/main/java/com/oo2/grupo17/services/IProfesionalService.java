@@ -1,10 +1,13 @@
 package com.oo2.grupo17.services;
 
 import java.util.List;
-import java.util.Set;
 
+import com.oo2.grupo17.dtos.CambioPasswordDto;
+import com.oo2.grupo17.dtos.ContactoDto;
+import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
+import com.oo2.grupo17.entities.Profesional;
 
 public interface IProfesionalService {
 	
@@ -14,11 +17,24 @@ public interface IProfesionalService {
     
     List<ProfesionalDto> findAll();
     
+    List<Profesional> obtenerProfesionalesPorLugar(Long lugarId);
+    
     ProfesionalDto update(Long id, ProfesionalDto profesionalDto);
     
     void deleteById(Long id);
     
-    public void registrarProfesional(ProfesionalRegistradoDto registroDto);
+    void eliminarProfesional(Long id);
     
-    void asignarDatosProfesional(Long id, Long especialidadId, Long lugarId, Set<Long> serviciosId);
+    public void registrarProfesional(ProfesionalRegistradoDto registroDto);
+
+	ProfesionalDto findByEmail(String email);
+
+	void updatearContactoUserEntity(ContactoDto contactoDto);
+
+	void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto);
+    
+	void asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds);
+
+	void cambiarContrasena(ProfesionalDto profesional, CambioPasswordDto cambioPasswordDto);
+	
 }

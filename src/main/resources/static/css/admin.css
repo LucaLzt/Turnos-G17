@@ -350,6 +350,26 @@ html, body {
     border-color: #0056b3;
 }
 
+.form-group input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: #f7f9fc;
+    color: #294bb2;
+    border: 1.5px solid #e0e6f7;
+    border-radius: 7px;
+    padding: 0.7rem 0.9rem;
+    font-size: 1rem;
+    transition: border-color 0.18s, background 0.18s;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.form-group input[type="date"]:focus {
+    border-color: #5e72e4;
+    background: #fff;
+}
+
 @media (max-width: 600px) {
     .form-container {
         max-width: 98vw;

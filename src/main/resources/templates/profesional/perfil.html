@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil del Profesional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/cliente.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+        <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user-md profile-icon"></i>
+        </a>
+    </div>
+    <div class="main-content">
+        <div class="action-card perfil-card">
+            <div class="card-icon">
+                <i class="fas fa-user-md"></i>
+            </div>
+            <div class="card-title" style="margin-bottom:1.5rem;">Mi Perfil</div>
+            <ul class="perfil-list">
+                <li>
+                    <b>Nombre:</b>
+                    <span th:text="${profesional.nombre}"></span>
+                </li>
+                <li>
+                    <b>DNI:</b>
+                    <span th:text="${profesional.dni}"></span>
+                </li>
+                <li>
+                    <b>Número de Matrícula:</b>
+                    <span th:text="${profesional.matricula}"></span>
+                </li>
+				<li>
+				    <b>Especialidad:</b>
+				    <span th:text="${profesional.especialidad != null && profesional.especialidad.nombre != null ? profesional.especialidad.nombre : 'Sin Especialidad'}"></span>
+				</li>
+            </ul>
+            <div class="perfil-buttons">
+                <a th:href="@{/profesional/modificar-contacto}" class="perfil-btn">
+                    <i class="fas fa-user-edit"></i> Modificar contacto
+                </a>
+				<a th:if="${profesional.contacto.direccion == null}" th:href="@{/profesional/modificar-direccion}" class="perfil-btn">
+					<i class="fas fa-map-marker-alt"></i> Agregar dirección
+				</a>
+				<a th:if="${profesional.contacto.direccion != null}" th:href="@{/profesional/modificar-direccion}" class="perfil-btn">
+					<i class="fas fa-map-marker-alt"></i> Modificar dirección
+				</a>
+				<a th:href="@{/profesional/cambiar-contraseña}" class="perfil-btn">
+					<i class="fas fa-pen"></i> Cambiar contraseña
+				</a>
+                <a th:href="@{/index}" class="perfil-btn">
+                    <i class="fas fa-home"></i> Volver al inicio
+                </a>
+                <a th:href="@{/logout}" class="perfil-btn">
+                    <i class="fas fa-key"></i> Cerrar sesión
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

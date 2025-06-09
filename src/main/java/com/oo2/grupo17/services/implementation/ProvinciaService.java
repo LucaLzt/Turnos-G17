@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ProvinciaDto;
 import com.oo2.grupo17.entities.Provincia;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IProvinciaRepository;
 import com.oo2.grupo17.services.IProvinciaService;
 
@@ -28,7 +29,7 @@ public class ProvinciaService implements IProvinciaService{
 	@Override
 	public ProvinciaDto findById(Long id) {
 		Provincia provincia = provinciaRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la provincia con ID: " + id));
 		return modelMapper.map(provincia, ProvinciaDto.class);
 	}
 

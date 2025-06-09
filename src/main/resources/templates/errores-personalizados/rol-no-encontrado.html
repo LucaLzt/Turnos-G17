@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Rol no encontrado | 404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/error.css}" href="/css/error.css"/>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <div class="error-title">Rol no encontrado</div>
+        <div class="error-message" th:text="${mensaje}">
+            El rol solicitado no fue encontrado.
+        </div>
+        <a href="/index" class="error-back-btn">Ir al inicio</a>
+    </div>
+</body>
+</html>

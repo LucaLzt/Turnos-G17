@@ -11,14 +11,11 @@
     <div class="navbar">
         <div class="brand">MiTurno</div>
         <!-- Según el rol, el perfil lleva a distintas rutas -->
-        <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/admin/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
-        </a>
         <a th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" th:href="@{/cliente/perfil}" title="Ir a mi perfil">
             <i class="fas fa-user profile-icon"></i>
         </a>
 		<a th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" th:href="@{/profesional/perfil}" title="Ir a mi perfil">
-		    <i class="fas fa-user profile-icon"></i>
+		    <i class="fas fa-user-md profile-icon"></i>
 		</a>
     </div>
     <div class="main-content" style="background:none;">
@@ -30,7 +27,7 @@
                 <div class="panel-card-title">Solicitar Turno</div>
                 <div class="panel-card-desc">Reservá un nuevo turno de manera fácil y rápida.</div>
             </a>
-            <a th:href="@{/cliente/historial-turnos}" class="panel-card">
+            <a th:href="@{/cliente/turnos}" class="panel-card">
                 <i class="fas fa-history panel-card-icon"></i>
                 <div class="panel-card-title">Historial de Turnos</div>
                 <div class="panel-card-desc">Consultá y gestioná tus turnos pasados y próximos.</div>
@@ -49,11 +46,11 @@
 		
 		<!-- Panel PROFESIONAL -->
 		<div th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" class="professional-section">
-		    <div class="professional-title">
+		    <div class="admin-title">
 		        <i class="fas fa-user-md"></i> Panel del Profesional
 		    </div>
 		    <div class="panel-actions-grid">
-		        <a th:href="@{/profesional/cancelar-turno}" class="panel-card">
+		        <a th:href="@{/profesionales/cancelar-turno}" class="panel-card">
 		            <i class="fas fa-calendar-times panel-card-icon"></i>
 		            <div class="panel-card-title">Cancelar Turno</div>
 		            <div class="panel-card-desc">Cancelá alguno de tus turnos asignados.</div>
@@ -68,11 +65,18 @@
 		            <div class="panel-card-title">Ver Servicios Habilitados</div>
 		            <div class="panel-card-desc">Consultá los servicios en los que estás autorizado a trabajar.</div>
 		        </a>
-		        <a th:href="@{/profesional/contactar-administracion}" class="panel-card">
-		            <i class="fas fa-envelope panel-card-icon"></i>
-		            <div class="panel-card-title">Contactar Administración</div>
-		            <div class="panel-card-desc">Enviá mensajes o consultas a la administración.</div>
-		        </a>
+				<a th:href="@{/profesional/ver-disponibilidades}" class="panel-card">
+					<i class="fas fa-calendar-check panel-card-icon"></i>
+					<div class="panel-card-title">Ver Disponibilidades</div>
+					<div class="panel-card-desc">Consultá las disponibilidades ocupadas y libres</div>
+				</a>
+				<form th:action="@{/logout}" method="post" style="display:inline;">
+				    <button type="submit" class="panel-card" style="border:none;background:none;cursor:pointer;">
+				        <i class="fas fa-sign-out-alt panel-card-icon"></i>
+				        <div class="panel-card-title">Cerrar Sesión</div>
+				        <div class="panel-card-desc">Finalizá tu sesión de profesional de forma segura.</div>
+				    </button>
+				</form>
 		    </div>
 		</div>
 

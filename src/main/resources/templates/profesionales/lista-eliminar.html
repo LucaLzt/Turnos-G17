@@ -24,23 +24,28 @@
                 <span>Volver</span>
             </a>
         </div>
-        <div class="profesionales-grid">
-            <a th:each="profesional : ${profesionales}"
-               th:href="@{'/profesionales/' + ${profesional.id} + '/eliminar'}"
-               class="profesional-card">
-                <div class="profesional-title">
-                    <i class="fas fa-id-badge"></i>
-                    <span th:text="${profesional.nombre}"></span>
-                </div>
-                <div>
-                    <i class="fas fa-hashtag"></i>
-                    <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
-                </div>
-                <div>
-                    <i class="fas fa-stethoscope"></i>
-                    <span th:text="${profesional.especialidad != null ? profesional.especialidad.nombre : 'Sin especialidad'}"></span>
-                </div>
-            </a>
+        <div class="lugar-grid">
+            <form th:each="profesional : ${profesionales}"
+                  th:action="@{'/profesional/' + ${profesional.id} + '/eliminar'}"
+                  method="post">
+                <button type="submit"
+                        class="profesional-card"
+                        th:disabled="${profesional.turnos != null and #lists.size(profesional.turnos) > 0}"
+                        th:title="${profesional.turnos != null and #lists.size(profesional.turnos) > 0 ? 'No se puede eliminar: tiene turnos asignados' : 'Eliminar profesional'}">
+                    <div class="lugar-title">
+                        <i class="fas fa-id-badge"></i>
+                        <span th:text="${profesional.nombre}"></span>
+                    </div>
+                    <div>
+                        <i class="fas fa-hashtag"></i>
+                        <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                    </div>
+                    <div>
+                        <i class="fas fa-stethoscope"></i>
+                        <span th:text="${profesional.especialidad != null ? profesional.especialidad.nombre : 'Sin especialidad'}"></span>
+                    </div>
+                </button>
+            </form>
         </div>
     </div>
 </body>

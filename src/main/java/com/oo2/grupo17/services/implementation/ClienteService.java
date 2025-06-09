@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.dtos.ContactoDto;
@@ -16,6 +17,11 @@ import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.RoleEntity;
 import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.UserEntity;
+import com.oo2.grupo17.exceptions.ContraseñaIncorrectaException;
+import com.oo2.grupo17.exceptions.DniIncorrectoException;
+import com.oo2.grupo17.exceptions.EmailIncorrectoException;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
+import com.oo2.grupo17.exceptions.RolNoEncontradoException;
 import com.oo2.grupo17.repositories.IClienteRepository;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
@@ -23,6 +29,7 @@ import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.Builder;
 
@@ -34,6 +41,7 @@ public class ClienteService implements IClienteService {
 	private final IContactoRepository contactoRepository;
 	private final IClienteRepository clienteRepository;
 	private final IContactoService contactoService;
+	private final BCryptPasswordEncoder encoder;
     private final ModelMapper modelMapper;
 
 	@Override
@@ -49,7 +57,7 @@ public class ClienteService implements IClienteService {
 	@Override
 	public ClienteDto findById(Long id) {
 		Cliente cliente = clienteRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + id));
 		return modelMapper.map(cliente, ClienteDto.class);
 	}
 
@@ -64,7 +72,7 @@ public class ClienteService implements IClienteService {
 	@Override
 	public ClienteDto update(Long id, ClienteDto clienteDto) {
 		Cliente cliente = clienteRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + id));
 		cliente.setNombre(clienteDto.getNombre());
 		cliente.setDni(clienteDto.getDni());
 		Cliente updated = clienteRepository.save(cliente);
@@ -78,16 +86,25 @@ public class ClienteService implements IClienteService {
 	
 	@Override @Transactional
 	public void registrarCliente(ClienteRegistroDto registroDto) {
-	    // 1. Busco rol
+		
+		// 1. Verifico que no exista ni el email ni el dni
+		if (clienteRepository.existsByContacto_Email(registroDto.getEmail())) {
+	        throw new RuntimeException("Ya existe un cliente con ese email.");
+	    }
+	    if (clienteRepository.existsByDni(registroDto.getDni())) {
+	        throw new RuntimeException("Ya existe un cliente con ese DNI.");
+	    }
+		
+	    // 2. Busco rol
 	    RoleEntity clienteRole = roleRepository.findByType(RoleType.CLIENTE)
-	        .orElseThrow(() -> new RuntimeException("Error: Rol CLIENTE no encontrado"));
+	        .orElseThrow(() -> new RolNoEncontradoException("No se encontró el rol: CLIENTE"));
 
-	    // 2. Creo Cliente (sin contacto)
+	    // 3. Creo Cliente (sin contacto)
 	    Cliente cliente = new Cliente();
 	    cliente.setNombre(registroDto.getNombre());
 	    cliente.setDni(registroDto.getDni());
 
-	    // 3. Creo UserEntity y asocio Cliente
+	    // 4. Creo UserEntity y asocio Cliente
 	    UserEntity user = new UserEntity();
 	    user.setUsername(registroDto.getEmail());
 	    user.setPassword(encryptPassword(registroDto.getPassword()));
@@ -96,23 +113,23 @@ public class ClienteService implements IClienteService {
 	    user.setCliente(cliente);
 	    cliente.setUser(user);
 
-	    // 4. Guardo User (esto persiste Cliente)
+	    // 5. Guardo User (esto persiste Cliente)
 	    userRepository.save(user);
 	    
-	    // 5. Genero el numero de cliente en base al id del cliente
+	    // 6. Genero el numero de cliente en base al id del cliente
 	    cliente.setNroCliente(String.format("%06d", cliente.getId()));
 
-	    // 6. Creo Contacto y asocio Cliente
+	    // 7. Creo Contacto y asocio Cliente
 	    Contacto contacto = new Contacto();
 	    contacto.setEmail(registroDto.getEmail());
 	    contacto.setMovil(registroDto.getMovil());
 	    contacto.setTelefono(registroDto.getTelefono());
 	    contacto.setPersona(cliente);
 
-	    // 7. Guardo Contacto
+	    // 8. Guardo Contacto
 	    contactoRepository.save(contacto);
 
-	    // 8. Asocio el contacto al cliente y updateo
+	    // 9. Asocio el contacto al cliente y updateo
 	    cliente.setContacto(contacto);
 	    clienteRepository.save(cliente);
 	}
@@ -120,19 +137,87 @@ public class ClienteService implements IClienteService {
 	@Override
 	public ClienteDto findByEmail(String email) {
 		Cliente cliente = clienteRepository.findByEmail(email)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con Email: " + email));
 		return modelMapper.map(cliente, ClienteDto.class);
 	}
 	
-	@Override
+	@Override 
 	public void updatearContactoUserEntity(ContactoDto contactoDto) {
 		contactoService.update(contactoDto.getId(), contactoDto);
 		Cliente cliente = clienteRepository.findById(contactoDto.getId())
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + contactoDto.getId()));
 		UserEntity usuario = cliente.getUser();
     	usuario.setUsername(contactoDto.getEmail());
     	userRepository.save(usuario);
 	}
+	
+	@Override @Transactional
+	public void eliminarCuenta(String email, String password, int dni) {
+		
+		// 1. Busco el cliente, el contacto y el usuario desde la base de datos
+		Cliente cliente = clienteRepository.findByEmail(email)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con Email: " + email));
+		Contacto contacto = contactoRepository.findByEmail(email)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con Email: " + email));
+		UserEntity user = userRepository.findByUsername(email)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el user con Email: " + email));
+		
+		// 2. Valido los datos con los encontrados
+		if(cliente.getDni() != dni) {
+			throw new DniIncorrectoException("ERROR: Dni incorrecto");
+		}
+		if(!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+			throw new ContraseñaIncorrectaException("ERROR: Contraseña incorrecta");
+		}
+		if(!contacto.getEmail().equals(email)) {
+			throw new EmailIncorrectoException("ERROR: Email incorrecto");
+		}
+		
+		// 3. Desvinculo al contacto de cliente (Persona)
+		cliente.setContacto(null);
+		clienteRepository.save(cliente);
+		
+		// 3. Elimino el contacto, el cliente y el usuario
+		contactoRepository.delete(contacto);
+		clienteRepository.delete(cliente);
+		userRepository.delete(user);
+		
+	};
+	
+	@Override
+	public void cambiarContrasena(ClienteDto cliente, CambioPasswordDto cambioPasswordDto) {
+		// Obtener el profesional desde la base de datos (por id o email)
+	    Cliente clienteEntity = clienteRepository.findById(cliente.getId())
+	            .orElseThrow(() -> new EntityNotFoundException("No se encontró el Cliente"));
+	    
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    
+	    UserEntity userEntity = clienteEntity.getUser();
+
+	    // Validar contraseña actual
+	    if (!encoder.matches(cambioPasswordDto.getPasswordActual(), userEntity.getPassword())) {
+	        throw new IllegalArgumentException("La contraseña actual es incorrecta");
+	    }
+
+	    // Validar que la nueva y la repetida sean iguales
+	    if (!cambioPasswordDto.getPasswordNueva().equals(cambioPasswordDto.getPasswordNuevaRepetida())) {
+	        throw new IllegalArgumentException("Las nuevas contraseñas no coinciden");
+	    }
+
+	    // Encriptar y guardar la nueva contraseña
+	    userEntity.setPassword(encoder.encode(cambioPasswordDto.getPasswordNueva()));
+	    userRepository.save(userEntity);
+	};
 	
 	// --- Método auxiliar para encriptar la contraseña --- //
 	private String encryptPassword(String password) {

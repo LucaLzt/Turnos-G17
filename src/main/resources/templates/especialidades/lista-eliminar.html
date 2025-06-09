@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Especialidades</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-stethoscope panel-card-icon"></i> Lista de Especialidades
+            </div>
+            <a th:href="@{/admin/administrar-especialidades}" class="volver-btn" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+        <div class="lugares-grid">
+			<form th:each="especialidad : ${especialidades}" 
+			    th:action="@{'/especialidades/' + ${especialidad.id} + '/eliminar'}"
+			    method="post">
+				<button type="submit" class="lugar-card">
+					<div class="lugar-title">
+						<i class="fas fa-stethoscope panel-card-icon"></i>
+						<span th:text="${especialidad.nombre}"></span>
+					</div>
+				</button>
+			</form>
+        </div>
+    </div>
+</body>
+</html>

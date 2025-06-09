@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Turno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+        <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user profile-icon"></i>
+        </a>
+    </div>
+    <div class="main-content" style="background:none; display: flex; justify-content: center; align-items: center; height: 80vh;">
+        <div class="panel-card" style="width: 400px; text-align: left;">
+            <i class="fas fa-info-circle panel-card-icon"></i>
+            <div class="panel-card-title">Detalle del Turno</div>
+            <div class="panel-card-desc">
+                <p><strong>ID:</strong> <span th:text="${turno.id}"></span></p>
+                <p><strong>Cliente:</strong> <span th:text="${turno.cliente.nombre}"></span></p>
+                <p><strong>Profesional:</strong> <span th:text="${turno.profesional.nombre}"></span></p>
+                <p><strong>Servicio:</strong> <span th:text="${turno.servicio.nombre}"></span></p>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

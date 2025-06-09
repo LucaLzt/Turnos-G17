@@ -15,5 +15,6 @@ public interface IEspecialidadRepository extends JpaRepository<Especialidad, Lon
 	Optional<Especialidad> findByNombre(String nombre);
 	Optional<Especialidad> findByNombreIgnoreCase(String nombre);
 	List<Especialidad> findAllByOrderByNombreAsc();
+	boolean existsByNombre(String nombre);
 	
 }

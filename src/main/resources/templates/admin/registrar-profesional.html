@@ -10,9 +10,6 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
-        </a>
     </div>
     <div class="form-container">
         <div class="form-title">
@@ -21,27 +18,33 @@
         <form th:action="@{/admin/registrar-profesional}" method="post" th:object="${profesional}">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" th:field="*{email}" id="email" placeholder="ejemplo@correo.com" required>
+                <input type="email" th:field="*{email}" id="email" placeholder="ejemplo@correo.com">
+				<div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             </div>
             <div class="form-group">
                 <label for="dni">DNI</label>
-                <input type="text" th:field="*{dni}" id="dni" placeholder="Ingrese DNI" required>
+                <input type="text" th:field="*{dni}" id="dni" placeholder="Ingrese DNI">
+				<div class="error" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre</label>
-                <input type="text" th:field="*{nombre}" id="nombre" placeholder="Ingrese nombre" required>
+                <input type="text" th:field="*{nombre}" id="nombre" placeholder="Ingrese nombre">
+				<div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
             </div>
 			<div class="form-group">
 			    <label for="matricula">Matricula</label>
-			    <input type="text" th:field="*{matricula}" id="matricula" placeholder="Ingrese matricula" required>
+			    <input type="text" th:field="*{matricula}" id="matricula" placeholder="Ingrese matricula">
+				<div class="error" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}"></div>
 			</div>
             <div class="form-group">
                 <label for="movil">Móvil</label>
-                <input type="text" th:field="*{movil}" id="movil" placeholder="Ej: 11 1234-5678" required>
+                <input type="text" th:field="*{movil}" id="movil" placeholder="Ej: 11 1234-5678">
+				<div class="error" th:if="${#fields.hasErrors('movil')}" th:errors="*{movil}"></div>
             </div>
             <div class="form-group">
                 <label for="telefono">Teléfono</label>
                 <input type="text" th:field="*{telefono}" id="telefono" placeholder="Ej: 4711-9876">
+				<div class="error" th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"></div>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn-submit">

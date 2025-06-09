@@ -1,0 +1,141 @@
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5em;
+  margin-top: 1.5em;
+}
+
+@media (max-width: 900px) {
+  .horarios-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .horarios-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profesional-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+  padding: 1.2em;
+  margin: 0.3em 0;
+  transition: box-shadow 0.2s, background 0.2s, border 0.2s;
+  border: 1.5px solid #e0e6f7;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 150px;
+}
+
+.profesional-card.bg2 {
+  background: #f5f7fa;
+}
+
+.profesional-card:hover {
+  box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
+  background: #eaf3fa;
+  border: 1.5px solid #294bb2;
+}
+
+.profesional-title {
+  font-weight: 600;
+  margin-bottom: 0.6em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  color: #294bb2;
+  font-size: 1.13rem;
+}
+
+.elegir-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 0.7em 0;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(94, 114, 228, 0.07);
+  margin-top: 0.7em;
+}
+
+.elegir-btn:hover {
+  background: linear-gradient(135deg, #2935b2 0%, #4258e4 100%);
+}
+
+.badge-info {
+  display: inline-block;
+  background: #e6eaf6;
+  color: #294bb2;
+  border-radius: 8px;
+  padding: 0.22em 0.85em;
+  font-size: 0.99em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+.filtro-fecha-wrapper {
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+}
+
+.filtro-fecha-wrapper label {
+  font-weight: 500;
+  margin-right: 0.6em;
+  color: #294bb2;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#filtroFecha {
+  background: #f7f9fc;
+  color: #294bb2;
+  border: 1.5px solid #e0e6f7;
+  border-radius: 7px;
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+  transition: border-color 0.18s, background 0.18s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+#filtroFecha:focus {
+  border-color: #5e72e4;
+  background: #fff;
+}
+
+.elegir-btn,
+.elegir-btn:visited,
+.elegir-btn:active {
+  display: block;
+  width: 100%;
+  background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
+  color: #fff !important;
+  border: none;
+  border-radius: 7px;
+  padding: 0.7em 0;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(94, 114, 228, 0.07);
+  margin-top: 0.7em;
+  margin-bottom: 0.1em;
+}
+
+.elegir-btn:hover {
+  background: linear-gradient(135deg, #2935b2 0%, #4258e4 100%);
+  color: #fff !important;
+  text-decoration: none !important;
+}
