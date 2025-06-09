@@ -27,12 +27,9 @@ public class TurnosController {
     private final IDisponibilidadService disponibilidadService;
     private final ILugarService lugarService;
     private final IClienteService clienteService;
-    private final IContactoService contactoService;
-    private final IDireccionService direccionService;
     private final IProvinciaService provinciaService;
     private final ILocalidadService localidadService;
     private final IProfesionalService profesionalService;
-    private final IEspecialidadService especialidadService;
     private final ITurnoService turnoService;
     private final ModelMapper modelMapper;
 
@@ -163,4 +160,5 @@ public class TurnosController {
 
         return "redirect:/index?turnoConfirmado=ok";
     }
+    
 }
