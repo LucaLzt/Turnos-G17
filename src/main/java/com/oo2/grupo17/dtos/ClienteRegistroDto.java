@@ -25,9 +25,9 @@ public class ClienteRegistroDto {
     @Size(min = 2, max = 40, message = "El nombre debe tener entre 2 y 40 caracteres")
     private String nombre;
 
-    @NotNull(message = "El DNI es obligatorio")
-    @Min(value = 1000000, message = "El DNI debe tener al menos 7 dígitos")
-    @Max(value = 99999999, message = "El DNI no puede superar 8 dígitos")
+    @NotNull(message = "El móvil es obligatorio")
+    @Min(value = 1000000000, message = "El móvil debe tener al menos 10 dígitos")
+    @Max(value = 9999999999L, message = "El móvil no debe superar los 10 dígitos")
     private int dni;
 
     @NotNull(message = "El móvil es obligatorio")

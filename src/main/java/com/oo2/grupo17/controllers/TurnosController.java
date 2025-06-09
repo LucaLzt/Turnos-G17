@@ -25,6 +25,7 @@ public class TurnosController {
 
     private final IServicioService servicioService;
     private final IDisponibilidadService disponibilidadService;
+    private final IEmailService emailService;
     private final ILugarService lugarService;
     private final IClienteService clienteService;
     private final IProvinciaService provinciaService;
@@ -154,6 +155,9 @@ public class TurnosController {
 
         // Guardar el turno en la base de datos
         turnoService.crearTurno(turno);
+        
+        // Enviar email al cliente y profesional
+        emailService.enviarEmailConfirmacion(turno);
 
         // Limpiar la sesión
         model.asMap().remove("turno");

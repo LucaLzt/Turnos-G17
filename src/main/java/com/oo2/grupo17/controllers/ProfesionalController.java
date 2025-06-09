@@ -2,8 +2,6 @@ package com.oo2.grupo17.controllers;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
 import com.oo2.grupo17.dtos.DisponibilidadDto;
-import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.EspecialidadDto;
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
@@ -32,7 +29,6 @@ import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
-import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.services.IContactoService;
@@ -54,7 +50,6 @@ import lombok.Builder;
 public class ProfesionalController {
 	
 	private final IProfesionalService profesionalService;
-	private final IProfesionalRepository profesionalRepository;
 	private final IDisponibilidadService disponibilidadService;
 	private final IContactoService contactoService;
 	private final IServicioService servicioService;
@@ -182,25 +177,20 @@ public class ProfesionalController {
 	@PostMapping("/modificar-contacto")
 	public String modificarContactoPost (@Valid @ModelAttribute("contacto") ContactoDto contactoDto,
 			BindingResult result, Model model, Principal principal) {
-			
 		// Validar los datos del contacto
 		if(result.hasErrors()) {
 			return ViewRouteHelper.PROFESIONAL_CONTACTO;
 		}
-			
 		// 1. Obtengo el email actual antes de actualizar
 		String emailActual = principal.getName();
-			
 		// 2. Guardo los cambios del contacto (incluyendo la opcion de cambio de mail)
 		profesionalService.updatearContactoUserEntity(contactoDto);
-			
 		// 3. Comparo el email nuevo con el viejo
 		String emailNuevo = contactoDto.getEmail();
 		if(!emailActual.equals(emailNuevo)) {
 			SecurityContextHolder.clearContext(); // Limpiar el contexto de seguridad si el email cambia
 			return "redirect:/auth/login?logout";
 		}
-			
 		return "redirect:/profesionales/perfil?updateContacto=ok";
 	}
 	

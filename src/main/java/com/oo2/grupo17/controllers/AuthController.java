@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.implementation.ClienteService;
+import com.oo2.grupo17.services.implementation.EmailService;
 
 import jakarta.validation.Valid;
 import lombok.Builder;
@@ -21,6 +22,7 @@ import lombok.Builder;
 public class AuthController {
 	
     private ClienteService clienteService;
+    private EmailService emailService;
 
     @GetMapping("/login")
     public String login(Model model,
@@ -49,6 +51,7 @@ public class AuthController {
             return ViewRouteHelper.CLIENTE_REGISTER;
         }
         clienteService.registrarCliente(clienteDto);
+        emailService.enviarEmailRegistro(clienteDto.getEmail(), clienteDto.getNombre());
         return "redirect:/auth/login?registroExitoso";
     }
     

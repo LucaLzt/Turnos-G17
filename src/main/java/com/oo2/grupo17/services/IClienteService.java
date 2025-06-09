@@ -5,6 +5,7 @@ import java.util.List;
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.dtos.ContactoDto;
+import com.oo2.grupo17.dtos.TurnoDto;
 
 public interface IClienteService {
 	

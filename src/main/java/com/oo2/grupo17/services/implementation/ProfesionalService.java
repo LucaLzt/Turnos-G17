@@ -17,10 +17,8 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
-import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
-import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Especialidad;
@@ -39,7 +37,6 @@ import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
-import com.oo2.grupo17.repositories.ITurnoRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IProfesionalService;
@@ -63,7 +60,6 @@ public class ProfesionalService implements IProfesionalService {
 	private final IContactoService contactoService;
 	private final EmailService emailService;
 	private final ModelMapper modelMapper;
-	private final ITurnoRepository turnoRepository;
 
 	@Override
 	public ProfesionalDto save(ProfesionalDto profesionalDto) {
@@ -176,8 +172,8 @@ public class ProfesionalService implements IProfesionalService {
 	    UserEntity user = new UserEntity();
 	    user.setUsername(registroDto.getEmail());
 	    String contraseñaGenerada = generarPasswordAleatoria();
-	    //user.setPassword(encryptPassword(contraseñaGenerada));
-	    user.setPassword(encryptPassword("1234")); // Para pruebas, usar una contraseña fija
+	    user.setPassword(encryptPassword(contraseñaGenerada));
+	    // user.setPassword(encryptPassword("1234")); // Para pruebas, usar una contraseña fija
 	    user.setActive(true);
 	    user.setRoleEntities(new HashSet<>(Set.of(profesionalRole)));
 	    user.setProfesional(profesional);
@@ -201,7 +197,7 @@ public class ProfesionalService implements IProfesionalService {
 	    profesionalRepository.save(profesional);
 	    
 	    // 9. Envío correo al profesional con la contraseña generada
-	    // emailService.enviarEmailRegistro(registroDto.getEmail(), registroDto.getNombre(), contraseñaGenerada);
+	    emailService.enviarEmailRegistro(registroDto.getEmail(), registroDto.getNombre(), contraseñaGenerada);
 	}
 	
 	// --- Método auxiliar para crear contraseña aleatoria --- //

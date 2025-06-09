@@ -4,6 +4,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.services.IEmailService;
 
 import lombok.Builder;
@@ -37,5 +38,53 @@ public class EmailService implements IEmailService {
 		message.setText(mensaje);
 		mailSender.send(message);
 	}
-
+	
+	public void enviarEmailRegistro(String email, String nombre) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email);
+		message.setSubject("Registro exitoso");
+		message.setText(
+	            "Hola " + nombre + ",\n\n" +
+	            "Tu registro ha sido exitoso.\n\n" +
+	            "Saludos,\n" +
+	            "Equipo de Turnos-G17"
+				);
+		mailSender.send(message);
+	}
+	
+	@Override
+	public void enviarEmailConfirmacion(TurnoDto turno) {
+		SimpleMailMessage cliente = new SimpleMailMessage();
+		cliente.setTo(turno.getCliente().getContacto().getEmail());
+		cliente.setSubject("Confirmación de Turno");
+		cliente.setText(
+	            "Hola " + turno.getCliente().getNombre() + ",\n\n" +
+	            "Tu turno ha sido confirmado.\n" +
+	            "Detalles del turno:\n" +
+	            "Fecha y hora: " + turno.getDisponibilidad().getInicio() + "\n" +
+	            "Duración: " + turno.getDisponibilidad().getDuracion() + "\n" +
+	            "Profesional: " + turno.getProfesional().getNombre() + "\n" +
+	            "Servicio: " + turno.getServicio().getNombre() + "\n\n" +
+	            "Saludos,\n" +
+	            "Equipo de Turnos-G17"
+				);
+		mailSender.send(cliente);
+		
+		SimpleMailMessage profesional = new SimpleMailMessage();
+		profesional.setTo(turno.getProfesional().getContacto().getEmail());
+		profesional.setSubject("Nuevo Turno Asignado");
+		profesional.setText(
+	            "Hola " + turno.getProfesional().getNombre() + ",\n\n" +
+	            "Se te ha asignado un nuevo turno.\n" +
+	            "Detalles del turno:\n" +
+	            "Fecha y hora: " + turno.getDisponibilidad().getInicio() + "\n" +
+	            "Duración: " + turno.getDisponibilidad().getDuracion() + "\n" +
+	            "Cliente: " + turno.getCliente().getNombre() + "\n" +
+	            "Servicio: " + turno.getServicio().getNombre() + "\n\n" +
+	            "Saludos,\n" +
+	            "Equipo de Turnos-G17"
+				);
+		mailSender.send(profesional);
+	};
+	
 }

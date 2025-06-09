@@ -58,16 +58,13 @@ public class ClienteController {
 	// Muestra el perfil del cliente
 	@GetMapping("/perfil")
 	public String perfil(Model model, Principal principal) {
-		
 		// Obtiene el email del usuario autenticado y busco al cliente
 		String email = principal.getName();
 		ClienteDto cliente = clienteService.findByEmail(email);
-		
 		// Si el cliente existe, lo agrega al modelo
 		if(cliente != null) {
 			model.addAttribute("cliente", cliente);
 		}
-		
 		return ViewRouteHelper.CLIENTE_PERFIL;
 	}
 	
@@ -86,36 +83,29 @@ public class ClienteController {
 	@PostMapping("/modificar-contacto")
 	public String modificarContactoPost (@Valid @ModelAttribute("contacto") ContactoDto contactoDto,
 			BindingResult result, Model model,  Principal principal) {
-		
 		// Validar los datos del contacto
 		if(result.hasErrors()) {
 	        return ViewRouteHelper.CLIENTE_CONTACTO;
 	    }
-		
 		// 1. Obtengo el email actual antes de actualizar
 		String emailActual = principal.getName();
-		
 		// 2. Guardo los cambios del contacto (incluyendo la opcion de cambio de mail)
 		clienteService.updatearContactoUserEntity(contactoDto);
-		
 		// 3. Comparo el email nuevo con el viejo
 		String emailNuevo = contactoDto.getEmail();
 		if(!emailActual.equals(emailNuevo)) {
 			SecurityContextHolder.clearContext(); // Limpiar el contexto de seguridad si el email cambia
 			return "redirect:/auth/login?logout";
 		}
-		
 		return "redirect:/cliente/perfil?updateContacto=ok";
 	}
 	
 	// Muestra el formulario para agregar una dirección
 	@GetMapping("/modificar-direccion")
 	public String modificarDireccion(Model model, Principal principal) {
-		
 		// 1. Obtengo las listas de provincias y localidades
 		List<Provincia> provincias = provinciaService.findAll();
 		List<Localidad> localidades = localidadService.findAll();
-		
 		// 2. Verifico si el contacto tiene una dirección asocidada
 		String email = principal.getName();
 		ContactoDto contacto = contactoService.findByEmail(email);
@@ -125,7 +115,6 @@ public class ClienteController {
 			DireccionDto direccion = direccionService.findByContactoEmail(email); // Se pasa un objeto existent
 			model.addAttribute("direccion", direccion);
 		}
-		
 		// 3. Agrego las listas al modelo
 		model.addAttribute("provincias", provincias);
 		model.addAttribute("localidades", localidades);
@@ -136,25 +125,20 @@ public class ClienteController {
 	@PostMapping("/modificar-direccion")
 	public String modificarDireccionPost(@Valid @ModelAttribute("direccion") DireccionDto direccionDto,
 			BindingResult result, Model model ,Principal principal) {
-		
 		// Validar los datos de la dirección
 		if (result.hasErrors()) {
             return ViewRouteHelper.CLIENTE_DIRECCION;
         }
-		
 		// 1. Verificar que el contacto existe
 		String email = principal.getName();
-		
 		// 2. Si existe, crear y asociar la dirección al contacto
 		ContactoDto contacto = contactoService.findByEmail(email);
-		
 		// 3. Actualizar el contacto con la nueva dirección
 		if(contacto.getDireccion() == null) {
 			direccionService.crearDireccion(contacto, direccionDto);
 		} else {
 			direccionService.actualizarDireccion(contacto, direccionDto);
 		}
-		
 		// 4. Redirigir al perfil del cliente
 		ClienteDto cliente = clienteService.findByEmail(email);
 		if(cliente != null) {
@@ -214,14 +198,11 @@ public class ClienteController {
 	@PostMapping("/eliminar-cuenta")
 	public String eliminarCuentaPost (@RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("dni") int dni) {
-		
 		// Elimina la cuenta del cliente
 		clienteService.eliminarCuenta(email, password, dni);
 		SecurityContextHolder.clearContext();
 		return "redirect:/auth/login?logout";
 	}
-	
-	
 	
 	@GetMapping("/home")
 	public String index() {
@@ -245,6 +226,7 @@ public class ClienteController {
         model.addAttribute("turno", turno);
         return "cliente/DetalleTurno";
     }
+	
     @PreAuthorize("hasRole('ROLE_CLIENTE')")
     @GetMapping("/lista")
     public String cantidadTurnosCliente(Model model, Principal principal) {
@@ -263,10 +245,8 @@ public class ClienteController {
     	String email = principal.getName();
     	ClienteDto cliente = clienteService.findByEmail(email);
         Long clienteId = cliente.getId();
-
         List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
         model.addAttribute("turnos", turnos);
-
         return "cliente/TurnosACancelar";
     }
     

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.DireccionDto;
@@ -118,7 +119,5 @@ public class TurnoService implements ITurnoService {
 
 		return modelMapper.map(updated, TurnoDto.class);
 	}
-	
-
 
 }
