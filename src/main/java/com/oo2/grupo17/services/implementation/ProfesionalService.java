@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
@@ -51,6 +52,7 @@ public class ProfesionalService implements IProfesionalService {
 	
 	private final IProfesionalRepository profesionalRepository;
 	private final IDisponibilidadRepository disponibilidadRepository;
+	private final BCryptPasswordEncoder encoder;
 	private final IContactoRepository contactoRepository;
 	private final IServicioRepository servicioRepository;
 	private final ILugarRepository lugarRepository;
@@ -324,5 +326,28 @@ public class ProfesionalService implements IProfesionalService {
 
 		profesionalRepository.save(profesional);
 	}
+	
+	@Override
+	public void cambiarContrasena(ProfesionalDto profesional, CambioPasswordDto cambioPasswordDto) {
+		// Obtener el profesional desde la base de datos (por id o email)
+	    Profesional profesionalEntity = profesionalRepository.findById(profesional.getId())
+	            .orElseThrow(() -> new EntityNotFoundException("No se encontró el profesional"));
+	    
+	    UserEntity userEntity = profesionalEntity.getUser();
+
+	    // Validar contraseña actual
+	    if (!encoder.matches(cambioPasswordDto.getPasswordActual(), userEntity.getPassword())) {
+	        throw new IllegalArgumentException("La contraseña actual es incorrecta");
+	    }
+
+	    // Validar que la nueva y la repetida sean iguales
+	    if (!cambioPasswordDto.getPasswordNueva().equals(cambioPasswordDto.getPasswordNuevaRepetida())) {
+	        throw new IllegalArgumentException("Las nuevas contraseñas no coinciden");
+	    }
+
+	    // Encriptar y guardar la nueva contraseña
+	    userEntity.setPassword(encoder.encode(cambioPasswordDto.getPasswordNueva()));
+	    userRepository.save(userEntity);
+	};
 	
 }

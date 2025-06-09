@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
 import com.oo2.grupo17.dtos.DisponibilidadDto;
@@ -302,6 +303,24 @@ public class ProfesionalController {
 		TurnoDto turno = turnoService.findByIdDisponibilidad(id);
 		model.addAttribute("turno", turno);
 		return "profesional/detalle-turno";
+	}
+	
+	@GetMapping("/cambiar-contraseña")
+	public String cambiarContrasena(Model model) {
+		model.addAttribute("cambioPasswordDto", new CambioPasswordDto());
+		return "profesional/cambiar-contraseña";
+	}
+	
+	@PostMapping("/cambiar-contraseña")
+	public String cambiarContrasenaPost(@Valid @ModelAttribute("cambioPasswordDto") CambioPasswordDto cambioPasswordDto,
+			BindingResult result, Model model, Principal principal) {
+		if (result.hasErrors()) {
+			model.addAttribute("cambioPasswordDto", new CambioPasswordDto());
+			return "profesional/cambiar-contraseña";
+		}
+		ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
+		profesionalService.cambiarContrasena(profesional, cambioPasswordDto);
+		return "redirect:/profesional/perfil?cambioContrasena=ok";
 	}
 	
 }

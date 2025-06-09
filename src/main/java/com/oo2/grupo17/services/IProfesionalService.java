@@ -2,11 +2,14 @@ package com.oo2.grupo17.services;
 
 import java.util.List;
 
+import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.entities.Profesional;
+
+import jakarta.validation.Valid;
 
 public interface IProfesionalService {
 	
@@ -33,5 +36,7 @@ public interface IProfesionalService {
 	void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto);
     
 	void asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds);
+
+	void cambiarContrasena(ProfesionalDto profesional, CambioPasswordDto cambioPasswordDto);
 	
 }
