@@ -29,6 +29,7 @@ import com.oo2.grupo17.entities.RoleEntity;
 import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.entities.UserEntity;
+import com.oo2.grupo17.exceptions.ContraseñaIncorrectaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.exceptions.RolNoEncontradoException;
 import com.oo2.grupo17.repositories.IContactoRepository;
@@ -331,18 +332,18 @@ public class ProfesionalService implements IProfesionalService {
 	public void cambiarContrasena(ProfesionalDto profesional, CambioPasswordDto cambioPasswordDto) {
 		// Obtener el profesional desde la base de datos (por id o email)
 	    Profesional profesionalEntity = profesionalRepository.findById(profesional.getId())
-	            .orElseThrow(() -> new EntityNotFoundException("No se encontró el profesional"));
+	            .orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional"));
 	    
 	    UserEntity userEntity = profesionalEntity.getUser();
 
 	    // Validar contraseña actual
 	    if (!encoder.matches(cambioPasswordDto.getPasswordActual(), userEntity.getPassword())) {
-	        throw new IllegalArgumentException("La contraseña actual es incorrecta");
+	        throw new ContraseñaIncorrectaException("La contraseña actual es incorrecta");
 	    }
 
 	    // Validar que la nueva y la repetida sean iguales
 	    if (!cambioPasswordDto.getPasswordNueva().equals(cambioPasswordDto.getPasswordNuevaRepetida())) {
-	        throw new IllegalArgumentException("Las nuevas contraseñas no coinciden");
+	        throw new ContraseñaIncorrectaException("Las nuevas contraseñas no coinciden");
 	    }
 
 	    // Encriptar y guardar la nueva contraseña

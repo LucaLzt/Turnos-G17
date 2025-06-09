@@ -188,30 +188,18 @@ public class ClienteService implements IClienteService {
 	public void cambiarContrasena(ClienteDto cliente, CambioPasswordDto cambioPasswordDto) {
 		// Obtener el profesional desde la base de datos (por id o email)
 	    Cliente clienteEntity = clienteRepository.findById(cliente.getId())
-	            .orElseThrow(() -> new EntityNotFoundException("No se encontró el Cliente"));
-	    
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
-	    System.out.println("ID: " + clienteEntity.getId());
+	            .orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el Cliente"));
 	    
 	    UserEntity userEntity = clienteEntity.getUser();
 
 	    // Validar contraseña actual
 	    if (!encoder.matches(cambioPasswordDto.getPasswordActual(), userEntity.getPassword())) {
-	        throw new IllegalArgumentException("La contraseña actual es incorrecta");
+	        throw new ContraseñaIncorrectaException("La contraseña actual es incorrecta");
 	    }
 
 	    // Validar que la nueva y la repetida sean iguales
 	    if (!cambioPasswordDto.getPasswordNueva().equals(cambioPasswordDto.getPasswordNuevaRepetida())) {
-	        throw new IllegalArgumentException("Las nuevas contraseñas no coinciden");
+	        throw new ContraseñaIncorrectaException("Las nuevas contraseñas no coinciden");
 	    }
 
 	    // Encriptar y guardar la nueva contraseña
