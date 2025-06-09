@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.dtos.ContactoDto;
@@ -28,6 +29,7 @@ import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.Builder;
 
@@ -39,6 +41,7 @@ public class ClienteService implements IClienteService {
 	private final IContactoRepository contactoRepository;
 	private final IClienteRepository clienteRepository;
 	private final IContactoService contactoService;
+	private final BCryptPasswordEncoder encoder;
     private final ModelMapper modelMapper;
 
 	@Override
@@ -179,6 +182,41 @@ public class ClienteService implements IClienteService {
 		clienteRepository.delete(cliente);
 		userRepository.delete(user);
 		
+	};
+	
+	@Override
+	public void cambiarContrasena(ClienteDto cliente, CambioPasswordDto cambioPasswordDto) {
+		// Obtener el profesional desde la base de datos (por id o email)
+	    Cliente clienteEntity = clienteRepository.findById(cliente.getId())
+	            .orElseThrow(() -> new EntityNotFoundException("No se encontró el Cliente"));
+	    
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    System.out.println("ID: " + clienteEntity.getId());
+	    
+	    UserEntity userEntity = clienteEntity.getUser();
+
+	    // Validar contraseña actual
+	    if (!encoder.matches(cambioPasswordDto.getPasswordActual(), userEntity.getPassword())) {
+	        throw new IllegalArgumentException("La contraseña actual es incorrecta");
+	    }
+
+	    // Validar que la nueva y la repetida sean iguales
+	    if (!cambioPasswordDto.getPasswordNueva().equals(cambioPasswordDto.getPasswordNuevaRepetida())) {
+	        throw new IllegalArgumentException("Las nuevas contraseñas no coinciden");
+	    }
+
+	    // Encriptar y guardar la nueva contraseña
+	    userEntity.setPassword(encoder.encode(cambioPasswordDto.getPasswordNueva()));
+	    userRepository.save(userEntity);
 	};
 	
 	// --- Método auxiliar para encriptar la contraseña --- //

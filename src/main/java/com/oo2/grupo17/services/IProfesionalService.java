@@ -9,8 +9,6 @@ import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.entities.Profesional;
 
-import jakarta.validation.Valid;
-
 public interface IProfesionalService {
 	
     ProfesionalDto save(ProfesionalDto profesionalDto);

@@ -44,6 +44,9 @@
 				<a th:if="${cliente.contacto.direccion != null}" th:href="@{/cliente/modificar-direccion}" class="perfil-btn">
 				    <i class="fas fa-map-marker-alt"></i> Modificar dirección
 				</a>
+				<a th:href="@{/cliente/cambiar-contraseña}" class="perfil-btn">
+					<i class="fas fa-pen"></i> Cambiar contraseña
+				</a>
                 <a th:href="@{/index}" class="perfil-btn">
                     <i class="fas fa-home"></i> Volver al inicio
                 </a>

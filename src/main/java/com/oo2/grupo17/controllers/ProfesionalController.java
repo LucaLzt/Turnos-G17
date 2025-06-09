@@ -315,7 +315,6 @@ public class ProfesionalController {
 	public String cambiarContrasenaPost(@Valid @ModelAttribute("cambioPasswordDto") CambioPasswordDto cambioPasswordDto,
 			BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors()) {
-			model.addAttribute("cambioPasswordDto", new CambioPasswordDto());
 			return "profesional/cambiar-contraseña";
 		}
 		ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());

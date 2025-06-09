@@ -2,10 +2,10 @@ package com.oo2.grupo17.services;
 
 import java.util.List;
 
+import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.dtos.ContactoDto;
-import com.oo2.grupo17.dtos.TurnoDto;
 
 public interface IClienteService {
 	
@@ -19,12 +19,14 @@ public interface IClienteService {
 
     void deleteById(Long id);
     
-    public void registrarCliente(ClienteRegistroDto registroDto);
+    void registrarCliente(ClienteRegistroDto registroDto);
     
-    public ClienteDto findByEmail(String email);
+    ClienteDto findByEmail(String email);
     
-    public void updatearContactoUserEntity(ContactoDto contactoDto);
+    void updatearContactoUserEntity(ContactoDto contactoDto);
 
 	void eliminarCuenta(String email, String password, int dni);
+
+	void cambiarContrasena(ClienteDto cliente, CambioPasswordDto cambioPasswordDto);
 	
 }

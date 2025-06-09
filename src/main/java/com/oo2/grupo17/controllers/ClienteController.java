@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
@@ -255,5 +256,22 @@ public class ClienteController {
         turnoService.deleteById(id);
         return "redirect:/cliente/cancelar"; 
     }
+    
+    @GetMapping("/cambiar-contraseña")
+	public String cambiarContrasena(Model model) {
+		model.addAttribute("cambioPasswordDto", new CambioPasswordDto());
+		return "cliente/cambiar-contraseña";
+	}
+	
+	@PostMapping("/cambiar-contraseña")
+	public String cambiarContrasenaPost(@Valid @ModelAttribute("cambioPasswordDto") CambioPasswordDto cambioPasswordDto,
+			BindingResult result, Model model, Principal principal) {
+		if (result.hasErrors()) {
+			return "cliente/cambiar-contraseña";
+		}
+		ClienteDto cliente = clienteService.findByEmail(principal.getName());
+		clienteService.cambiarContrasena(cliente, cambioPasswordDto);
+		return "redirect:/cliente/perfil?cambioContrasena=ok";
+	}
 		
 }
