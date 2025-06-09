@@ -34,6 +34,7 @@ El sistema fue desarrollado como trabajo práctico integrador. Este proyecto per
   - MAIL_USERNAME -> Colocar tu email para envíos de correos.
   - MAIL_PASSWORD -> Colocar tu contraseña para aplicaciones para envíos de correos.
 - Ejecutar el proyecto. Si todo está correcto aparece que la aplicación inició en x segundos en el puerto 8080.
+- Inicializar el init.sql dentro de nuestra aplicaciones de manejo de bases de datos.
 - Abrir el navegador e ir a la siguiente url: [http//localhost:8080/auth/login](http://localhost:8080/auth/login)
 - Al entrar a la página vas a tener tres opciones:
     - Ingresar como **ADMIN**: admin1234@admin.com **password**: admin1234
