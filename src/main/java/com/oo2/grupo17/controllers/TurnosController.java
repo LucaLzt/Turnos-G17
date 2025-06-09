@@ -133,7 +133,7 @@ public class TurnosController {
         model.addAttribute("turno", turno);
         return "turno/elegir-disponibilidad";
     }
-
+   
     // Paso 5: Confirmar turno con disponibilidad elegida
     @PreAuthorize("hasRole('ROLE_CLIENTE')")
     @PostMapping("/solicitar-turno/confirmar")

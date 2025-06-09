@@ -6,13 +6,16 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.oo2.grupo17.dtos.DireccionDto;
 import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.entities.Cliente;
+import com.oo2.grupo17.entities.Direccion;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.entities.Turno;
+import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IClienteRepository;
 import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.ILugarRepository;
@@ -101,5 +104,21 @@ public class TurnoService implements ITurnoService {
 	public List<Turno> buscarTurnosPorProfesionalId(Long profesionalId) {
 	    return turnoRepository.findByProfesionalId(profesionalId);
 	}
+	
+	public TurnoDto update(Long id, TurnoDto turnoDto) {
+		Turno turno = turnoRepository.findById(id)
+			.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el direccion con ID: " + id));
+		 Lugar lugar = lugarRepository.findById(turnoDto.getLugar().getId())
+		            .orElseThrow(() -> new RuntimeException("Lugar no encontrado"));
+		 // Disponibilidad disponibilidad = disponibilidadRepository.findById(turnoDto.getDisponibilidad().getId())
+		   //         .orElseThrow(() -> new RuntimeException("Disponibilidad no encontrada"));
+		  turno.setLugar(lugar);
+		  //turno.setDisponibilidad(disponibilidad);
+		  Turno updated = turnoRepository.save(turno);
+
+		return modelMapper.map(updated, TurnoDto.class);
+	}
+	
+
 
 }

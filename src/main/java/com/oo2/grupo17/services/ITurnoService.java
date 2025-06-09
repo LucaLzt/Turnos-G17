@@ -2,6 +2,7 @@ package com.oo2.grupo17.services;
 
 import java.util.List;
 
+import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.entities.Turno;
 
@@ -10,6 +11,8 @@ public interface ITurnoService {
 	TurnoDto save(TurnoDto turnoDto);
     
 	TurnoDto findById(Long id);
+	
+	TurnoDto update(Long id, TurnoDto turnoDto);
     
     List<TurnoDto> findAll();
 
