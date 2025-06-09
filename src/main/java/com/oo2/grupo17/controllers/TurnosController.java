@@ -40,23 +40,6 @@ public class TurnosController {
         return new TurnoDto();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/modificar")
-    public String modificarServicio(Model model) {
-        model.addAttribute("servicios", servicioService.findAll());
-        return ViewRouteHelper.SERVICIOS_LISTA_MODIFICAR;
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/{id}/modificar")
-    public String modificarServicio(@PathVariable("id") Long id, Model model) {
-        ServicioDto servicio = servicioService.findById(id);
-        List<LugarDto> lugares = lugarService.findAll();
-        model.addAttribute("servicio", servicio);
-        model.addAttribute("lugares", lugares);
-        return ViewRouteHelper.SERVICIOS_MODIFICAR;
-    }
-
     // Paso 1: Elegir servicio
     @PreAuthorize("hasRole('ROLE_CLIENTE')")
     @GetMapping("/solicitar-turno")

@@ -22,20 +22,19 @@ import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/servicios")
 public class ServiciosController {
 	
 	private final IServicioService servicioService;
 	private final ILugarService lugarService;
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/agregar")
 	public String agregarServicio(Model model) {
 		model.addAttribute("servicio", new ServicioDto());
 		return ViewRouteHelper.SERVICIOS_AGREGAR;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/agregar")
 	public String agregarServicioPost(@Valid @ModelAttribute("servicio") ServicioDto servicio,
 			BindingResult result) {
@@ -46,7 +45,6 @@ public class ServiciosController {
 		return "redirect:/admin/administrar-servicios?agregado=ok";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/modificar")
 	public String modificarServicio(Model model) {
 		// Traigo todos los servicios disponibles
@@ -54,7 +52,6 @@ public class ServiciosController {
 		return ViewRouteHelper.SERVICIOS_LISTA_MODIFICAR;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/modificar")
 	public String modificarServicio(@PathVariable("id") Long id, Model model) {
 		ServicioDto servicio = servicioService.findById(id);
@@ -64,7 +61,6 @@ public class ServiciosController {
 		return ViewRouteHelper.SERVICIOS_MODIFICAR;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
 	public String modificarServicioPost(@PathVariable("id") Long id, 
 			@Valid @ModelAttribute("servicio") ServicioDto servicio, BindingResult result,
@@ -78,7 +74,6 @@ public class ServiciosController {
 		return "redirect:/servicios/modificar?modificado=ok";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/eliminar")
 	public String eliminarServicio(Model model) {
 		List<ServicioDto> servicios = servicioService.findAll();
@@ -86,7 +81,6 @@ public class ServiciosController {
 		return ViewRouteHelper.SERVICIOS_LISTA_ELIMINAR;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/eliminar")
 	public String eliminarServicio(@ModelAttribute("id") Long id, Model model) {
 		servicioService.deleteById(id);

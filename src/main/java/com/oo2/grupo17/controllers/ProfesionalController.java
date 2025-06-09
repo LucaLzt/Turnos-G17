@@ -164,6 +164,7 @@ public class ProfesionalController {
 	}
 	
 	// Muestra el formulario para modificar el contacto del profesional
+	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/modificar-contacto")
 	public String modificarContacto(Model model, Principal principal) {
 		String email = principal.getName();
@@ -175,6 +176,7 @@ public class ProfesionalController {
 	}
 		
 	// Actualiza el contacto del profesional
+	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@PostMapping("/modificar-contacto")
 	public String modificarContactoPost (@Valid @ModelAttribute("contacto") ContactoDto contactoDto,
 			BindingResult result, Model model, Principal principal) {
@@ -196,6 +198,7 @@ public class ProfesionalController {
 	}
 	
 	// Muestra el formulario para agregar una dirección
+	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/modificar-direccion")
 	public String modificarDireccion(Model model, Principal principal) {
 			
@@ -220,6 +223,7 @@ public class ProfesionalController {
 	}
 		
 	// Agrega una nueva dirección y la asocia al contacto del profesional
+	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@PostMapping("/modificar-direccion")
 	public String modificarDireccionPost(@Valid @ModelAttribute("direccion") DireccionDto direccionDto,
 			BindingResult result, Model model, Principal principal) {
@@ -245,6 +249,7 @@ public class ProfesionalController {
 		return "redirect:/profesionales/perfil?updateDireccion=ok";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/servicios-habilitados")
 	public String verServiciosHabilitados(Model model, Principal principal) {
 		ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
@@ -256,6 +261,7 @@ public class ProfesionalController {
 		return "profesional/lista-servicios.html";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/ver-disponibilidades")
 	public String verDisponibilidades(Model model, Principal principal) {
 	    ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
@@ -264,7 +270,7 @@ public class ProfesionalController {
 	    model.addAttribute("disponibilidades", disponibilidades);
 	    return "profesional/ver-disponibilidades";
 	}
-	
+
 	@GetMapping("/home")
 	public String index() {
 		return ViewRouteHelper.HOME_INDEX;

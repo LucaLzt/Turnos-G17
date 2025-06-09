@@ -26,6 +26,7 @@ import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/lugares")
 public class LugaresController {
 	
@@ -34,7 +35,6 @@ public class LugaresController {
 	private final IDireccionService direccionService;
 	private final ILugarService lugarService;
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/agregar")
 	public String agregarLugar(Model model) {
 		model.addAttribute("lugar", new LugarDto());
@@ -43,7 +43,6 @@ public class LugaresController {
 		return ViewRouteHelper.LUGARES_AGREGAR;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/agregar")
 	public String agregarLugarPost(@Valid @ModelAttribute("lugar") LugarDto lugarDto,
 			BindingResult result, Model model) {
@@ -56,7 +55,6 @@ public class LugaresController {
 		return "redirect:/admin/administrar-lugares?agregado=ok";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/modificar")
 	public String modificarLugar(Model model) {
 		// 1. Cargo todos los lugares para mostrarlos en la vista
@@ -79,7 +77,6 @@ public class LugaresController {
 		return ViewRouteHelper.LUGARES_LISTA_MODIFICAR;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/eliminar")
 	public String eliminarLugar(Model model) {
 		// 1. Cargo todos los lugares para mostrarlos en la vista
@@ -102,14 +99,12 @@ public class LugaresController {
 		return ViewRouteHelper.LUGARES_LISTA_ELIMINAR;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/eliminar")
 	public String eliminarLugar(@ModelAttribute("id") Long id, Model model) {
 		lugarService.deleteById(id);
 		return "redirect:/lugares/eliminar?eliminado=ok";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/modificar")
 	public String modificarLugar(@ModelAttribute("id") Long id, Model model) {
 		// 1. Cargo el lugar a modificar
@@ -126,7 +121,6 @@ public class LugaresController {
 		return ViewRouteHelper.LUGARES_MODIFICAR;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{id}/modificar")
 	public String modificarLugarPost(@Valid @ModelAttribute("lugar") LugarDto lugarDto,
 			BindingResult result, Model model) {

@@ -29,6 +29,7 @@ import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
 	
@@ -37,14 +38,12 @@ public class AdminController {
 	private final ILugarService lugarService;
 	private final IEmailService emailService;
 
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/registrar-profesional")
 	public String registrarProfesional(Model model) {
 		model.addAttribute("profesional", new ProfesionalRegistradoDto());
 		return ViewRouteHelper.ADMIN_REGISTRAR_PROFESIONAL;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/registrar-profesional")
 	public String registrarProfesionalPost(@Valid @ModelAttribute("profesional") ProfesionalRegistradoDto profesionalDto,
 			BindingResult result) {
@@ -55,31 +54,26 @@ public class AdminController {
 		return "redirect:/index?registroExitoso";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/administrar-servicios")
 	public String administrarServicios() {
 		return ViewRouteHelper.ADMIN_SERVICIOS;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/administrar-lugares")
 	public String administrarLugares() {
 		return ViewRouteHelper.ADMIN_LUGARES;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/administrar-profesional")
 	public String administrarProfesional() {
 		return ViewRouteHelper.ADMIN_PROFESIONAL;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/administrar-especialidades")
 	public String administrarEspecialidades() {
 		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/administrar-turnos")
 	public String administrarTurnos(Model model) {
 		List<TurnoDto> turnos = turnoService.findAll();
@@ -87,7 +81,6 @@ public class AdminController {
 		return ViewRouteHelper.ADMIN_TURNOS;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/turnos/{id}/modificar-turnos")
 	public String modificarTurnos(@PathVariable("id") Long id, Model model) {
 		TurnoDto turno= turnoService.findById(id);
@@ -98,7 +91,6 @@ public class AdminController {
 		return ViewRouteHelper.TURNO_MODIFICAR_TURNO;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/turnos/{id}/modificar-turnos")
 	public String modificarTurnosPost(@PathVariable("id") Long id,@ModelAttribute("turno") TurnoDto turno) {
 		turnoService.update(id,turno);
@@ -106,8 +98,6 @@ public class AdminController {
 		return ViewRouteHelper.ADMIN_TURNOS;
 	}
 	
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/generar-disponibilidades")
 	public String generarDisponibilidades(Model model) {
 		List<ProfesionalDto> profesionales = profesionalService.findAll();
@@ -116,7 +106,6 @@ public class AdminController {
 		return ViewRouteHelper.PROFESIONAL_DISPONIBILIDADES;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/generar-disponibilidades")
 	public String generarDisponibilidadesPost(@Valid @ModelAttribute("datosFormulario") GenerarDisponibilidadDto dto,
 			BindingResult result, Model model) {
@@ -129,7 +118,6 @@ public class AdminController {
 		return "redirect:/admin/administrar-profesional?disponibilidadesGeneradas=ok";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/contactar-profesional")
 	public String contactarProfesional(Model model) {
 		List<ProfesionalDto> profesionales = profesionalService.findAll();
@@ -138,7 +126,6 @@ public class AdminController {
 		return "/admin/contactar-profesional";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/contactar-profesional")
 	public String contactarProfesionalPost(@Valid @ModelAttribute("datosContacto") DatosContactoDto dto,
 			BindingResult result, Model model) {
@@ -152,7 +139,6 @@ public class AdminController {
 		return "redirect:/index?mensajeEnviado=ok";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/logout")
 	public String logout() {
 		SecurityContextHolder.clearContext();

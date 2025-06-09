@@ -228,7 +228,6 @@ public class ClienteController {
         return "cliente/DetalleTurno";
     }
 	
-    @PreAuthorize("hasRole('ROLE_CLIENTE')")
     @GetMapping("/lista")
     public String cantidadTurnosCliente(Model model, Principal principal) {
     	String email = principal.getName();
