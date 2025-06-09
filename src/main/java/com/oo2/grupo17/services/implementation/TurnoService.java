@@ -119,5 +119,17 @@ public class TurnoService implements ITurnoService {
 
 		return modelMapper.map(updated, TurnoDto.class);
 	}
+	
+	public TurnoDto findByIdDisponibilidad(Long idDisponibilidad) {
+		
+		Disponibilidad disponibilidad = disponibilidadRepository.findById(idDisponibilidad)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la disponibilidad con ID: " + idDisponibilidad));
+		
+		Turno turno = turnoRepository.findByDisponibilidad(disponibilidad)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el turno con disponibilidad ID: " + idDisponibilidad));
+		
+		return modelMapper.map(turno, TurnoDto.class);
+		
+	}
 
 }

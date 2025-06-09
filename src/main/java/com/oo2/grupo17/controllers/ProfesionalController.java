@@ -222,25 +222,20 @@ public class ProfesionalController {
 	@PostMapping("/modificar-direccion")
 	public String modificarDireccionPost(@Valid @ModelAttribute("direccion") DireccionDto direccionDto,
 			BindingResult result, Model model, Principal principal) {
-			
 		// Validar los datos de la dirección
 		if (result.hasErrors()) {
 	        return ViewRouteHelper.PROFESIONAL_DIRECCION;
 	    }
-			
 		// 1. Verificar que el contacto existe
 		String email = principal.getName();
-			
 		// 2. Si existe, crear y asociar la dirección al contacto
 		ContactoDto contacto = contactoService.findByEmail(email);
-			
 		// 3. Actualizar el contacto con la nueva dirección
 		if(contacto.getDireccion() == null) {
 			direccionService.crearDireccion(contacto, direccionDto);
 		} else {
 			direccionService.actualizarDireccion(contacto, direccionDto);
 		}
-			
 		// 4. Redirigir al perfil del profesional
 		ProfesionalDto profesional = profesionalService.findByEmail(email);
 		if(profesional != null) {
@@ -301,5 +296,12 @@ public class ProfesionalController {
         turnoService.deleteById(id);
         return "redirect:/profesionales/cancelar-turno"; 
     }
+	
+	@GetMapping("/disponibilidad/{id}")
+	public String verDetallesTurno(@PathVariable Long id, Model model) {
+		TurnoDto turno = turnoService.findByIdDisponibilidad(id);
+		model.addAttribute("turno", turno);
+		return "profesional/detalle-turno";
+	}
 	
 }

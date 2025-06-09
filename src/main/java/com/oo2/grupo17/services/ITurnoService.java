@@ -23,5 +23,7 @@ public interface ITurnoService {
     List<Turno> buscarTurnosPorClienteId(Long clienteId);
     
     List<Turno> buscarTurnosPorProfesionalId(Long profesionalId);
+
+	TurnoDto findByIdDisponibilidad(Long id);
 	
 }
