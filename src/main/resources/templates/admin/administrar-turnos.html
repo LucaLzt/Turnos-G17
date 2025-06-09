@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">MiTurno</div>
+    </div>
+	<div class="turnos-grid">
+	
+	    <div th:each="turno : ${turnos}" class="turnos-card">
+	        
+	        <div class="admin-title">
+	            <i class="fas fa-user"></i>
+	            <p>Turno para: <span th:text="${turno.cliente.nombre}"></span></p>
+	        </div>
+
+	        <div class="admin-title">
+	            <i class="fas fa-stethoscope"></i>
+	            <p>Servicio: <span th:text="${turno.servicio.nombre}"></span></p>
+	        </div>
+
+	        <div class="admin-title">
+	            <i class="fas fa-location-dot"></i>
+	            <p>Lugar: 
+	                <span th:text="${turno.lugar.direccion.calle} + ' ' + ${turno.lugar.direccion.altura}"></span>
+	            </p>
+	        </div>
+
+	        <div class="admin-title">
+	            <i class="fas fa-calendar-alt"></i>
+	            <p>Fecha: <span th:text="${#temporals.format(turno.disponibilidad.inicio, 'dd/MM/yyyy HH:mm')}"></span></p>
+	        </div>
+
+	        <div class="form-actions">
+	            <a th:href="@{'/admin/turnos/' + ${turno.id} + '/modificar-turnos'}" class="btn-submit">
+	                <i class="fas fa-eye"></i> Ver detalles
+	            </a>
+	        </div>
+
+	    </div>
+	</div>
+		
+	
+</body>
+</html>

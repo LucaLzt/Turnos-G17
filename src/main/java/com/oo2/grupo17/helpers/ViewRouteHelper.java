@@ -26,6 +26,7 @@ public class ViewRouteHelper {
     public static final String ADMIN_LUGARES = "admin/administrar-lugares";
     public static final String ADMIN_PROFESIONAL = "admin/administrar-profesional";
     public static final String ADMIN_ESPECIALIDADES = "admin/administrar-especialidades";
+    public static final String ADMIN_TURNOS = "admin/administrar-turnos";
     
     //Profesional
     public static final String PROFESIONAL_PERFIL = "profesional/perfil";
@@ -63,7 +64,7 @@ public class ViewRouteHelper {
     public static final String TURNO_SOLICITUD_ELEGIR_LUGAR = "turno/elegir-lugar";
     public static final String TURNO_SOLICITUD_ELEGIR_PROFESIONAL = "turno/elegir-profesional";
     public static final String TURNO_SOLICITUD_ELEGIR_DISPONIBILIDAD = "turno/elegir-disponibilidad";
-    
+    public static final String TURNO_MODIFICAR_TURNO = "turno/modificar-turno";
     
     
     

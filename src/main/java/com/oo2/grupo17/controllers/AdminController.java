@@ -9,16 +9,27 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oo2.grupo17.dtos.DatosContactoDto;
+import com.oo2.grupo17.dtos.EspecialidadDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
+import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
+import com.oo2.grupo17.dtos.ServicioDto;
+import com.oo2.grupo17.dtos.TurnoDto;
+import com.oo2.grupo17.entities.Localidad;
+import com.oo2.grupo17.entities.Lugar;
+import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IEmailService;
+import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProfesionalService;
+import com.oo2.grupo17.services.ITurnoService;
 
 import jakarta.validation.Valid;
 import lombok.Builder;
@@ -28,6 +39,9 @@ import lombok.Builder;
 public class AdminController {
 	
 	private final IProfesionalService profesionalService;
+	private final ITurnoService turnoService;
+	private final ILugarService lugarService;
+	
 	private final IEmailService emailService;
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -71,6 +85,41 @@ public class AdminController {
 	public String administrarEspecialidades() {
 		return ViewRouteHelper.ADMIN_ESPECIALIDADES;
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/administrar-turnos")
+	public String administrarTurnos(Model model) {
+		List<TurnoDto> turnos = turnoService.findAll();
+	
+		model.addAttribute("turnos", turnos);
+		
+		return ViewRouteHelper.ADMIN_TURNOS;
+	}
+	
+
+	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/turnos/{id}/modificar-turnos")
+	public String modificarTurnos(@PathVariable("id") Long id, Model model) {
+		TurnoDto turno= turnoService.findById(id);
+		List<Lugar> lugares = lugarService.obtenerLugaresPorServicio(turno.getServicio().getId());
+		model.addAttribute("turno", turno);
+		model.addAttribute("lugares", lugares);
+		
+		return ViewRouteHelper.TURNO_MODIFICAR_TURNO;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping("/turnos/{id}/modificar-turnos")
+	public String modificarTurnosPost(@PathVariable("id") Long id,@ModelAttribute("turno") TurnoDto turno) {
+		
+		turnoService.update(id,turno);
+	
+		//return "redirect:/profesional/gestion?gestionado=ok";
+		return ViewRouteHelper.ADMIN_TURNOS;
+	}
+	
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/generar-disponibilidades")
