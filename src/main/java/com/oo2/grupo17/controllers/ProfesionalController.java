@@ -262,8 +262,11 @@ public class ProfesionalController {
 	@GetMapping("/servicios-habilitados")
 	public String verServiciosHabilitados(Model model, Principal principal) {
 		ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
-		// Set<ServicioDto> servicios = profesional.getServicios();
-		// model.addAttribute("servicios", servicios);
+		List<Long> serviciosIds = profesional.getServiciosIds();
+	    List<ServicioDto> servicios = serviciosIds.stream()
+	        .map(servicioService::findById)
+	        .collect(Collectors.toList());
+		model.addAttribute("servicios", servicios);
 		return "profesional/lista-servicios.html";
 	}
 	

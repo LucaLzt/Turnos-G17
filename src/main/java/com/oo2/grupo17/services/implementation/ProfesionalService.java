@@ -225,7 +225,12 @@ public class ProfesionalService implements IProfesionalService {
 	public ProfesionalDto findByEmail(String email) {
 		Profesional profesional = profesionalRepository.findByEmail(email)
 				.orElseThrow();
-		return modelMapper.map(profesional, ProfesionalDto.class);
+		ProfesionalDto profesionalDto = modelMapper.map(profesional, ProfesionalDto.class);
+		List<Long> serviciosIds = profesional.getServicios().stream()
+				.map(servicio -> servicio.getId())
+				.collect(Collectors.toList());
+		profesionalDto.setServiciosIds(serviciosIds);
+		return profesionalDto;
 	}
 	
 	@Override 
