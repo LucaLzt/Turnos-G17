@@ -70,6 +70,7 @@ public class TurnoService implements ITurnoService {
 	@Transactional
 	public void crearTurno(TurnoDto turnoDto) {
 	    // Buscar entidades gestionadas por Hibernate a partir de los IDs en el DTO
+		
 	    Cliente cliente = clienteRepository.findById(turnoDto.getCliente().getId())
 	            .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 	    Servicio servicio = servicioRepository.findById(turnoDto.getServicio().getId())
@@ -108,7 +109,7 @@ public class TurnoService implements ITurnoService {
 	
 	public TurnoDto update(Long id, TurnoDto turnoDto) {
 		Turno turno = turnoRepository.findById(id)
-			.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el direccion con ID: " + id));
+			.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el turno con ID: " + id));
 		 Lugar lugar = lugarRepository.findById(turnoDto.getLugar().getId())
 		            .orElseThrow(() -> new RuntimeException("Lugar no encontrado"));
 		 // Disponibilidad disponibilidad = disponibilidadRepository.findById(turnoDto.getDisponibilidad().getId())
