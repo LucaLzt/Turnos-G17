@@ -70,6 +70,7 @@ public class TurnoService implements ITurnoService {
 	@Transactional
 	public void crearTurno(TurnoDto turnoDto) {
 	    // Buscar entidades gestionadas por Hibernate a partir de los IDs en el DTO
+		
 	    Cliente cliente = clienteRepository.findById(turnoDto.getCliente().getId())
 	            .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
 	    Servicio servicio = servicioRepository.findById(turnoDto.getServicio().getId())

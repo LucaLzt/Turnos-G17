@@ -100,7 +100,6 @@ public class AdminController {
 		LugarDto lugar = lugarService.findById(lugarId);
 		turno.setLugar(lugar);
 		turnoService.update(id,turno);
-
 		
 		return "redirect:/admin/administrar-turnos?turnoModificado=ok";
 	}
