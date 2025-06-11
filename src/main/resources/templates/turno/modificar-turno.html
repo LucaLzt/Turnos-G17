@@ -19,14 +19,14 @@
 	    <input type="text" th:field="*{profesional.nombre}" readonly />
 
 	    <label>Lugar de atención:</label>
-	    <select th:field="*{lugar}">
-	        <option th:each="lugar : ${lugares}" 
-	                th:value="${lugar.id}" 
-	                th:text="${lugar.direccion.calle + lugar.direccion.altura}"
-	                th:selected="${lugar.id == turno.lugar.id}">
-	        </option>
-	    </select>
-
+	
+		<select name="lugarId">
+		    <option th:each="lugar : ${lugares}" 
+		            th:value="${lugar.id}" 
+		            th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"
+		            th:selected="${lugar.id == turno.lugar.id}">
+		    </option>
+		</select>
 	    <button type="submit">Guardar cambios</button>
 	</form>
 

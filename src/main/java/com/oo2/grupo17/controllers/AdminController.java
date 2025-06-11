@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oo2.grupo17.dtos.DatosContactoDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
+import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.dtos.TurnoDto;
@@ -92,10 +94,15 @@ public class AdminController {
 	}
 	
 	@PostMapping("/turnos/{id}/modificar-turnos")
-	public String modificarTurnosPost(@PathVariable("id") Long id,@ModelAttribute("turno") TurnoDto turno) {
+	public String modificarTurnosPost(@PathVariable("id") Long id,@ModelAttribute("turno") TurnoDto turno, @RequestParam("lugarId") Long lugarId) {
+		
+	  
+		LugarDto lugar = lugarService.findById(lugarId);
+		turno.setLugar(lugar);
 		turnoService.update(id,turno);
-		//return "redirect:/profesional/gestion?gestionado=ok";
-		return ViewRouteHelper.ADMIN_TURNOS;
+
+		
+		return "redirect:/admin/administrar-turnos?turnoModificado=ok";
 	}
 	
 	@GetMapping("/generar-disponibilidades")

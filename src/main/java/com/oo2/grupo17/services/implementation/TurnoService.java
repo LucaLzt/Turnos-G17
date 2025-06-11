@@ -108,7 +108,7 @@ public class TurnoService implements ITurnoService {
 	
 	public TurnoDto update(Long id, TurnoDto turnoDto) {
 		Turno turno = turnoRepository.findById(id)
-			.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el direccion con ID: " + id));
+			.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el turno con ID: " + id));
 		 Lugar lugar = lugarRepository.findById(turnoDto.getLugar().getId())
 		            .orElseThrow(() -> new RuntimeException("Lugar no encontrado"));
 		 // Disponibilidad disponibilidad = disponibilidadRepository.findById(turnoDto.getDisponibilidad().getId())
