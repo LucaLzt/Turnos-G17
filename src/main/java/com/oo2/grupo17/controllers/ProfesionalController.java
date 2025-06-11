@@ -14,19 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
 import com.oo2.grupo17.dtos.DisponibilidadDto;
-import com.oo2.grupo17.dtos.EspecialidadDto;
-import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ServicioDto;
-import com.oo2.grupo17.entities.Lugar;
-import com.oo2.grupo17.entities.Servicio;
 import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
@@ -35,9 +29,7 @@ import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IDireccionService;
 import com.oo2.grupo17.services.IDisponibilidadService;
-import com.oo2.grupo17.services.IEspecialidadService;
 import com.oo2.grupo17.services.ILocalidadService;
-import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProfesionalService;
 import com.oo2.grupo17.services.IProvinciaService;
 import com.oo2.grupo17.services.IServicioService;
@@ -47,6 +39,7 @@ import jakarta.validation.Valid;
 import lombok.Builder;
 
 @Controller @Builder
+@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 @RequestMapping("/profesional")
 public class ProfesionalController {
 	
@@ -54,103 +47,11 @@ public class ProfesionalController {
 	private final IDisponibilidadService disponibilidadService;
 	private final IContactoService contactoService;
 	private final IServicioService servicioService;
-	private final ILugarService lugarService;
 	private final IDireccionService direccionService;
-	private final IEspecialidadService especialidadService;
 	private final IProvinciaService provinciaService;
 	private final ILocalidadService localidadService;
-	public final ITurnoService turnoService;
+	private final ITurnoService turnoService;
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/eliminar")
-	public String eliminarProfesional(Model model) {
-		List<ProfesionalDto> profesionales = profesionalService.findAll();
-		model.addAttribute("profesionales", profesionales);
-		return ViewRouteHelper.PROFESIONAL_LISTA_ELIMINAR;
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping("/{id}/eliminar")
-	public String eliminarProfesional(@PathVariable("id") Long id) {
-		profesionalService.eliminarProfesional(id);
-		return "redirect:/profesional/eliminar?eliminado=ok";
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/modificar")
-	public String modificarProfesional(Model model) {
-		List<ProfesionalDto> profesionales = profesionalService.findAll();
-		model.addAttribute("profesionales", profesionales);
-		return ViewRouteHelper.PROFESIONAL_LISTA_MODIFICAR;
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/{id}/modificar")
-	public String modificarProfesional(@PathVariable("id") Long id, Model model) {
-		ProfesionalDto profesional = profesionalService.findById(id);
-		model.addAttribute("profesional", profesional);
-		return ViewRouteHelper.PROFESIONAL_MODIFICAR;
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping("/{id}/modificar")
-	public String modificarProfesionalPost(@PathVariable("id") Long id, 
-			@Valid @ModelAttribute("profesional") ProfesionalDto profesional, BindingResult result) {
-		if(result.hasErrors()) {
-			return 	ViewRouteHelper.PROFESIONAL_MODIFICAR;
-		}
-		profesionalService.update(id, profesional);
-		return "redirect:/profesional/modificar?modificado=ok";
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/gestion")
-	public String gestionarProfesional(Model model) {
-		List<ProfesionalDto> profesionales = profesionalService.findAll();
-		List<ServicioDto> servicios = servicioService.findAll();
-		List<LugarDto> lugares = lugarService.findAll();
-		List<EspecialidadDto> especialidades = especialidadService.findAll();
-		model.addAttribute("profesionales", profesionales);
-		model.addAttribute("servicios", servicios);
-		model.addAttribute("lugares", lugares);
-		model.addAttribute("especialidades", especialidades);		
-		return ViewRouteHelper.PROFESIONAL_LISTA_GESTION;
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/{id}/gestion")
-	public String gestionarProfesional(@PathVariable("id") Long id, Model model) {
-		ProfesionalDto profesional = profesionalService.findById(id);
-		List<ServicioDto> servicios = servicioService.findAll();
-		List<LugarDto> lugares = lugarService.findAll();
-		List<EspecialidadDto> especialidades = especialidadService.findAll();
-		model.addAttribute("profesional", profesional);
-		model.addAttribute("servicios", servicios);
-		model.addAttribute("lugares", lugares);
-		model.addAttribute("especialidades", especialidades);
-		return ViewRouteHelper.PROFESIONAL_GESTION;
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping("/{id}/gestion")
-	public String gestionarProfesionalPost(@PathVariable("id") Long id, @ModelAttribute("profesional") ProfesionalDto profesional
-			, @RequestParam(value = "serviciosIds", required = false) List<Long> serviciosIds) {
-		profesional.setServiciosIds(serviciosIds);
-		profesionalService.asignarDatosProfesional(id, profesional, serviciosIds);
-		return "redirect:/profesional/gestion?gestionado=ok";
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/servicios-por-lugar/{lugarId}")
-	@ResponseBody
-	public List<ServicioDto> getServiciosPorLugar(@PathVariable Long lugarId){
-		List<Servicio> servicios = servicioService.traerServiciosPorLugar(lugarId);
-		return servicios.stream()
-				.map(serv -> new ServicioDto(serv.getId(), serv.getNombre(), serv.getDescripcion(), serv.getPrecio(), serv.getLugares().stream().map(Lugar::getId).collect(Collectors.toList())))
-				.collect(Collectors.toList());
-	}
-	
-	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/perfil")
 	public String perfil(Model model, Principal principal) {
 		// Obtiene el email del usuario autenticado y busco al profesional
@@ -164,7 +65,6 @@ public class ProfesionalController {
 	}
 	
 	// Muestra el formulario para modificar el contacto del profesional
-	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/modificar-contacto")
 	public String modificarContacto(Model model, Principal principal) {
 		String email = principal.getName();
@@ -176,7 +76,6 @@ public class ProfesionalController {
 	}
 		
 	// Actualiza el contacto del profesional
-	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@PostMapping("/modificar-contacto")
 	public String modificarContactoPost (@Valid @ModelAttribute("contacto") ContactoDto contactoDto,
 			BindingResult result, Model model, Principal principal) {
@@ -198,7 +97,6 @@ public class ProfesionalController {
 	}
 	
 	// Muestra el formulario para agregar una dirección
-	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/modificar-direccion")
 	public String modificarDireccion(Model model, Principal principal) {
 			
@@ -223,7 +121,6 @@ public class ProfesionalController {
 	}
 		
 	// Agrega una nueva dirección y la asocia al contacto del profesional
-	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@PostMapping("/modificar-direccion")
 	public String modificarDireccionPost(@Valid @ModelAttribute("direccion") DireccionDto direccionDto,
 			BindingResult result, Model model, Principal principal) {
@@ -249,7 +146,6 @@ public class ProfesionalController {
 		return "redirect:/profesionales/perfil?updateDireccion=ok";
 	}
 	
-	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/servicios-habilitados")
 	public String verServiciosHabilitados(Model model, Principal principal) {
 		ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
@@ -258,70 +154,62 @@ public class ProfesionalController {
 	        .map(servicioService::findById)
 	        .collect(Collectors.toList());
 		model.addAttribute("servicios", servicios);
-		return "profesional/lista-servicios.html";
+		return ViewRouteHelper.PROFESIONAL_SERVICIOS;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/ver-disponibilidades")
 	public String verDisponibilidades(Model model, Principal principal) {
 	    ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
 	    List<DisponibilidadDto> disponibilidades = disponibilidadService.obtenerDisponibilidadesPorProfesional(profesional.getId());
 	    model.addAttribute("profesional", profesional);
 	    model.addAttribute("disponibilidades", disponibilidades);
-	    return "profesional/ver-disponibilidades";
-	}
-
-	@GetMapping("/home")
-	public String index() {
-		return ViewRouteHelper.HOME_INDEX;
+	    return ViewRouteHelper.PROFESIONAL_DISPONIBILIDAD;
 	}
 	
-	@PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 	@GetMapping("/cancelar-turno")
     public String cancelarTurnosProfesional(Model model, Principal principal) {
     	String email = principal.getName();
     	ProfesionalDto profesional = profesionalService.findByEmail(email);
         Long profesionalId = profesional.getId();
         
-
         List<Turno> turnos = turnoService.buscarTurnosPorProfesionalId(profesionalId);
         System.out.println(turnos.get(0).getId());
         model.addAttribute("turnos", turnos);
 
-        return "profesionales/TurnosACancelar";
+        return ViewRouteHelper.PROFESIONAL_TURNOS_CANCELAR;
     }
 	
 	@GetMapping("/detalle/{id}")
     public String detalleTurno(@PathVariable("id") long id, Model model) {
         TurnoDto turno = turnoService.findById(id);
         model.addAttribute("turno", turno);
-        return "profesionales/DetalleTurno";
+        return ViewRouteHelper.PROFESIONAL_DETALLE_TURNO;
     }
 	
 	@GetMapping("/eliminar/{id}")
     public String eliminarTurno(@PathVariable Long id) {
         turnoService.deleteById(id);
-        return "redirect:/profesionales/cancelar-turno"; 
+        return "redirect:/profesional/cancelar-turno"; 
     }
 	
 	@GetMapping("/disponibilidad/{id}")
 	public String verDetallesTurno(@PathVariable Long id, Model model) {
 		TurnoDto turno = turnoService.findByIdDisponibilidad(id);
 		model.addAttribute("turno", turno);
-		return "profesional/detalle-turno";
+		return ViewRouteHelper.PROFESIONAL_DETALLE_TURNO;
 	}
 	
 	@GetMapping("/cambiar-contraseña")
 	public String cambiarContrasena(Model model) {
 		model.addAttribute("cambioPasswordDto", new CambioPasswordDto());
-		return "profesional/cambiar-contraseña";
+		return ViewRouteHelper.PROFESIONAL_CONTRASEÑA;
 	}
 	
 	@PostMapping("/cambiar-contraseña")
 	public String cambiarContrasenaPost(@Valid @ModelAttribute("cambioPasswordDto") CambioPasswordDto cambioPasswordDto,
 			BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors()) {
-			return "profesional/cambiar-contraseña";
+			return ViewRouteHelper.PROFESIONAL_CONTRASEÑA;
 		}
 		ProfesionalDto profesional = profesionalService.findByEmail(principal.getName());
 		profesionalService.cambiarContrasena(profesional, cambioPasswordDto);

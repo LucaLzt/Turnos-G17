@@ -56,8 +56,8 @@
 <body>
     <div class="navbar">
         <div class="brand">MiTurno</div>
-        <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
+        <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user-md profile-icon"></i>
         </a>
     </div>
 
@@ -68,10 +68,10 @@
     <td th:text="${turno.profesional.nombre}">Nombre Profesional</td>
     <td th:text="${turno.profesional.especialidad.nombre}">Nombre Especialidad</td>
     <td>
-        <a th:href="@{'/profesionales/detalle/' + ${turno.id}}">
+        <a th:href="@{'/profesional/detalle/' + ${turno.id}}">
             <button class="ver-btn">Ver Detalle</button>
         </a>
-        <a th:href="@{'/profesionales/eliminar/' + ${turno.id}}"
+        <a th:href="@{'/profesional/eliminar/' + ${turno.id}}"
            onclick="return confirm('¿Estás seguro de eliminar este turno?')">
             <button class="cancelar-btn">Eliminar</button>
         </a>

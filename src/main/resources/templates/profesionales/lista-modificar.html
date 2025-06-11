@@ -23,7 +23,7 @@
         </div>
         <div class="lugares-grid">
             <a th:each="profesional : ${profesionales}"
-               th:href="@{'/profesional/' + ${profesional.id} + '/modificar'}"
+               th:href="@{'/admin/profesionales/' + ${profesional.id} + '/modificar'}"
                class="lugar-card">
                 <div class="lugar-title">
                     <i class="fas fa-id-badge"></i>

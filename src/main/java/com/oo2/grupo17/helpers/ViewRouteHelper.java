@@ -27,18 +27,25 @@ public class ViewRouteHelper {
     public static final String ADMIN_PROFESIONAL = "admin/administrar-profesional";
     public static final String ADMIN_ESPECIALIDADES = "admin/administrar-especialidades";
     public static final String ADMIN_TURNOS = "admin/administrar-turnos";
+    public static final String ADMIN_CONTACTAR_PROFESIONAL = "admin/contactar-profesional";
     
     //Profesional
     public static final String PROFESIONAL_PERFIL = "profesional/perfil";
     public static final String PROFESIONAL_CONTACTO = "profesional/modificar-contacto";
     public static final String PROFESIONAL_DIRECCION = "profesional/modificar-direccion";
+    public static final String PROFESIONAL_SERVICIOS = "profesional/lista-servicios";
+    public static final String PROFESIONAL_DISPONIBILIDAD = "profesional/ver-disponibilidades";
+    public static final String PROFESIONAL_DETALLE_TURNO = "profesional/detalle-turno";
+    public static final String PROFESIONAL_CONTRASEÑA = "profesional/cambiar-contraseña";
+    public static final String PROFESIONAL_TURNOS_CANCELAR = "profesional/turnos-a-cancelar";
     
-    public static final String PROFESIONAL_LISTA_ELIMINAR = "profesionales/lista-eliminar";
-    public static final String PROFESIONAL_LISTA_MODIFICAR = "profesionales/lista-modificar";
-    public static final String PROFESIONAL_MODIFICAR = "profesionales/modificar";
-    public static final String PROFESIONAL_LISTA_GESTION = "profesionales/lista-gestion";
-    public static final String PROFESIONAL_GESTION = "profesionales/gestion";
-    public static final String PROFESIONAL_DISPONIBILIDADES = "profesionales/generar-disponibilidades";
+    public static final String PROFESIONALES_LISTA_ELIMINAR = "profesionales/lista-eliminar";
+    public static final String PROFESIONALES_LISTA_MODIFICAR = "profesionales/lista-modificar";
+    public static final String PROFESIONALES_MODIFICAR = "profesionales/modificar";
+    public static final String PROFESIONALES_LISTA_GESTION = "profesionales/lista-gestion";
+    public static final String PROFESIONALES_GESTION = "profesionales/gestion";
+    public static final String PROFESIONALES_DISPONIBILIDADES = "profesionales/generar-disponibilidades";
+    public static final String PROFESIONALES_DETALLE_TURNO = "profesionales/detalle-turno";
     
     //Lugares
     public static final String LUGARES_AGREGAR = "lugares/agregar";

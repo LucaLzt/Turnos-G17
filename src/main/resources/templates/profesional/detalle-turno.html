@@ -10,9 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
-    </div>
+	<div class="navbar">
+	    <div class="brand">MiTurno</div>
+	    <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
+	        <i class="fas fa-user-md profile-icon"></i>
+	    </a>
+	</div>
     <div class="detalle-section admin-section">
         <div class="detalle-title">
             <i class="fas fa-calendar-check"></i>
@@ -63,7 +66,7 @@
             </div>
         </div>
         <div class="volver-btn-wrapper">
-            <a th:href="@{/profesional/ver-disponibilidades}" class="volver-btn">
+            <a th:href="@{/profesional/cancelar-turno}" class="volver-btn">
                 <i class="fas fa-arrow-left"></i>
                 <span>Volver a mis turnos</span>
             </a>
