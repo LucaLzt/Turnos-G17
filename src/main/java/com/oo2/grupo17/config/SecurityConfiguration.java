@@ -31,14 +31,15 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/css/*", "/imgs/*", "/js/*", "/vendor/bootstrap/css/*",
-                            "/vendor/jquery/*", "/vendor/bootstrap/js/*", "/api/v1/**").permitAll();
+                    auth.requestMatchers("/css/**", "/js/**",
+                    		"/swagger-ui/**", "/v3/api-docs/**",
+                    		"/api/**").permitAll();
                     auth.requestMatchers("/auth/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
                 .formLogin(login -> {
                     login.loginPage("/auth/login");
-                    login.loginProcessingUrl("/auth/loginProcess");//POST
+                    login.loginProcessingUrl("/auth/loginProcess");
                     login.usernameParameter("username");
                     login.passwordParameter("password");
                     login.defaultSuccessUrl("/auth/loginSuccess", true);
