@@ -86,6 +86,9 @@ public class ServicioService implements IServicioService {
 
 	@Override
 	public void deleteById(Long id) {
+		if(!servicioRepository.existsById(id)) {
+			throw new EntidadNoEncontradaException("No existe el servicio con id " + id);
+		}
 		servicioRepository.deleteById(id);
 	}
 	
@@ -99,6 +102,9 @@ public class ServicioService implements IServicioService {
 	
 	@Override
 	public List<Servicio> traerServiciosPorLugar(Long lugarId){
+		if(!lugarRepository.existsById(lugarId)) {
+			throw new EntidadNoEncontradaException("No se encontro el lugar con id " + lugarId);
+		}
 		return servicioRepository.findAllByLugares_Id(lugarId);
 	}
 	
