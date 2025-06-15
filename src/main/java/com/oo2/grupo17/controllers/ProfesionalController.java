@@ -166,8 +166,8 @@ public class ProfesionalController {
 	    return ViewRouteHelper.PROFESIONAL_DISPONIBILIDAD;
 	}
 	
-	@GetMapping("/cancelar-turno")
-    public String cancelarTurnosProfesional(Model model, Principal principal) {
+	@GetMapping("/turnos")
+    public String turnosProfesional(Model model, Principal principal) {
     	String email = principal.getName();
     	ProfesionalDto profesional = profesionalService.findByEmail(email);
         Long profesionalId = profesional.getId();
@@ -176,7 +176,7 @@ public class ProfesionalController {
         System.out.println(turnos.get(0).getId());
         model.addAttribute("turnos", turnos);
 
-        return ViewRouteHelper.PROFESIONAL_TURNOS_CANCELAR;
+        return ViewRouteHelper.PROFESIONAL_TURNOS;
     }
 	
 	@GetMapping("/detalle/{id}")

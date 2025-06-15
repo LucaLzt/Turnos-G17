@@ -37,7 +37,7 @@ public class ViewRouteHelper {
     public static final String PROFESIONAL_DISPONIBILIDAD = "profesional/ver-disponibilidades";
     public static final String PROFESIONAL_DETALLE_TURNO = "profesional/detalle-turno";
     public static final String PROFESIONAL_CONTRASEÑA = "profesional/cambiar-contraseña";
-    public static final String PROFESIONAL_TURNOS_CANCELAR = "profesional/turnos-a-cancelar";
+    public static final String PROFESIONAL_TURNOS = "profesional/turnos";
     
     public static final String PROFESIONALES_LISTA_ELIMINAR = "admin/profesionales/lista-eliminar";
     public static final String PROFESIONALES_LISTA_MODIFICAR = "admin/profesionales/lista-modificar";

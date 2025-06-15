@@ -4,67 +4,68 @@
     <meta charset="UTF-8">
     <title>Modificar Dirección</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/cliente.css}" />
+	<link th:href="@{/css/profesional/perfil.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <div class="navbar-brand">MiTurno</div>
         <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user-md profile-icon"></i>
+            <i class="fas fa-user-md navbar-profile-icon"></i>
         </a>
     </div>
-    <div class="main-content">
-        <div class="action-card perfil-card" style="max-width:400px;">
-            <div class="card-icon">
+    <div class="profesional-main-content">
+        <div class="profesional-profile-card" style="max-width:400px;">
+            <div class="profesional-profile-card-icon">
                 <i class="fas fa-map-marker-alt"></i>
             </div>
-            <div class="card-title" style="margin-bottom:1.5rem;">Modificar Dirección</div>
-            <form th:action="@{/profesional/modificar-direccion}" th:object="${direccion}" method="post" class="form-contacto">
+            <div class="profesional-profile-card-title" style="margin-bottom:1.5rem;">Modificar Dirección</div>
+            <form th:action="@{/profesional/modificar-direccion}" th:object="${direccion}" method="post" class="profesional-address-form">
                 <input type="hidden" th:field="*{id}"/>
-                <div class="form-group">
+                <div class="profesional-form-group">
                     <label for="calle"><i class="fas fa-road"></i> Calle</label>
                     <input type="text" id="calle" th:field="*{calle}" placeholder="Calle"/>
-					<div class="error" th:if="${#fields.hasErrors('calle')}" th:errors="*{calle}"></div>
+                    <div class="profesional-form-error" th:if="${#fields.hasErrors('calle')}" th:errors="*{calle}"></div>
                 </div>
-                <div class="form-group">
+                <div class="profesional-form-group">
                     <label for="altura"><i class="fas fa-sort-numeric-up"></i> Altura</label>
                     <input type="number" id="altura" th:field="*{altura}" placeholder="Altura"/>
-					<div class="error" th:if="${#fields.hasErrors('altura')}" th:errors="*{altura}"></div>
+                    <div class="profesional-form-error" th:if="${#fields.hasErrors('altura')}" th:errors="*{altura}"></div>
                 </div>
-				<div class="form-group">
-					<label for="provincia"><i class="fas fa-flag"></i> Provincia</label>
-					<select id="provincia" th:field="*{provinciaId}">
-						<option value="" disabled th:if="*{provinciaId == null}" selected>Seleccione una provincia</option>
-						<option th:each="prov : ${provincias}"
-							th:value="${prov.id}"
-							th:text="${prov.nombre}">
-						</option>
-					</select>
-					<div class="error" th:if="${#fields.hasErrors('provinciaId')}" th:errors="*{provinciaId}"></div>
-				</div>
-				<div class="form-group">
-					<label for="localidad"><i class="fas fa-city"></i> Localidad</label>
-					<select id="localidad" th:field="*{localidadId}">
-						<option value="" disabled th:if="*{localidadId == null}" selected>Seleccione una localidad</option>
-						<option th:each="loc : ${localidades}"
-							th:value="${loc.id}"
-							th:text="${loc.nombre}">
-						</option>
-					</select>
-					<div class="error" th:if="${#fields.hasErrors('localidadId')}" th:errors="*{localidadId}"></div>
-				</div>
-                <div class="perfil-buttons" style="margin-top:1.5rem;">
-                    <button type="submit" class="perfil-btn" style="justify-content:center;">
+                <div class="profesional-form-group">
+                    <label for="provincia"><i class="fas fa-flag"></i> Provincia</label>
+                    <select id="provincia" th:field="*{provinciaId}">
+                        <option value="" disabled th:if="*{provinciaId == null}" selected>Seleccione una provincia</option>
+                        <option th:each="prov : ${provincias}"
+                            th:value="${prov.id}"
+                            th:text="${prov.nombre}">
+                        </option>
+                    </select>
+                    <div class="profesional-form-error" th:if="${#fields.hasErrors('provinciaId')}" th:errors="*{provinciaId}"></div>
+                </div>
+                <div class="profesional-form-group">
+                    <label for="localidad"><i class="fas fa-city"></i> Localidad</label>
+                    <select id="localidad" th:field="*{localidadId}">
+                        <option value="" disabled th:if="*{localidadId == null}" selected>Seleccione una localidad</option>
+                        <option th:each="loc : ${localidades}"
+                            th:value="${loc.id}"
+                            th:text="${loc.nombre}">
+                        </option>
+                    </select>
+                    <div class="profesional-form-error" th:if="${#fields.hasErrors('localidadId')}" th:errors="*{localidadId}"></div>
+                </div>
+                <div class="profesional-profile-buttons" style="margin-top:1.5rem;">
+                    <button type="submit" class="profesional-profile-btn" style="justify-content:center;">
                         <i class="fas fa-save"></i> Guardar Cambios
                     </button>
-                    <a th:href="@{/profesional/perfil}" class="perfil-btn perfil-btn-cancel">
+                    <a th:href="@{/profesional/perfil}" class="profesional-profile-btn profesional-profile-btn-cancel">
                         <i class="fas fa-times"></i> Cancelar
                     </a>
                 </div>
             </form>
         </div>
     </div>
-	<script src="/js/localidad-select.js"></script>
+    <script src="/js/localidad-select.js"></script>
 </body>
 </html>

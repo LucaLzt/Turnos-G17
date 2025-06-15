@@ -4,43 +4,40 @@
     <meta charset="UTF-8">
     <title>Servicios Habilitados</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link th:href="@{/css/profesional/servicios.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
-		<a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
-			<i class="fas fa-user-md profile-icon"></i>
-		</a>
+	<div class="navbar">
+        <div class="navbar-brand">MiTurno</div>
+        <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user-md navbar-profile-icon"></i>
+        </a>
     </div>
-    <div class="admin-section">
-        <div class="admin-title-with-btn">
-            <div class="admin-title">
+    <div class="profesional-section">
+        <div class="profesional-title-with-btn">
+            <div class="profesional-title">
                 <i class="fas fa-briefcase-medical"></i> Servicios Habilitados
             </div>
-            <a th:href="@{/index}" class="volver-btn" title="Volver atrás">
+            <a th:href="@{/index}" class="profesional-btn-volver" title="Volver atrás">
                 <i class="fas fa-arrow-left"></i>
                 <span>Volver</span>
             </a>
         </div>
-        <div class="lugares-grid">
-            <div th:each="servicio : ${servicios}" class="lugar-card">
-                <div class="lugar-title">
+        <div class="profesional-servicios-grid">
+            <div th:each="servicio : ${servicios}" class="profesional-servicio-card">
+                <div class="profesional-servicio-title">
                     <i class="fas fa-stethoscope"></i>
                     <span th:text="${servicio.nombre}">Nombre del Servicio</span>
                 </div>
-                <div class="lugar-info">
-                    <span>
-                        <i class="fas fa-file-alt"></i>
-                        <span th:text="${servicio.descripcion}">Descripción</span>
-                    </span>
+                <div class="profesional-servicio-info">
+                    <i class="fas fa-file-alt"></i>
+                    <span th:text="${servicio.descripcion}">Descripción</span>
                 </div>
-                <div class="lugar-info">
-                    <span>
-                        <i class="fas fa-dollar-sign"></i>
-                        <span th:text="${#numbers.formatDecimal(servicio.precio, 1, 'COMMA', 2, 'POINT')}"></span>
-                    </span>
+                <div class="profesional-servicio-info">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span th:text="${#numbers.formatDecimal(servicio.precio, 1, 'COMMA', 2, 'POINT')}"></span>
                 </div>
             </div>
         </div>
