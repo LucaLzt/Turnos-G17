@@ -4,23 +4,24 @@
     <meta charset="UTF-8">
     <title>Perfil del Cliente</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/cliente.css}" />
+    <link th:href="@{/css/cliente/perfil.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <div class="navbar-brand">MiTurno</div>
         <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
+            <i class="fas fa-user navbar-profile-icon"></i>
         </a>
     </div>
-    <div class="main-content">
-        <div class="action-card perfil-card">
-            <div class="card-icon">
+    <div class="cliente-main-content">
+        <div class="cliente-profile-card">
+            <div class="cliente-profile-card-icon">
                 <i class="fas fa-id-card"></i>
             </div>
-            <div class="card-title" style="margin-bottom:1.5rem;">Mi Perfil</div>
-            <ul class="perfil-list">
+            <div class="cliente-profile-card-title">Mi Perfil</div>
+            <ul class="cliente-profile-list">
                 <li>
                     <b>Nro Cliente:</b>
                     <span th:text="${cliente.nroCliente}"></span>
@@ -34,23 +35,26 @@
                     <span th:text="${cliente.dni}"></span>
                 </li>
             </ul>
-            <div class="perfil-buttons">
-                <a th:href="@{/cliente/modificar-contacto}" class="perfil-btn">
+            <div class="cliente-profile-buttons">
+                <a th:href="@{/cliente/modificar-contacto}" class="cliente-profile-btn">
                     <i class="fas fa-user-edit"></i> Modificar contacto
                 </a>
-				<a th:if="${cliente.contacto.direccion == null}" th:href="@{/cliente/modificar-direccion}" class="perfil-btn">
+				<a th:if="${cliente.contacto.direccion == null}" th:href="@{/cliente/modificar-direccion}" class="cliente-profile-btn">
 				    <i class="fas fa-map-marker-alt"></i> Agregar dirección
 				</a>
-				<a th:if="${cliente.contacto.direccion != null}" th:href="@{/cliente/modificar-direccion}" class="perfil-btn">
+				<a th:if="${cliente.contacto.direccion != null}" th:href="@{/cliente/modificar-direccion}" class="cliente-profile-btn">
 				    <i class="fas fa-map-marker-alt"></i> Modificar dirección
 				</a>
-				<a th:href="@{/cliente/cambiar-contraseña}" class="perfil-btn">
+				<a th:href="@{/cliente/cambiar-contraseña}" class="cliente-profile-btn">
 					<i class="fas fa-pen"></i> Cambiar contraseña
 				</a>
-                <a th:href="@{/index}" class="perfil-btn">
+                <a th:href="@{/index}" class="cliente-profile-btn">
                     <i class="fas fa-home"></i> Volver al inicio
                 </a>
-                <a th:href="@{/cliente/logout}" class="perfil-btn">
+				<a th:href="@{/cliente/eliminar-cuenta}" class="cliente-profile-btn cliente-profile-btn-delete-account">
+                    <i class="fas fa-user-slash"></i> Eliminar cuenta
+                </a>
+                <a th:href="@{/cliente/logout}" class="cliente-profile-btn cliente-profile-btn-logout">
                     <i class="fas fa-key"></i> Cerrar sesión
                 </a>
             </div>

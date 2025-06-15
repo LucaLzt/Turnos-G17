@@ -3,9 +3,23 @@ html, body {
     padding: 0;
 }
 
-* {
-    box-sizing: border-box;
+body {
+    background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+    min-height: 100vh;
 }
+
+/* Iconos decorativos de fondo */
+.fondo-icon {
+    position: fixed;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.08;
+    color: #5e72e4;
+}
+.fondo-icon-1 { top: 60px; left: 40px; font-size: 7rem; }
+.fondo-icon-2 { bottom: 60px; right: 80px; font-size: 5rem; }
+
+* { box-sizing: border-box; }
 
 .navbar {
     width: 100%;
@@ -32,31 +46,55 @@ html, body {
     color: #fff;
     cursor: pointer;
 }
-
-.navbar .profile-icon:hover {
-    color: #e4e4e4;
-}
+.navbar .profile-icon:hover { color: #e4e4e4; }
 
 .main-content {
     padding-top: 5.5rem;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     background: none;
 }
 
-/* Panel (Usuario/Admin) unified grid */
-.panel-actions-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Siempre 4 columnas */
-    gap: 2rem;
+/* ----------------- CLIENTE ----------------- */
+.cliente-panel {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 2.5rem 2rem 2rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
-
-.panel-card {
+.cliente-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.cliente-header h1 {
+    color: #294bb2;
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.2px;
+}
+.cliente-header p {
+    color: #425082;
+    font-size: 1.17rem;
+    margin: 0;
+    opacity: 0.95;
+}
+.cliente-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    width: 100%;
+}
+.cliente-card {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
@@ -71,35 +109,142 @@ html, body {
     color: #222;
     border: 1.5px solid #e0e6f7;
 }
-.panel-card:hover {
+.cliente-card:hover {
     transform: translateY(-5px) scale(1.03);
     box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
     border: 1.5px solid #294bb2;
 }
-.panel-card .panel-card-icon {
+.cliente-card-icon {
     font-size: 2.6rem;
     color: #294bb2;
     margin-bottom: 1.2rem;
 }
-.panel-card .panel-card-title {
+.cliente-card-title {
     font-size: 1.18rem;
     font-weight: 600;
     margin-bottom: 0.7rem;
     color: #2d3e50;
 }
-.panel-card .panel-card-desc {
+.cliente-card-desc {
     font-size: 0.98rem;
     color: #636e72;
     text-align: center;
 }
 
-/* Panel de administración */
-.admin-section {
-    background: #f5f7fa;
+/* ----------------- PROFESIONAL ----------------- */
+.profesional-panel {
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 2.5rem 2rem 2rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.profesional-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.profesional-header h1 {
+    color: #294bb2;
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.profesional-header p {
+    color: #425082;
+    font-size: 1.17rem;
+    margin: 0;
+    opacity: 0.95;
+}
+.profesional-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    width: 100%;
+}
+.profesional-card {
+    background: #fff;
     border-radius: 12px;
-    padding: 32px 24px 24px 24px;
-    margin-top: 32px;
-    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 2.4rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.16s, box-shadow 0.2s;
+    cursor: pointer;
+    min-height: 200px;
+    text-decoration: none;
+    color: #222;
+    border: 1.5px solid #e0e6f7;
+}
+.profesional-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
+    border: 1.5px solid #294bb2;
+}
+.profesional-card-icon {
+    font-size: 2.6rem;
+    color: #294bb2;
+    margin-bottom: 1.2rem;
+}
+.profesional-card-title {
+    font-size: 1.18rem;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+    color: #2d3e50;
+}
+.profesional-card-desc {
+    font-size: 0.98rem;
+    color: #636e72;
+    text-align: center;
+}
+
+/* ----------------- ADMINISTRADOR ----------------- */
+.admin-panel {
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 2.5rem 2rem 2rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.admin-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.admin-header h1 {
+    color: #294bb2;
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.2px;
+}
+.admin-header p {
+    color: #425082;
+    font-size: 1.17rem;
+    margin: 0;
+    opacity: 0.95;
+}
+.admin-section {
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 .admin-title {
     color: #294bb2;
@@ -111,20 +256,78 @@ html, body {
     align-items: center;
     gap: 8px;
 }
+.admin-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    width: 100%;
+}
+.admin-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 2.4rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.16s, box-shadow 0.2s;
+    cursor: pointer;
+    min-height: 200px;
+    text-decoration: none;
+    color: #222;
+    border: 1.5px solid #e0e6f7;
+}
+.admin-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
+    border: 1.5px solid #294bb2;
+}
+.admin-card-icon {
+    font-size: 2.6rem;
+    color: #294bb2;
+    margin-bottom: 1.2rem;
+}
+.admin-card-title {
+    font-size: 1.18rem;
+    font-weight: 600;
+    margin-bottom: 0.7rem;
+    color: #2d3e50;
+}
+.admin-card-desc {
+    font-size: 0.98rem;
+    color: #636e72;
+    text-align: center;
+}
 
-/* Responsive */
+/* ----------- Responsive ----------- */
 @media (max-width: 1100px) {
-    .panel-actions-grid {
+    .cliente-actions-grid,
+    .profesional-actions-grid,
+    .admin-actions-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
     }
+    .cliente-panel, .profesional-panel, .admin-panel {
+        padding: 1.4rem 0.8rem;
+    }
 }
 @media (max-width: 700px) {
-    .panel-actions-grid {
+    .cliente-header h1,
+    .admin-header h1,
+    .profesional-header h1 { font-size: 1.45rem; }
+    .cliente-header p,
+    .admin-header p,
+    .profesional-header p { font-size: 1rem; }
+    .cliente-actions-grid,
+    .profesional-actions-grid,
+    .admin-actions-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+        padding: 1.1rem 0.4rem;
     }
-    .panel-card {
+    .cliente-card,
+    .profesional-card,
+    .admin-card {
         min-height: 150px;
         padding: 1.5rem 0.6rem 1.2rem 0.6rem;
     }
@@ -134,7 +337,11 @@ html, body {
     .main-content {
         padding-top: 4.5rem;
     }
-    .admin-section {
+    .cliente-panel,
+    .profesional-panel,
+    .admin-panel {
         padding: 16px 4px;
     }
+    .fondo-icon-1 { top: 10px; left: 10px; font-size: 3rem!important; }
+    .fondo-icon-2 { bottom: 10px; right: 20px; font-size: 2.5rem!important; }
 }

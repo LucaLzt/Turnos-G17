@@ -4,44 +4,62 @@
     <meta charset="UTF-8">
     <title>Elegir Disponibilidad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link th:href="@{/css/cliente/detalle-turno.css}" rel="stylesheet"/>
+    <link th:href="@{/css/cliente/solicitar-turno.css}" rel="stylesheet"/>
 	<link th:href="@{/css/disponibilidad.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <div class="navbar-brand">MiTurno</div>
+        <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user navbar-profile-icon"></i>
+        </a>
     </div>
-    <div class="admin-section">
-        <div class="admin-title">
-            <i class="fas fa-user"></i>
-            <span>Turno para:</span>
-            <span th:text="${turno.cliente.nombre}"></span>
-        </div>
-        <div class="admin-title">
-            <i class="fas fa-briefcase-medical"></i>
-            <span>Servicio:</span>
-            <span th:text="${turno.servicio.nombre}"></span>
-        </div>
-        <div class="admin-title">
-            <i class="fas fa-location-dot"></i>
-            <span>Lugar:</span>
-            <span th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura + '  ' +  localidad.nombre + '  ' + provincia.nombre }"></span>
-        </div>
-        <div class="admin-title">
-            <i class="fas fa-user-md"></i>
-            <span>Profesional:</span>
-            <span th:text="${profesional.nombre}"></span>
+    <!-- Detalle parcial del turno, centrado arriba -->
+    <div class="detalle-turno-preview">
+        <div class="cliente-detalle-card">
+            <div class="cliente-detalle-card-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="cliente-detalle-card-title">Detalle del Turno</div>
+            <div class="cliente-detalle-list">
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-user"></i> Cliente:</span>
+                    <span class="cliente-detalle-info" th:text="${turno.cliente.nombre}">Sin seleccionar</span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-user-md"></i> Profesional:</span>
+                    <span class="cliente-detalle-info" th:text="${profesional.nombre}">Sin seleccionar</span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-briefcase-medical"></i> Servicio:</span>
+                    <span class="cliente-detalle-info" th:text="${turno.servicio.nombre}">Sin seleccionar</span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-location-dot"></i> Lugar:</span>
+                    <span class="cliente-detalle-info" th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura + ', ' + localidad.nombre + ', ' + provincia.nombre }">Sin seleccionar</span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-calendar-day"></i> Fecha:</span>
+                    <span class="cliente-detalle-info sin-seleccionar">Sin seleccionar</span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-clock"></i> Hora:</span>
+                    <span class="cliente-detalle-info sin-seleccionar">Sin seleccionar</span>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="admin-section">
-        <div class="admin-title-with-btn">
-            <div class="admin-title">
+    <!-- Fin Detalle parcial -->
+    <div class="solicitar-turno-section">
+        <div class="solicitar-turno-title-with-btn">
+            <div class="solicitar-turno-title">
                 <i class="fas fa-calendar-alt"></i>
                 <span>Disponibilidades disponibles:</span>
             </div>
-            <a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-profesional'}" class="volver-btn" title="Volver a Profesionales">
+            <a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-profesional'}" class="solicitar-turno-volver-btn" title="Volver a Profesionales">
                 <i class="fas fa-arrow-left"></i>
                 <span>Volver a profesionales</span>
             </a>
@@ -50,6 +68,7 @@
             <label for="filtroFecha"><i class="fas fa-calendar-day"></i> Filtrar por fecha:</label>
             <input type="date" id="filtroFecha" name="filtroFecha">
         </div>
+        <!-- Disponibilidades -->
         <div th:if="${disponibilidades != null and !disponibilidades.isEmpty()}" class="horarios-grid">
             <div th:each="disponibilidad, iterStat : ${disponibilidades}" 
                  th:class="'profesional-card ' + (${iterStat.index} % 2 == 0 ? 'bg1' : 'bg2')"
@@ -65,11 +84,9 @@
                     <span th:text="' - ' + ${disponibilidad.duracion.toMinutes()} + ' min.'"></span>
                   </span>
                 </div>
-                <!-- FORMULARIO PARA ELEGIR DISPONIBILIDAD -->
-                <form th:action="@{'/cliente/solicitar-turno/confirmar'}" method="post">
-                    <input type="hidden" name="disponibilidadId" th:value="${disponibilidad.id}" />
-                    <button type="submit" class="elegir-btn">Elegir</button>
-                </form>
+                <a th:href="@{'/cliente/solicitar-turno/preconfirmacion'(disponibilidadId=${disponibilidad.id})}" class="elegir-btn">
+                    Elegir
+                </a>
             </div>
         </div>
         <div th:if="${disponibilidades == null or disponibilidades.isEmpty()}" style="color: #c00; margin-top: 2em;">

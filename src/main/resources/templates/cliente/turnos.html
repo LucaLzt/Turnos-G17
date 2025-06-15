@@ -4,101 +4,64 @@
     <meta charset="UTF-8">
     <title>Mis Turnos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+    <link th:href="@{/css/cliente/turnos.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <div class="navbar-brand">MiTurno</div>
         <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
+            <i class="fas fa-user navbar-profile-icon"></i>
         </a>
     </div>
-
-    <div class="main-content" style="width:100%;">
+    <div class="cliente-section" style="width:100%;">
         <div style="width:100%;max-width:900px;margin:0 auto;">
-            <h1 style="
-                color: #294bb2;
-                font-size: 2.1rem;
-                font-weight: 700;
-                text-align: left;
-                margin: 2.2rem 0 1.4rem 0;
-                letter-spacing: 0.5px;
-            ">
-                Mis Turnos
-            </h1>
-            <div class="table-container" style="
-                background: #fff;
-                border-radius: 16px;
-                box-shadow: 0 8px 32px rgba(41, 75, 178, 0.11);
-                padding: 2.2rem 1.3rem 1.2rem 1.3rem;
-                overflow-x: auto;
-            ">
-                <table class="turnos-table" style="
-                    width: 100%;
-                    border-collapse: separate;
-                    border-spacing: 0 0.5rem;
-                ">
+            <div class="cliente-title-with-btn" style="margin-bottom: 2.1rem;">
+                <div class="cliente-title">
+                    <i class="fas fa-calendar-check"></i>
+                    Mis Turnos
+                </div>
+                <a th:href="@{/index}" class="cliente-btn-volver" title="Volver al inicio">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver</span>
+                </a>
+            </div>
+            <div class="table-container">
+                <table class="turnos-table">
                     <thead>
-                        <tr style="background: none;">
-                            <th style="color:#294bb2;font-weight:600;font-size:1.09rem;padding:0.8rem 0.4rem;text-align:left;border:none;">Profesional</th>
-                            <th style="color:#294bb2;font-weight:600;font-size:1.09rem;padding:0.8rem 0.4rem;text-align:left;border:none;">Especialidad</th>
-                            <th style="color:#294bb2;font-weight:600;font-size:1.09rem;padding:0.8rem 0.4rem;text-align:left;border:none;">Acciones</th>
+                        <tr>
+                            <th>Profesional</th>
+                            <th>Especialidad</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="turno : ${turnos}" style="
-                            background: #f5f7fa;
-                            border-radius: 12px;
-                            box-shadow: 0 1px 8px rgba(41,75,178,0.04);
-                            transition: box-shadow 0.15s;
-                        " onmouseover="this.style.boxShadow='0 4px 16px rgba(41,75,178,0.11)'" onmouseout="this.style.boxShadow='0 1px 8px rgba(41,75,178,0.04)'">
-                            <td th:text="${turno.profesional.nombre}" style="padding:1.1rem 0.8rem;font-size:1.08rem;color:#253052;border:none;border-radius:8px 0 0 8px;">Nombre Profesional</td>
-                            <td th:text="${turno.profesional.especialidad.nombre}" style="padding:1.1rem 0.8rem;font-size:1.08rem;color:#425082;border:none;">Nombre Especialidad</td>
-                            <td style="padding:1.1rem 0.8rem;border:none;display:flex;gap:0.8rem;align-items:center;border-radius:0 8px 8px 0;">
+                        <tr th:each="turno : ${turnos}">
+                            <td th:text="${turno.profesional.nombre}">Nombre Profesional</td>
+                            <td th:text="${turno.profesional.especialidad.nombre}">Nombre Especialidad</td>
+                            <td th:text="${#temporals.format(turno.disponibilidad.inicio, 'dd/MM/yyyy')}">Fecha</td>
+                            <td th:text="${#temporals.format(turno.disponibilidad.inicio, 'HH:mm')}">Hora</td>
+                            <td>
                                 <a th:href="@{'/cliente/detalle/' + ${turno.id}}">
-                                    <button class="ver-btn" style="
-                                        background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
-                                        color: #fff;
-                                        border: none;
-                                        border-radius: 6px;
-                                        padding: 0.55rem 1.1rem;
-                                        font-size: 1rem;
-                                        font-weight: 500;
-                                        cursor: pointer;
-                                        transition: background 0.15s, box-shadow 0.15s;
-                                        box-shadow: 0 1px 4px rgba(41,75,178,0.09);
-                                    "
-                                    onmouseover="this.style.background='linear-gradient(135deg, #1d3478 0%, #425082 100%)'"
-                                    onmouseout="this.style.background='linear-gradient(135deg, #294bb2 0%, #5e72e4 100%)'">
-                                        <i class="fa fa-eye" style="margin-right:0.4em;"></i>
+                                    <button class="ver-btn">
+                                        <i class="fa fa-eye"></i>
                                         Ver Detalle
                                     </button>
                                 </a>
                                 <a th:href="@{'/cliente/eliminar/' + ${turno.id}}"
                                    onclick="return confirm('¿Estás seguro de eliminar este turno?')">
-                                    <button class="cancelar-btn" style="
-                                        background: #f86a6a;
-                                        color: #fff;
-                                        border: none;
-                                        border-radius: 6px;
-                                        padding: 0.55rem 1.1rem;
-                                        font-size: 1rem;
-                                        font-weight: 500;
-                                        cursor: pointer;
-                                        transition: background 0.15s, box-shadow 0.15s;
-                                        box-shadow: 0 1px 4px rgba(248,106,106,0.08);
-                                    "
-                                    onmouseover="this.style.background='#d12b2b'"
-                                    onmouseout="this.style.background='#f86a6a'">
-                                        <i class="fa fa-trash" style="margin-right:0.4em;"></i>
+                                    <button class="cancelar-btn">
+                                        <i class="fa fa-trash"></i>
                                         Eliminar
                                     </button>
                                 </a>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(turnos)}">
-                            <td colspan="3" style="padding:2rem 0;text-align:center;color:#636e72;font-size:1.07rem;">
+                            <td colspan="5" style="padding:2rem 0;text-align:center;color:#636e72;font-size:1.07rem;">
                                 No tenés turnos asignados.
                             </td>
                         </tr>

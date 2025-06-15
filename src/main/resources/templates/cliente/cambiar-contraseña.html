@@ -4,48 +4,49 @@
     <meta charset="UTF-8">
     <title>Cambiar Contraseña</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/cliente.css}" />
+    <link th:href="@{/css/cliente/perfil.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
     <div class="navbar">
-        <div class="brand">MiTurno</div>
+        <div class="navbar-brand">MiTurno</div>
         <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user-md profile-icon"></i>
+            <i class="fas fa-user navbar-profile-icon"></i>
         </a>
     </div>
-    <div class="main-content">
-        <div class="action-card perfil-card" style="max-width:400px;">
-            <div class="card-icon">
+    <div class="cliente-main-content">
+        <div class="cliente-profile-card">
+            <div class="cliente-profile-card-icon">
                 <i class="fas fa-key"></i>
             </div>
-            <div class="card-title" style="margin-bottom:1.5rem;">Cambiar Contraseña</div>
-            <form th:action="@{/cliente/cambiar-contraseña}" th:object="${cambioPasswordDto}" method="post" class="form-contacto">
-                <div class="form-group">
+            <div class="cliente-profile-card-title">Cambiar Contraseña</div>
+            <form th:action="@{/cliente/cambiar-contraseña}" th:object="${cambioPasswordDto}" method="post" class="cliente-password-form">
+                <div class="cliente-form-group">
                     <label for="passwordActual"><i class="fas fa-lock"></i> Contraseña actual</label>
                     <input type="password" id="passwordActual" th:field="*{passwordActual}" placeholder="Contraseña actual"/>
-                    <div class="error" th:if="${#fields.hasErrors('passwordActual')}" th:errors="*{passwordActual}"></div>
+                    <div class="cliente-form-error" th:if="${#fields.hasErrors('passwordActual')}" th:errors="*{passwordActual}"></div>
                 </div>
-                <div class="form-group">
+                <div class="cliente-form-group">
                     <label for="passwordNueva"><i class="fas fa-lock-open"></i> Nueva contraseña</label>
                     <input type="password" id="passwordNueva" th:field="*{passwordNueva}" placeholder="Nueva contraseña"/>
-                    <div class="error" th:if="${#fields.hasErrors('passwordNueva')}" th:errors="*{passwordNueva}"></div>
+                    <div class="cliente-form-error" th:if="${#fields.hasErrors('passwordNueva')}" th:errors="*{passwordNueva}"></div>
                 </div>
-                <div class="form-group">
+                <div class="cliente-form-group">
                     <label for="passwordNuevaRepetida"><i class="fas fa-lock-open"></i> Repetir nueva contraseña</label>
                     <input type="password" id="passwordNuevaRepetida" th:field="*{passwordNuevaRepetida}" placeholder="Repetir nueva contraseña"/>
-                    <div class="error" th:if="${#fields.hasErrors('passwordNuevaRepetida')}" th:errors="*{passwordNuevaRepetida}"></div>
+                    <div class="cliente-form-error" th:if="${#fields.hasErrors('passwordNuevaRepetida')}" th:errors="*{passwordNuevaRepetida}"></div>
                 </div>
-                <div class="perfil-buttons" style="margin-top:1.5rem;">
-                    <button type="submit" class="perfil-btn" style="justify-content:center;">
+                <div class="cliente-profile-buttons">
+                    <button type="submit" class="cliente-profile-btn">
                         <i class="fas fa-save"></i> Guardar Cambios
                     </button>
-                    <a th:href="@{/cliente/perfil}" class="perfil-btn perfil-btn-cancel">
+                    <a th:href="@{/cliente/perfil}" class="cliente-profile-btn cliente-profile-btn-cancel">
                         <i class="fas fa-times"></i> Cancelar
                     </a>
                 </div>
                 <!-- Mensaje de error global (por ejemplo, contraseñas no coinciden) -->
-                <div class="error" th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+                <div class="cliente-form-error" th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
             </form>
         </div>
     </div>
