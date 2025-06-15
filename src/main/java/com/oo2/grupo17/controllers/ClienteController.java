@@ -183,7 +183,7 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/lugar/{id}/servicios")
-	public String verServiciosLugar(@PathVariable("id") Long id, Model model) {
+	public String verServiciosLugar(@PathVariable Long id, Model model) {
 		LugarDto lugar = lugarService.findById(id);
 		List<Servicio> servicios = servicioService.traerServiciosPorLugar(id);
 		model.addAttribute("lugar", lugar);
@@ -197,8 +197,8 @@ public class ClienteController {
 	}
 	
 	@PostMapping("/eliminar-cuenta")
-	public String eliminarCuentaPost (@RequestParam("email") String email,
-			@RequestParam("password") String password, @RequestParam("dni") int dni) {
+	public String eliminarCuentaPost (@RequestParam String email,
+			@RequestParam String password, @RequestParam int dni) {
 		// Elimina la cuenta del cliente
 		clienteService.eliminarCuenta(email, password, dni);
 		SecurityContextHolder.clearContext();
@@ -217,43 +217,26 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/turnos")
-    public String menuTurnos() {
+    public String turnos(Model model, Principal principal) {
+    	String email = principal.getName();
+    	ClienteDto cliente = clienteService.findByEmail(email);
+        Long clienteId = cliente.getId();
+        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
+        model.addAttribute("turnos", turnos);
         return "cliente/turnos"; 
     }
 	
 	@GetMapping("/detalle/{id}")
-    public String detalleTurno(@PathVariable("id") long id, Model model) {
+    public String detalleTurno(@PathVariable long id, Model model) {
         TurnoDto turno = turnoService.findById(id);
         model.addAttribute("turno", turno);
-        return "cliente/DetalleTurno";
-    }
-	
-    @GetMapping("/lista")
-    public String cantidadTurnosCliente(Model model, Principal principal) {
-    	String email = principal.getName();
-    	ClienteDto cliente = clienteService.findByEmail(email);
-        Long clienteId = cliente.getId();
-
-        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
-        model.addAttribute("turnos", turnos);
-
-        return "cliente/ListaTurnos";
-    }
-    
-    @GetMapping("/cancelar")
-    public String cancelarTurnosCliente(Model model, Principal principal) {
-    	String email = principal.getName();
-    	ClienteDto cliente = clienteService.findByEmail(email);
-        Long clienteId = cliente.getId();
-        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
-        model.addAttribute("turnos", turnos);
-        return "cliente/TurnosACancelar";
+        return "cliente/detalle-turno";
     }
     
     @GetMapping("/eliminar/{id}")
     public String eliminarTurno(@PathVariable Long id) {
         turnoService.deleteById(id);
-        return "redirect:/cliente/cancelar"; 
+        return "redirect:/cliente/turnos?eliminado=ok"; 
     }
     
     @GetMapping("/cambiar-contraseña")
@@ -263,7 +246,7 @@ public class ClienteController {
 	}
 	
 	@PostMapping("/cambiar-contraseña")
-	public String cambiarContrasenaPost(@Valid @ModelAttribute("cambioPasswordDto") CambioPasswordDto cambioPasswordDto,
+	public String cambiarContrasenaPost(@Valid @ModelAttribute CambioPasswordDto cambioPasswordDto,
 			BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors()) {
 			return "cliente/cambiar-contraseña";
