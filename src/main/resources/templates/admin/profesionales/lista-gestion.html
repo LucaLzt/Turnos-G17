@@ -4,32 +4,33 @@
     <meta charset="UTF-8">
     <title>Gestionar Profesionales</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link th:href="@{/css/admin/profesionales/lista-profesionales.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <div class="navbar-brand">MiTurno</div>
     </div>
-    <div class="admin-section">
-        <div class="admin-title-with-btn">
-            <div class="admin-title">
+    <div class="lp-section">
+        <div class="lp-title-with-btn">
+            <div class="lp-title">
                 <i class="fas fa-user-md"></i> Gestionar Profesionales
             </div>
-            <a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
+            <a th:href="@{/admin/administrar-profesional}" class="lp-volver-btn" title="Volver atrás">
                 <i class="fas fa-arrow-left"></i>
                 <span>Volver</span>
             </a>
         </div>
-        <div class="lugares-grid">
+        <div class="lp-grid">
             <a th:each="profesional : ${profesionales}"
                th:href="@{'/admin/profesionales/' + ${profesional.id} + '/gestion'}"
-               class="lugar-card">
-                <div class="lugar-title">
+               class="lp-card">
+                <div class="lp-card-title">
                     <i class="fas fa-id-badge"></i>
                     <span th:text="${profesional.nombre}"></span>
                 </div>
-                <div class="lugar-info">
+                <div class="lp-card-info">
                     <span>
                         <i class="fas fa-hashtag"></i>
                         <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
@@ -57,7 +58,7 @@
 						</span>
 					</span>
                 </div>
-                <div class="lugar-horario">
+                <div class="lp-card-horario">
                     <i class="fas fa-hospital"></i>
                     <span th:text="${profesional.lugar != null ? profesional.lugar.direccion.calle + ' ' + profesional.lugar.direccion.altura : 'Sin lugar'}"></span>
                 </div>

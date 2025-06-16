@@ -3,32 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Modificar Turno</title>
-    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+    <link th:href="@{/css/admin/modificar-turno.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
+    <div class="navbar">
+        <div class="navbar-brand">MiTurno</div>
+    </div>
+    <div class="admin-form-container">
+        <div class="admin-form-title">
+            <i class="fas fa-pen-to-square"></i>
+            Modificar Turno
+        </div>
+        <form th:action="@{'/admin/turnos/' + ${turno.id} + '/modificar-turnos'}" th:object="${turno}" method="post" class="admin-form">
+            <input type="hidden" th:field="*{id}" />
+            <div class="admin-form-group">
+                <label>Servicio:</label>
+                <input type="text" th:field="*{servicio.nombre}" readonly />
+            </div>
 
-    <h1>Modificar Turno</h1>
-
-	<form th:action="@{'/admin/turnos/'+ ${turno.id} +'/modificar-turnos'}" th:object="${turno}" method="post">
-	    <input type="hidden" th:field="*{id}" />
-
-	    <label>Servicio:</label>
-	    <input type="text" th:field="*{servicio.nombre}" readonly />
-
-	    <label>Profesional:</label>
-	    <input type="text" th:field="*{profesional.nombre}" readonly />
-
-	    <label>Lugar de atención:</label>
-	
-		<select name="lugarId">
-		    <option th:each="lugar : ${lugares}" 
-		            th:value="${lugar.id}" 
-		            th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"
-		            th:selected="${lugar.id == turno.lugar.id}">
-		    </option>
-		</select>
-	    <button type="submit">Guardar cambios</button>
-	</form>
-
+            <div class="admin-form-group">
+                <label>Profesional:</label>
+                <input type="text" th:field="*{profesional.nombre}" readonly />
+            </div>
+            <div class="admin-form-group">
+                <label>Lugar de atención:</label>
+                <select name="lugarId" required>
+                    <option th:each="lugar : ${lugares}" 
+                            th:value="${lugar.id}" 
+                            th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"
+                            th:selected="${lugar.id == turno.lugar.id}">
+                    </option>
+                </select>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn-submit">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+                <a th:href="@{/admin/administrar-turnos}" class="admin-btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

@@ -4,41 +4,46 @@
     <meta charset="UTF-8">
     <title>Lista de Profesionales</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link th:href="@{/css/admin/profesionales/lista-profesionales.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
     <div class="navbar">
-        <div class="brand">MiTurno</div>
-        <a th:href="@{/admin/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
-        </a>
+        <div class="navbar-brand">MiTurno</div>
     </div>
-    <div class="admin-section">
-        <div class="admin-title-with-btn">
-            <div class="admin-title">
+    <div class="lp-section">
+        <div class="lp-title-with-btn">
+            <div class="lp-title">
                 <i class="fas fa-user-md"></i> Lista de Profesionales
             </div>
-            <a th:href="@{/admin/administrar-profesional}" class="volver-btn" title="Volver atrás">
+            <a th:href="@{/admin/administrar-profesional}" class="lp-volver-btn" title="Volver atrás">
                 <i class="fas fa-arrow-left"></i>
                 <span>Volver</span>
             </a>
         </div>
-        <div class="lugar-grid">
+        <div class="lp-grid">
             <form th:each="profesional : ${profesionales}"
                   th:action="@{'/admin/profesionales/' + ${profesional.id} + '/eliminar'}"
-                  method="post">
+                  method="post"
+                  class="lp-card-form">
                 <button type="submit"
-                        class="profesional-card"
+                        class="lp-card"
                         th:disabled="${profesional.turnos != null and #lists.size(profesional.turnos) > 0}"
                         th:title="${profesional.turnos != null and #lists.size(profesional.turnos) > 0 ? 'No se puede eliminar: tiene turnos asignados' : 'Eliminar profesional'}">
-                    <div class="lugar-title">
+                    <div class="lp-card-title">
                         <i class="fas fa-id-badge"></i>
                         <span th:text="${profesional.nombre}"></span>
                     </div>
-                    <div>
-                        <i class="fas fa-hashtag"></i>
-                        <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                    <div class="lp-card-info">
+                        <span>
+                            <i class="fas fa-hashtag"></i>
+                            <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                        </span>
+                        <span>
+                            <i class="fas fa-id-card"></i>
+                            <span th:text="'DNI: ' + ${profesional.dni}"></span>
+                        </span>
                     </div>
                     <div>
                         <i class="fas fa-stethoscope"></i>

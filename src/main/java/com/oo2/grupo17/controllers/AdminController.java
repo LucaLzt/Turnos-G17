@@ -160,7 +160,7 @@ public class AdminController {
 	@PostMapping("/profesionales/{id}/eliminar")
 	public String eliminarProfesional(@PathVariable("id") Long id) {
 		profesionalService.eliminarProfesional(id);
-		return "redirect:/profesional/eliminar?eliminado=ok";
+		return "redirect:/admin/profesionales/eliminar?eliminado=ok";
 	}
 	
 	@GetMapping("/profesionales/modificar")
@@ -184,7 +184,7 @@ public class AdminController {
 			return 	ViewRouteHelper.PROFESIONALES_MODIFICAR;
 		}
 		profesionalService.update(id, profesional);
-		return "redirect:/profesional/modificar?modificado=ok";
+		return "redirect:/admin/profesionales/modificar?modificado=ok";
 	}
 	
 	@GetMapping("/profesionales/gestion")
@@ -218,7 +218,7 @@ public class AdminController {
 			, @RequestParam(value = "serviciosIds", required = false) List<Long> serviciosIds) {
 		profesional.setServiciosIds(serviciosIds);
 		profesionalService.asignarDatosProfesional(id, profesional, serviciosIds);
-		return "redirect:/profesional/gestion?gestionado=ok";
+		return "redirect:/admin/profesionales/gestion?gestionado=ok";
 	}
 
 	@ResponseBody
