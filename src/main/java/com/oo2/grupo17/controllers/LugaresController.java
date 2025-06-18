@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -100,7 +101,7 @@ public class LugaresController {
 	}
 	
 	@PostMapping("/{id}/eliminar")
-	public String eliminarLugar(@ModelAttribute("id") Long id, Model model) {
+	public String eliminarLugar(@PathVariable Long id, Model model) {
 		lugarService.deleteById(id);
 		return "redirect:/lugares/eliminar?eliminado=ok";
 	}
