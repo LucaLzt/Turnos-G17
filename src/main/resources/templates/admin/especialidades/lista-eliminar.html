@@ -23,14 +23,17 @@
             </a>
         </div>
         <div class="lp-grid">
-            <a th:each="especialidad : ${especialidades}" 
-               th:href="@{'/especialidades/' + ${especialidad.id} + '/eliminar'}"
-               class="lp-card">
-                <div class="lp-card-title">
-                    <i class="fas fa-stethoscope"></i>
-                    <span th:text="${especialidad.nombre}"></span>
-                </div>
-            </a>
+            <form th:each="especialidad : ${especialidades}" 
+               th:action="@{'/especialidades/' + ${especialidad.id} + '/eliminar'}"
+			   method="post"
+			   class="lp-card-form">
+			   <button type="submit" 
+			   		class="lp-card">
+               <div class="lp-card-title">
+                   <i class="fas fa-stethoscope"></i>
+                   <span th:text="${especialidad.nombre}"></span>
+               </div>
+            </form>
         </div>
     </div>
 </body>

@@ -54,6 +54,9 @@ public class EspecialidadService implements IEspecialidadService {
 	public EspecialidadDto update(Long id, EspecialidadDto especialidadDto) {
 		Especialidad espe = especialidadRepository.findById(id)
 				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el especialidad con ID: " + id));
+		if(especialidadRepository.existsByNombre(especialidadDto.getNombre())) {
+			throw new EntidadDuplicadaException("La especialidad con nombre " + especialidadDto.getNombre() + " ya existe.");
+		}
 		espe.setNombre(especialidadDto.getNombre());
 		Especialidad updated = especialidadRepository.save(espe);
 		return modelMapper.map(updated, EspecialidadDto.class);
