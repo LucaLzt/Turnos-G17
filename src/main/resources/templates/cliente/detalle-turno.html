@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Turno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/cliente/detalle-turno.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+        <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user navbar-profile-icon"></i>
+        </a>
+    </div>
+    <div class="cliente-main-content">
+        <div class="cliente-detalle-card">
+            <div class="cliente-detalle-card-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="cliente-detalle-card-title">Detalle del Turno</div>
+            <div class="cliente-detalle-list">
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-user"></i> Cliente:</span>
+                    <span class="cliente-detalle-info" th:text="${turno.cliente.nombre}">Nombre cliente</span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-user-md"></i> Profesional:</span>
+                    <span class="cliente-detalle-info" th:text="${turno.profesional.nombre}">Nombre profesional</span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-briefcase-medical"></i> Servicio:</span>
+                    <span class="cliente-detalle-info" th:text="${turno.servicio.nombre}">Nombre servicio</span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-location-dot"></i> Lugar:</span>
+                    <span class="cliente-detalle-info"
+                          th:text="${turno.lugar.direccion.calle + ' ' + turno.lugar.direccion.altura}">
+                        Dirección
+                    </span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-calendar-day"></i> Fecha:</span>
+                    <span class="cliente-detalle-info"
+                          th:text="${#temporals.format(turno.disponibilidad.inicio, 'EEEE dd/MM/yyyy')}">
+                        Fecha turno
+                    </span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-clock"></i> Hora:</span>
+                    <span class="cliente-detalle-info"
+                          th:text="${#temporals.format(turno.disponibilidad.inicio, 'HH:mm')}">
+                        Hora turno
+                    </span>
+                </div>
+                <div class="cliente-detalle-item">
+                    <span class="cliente-detalle-label"><i class="fas fa-hourglass-end"></i> Duración:</span>
+                    <span class="cliente-detalle-info"
+                          th:text="${turno.disponibilidad.duracion.toMinutes() + ' min.'}">
+                        Duración
+                    </span>
+                </div>
+            </div>
+            <div class="cliente-detalle-btns">
+                <a th:href="@{/cliente/turnos}" class="cliente-profile-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver a mis turnos</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

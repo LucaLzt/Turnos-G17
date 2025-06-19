@@ -1,0 +1,211 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.cliente-main-content {
+    padding-top: 5.5rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: none;
+}
+
+.cliente-profile-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
+    padding: 2.4rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.12s, box-shadow 0.18s;
+    cursor: pointer;
+    min-height: 200px;
+    min-width: 320px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.cliente-profile-card:hover {
+    transform: scale(1.01) translateY(-2px);
+    box-shadow: 0 7px 22px rgba(44, 62, 80, 0.14);
+}
+
+.cliente-profile-card-icon {
+    font-size: 2.6rem;
+    color: #5e72e4;
+    margin-bottom: 1.2rem;
+}
+
+.cliente-profile-card-title {
+    font-size: 1.18rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #2d3e50;
+}
+
+.cliente-profile-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem 0;
+    width: 100%;
+}
+
+.cliente-profile-list li {
+    margin-bottom: 1rem;
+    font-size: 1.08rem;
+}
+
+.cliente-profile-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+    align-items: stretch;
+}
+
+.cliente-profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 0;
+    background: linear-gradient(90deg, #5e72e4 0%, #4242a5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.08rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.16s, transform 0.12s, box-shadow 0.15s, color 0.12s;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    cursor: pointer;
+    text-align: center;
+}
+
+.cliente-profile-btn:hover, .cliente-profile-btn:focus {
+    background: linear-gradient(90deg, #4242a5 0%, #5e72e4 100%);
+    transform: scale(1.01);
+    color: #f5f5f5;
+    box-shadow: 0 3px 12px rgba(44,62,80,0.11);
+}
+
+.cliente-profile-btn-logout,
+.cliente-profile-btn-delete-account,
+.cliente-profile-btn-cancel {
+    background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.cliente-profile-btn-logout:hover, .cliente-profile-btn-logout:focus,
+.cliente-profile-btn-delete-account:hover, .cliente-profile-btn-delete-account:focus,
+.cliente-profile-btn-cancel:hover, .cliente-profile-btn-cancel:focus {
+    background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
+    color: #fff;
+    transform: scale(1.01);
+    box-shadow: 0 3px 12px rgba(44,62,80,0.11);
+}
+
+/* ----------- FORMULARIOS ----------- */
+
+.cliente-contact-form,
+.cliente-address-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cliente-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+}
+
+.cliente-form-group label {
+    margin-bottom: 0.35rem;
+    color: #2d3e50;
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.cliente-form-group input,
+.cliente-form-group select {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #f6f8fa;
+    transition: border-color 0.2s;
+}
+
+.cliente-form-group input:focus,
+.cliente-form-group select:focus {
+    border-color: #5e72e4;
+    outline: none;
+}
+
+.cliente-form-error {
+    color: #e74c3c;
+    font-size: 0.98rem;
+    margin-top: 0.2rem;
+}
+
+.cliente-text-warning {
+    color: orange;
+    font-size: 0.99rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.cliente-address-form .cliente-profile-buttons,
+.cliente-contact-form .cliente-profile-buttons {
+    margin-top: 1.5rem;
+    gap: 0.7rem;
+}
+
+.cliente-password-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Select estilizado para mejor visual y accesibilidad */
+.cliente-form-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='10' viewBox='0 0 16 16' width='10' xmlns='http://www.w3.org/2000/svg'><path d='M4 6l4 4 4-4'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.8em top 50%;
+    background-size: 1em auto;
+}
+
+/* ----------- FIN FORMULARIOS ----------- */
+
+@media (max-width: 700px) {
+    .cliente-profile-card {
+        min-height: 150px;
+        padding: 1.5rem 0.6rem 1.2rem 0.6rem;
+    }
+    .cliente-navbar {
+        padding: 0.7rem 1.1rem;
+    }
+    .cliente-main-content {
+        padding-top: 4.5rem;
+    }
+    .cliente-contact-form,
+    .cliente-address-form {
+        gap: 0.7rem;
+    }
+}

@@ -1,0 +1,208 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #f5f7fa;
+}
+
+* { box-sizing: border-box; }
+
+/* Sección central */
+.lp-section {
+    background: #fff;
+    border-radius: 17px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 2.4rem 2.2rem 2.2rem 2.2rem;
+    max-width: 1300px;
+    width: 98%;
+    margin: 2.5rem auto 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.lp-title-with-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.2rem;
+    flex-wrap: wrap;
+}
+
+.lp-title {
+    color: #294bb2;
+    font-size: 1.42rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    letter-spacing: 0.5px;
+}
+
+.lp-volver-btn {
+    background: #fff;
+    color: #294bb2;
+    border: 2px solid #294bb2;
+    border-radius: 7px;
+    padding: 0.55rem 1.3rem;
+    font-size: 1.07rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    text-decoration: none;
+    transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.13s;
+    cursor: pointer;
+}
+
+.lp-volver-btn:hover,
+.lp-volver-btn:focus {
+    background: #294bb2;
+    color: #fff;
+    border-color: #1a2a6c;
+    box-shadow: 0 4px 12px rgba(41,75,178,0.12);
+}
+
+.lp-volver-btn i { margin-right: 0.4em; }
+
+/* Grilla con 3 columnas y alto uniforme */
+.lp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 5fr));
+    gap: 2rem;
+    width: 100%;
+    align-items: stretch;
+    justify-items: stretch;
+}
+
+/* Tarjeta común de lugar */
+.lp-card {
+    background: #f8fafd;
+    border-radius: 13px;
+    box-shadow: 0 4px 16px rgba(41, 75, 178, 0.08);
+    padding: 2.1rem 1.6rem 1.5rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    align-items: flex-start;
+    text-decoration: none;
+    color: #2d3e50;
+    transition: box-shadow 0.15s, transform 0.13s, background 0.15s;
+    border: 2px solid #f8fafd;
+    font-size: 0.95rem;
+    cursor: pointer;
+    outline: none;
+    min-width: 0;
+    position: relative;
+    height: 100%;
+    min-height: 190px;
+    box-sizing: border-box;
+    justify-content: flex-start;
+}
+
+.lp-card:active,
+.lp-card:focus,
+.lp-card:hover {
+    box-shadow: 0 10px 28px rgba(41, 75, 178, 0.16);
+    transform: translateY(-2px) scale(1.012);
+    background: #e7edfa;
+    border-color: #5e72e4;
+    color: #294bb2;
+}
+
+.lp-card-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #294bb2;
+    display: flex;
+    align-items: center;
+    gap: 0.53em;
+    margin-bottom: 0.2rem;
+}
+
+.lp-card-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2em;
+    font-size: 1.05rem;
+    color: #425082;
+}
+
+.lp-card-horario {
+    display: flex;
+    align-items: center;
+    gap: 0.53em;
+    font-size: 1.03rem;
+    color: #425082;
+    margin-top: 0.2rem;
+}
+
+.lp-card-title i, .lp-card-info i, .lp-card-horario i,
+.lp-card > div > i {
+    color: #5e72e4;
+    font-size: 1.1em;
+    margin-right: 0.45em;
+    vertical-align: middle;
+}
+
+form {
+    margin: 0;
+}
+
+/* SOLO para la lista de eliminar lugares */
+.lp-card-form {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.lp-card-form .lp-card {
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .lp-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 800px) {
+    .lp-grid {
+        grid-template-columns: 1fr;
+        gap: 1.1rem;
+    }
+    .lp-section {
+        padding: 1.3rem 0.8rem 1.1rem 0.8rem;
+    }
+    .lp-title {
+        font-size: 1.09rem;
+    }
+    .lp-card {
+        padding: 1.1rem 0.6rem 0.7rem 0.6rem;
+        min-height: 190px;
+    }
+}
+@media (max-width: 600px) {
+    .lp-section {
+        padding: 0.7rem 0.2rem 0.7rem 0.2rem;
+        margin-top: 1.1rem;
+    }
+    .lp-title-with-btn {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+        margin-bottom: 1.1rem;
+    }
+    .lp-grid {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+    }
+    .lp-card {
+        padding: 0.8rem 0.4rem 0.6rem 0.4rem;
+        font-size: 0.97rem;
+        min-height: 140px;
+    }
+    .lp-card-title { font-size: 0.97rem; }
+}

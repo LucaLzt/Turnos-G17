@@ -1,0 +1,166 @@
+/* Estilos generales */
+html, body {
+    margin: 0;
+    padding: 0;
+	background: #f5f7fa;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Contenedor del formulario */
+.admin-section {
+    background: #fff;
+    border-radius: 17px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 2.4rem 2.2rem;
+    max-width: 520px;
+    width: 98%;
+    margin: 2.5rem auto;
+}
+
+/* Título del formulario */
+.admin-title {
+    color: #294bb2;
+    font-size: 1.38rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 2rem;
+}
+
+/* Estructura del formulario */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* Grupos de campos */
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.admin-form-group label {
+    font-weight: 500;
+    color: #425082;
+    font-size: 1.03rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+}
+
+/* Campos de entrada */
+.admin-form-group input,
+.admin-form-group select,
+.admin-form-group textarea {
+    font-size: 1.04rem;
+    padding: 0.46rem 0.61rem;
+    border: 1.3px solid #b6c3e6;
+    border-radius: 6px;
+    background: #f8fafd;
+    color: #2d3e50;
+    outline: none;
+    transition: all 0.15s ease;
+}
+
+.admin-form-group input:focus {
+    border-color: #5e72e4;
+    background: #eef3fb;
+    box-shadow: 0 0 0 2px rgba(94, 114, 228, 0.2);
+}
+
+/* Mensajes de error */
+.admin-error {
+    color: #e34d4a;
+    font-size: 0.96rem;
+    margin-top: 0.3rem;
+    font-weight: 500;
+}
+
+/* Acciones del formulario */
+.admin-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+/* Botón de enviar */
+.admin-btn-submit {
+    background: linear-gradient(90deg, #294bb2 0%, #5e72e4 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.61rem 1.5rem;
+    font-size: 1.09rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 10px rgba(41, 75, 178, 0.11);
+}
+
+.admin-btn-submit:hover {
+    background: #425082;
+    box-shadow: 0 4px 14px rgba(41, 75, 178, 0.17);
+    transform: translateY(-1px);
+}
+
+/* Botón de cancelar */
+.admin-btn-cancel {
+    background: white;
+    color: #294bb2;
+    border: 2px solid #294bb2;
+    border-radius: 6px;
+    padding: 0.55rem 1.3rem;
+    font-size: 1.06rem;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: all 0.2s ease;
+}
+
+.admin-btn-cancel:hover {
+    background: #294bb2;
+    color: white;
+    box-shadow: 0 4px 12px rgba(41, 75, 178, 0.12);
+}
+
+/* Responsive */
+@media (max-width: 650px) {
+    .admin-section {
+        padding: 1.5rem 1rem;
+        margin: 1.5rem auto;
+    }
+    
+    .admin-title {
+        font-size: 1.2rem;
+    }
+    
+    .admin-form-actions {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .admin-btn-submit,
+    .admin-btn-cancel {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .admin-section {
+        padding: 1.2rem 0.8rem;
+        border-radius: 12px;
+    }
+}

@@ -2,34 +2,72 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Turnos</title>
+    <title>Mis Turnos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/index.css}" rel="stylesheet"/>
+    <link th:href="@{/css/cliente/turnos.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
         <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
+            <i class="fas fa-user navbar-profile-icon"></i>
         </a>
     </div>
-
-    <div class="main-content" style="background:none;">
-        <div class="panel-actions-grid">
-
-            <a th:href="@{/cliente/lista}" class="panel-card">
-                <i class="fas fa-list panel-card-icon"></i>
-                <div class="panel-card-title">Listar Turnos</div>
-                <div class="panel-card-desc">Visualizá tus turnos agendados y su información.</div>
-            </a>
-
-            <a th:href="@{/cliente/cancelar}" class="panel-card">
-                <i class="fas fa-calendar-times panel-card-icon"></i>
-                <div class="panel-card-title">Cancelar Turno</div>
-                <div class="panel-card-desc">Elegí y cancelá alguno de tus turnos asignados.</div>
-            </a>
-
+    <div class="cliente-section" style="width:100%;">
+        <div style="width:100%;max-width:900px;margin:0 auto;">
+            <div class="cliente-title-with-btn" style="margin-bottom: 2.1rem;">
+                <div class="cliente-title">
+                    <i class="fas fa-calendar-check"></i>
+                    Mis Turnos
+                </div>
+                <a th:href="@{/index}" class="cliente-btn-volver" title="Volver al inicio">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver</span>
+                </a>
+            </div>
+            <div class="table-container">
+                <table class="turnos-table">
+                    <thead>
+                        <tr>
+                            <th>Profesional</th>
+                            <th>Especialidad</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="turno : ${turnos}">
+                            <td th:text="${turno.profesional.nombre}">Nombre Profesional</td>
+                            <td th:text="${turno.profesional.especialidad.nombre}">Nombre Especialidad</td>
+                            <td th:text="${#temporals.format(turno.disponibilidad.inicio, 'dd/MM/yyyy')}">Fecha</td>
+                            <td th:text="${#temporals.format(turno.disponibilidad.inicio, 'HH:mm')}">Hora</td>
+                            <td>
+                                <a th:href="@{'/cliente/detalle/' + ${turno.id}}">
+                                    <button class="ver-btn">
+                                        <i class="fa fa-eye"></i>
+                                        Ver Detalle
+                                    </button>
+                                </a>
+                                <a th:href="@{'/cliente/eliminar/' + ${turno.id}}"
+                                   onclick="return confirm('¿Estás seguro de eliminar este turno?')">
+                                    <button class="cancelar-btn">
+                                        <i class="fa fa-trash"></i>
+                                        Eliminar
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(turnos)}">
+                            <td colspan="5" style="padding:2rem 0;text-align:center;color:#636e72;font-size:1.07rem;">
+                                No tenés turnos asignados.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

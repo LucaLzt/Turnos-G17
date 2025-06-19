@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Especialidad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/admin/especialidades/modificar.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title">
+            <i class="fas fa-edit"></i> Modificar Especialidad
+        </div>
+        <form class="admin-form" th:action="@{'/especialidades/' + ${especialidad.id} + '/modificar'}" th:object="${especialidad}" method="post">
+            <div class="admin-form-group">
+                <label for="nombre">
+                    <i class="fas fa-tag"></i> Nombre
+                </label>
+                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Traumatología"/>
+                <div class="admin-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn-submit">
+                    <i class="fas fa-save"></i> Actualizar
+                </button>
+                <a th:href="@{/admin/administrar-especialidades}" class="admin-btn-cancel">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

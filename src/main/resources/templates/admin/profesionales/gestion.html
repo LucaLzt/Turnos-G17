@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar Profesional</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin/profesionales/gestion.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-user-md"></i>
+                Gestionar Profesional
+            </div>
+        </div>
+        <form method="post" th:action="@{'/admin/profesionales/' + ${profesional.id} + '/gestion'}" class="admin-form">
+            <div class="admin-form-group">
+                <label for="nombre"><i class="fa fa-user"></i> Nombre:</label>
+                <span th:text="${profesional.nombre}">Nombre del profesional</span>
+            </div>
+            <div class="admin-form-group">
+                <label for="matricula"><i class="fa fa-id-card"></i> Matrícula:</label>
+                <span th:text="${profesional.matricula}">Matrícula</span>
+            </div>
+            <div class="admin-form-group">
+                <label for="especialidad"><i class="fa fa-stethoscope"></i> Especialidad:</label>
+                <select id="especialidad" name="especialidad.id">
+                    <option value="">Seleccione una especialidad</option>
+                    <option th:each="esp : ${especialidades}"
+                            th:value="${esp.id}"
+                            th:text="${esp.nombre}"
+                            th:selected="${profesional.especialidad != null} ? ${esp.id} == ${profesional.especialidad.id} : false">
+                    </option>
+                </select>
+            </div>
+            <div class="admin-form-group">
+                <label for="lugar"><i class="fa fa-map-marker-alt"></i> Lugar:</label>
+                <select id="lugar" name="lugar.id">
+                    <option value="">Seleccione un lugar</option>
+                    <option th:each="lugar : ${lugares}"
+                            th:value="${lugar.id}"
+                            th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"
+                            th:selected="${profesional.lugar != null} ? ${lugar.id} == ${profesional.lugar.id} : false">
+                    </option>
+                </select>
+            </div>
+            <div class="admin-form-group" id="servicios-group">
+                <label>Servicios:</label>
+                <div id="servicios-checkboxes"></div>
+                <small>Puedes marcar o desmarcar los servicios que el profesional podrá ofrecer.</small>
+                <div id="no-servicios-msg" class="admin-alert admin-alert-warning" style="display:none;">
+                    Este lugar no tiene servicios asociados.
+                </div>
+            </div>
+            <input type="hidden" id="servicios-iniciales" th:value="${#strings.arrayJoin(profesional.serviciosIds, ',')}" />
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn-submit">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+                <a th:href="@{/admin/profesionales/gestion}" class="admin-btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
+    <script src="/js/servicio-select.js"></script>
+</body>
+</html>

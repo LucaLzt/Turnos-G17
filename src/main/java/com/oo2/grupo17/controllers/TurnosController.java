@@ -117,6 +117,37 @@ public class TurnosController {
         model.addAttribute("turno", turno);
         return "turno/elegir-disponibilidad";
     }
+    
+    @GetMapping("/solicitar-turno/preconfirmacion")
+    public String preconfirmarTurno(
+            @RequestParam("disponibilidadId") Long disponibilidadId,
+            Model model,
+            @ModelAttribute("turno") TurnoDto turno) {
+
+        // Buscar la disponibilidad seleccionada
+        DisponibilidadDto disponibilidad = disponibilidadService.findById(disponibilidadId);
+
+        // Validar que existan datos previos y que la disponibilidad corresponda al profesional elegido
+        if (turno.getProfesional() == null || turno.getLugar() == null || disponibilidad == null ||
+            !disponibilidad.getProfesional().getId().equals(turno.getProfesional().getId())) {
+            return "redirect:/cliente/solicitar-turno?error=datos";
+        }
+
+        // Setear la disponibilidad seleccionada en el turno en sesión
+        turno.setDisponibilidad(disponibilidad);
+
+        // Obtener los IDs de localidad y provincia desde la dirección del lugar
+        Long localidadId = turno.getLugar().getDireccion().getLocalidadId();
+        Long provinciaId = turno.getLugar().getDireccion().getProvinciaId();
+        LocalidadDto localidad = localidadService.findById(localidadId);
+        ProvinciaDto provincia = provinciaService.findById(provinciaId);
+
+        // Pasar los objetos al modelo
+        model.addAttribute("localidad", localidad);
+        model.addAttribute("provincia", provincia);
+        model.addAttribute("turno", turno);
+        return "turno/confirmar-turno";
+    }
    
     // Paso 5: Confirmar turno con disponibilidad elegida
     @PreAuthorize("hasRole('ROLE_CLIENTE')")

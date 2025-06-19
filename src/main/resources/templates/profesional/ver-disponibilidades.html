@@ -4,23 +4,34 @@
     <meta charset="UTF-8">
     <title>Mis Disponibilidades</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/profesional-disponibilidades.css}" />
+    <link th:href="@{/css/profesional/disponibilidades.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
         <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user-md profile-icon"></i>
+            <i class="fas fa-user-md navbar-profile-icon"></i>
         </a>
     </div>
-    <div class="main-content">
-        <div class="action-card perfil-card" style="width:100%; max-width:680px;">
-            <div class="card-icon">
+    <div class="profesional-main-content">
+        <div class="profesional-disponibilidades-card" style="width:100%; max-width:680px;">
+            <div class="profesional-disponibilidades-topbar">
+                <a th:href="@{/index}" class="profesional-disponibilidades-btn profesional-disponibilidades-btn-cancel">
+                    <i class="fas fa-arrow-left"></i> Volver al inicio
+                </a>
+                <div class="profesional-disponibilidades-filtro">
+                    <label for="filtroFecha"><i class="fas fa-calendar"></i> Filtrar por fecha:</label>
+                    <input type="date" id="filtroFecha" class="profesional-filtro-input"/>
+                    <button type="button" id="limpiarFiltro" class="profesional-filtro-limpiar-btn"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="profesional-disponibilidades-card-icon">
                 <i class="fas fa-calendar-check"></i>
             </div>
-            <div class="titulo-seccion">Mis Disponibilidades</div>
-            <table class="disponibilidad-table">
+            <div class="profesional-disponibilidades-title">Mis Disponibilidades</div>
+            <table class="profesional-disponibilidad-table">
                 <thead>
                     <tr>
                         <th>Inicio</th>
@@ -30,35 +41,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="disp : ${disponibilidades}">
+                    <tr th:each="disp : ${disponibilidades}"
+                        th:attr="data-fecha=${#temporals.format(disp.inicio, 'yyyy-MM-dd')}">
                         <td th:text="${#temporals.format(disp.inicio, 'dd/MM/yyyy HH:mm')}">10/06/2025 10:00</td>
                         <td th:text="${disp.duracion.toMinutes()} + ' min'">60 min</td>
                         <td>
-                            <span th:if="${disp.ocupado}" class="estado-ocupado">OCUPADO</span>
-                            <span th:unless="${disp.ocupado}" class="estado-libre">LIBRE</span>
+                            <span th:if="${disp.ocupado}" class="profesional-estado-ocupado">OCUPADO</span>
+                            <span th:unless="${disp.ocupado}" class="profesional-estado-libre">LIBRE</span>
                         </td>
                         <td>
-                            <!-- Si está ocupado, botón activo -->
-                            <a th:if="${disp.ocupado}" th:href="@{'/profesional/disponibilidad/' + ${disp.id}}" class="detalle-btn" title="Ver detalles">
+                            <a th:if="${disp.ocupado}" th:href="@{'/profesional/disponibilidad/' + ${disp.id}}" class="profesional-detalle-btn" title="Ver detalles">
                                 <i class="fas fa-eye"></i> Detalles
                             </a>
-                            <!-- Si está libre, botón deshabilitado -->
-                            <a th:unless="${disp.ocupado}" href="#" class="detalle-btn disabled" title="Solo disponible si está ocupado">
+                            <a th:unless="${disp.ocupado}" href="#" class="profesional-detalle-btn disabled" title="Solo disponible si está ocupado">
                                 <i class="fas fa-eye"></i> Detalles
                             </a>
                         </td>
                     </tr>
                     <tr th:if="${disponibilidades == null or disponibilidades.isEmpty()}">
-                        <td colspan="4" class="sin-disponibilidades">No hay disponibilidades registradas.</td>
+                        <td colspan="4" class="profesional-sin-disponibilidades">No hay disponibilidades registradas.</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="perfil-buttons">
-                <a th:href="@{/index}" class="perfil-btn perfil-btn-cancel">
-                    <i class="fas fa-arrow-left"></i> Volver al inicio
-                </a>
-            </div>
         </div>
     </div>
+    <script src="/js/disponibilidad-profesional.js"></script>
 </body>
 </html>

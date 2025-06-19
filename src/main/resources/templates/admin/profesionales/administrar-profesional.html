@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administrar Profesionales</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin/profesionales/administrar-profesionales.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+    </div>
+    <main class="admin-main-content">
+        <div class="admin-section">
+            <div class="admin-title">
+                <i class="fas fa-user-cog panel-card-icon"></i> Administración de Profesionales
+            </div>
+            <div class="admin-panel-actions-grid">
+                <a th:href="@{/admin/profesionales/modificar}" class="admin-panel-card">
+                    <i class="fas fa-edit admin-panel-card-icon"></i>
+                    <div class="admin-panel-card-title">Editar Datos De Profesional</div>
+                    <div class="admin-panel-card-desc">Edite la información de profesionales existentes.</div>
+                </a>
+                <a th:href="@{/admin/profesionales/gestion}" class="admin-panel-card">
+                    <i class="fas fa-edit admin-panel-card-icon"></i>
+                    <div class="admin-panel-card-title">Gestionar Profesional</div>
+                    <div class="admin-panel-card-desc">Gestionar especialidad, lugar de trabajo y servicios de profesionales existentes.</div>
+                </a>
+                <a th:href="@{/admin/profesionales/generar-disponibilidades}" class="admin-panel-card">
+                    <i class="fas fa-calendar-check admin-panel-card-icon"></i>
+                    <div class="admin-panel-card-title">Generar Disponibilidades</div>
+                    <div class="admin-panel-card-desc">
+                        Creá turnos de forma automática para los profesionales.
+                    </div>
+                </a>
+                <a th:href="@{/admin/profesionales/eliminar}" class="admin-panel-card">
+                    <i class="fas fa-trash-alt admin-panel-card-icon"></i>
+                    <div class="admin-panel-card-title">Eliminar Profesional</div>
+                    <div class="admin-panel-card-desc">Elimine los profesionales que ya no estén disponibles.</div>
+                </a>
+                <a th:href="@{/index}" class="admin-panel-card">
+                    <i class="fas fa-arrow-left admin-panel-card-icon"></i>
+                    <div class="admin-panel-card-title">Volver</div>
+                    <div class="admin-panel-card-desc">Regresa al panel de administración principal.</div>
+                </a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

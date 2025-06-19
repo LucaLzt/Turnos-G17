@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Profesional</title>
+    <link th:href="@{/css/admin/profesionales/modificar.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-user-md"></i> Modificar Profesional
+            </div>
+        </div>
+        <form method="post" th:action="@{'/admin/profesionales/' + ${profesional.id} + '/modificar'}" th:object="${profesional}" class="admin-form">
+            <div class="admin-form-group">
+                <label for="nombre"><i class="fa fa-user"></i> Nombre:</label>
+                <input type="text" id="nombre" th:field="*{nombre}"/>
+                <div class="admin-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+            </div>
+            <div class="admin-form-group">
+                <label for="dni"><i class="fa fa-id-card"></i> DNI:</label>
+                <input type="text" id="dni" th:field="*{dni}"/>
+                <div class="admin-error" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+            </div>
+            <div class="admin-form-group">
+                <label for="matricula"><i class="fa fa-hashtag"></i> Matrícula:</label>
+                <input type="text" id="matricula" th:field="*{matricula}"/>
+                <div class="admin-error" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}"></div>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn-submit">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+                <a th:href="@{/admin/profesionales/modificar}" class="admin-btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

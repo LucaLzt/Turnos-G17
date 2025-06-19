@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Especialidades</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin/especialidades/lista-especialidades.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+    </div>
+    <div class="lp-section">
+        <div class="lp-title-with-btn">
+            <div class="lp-title">
+                <i class="fas fa-stethoscope"></i> Lista de Especialidades - Modificar
+            </div>
+            <a th:href="@{/admin/administrar-especialidades}" class="lp-volver-btn" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+        <div class="lp-grid">
+            <a th:each="especialidad : ${especialidades}" 
+               th:href="@{'/especialidades/' + ${especialidad.id} + '/modificar'}"
+               class="lp-card">
+                <div class="lp-card-title">
+                    <i class="fas fa-stethoscope"></i>
+                    <span th:text="${especialidad.nombre}"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

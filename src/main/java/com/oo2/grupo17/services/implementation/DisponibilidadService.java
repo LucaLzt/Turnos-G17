@@ -74,7 +74,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 	@Override @Transactional
 	public void generarDisponibilidadesAutomaticas(Long profesionalId, LocalTime horaIncio, LocalTime horaFin,
 			Duration duracionTurno, LocalDate fechaInicio, LocalDate fechaFin) {
-		
+
 		if(duracionTurno.isZero() || duracionTurno.isNegative()) {
 			throw new IllegalArgumentException("La duración del turno debe ser mayor a 0");
 		}
@@ -86,14 +86,12 @@ public class DisponibilidadService implements IDisponibilidadService {
 		LocalDate fechaActual = fechaInicio;
 		
 		while(!fechaActual.isAfter(fechaFin)) {
-			
 			if(!esFinDeSemana(fechaActual)) {
 				
 				LocalDateTime inicioTurno = LocalDateTime.of(fechaActual, horaIncio);
 				LocalDateTime finJornada = LocalDateTime.of(fechaActual, horaFin);
 				
-				while(inicioTurno.plus(duracionTurno).isBefore(finJornada.plusSeconds(1))) {
-					
+				while(!inicioTurno.plus(duracionTurno).isAfter(finJornada)) {
 					if (disponibilidadRepository.existsByProfesionalAndInicio(profesional, inicioTurno)) {
 				        throw new EntidadDuplicadaException("Ya existe una disponibilidad para " + profesional.getNombre() + 
 				            " el " + inicioTurno);
@@ -105,20 +103,14 @@ public class DisponibilidadService implements IDisponibilidadService {
 					disp.setDuracion(duracionTurno);
 					disp.setOcupado(false);
 					
-					// objetos.add(modelMapper.map(disp, Disponibilidad.class));
 					objetos.add(disp);
 					inicioTurno = inicioTurno.plus(duracionTurno);
 					
 				}
-				
 			}
-			
 			fechaActual = fechaActual.plusDays(1);
-			
 		}
-		
 		disponibilidadRepository.saveAll(objetos);
-		
 	}
 	
 	@Override

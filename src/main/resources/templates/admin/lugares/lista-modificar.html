@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Lugares</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/admin/lugares/lista-lugares.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+    </div>
+    <div class="lp-section">
+        <div class="lp-title-with-btn">
+            <div class="lp-title">
+                <i class="fas fa-map-marker-alt"></i> Lista de Lugares - Modificar
+            </div>
+            <a th:href="@{/admin/administrar-lugares}" class="lp-volver-btn" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+        <div class="lp-grid">
+            <a th:each="lugar : ${lugares}"
+               th:href="@{'/lugares/' + ${lugar.id} + '/modificar'}"
+               class="lp-card">
+                <div class="lp-card-title">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span th:text="${lugar.direccion.calle} + ' ' + ${lugar.direccion.altura}"></span>
+                </div>
+                <div class="lp-card-info">
+                    <i class="fas fa-city"></i>
+                    <span th:text="${provinciasMap[lugar.direccion.provinciaId]} + ', ' +
+									${localidadesMap[lugar.direccion.localidadId]}"></span>
+                </div>
+                <div class="lp-card-horario">
+                    <i class="fas fa-clock"></i>
+                    <span>
+                        <span th:text="'Apertura: ' + ${#strings.substring(lugar.horarioApertura, 0, 5)}"></span>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <span th:text="'Cierre: ' + ${#strings.substring(lugar.horarioCierre, 0, 5)}"></span>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

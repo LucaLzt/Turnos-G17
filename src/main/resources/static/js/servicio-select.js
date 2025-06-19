@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
             noServiciosMsg.style.display = 'block';
             return;
         }
-        fetch('/profesional/servicios-por-lugar/' + lugarId)
+        fetch('/admin/profesionales/servicios-por-lugar/' + lugarId)
             .then(resp => resp.json())
             .then(servicios => {
                 if (!servicios || servicios.length === 0) {

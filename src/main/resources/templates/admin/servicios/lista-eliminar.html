@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Servicio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/admin/servicios/lista-servicios.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+	<div class="navbar">
+	    <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+	</div>
+    <div class="lp-section">
+        <div class="lp-title-with-btn">
+            <div class="lp-title">
+                <i class="fas fa-edit"></i> Lista de Servicios - Eliminar
+            </div>
+            <a th:href="@{/admin/administrar-servicios}" class="lp-volver-btn" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+        <div class="lp-grid">
+            <a th:each="servicio : ${servicios}"
+               th:href="@{'/servicios/' + ${servicio.id} + '/eliminar'}"
+               class="lp-card">
+                <div class="lp-card-title">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span th:text="${servicio.nombre}"></span>
+                </div>
+                <div class="lp-card-info">
+                    <i class="fas fa-align-left"></i>
+                    <span th:text="${servicio.descripcion}"></span>
+                </div>
+                <div class="lp-card-horario">
+                    <i class="fas fa-dollar-sign"></i>
+                    <span th:text="${#numbers.formatDecimal(servicio.precio, 1, 'COMMA', 2, 'POINT')}"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

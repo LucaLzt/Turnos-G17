@@ -4,69 +4,73 @@
     <meta charset="UTF-8">
     <title>Detalle del Turno</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
-    <link th:href="@{/css/disponibilidad.css}" rel="stylesheet"/>
-	<link th:href="@{/css/detalle-turno.css}" rel="stylesheet"/>
+    <link th:href="@{/css/profesional/detalle-turno.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+        <a th:href="@{/profesional/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user-md navbar-profile-icon"></i>
+        </a>
     </div>
-    <div class="detalle-section admin-section">
-        <div class="detalle-title">
-            <i class="fas fa-calendar-check"></i>
-            <span>Detalle del Turno</span>
-        </div>
-        <div class="panel-card">
-            <div class="detalle-list">
-                <div class="detalle-item">
-                    <span class="detalle-label"><i class="fas fa-user"></i>Cliente:</span>
-                    <span class="detalle-info" th:text="${turno.cliente.nombre}">Nombre cliente</span>
+    <div class="profesional-main-content">
+        <div class="profesional-detalle-card">
+            <div class="profesional-detalle-card-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="profesional-detalle-card-title">
+                Detalle del Turno
+            </div>
+            <div class="profesional-detalle-list">
+                <div class="profesional-detalle-item">
+                    <span class="profesional-detalle-label"><i class="fas fa-user"></i>Paciente:</span>
+                    <span class="profesional-detalle-info" th:text="${turno.cliente.nombre}">Nombre paciente</span>
                 </div>
-                <div class="detalle-item">
-                    <span class="detalle-label"><i class="fas fa-user-md"></i>Profesional:</span>
-                    <span class="detalle-info" th:text="${turno.profesional.nombre}">Nombre profesional</span>
+                <div class="profesional-detalle-item">
+                    <span class="profesional-detalle-label"><i class="fas fa-user-md"></i>Profesional:</span>
+                    <span class="profesional-detalle-info" th:text="${turno.profesional.nombre}">Nombre profesional</span>
                 </div>
-                <div class="detalle-item">
-                    <span class="detalle-label"><i class="fas fa-briefcase-medical"></i>Servicio:</span>
-                    <span class="detalle-info" th:text="${turno.servicio.nombre}">Nombre servicio</span>
+                <div class="profesional-detalle-item">
+                    <span class="profesional-detalle-label"><i class="fas fa-briefcase-medical"></i>Servicio:</span>
+                    <span class="profesional-detalle-info" th:text="${turno.servicio.nombre}">Nombre servicio</span>
                 </div>
-                <div class="detalle-item">
-                    <span class="detalle-label"><i class="fas fa-location-dot"></i>Lugar:</span>
-                    <span class="detalle-info"
+                <div class="profesional-detalle-item">
+                    <span class="profesional-detalle-label"><i class="fas fa-location-dot"></i>Lugar:</span>
+                    <span class="profesional-detalle-info"
                           th:text="${turno.lugar.direccion.calle + ' ' + turno.lugar.direccion.altura}">
                         Dirección
                     </span>
                 </div>
-                <div class="detalle-item">
-                    <span class="detalle-label"><i class="fas fa-calendar-day"></i>Fecha:</span>
-                    <span class="detalle-info"
+                <div class="profesional-detalle-item">
+                    <span class="profesional-detalle-label"><i class="fas fa-calendar-day"></i>Fecha:</span>
+                    <span class="profesional-detalle-info"
                           th:text="${#temporals.format(turno.disponibilidad.inicio, 'EEEE dd/MM/yyyy')}">
                         Fecha turno
                     </span>
                 </div>
-                <div class="detalle-item">
-                    <span class="detalle-label"><i class="fas fa-clock"></i>Hora:</span>
-                    <span class="detalle-info"
+                <div class="profesional-detalle-item">
+                    <span class="profesional-detalle-label"><i class="fas fa-clock"></i>Hora:</span>
+                    <span class="profesional-detalle-info"
                           th:text="${#temporals.format(turno.disponibilidad.inicio, 'HH:mm')}">
                         Hora turno
                     </span>
                 </div>
-                <div class="detalle-item">
-                    <span class="detalle-label"><i class="fas fa-hourglass-end"></i>Duración:</span>
-                    <span class="detalle-info"
+                <div class="profesional-detalle-item">
+                    <span class="profesional-detalle-label"><i class="fas fa-hourglass-end"></i>Duración:</span>
+                    <span class="profesional-detalle-info"
                           th:text="${turno.disponibilidad.duracion.toMinutes() + ' min.'}">
                         Duración
                     </span>
                 </div>
             </div>
-        </div>
-        <div class="volver-btn-wrapper">
-            <a th:href="@{/profesional/ver-disponibilidades}" class="volver-btn">
-                <i class="fas fa-arrow-left"></i>
-                <span>Volver a mis turnos</span>
-            </a>
+            <div class="profesional-detalle-btns">
+                <a th:href="@{/profesional/turnos}" class="profesional-profile-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver a mis turnos</span>
+                </a>
+            </div>
         </div>
     </div>
 </body>

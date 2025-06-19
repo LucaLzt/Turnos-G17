@@ -22,41 +22,48 @@ public class ViewRouteHelper {
     
     //Admin
     public static final String ADMIN_REGISTRAR_PROFESIONAL = "admin/registrar-profesional";
-    public static final String ADMIN_SERVICIOS = "admin/administrar-servicios";
-    public static final String ADMIN_LUGARES = "admin/administrar-lugares";
-    public static final String ADMIN_PROFESIONAL = "admin/administrar-profesional";
-    public static final String ADMIN_ESPECIALIDADES = "admin/administrar-especialidades";
+    public static final String ADMIN_SERVICIOS = "admin/servicios/administrar-servicios";
+    public static final String ADMIN_LUGARES = "admin/lugares/administrar-lugares";
+    public static final String ADMIN_PROFESIONAL = "admin/profesionales/administrar-profesional";
+    public static final String ADMIN_ESPECIALIDADES = "admin/especialidades/administrar-especialidades";
     public static final String ADMIN_TURNOS = "admin/administrar-turnos";
+    public static final String ADMIN_CONTACTAR_PROFESIONAL = "admin/contactar-profesional";
     
     //Profesional
     public static final String PROFESIONAL_PERFIL = "profesional/perfil";
     public static final String PROFESIONAL_CONTACTO = "profesional/modificar-contacto";
     public static final String PROFESIONAL_DIRECCION = "profesional/modificar-direccion";
+    public static final String PROFESIONAL_SERVICIOS = "profesional/lista-servicios";
+    public static final String PROFESIONAL_DISPONIBILIDAD = "profesional/ver-disponibilidades";
+    public static final String PROFESIONAL_DETALLE_TURNO = "profesional/detalle-turno";
+    public static final String PROFESIONAL_CONTRASEÑA = "profesional/cambiar-contraseña";
+    public static final String PROFESIONAL_TURNOS = "profesional/turnos";
     
-    public static final String PROFESIONAL_LISTA_ELIMINAR = "profesionales/lista-eliminar";
-    public static final String PROFESIONAL_LISTA_MODIFICAR = "profesionales/lista-modificar";
-    public static final String PROFESIONAL_MODIFICAR = "profesionales/modificar";
-    public static final String PROFESIONAL_LISTA_GESTION = "profesionales/lista-gestion";
-    public static final String PROFESIONAL_GESTION = "profesionales/gestion";
-    public static final String PROFESIONAL_DISPONIBILIDADES = "profesionales/generar-disponibilidades";
+    public static final String PROFESIONALES_LISTA_ELIMINAR = "admin/profesionales/lista-eliminar";
+    public static final String PROFESIONALES_LISTA_MODIFICAR = "admin/profesionales/lista-modificar";
+    public static final String PROFESIONALES_MODIFICAR = "admin/profesionales/modificar";
+    public static final String PROFESIONALES_LISTA_GESTION = "admin/profesionales/lista-gestion";
+    public static final String PROFESIONALES_GESTION = "admin/profesionales/gestion";
+    public static final String PROFESIONALES_DISPONIBILIDADES = "admin/profesionales/generar-disponibilidades";
+    public static final String PROFESIONALES_DETALLE_TURNO = "admin/profesionales/detalle-turno";
     
     //Lugares
-    public static final String LUGARES_AGREGAR = "lugares/agregar";
-    public static final String LUGARES_LISTA_MODIFICAR = "lugares/lista-modificar";
-    public static final String LUGARES_MODIFICAR = "lugares/modificar";
-    public static final String LUGARES_LISTA_ELIMINAR = "lugares/lista-eliminar";
+    public static final String LUGARES_AGREGAR = "admin/lugares/agregar";
+    public static final String LUGARES_LISTA_MODIFICAR = "admin/lugares/lista-modificar";
+    public static final String LUGARES_MODIFICAR = "admin/lugares/modificar";
+    public static final String LUGARES_LISTA_ELIMINAR = "admin/lugares/lista-eliminar";
     
     //Servicios
-    public static final String SERVICIOS_AGREGAR = "servicios/agregar";
-    public static final String SERVICIOS_LISTA_MODIFICAR = "servicios/lista-modificar";
-    public static final String SERVICIOS_MODIFICAR = "servicios/modificar";
-    public static final String SERVICIOS_LISTA_ELIMINAR = "servicios/lista-eliminar";
+    public static final String SERVICIOS_AGREGAR = "admin/servicios/agregar";
+    public static final String SERVICIOS_LISTA_MODIFICAR = "admin/servicios/lista-modificar";
+    public static final String SERVICIOS_MODIFICAR = "admin/servicios/modificar";
+    public static final String SERVICIOS_LISTA_ELIMINAR = "admin/servicios/lista-eliminar";
     
     //Especialidades
-    public static final String ESPECIALIDADES_AGREGAR = "especialidades/agregar";
-    public static final String ESPECIALIDADES_LISTA_MODIFICAR = "especialidades/lista-modificar";
-    public static final String ESPECIALIDADES_MODIFICAR = "especialidades/modificar";
-    public static final String ESPECIALIDADES_LISTA_ELIMINAR = "especialidades/lista-eliminar";
+    public static final String ESPECIALIDADES_AGREGAR = "admin/especialidades/agregar";
+    public static final String ESPECIALIDADES_LISTA_MODIFICAR = "admin/especialidades/lista-modificar";
+    public static final String ESPECIALIDADES_MODIFICAR = "admin/especialidades/modificar";
+    public static final String ESPECIALIDADES_LISTA_ELIMINAR = "admin/especialidades/lista-eliminar";
     
     //Turno
     public static final String TURNO_SOLICITUD = "turno/solicitar-turno";

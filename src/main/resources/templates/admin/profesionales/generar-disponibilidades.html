@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Generar Disponibilidades</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin/profesionales/generar-disponibilidades.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+    </div>
+    <div class="admin-section">
+        <div class="admin-title-with-btn">
+            <div class="admin-title">
+                <i class="fas fa-calendar-plus"></i>
+                Generar Turnos Automáticos
+            </div>
+        </div>
+        <form th:object="${datosFormulario}" th:action="@{/admin/profesionales/generar-disponibilidades}" method="post" class="admin-form">
+            <div class="admin-form-group">
+                <label for="profesionalId"><i class="fas fa-user-md"></i> Profesional:</label>
+                <select id="profesionalId" th:field="*{profesionalId}">
+                    <option value="" disabled selected>Seleccione un profesional</option>
+                    <option th:each="prof : ${profesionales}"
+                            th:value="${prof.id}"
+                            th:text="${prof.nombre + ' - Matrícula: ' + prof.matricula + ' - DNI: ' + prof.dni}">
+                    </option>
+                </select>
+                <div class="admin-error" th:if="${#fields.hasErrors('profesionalId')}" th:errors="*{profesionalId}"></div>
+            </div>
+            <div class="admin-form-row">
+                <div class="admin-form-group" style="flex:1;">
+                    <label for="horaInicio"><i class="fas fa-clock"></i> Hora Inicio:</label>
+                    <input type="time" id="horaInicio" th:field="*{horaInicio}">
+                    <div class="admin-error" th:if="${#fields.hasErrors('horaInicio')}" th:errors="*{horaInicio}"></div>
+                </div>
+                <div class="admin-form-group" style="flex:1;">
+                    <label for="horaFin"><i class="fas fa-clock"></i> Hora Fin:</label>
+                    <input type="time" id="horaFin" th:field="*{horaFin}">
+                    <div class="admin-error" th:if="${#fields.hasErrors('horaFin')}" th:errors="*{horaFin}"></div>
+                </div>
+            </div>
+            <div class="admin-form-group">
+                <div class="admin-error" th:if="${#fields.hasErrors('rangoHorasValido')}" th:errors="*{rangoHorasValido}"></div>
+            </div>
+            <div class="admin-form-group">
+                <label for="duracionMinutos"><i class="fas fa-hourglass-half"></i> Duración (minutos):</label>
+                <input type="number" id="duracionMinutos" th:field="*{duracionMinutos}">
+                <div class="admin-error" th:if="${#fields.hasErrors('duracionMinutos')}" th:errors="*{duracionMinutos}"></div>
+            </div>
+            <div class="admin-form-group">
+                <label for="fechaInicio"><i class="fa fa-calendar"></i> Fecha Inicio:</label>
+                <input type="date" id="fechaInicio" th:field="*{fechaInicio}">
+                <div class="admin-error" th:if="${#fields.hasErrors('fechaInicio')}" th:errors="*{fechaInicio}"></div>
+            </div>
+            <div class="admin-form-group">
+                <label for="fechaFin"><i class="fa fa-calendar"></i> Fecha Fin:</label>
+                <input type="date" id="fechaFin" th:field="*{fechaFin}">
+                <div class="admin-error" th:if="${#fields.hasErrors('fechaFin')}" th:errors="*{fechaFin}"></div>
+            </div>
+            <div class="admin-form-group">
+                <div class="admin-error" th:if="${#fields.hasErrors('rangoFechasValido')}" th:errors="*{rangoFechasValido}"></div>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn-submit">
+                    <i class="fas fa-magic"></i>
+                    Generar Turnos
+                </button>
+                <a th:href="@{/admin/administrar-profesional}" class="admin-btn-cancel">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

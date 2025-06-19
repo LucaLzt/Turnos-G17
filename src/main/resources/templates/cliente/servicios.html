@@ -4,43 +4,45 @@
     <meta charset="UTF-8">
     <title>Servicios Disponibles</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <link th:href="@{/css/cliente/servicios.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-    <div class="navbar">
-        <div class="brand">MiTurno</div>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+        <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user navbar-profile-icon"></i>
+        </a>
     </div>
-    <div class="admin-section">
-        <div class="admin-title-with-btn">
-            <div class="admin-title">
+    <div class="cliente-section">
+        <div class="cliente-title-with-btn">
+            <div class="cliente-title">
                 <i class="fas fa-list"></i> Servicios Disponibles
             </div>
-            <a th:href="@{/index}" class="volver-btn" title="Volver atrás">
+            <a th:href="@{/index}" class="cliente-btn-volver" title="Volver atrás">
                 <i class="fas fa-arrow-left"></i>
                 <span>Volver</span>
             </a>
         </div>
-        <div class="lugares-grid">
-            <div class="lugar-card" th:each="servicio : ${servicios}">
-                <div class="lugar-title">
+        <div class="cliente-servicios-grid">
+            <a class="cliente-servicio-card" 
+               th:each="servicio : ${servicios}" 
+               th:href="@{'/cliente/servicios/' + ${servicio.id} + '/lugares'}"
+               style="text-decoration: none;">
+                <div class="cliente-servicio-title">
                     <i class="fas fa-concierge-bell"></i>
                     <span th:text="${servicio.nombre}">Nombre del Servicio</span>
                 </div>
-                <div class="lugar-info">
+                <div>
                     <i class="fas fa-align-left"></i>
                     <span th:text="${servicio.descripcion}">Descripción del servicio</span>
                 </div>
-                <div class="lugar-horario">
+                <div class="cliente-servicio-horario">
                     <i class="fas fa-dollar-sign"></i>
                     <span th:text="${#numbers.formatDecimal(servicio.precio, 1, 'COMMA', 2, 'POINT')}">0.00</span>
                 </div>
-                <div class="form-actions" style="margin-top: 1rem;">
-                    <a th:href="@{'/cliente/servicios/' + ${servicio.id} + '/lugares'}" class="btn-submit">
-                        <i class="fas fa-map-marker-alt"></i> Ver lugares
-                    </a>
-                </div>
-            </div>
+            </a>
         </div>
     </div>
 </body>

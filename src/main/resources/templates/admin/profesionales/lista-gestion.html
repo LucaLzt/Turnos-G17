@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar Profesionales</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/admin/profesionales/lista-profesionales.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+	<div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+    </div>
+    <div class="lp-section">
+        <div class="lp-title-with-btn">
+            <div class="lp-title">
+                <i class="fas fa-user-md"></i> Lista de Profesionales - Gestionar
+            </div>
+            <a th:href="@{/admin/administrar-profesional}" class="lp-volver-btn" title="Volver atrás">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver</span>
+            </a>
+        </div>
+        <div class="lp-grid">
+            <a th:each="profesional : ${profesionales}"
+               th:href="@{'/admin/profesionales/' + ${profesional.id} + '/gestion'}"
+               class="lp-card">
+                <div class="lp-card-title">
+                    <i class="fas fa-id-badge"></i>
+                    <span th:text="${profesional.nombre}"></span>
+                </div>
+                <div class="lp-card-info">
+                    <span>
+                        <i class="fas fa-hashtag"></i>
+                        <span th:text="'Matrícula: ' + ${profesional.matricula}"></span>
+                    </span>
+                    <span>
+                        <i class="fas fa-id-card"></i>
+                        <span th:text="'DNI: ' + ${profesional.dni}"></span>
+                    </span>
+                </div>
+                <div>
+                    <i class="fas fa-stethoscope"></i>
+                    <span th:text="${profesional.especialidad != null ? profesional.especialidad.nombre : 'Sin especialidad'}"></span>
+                </div>
+                <div>
+                    <i class="fas fa-briefcase-medical"></i>
+					<span th:if="${profesional.serviciosIds == null or #lists.isEmpty(profesional.serviciosIds)}">
+						Sin servicios
+					</span>
+					<span th:if="${profesional.serviciosIds != null and !#lists.isEmpty(profesional.serviciosIds)}">
+						<span th:each="servId, iterStat : ${profesional.serviciosIds}">
+							<span th:each="serv : ${servicios}" th:if="${serv.id} == ${servId}">
+								<span th:text="${serv.nombre}"></span>
+							</span>
+							<span th:if="${!iterStat.last}">, </span>
+						</span>
+					</span>
+                </div>
+                <div class="lp-card-horario">
+                    <i class="fas fa-hospital"></i>
+                    <span th:text="${profesional.lugar != null ? profesional.lugar.direccion.calle + ' ' + profesional.lugar.direccion.altura : 'Sin lugar'}"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

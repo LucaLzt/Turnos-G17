@@ -1,0 +1,225 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Main Content */
+.profesional-main-content {
+    padding-top: 5.5rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: none;
+}
+
+/* Card */
+.profesional-disponibilidades-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.13);
+    padding: 2.4rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.16s, box-shadow 0.2s;
+    min-height: 200px;
+    min-width: 320px;
+    max-width: 370px;
+    width: 100%;
+}
+
+.profesional-disponibilidades-card {
+    max-width: 680px;
+}
+
+.profesional-disponibilidades-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.profesional-disponibilidades-card-icon {
+    font-size: 2.2rem;
+    color: #5e72e4;
+    margin-bottom: 0.8rem;
+    text-align: center;
+}
+
+.profesional-disponibilidades-title {
+    font-size: 1.45rem;
+    font-weight: 600;
+    margin-bottom: 1.45rem;
+    color: #2d3e50;
+    text-align: center;
+    letter-spacing: 0.4px;
+}
+
+/* Tabla de Disponibilidades */
+.profesional-disponibilidad-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 0.5rem;
+}
+.profesional-disponibilidad-table th, .profesional-disponibilidad-table td {
+    border: 1px solid #e5e9f2;
+    padding: 0.6rem 0.9rem;
+    font-size: 1.08rem;
+    text-align: center;
+}
+.profesional-disponibilidad-table th {
+    background-color: #f4f7fb;
+    color: #2d3e50;
+    font-weight: 600;
+}
+.profesional-estado-libre {
+    color: #198754;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.profesional-estado-ocupado {
+    color: #e74c3c;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.profesional-detalle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.45rem 0.98rem;
+    background: linear-gradient(90deg, #5e72e4 0%, #4242a5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-size: 1.01rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    cursor: pointer;
+}
+.profesional-detalle-btn:hover, .profesional-detalle-btn:focus {
+    background: linear-gradient(90deg, #4242a5 0%, #5e72e4 100%);
+    color: #e2e2e2;
+    transform: scale(1.04);
+}
+.profesional-sin-disponibilidades {
+    text-align: center;
+    color: #a9acb6;
+    font-size: 1.1rem;
+    padding: 1.2rem 0 1.6rem 0;
+}
+
+/* Botones de acción */
+.profesional-disponibilidades-btn,
+.profesional-disponibilidades-btn-cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 0;
+    background: linear-gradient(90deg, #5e72e4 0%, #4242a5 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.08rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    cursor: pointer;
+    text-align: center;
+    min-width: 160px;
+    max-width: 220px;
+}
+
+.profesional-disponibilidades-btn:hover, .profesional-disponibilidades-btn:focus {
+    background: linear-gradient(90deg, #4242a5 0%, #5e72e4 100%);
+    transform: translateY(-2px) scale(1.02);
+    color: #e2e2e2;
+}
+
+.profesional-disponibilidades-btn-cancel {
+    background: #e74c3c;
+    background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.profesional-disponibilidades-btn-cancel:hover, .profesional-disponibilidades-btn-cancel:focus {
+    background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
+    color: #fff;
+}
+
+.profesional-detalle-btn[disabled], .profesional-detalle-btn.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+}
+
+.profesional-disponibilidades-filtro {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1.1rem;
+    justify-content: flex-end;
+}
+.profesional-filtro-input {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #d1d8e0;
+    border-radius: 6px;
+    font-size: 1.01rem;
+    background: #f6f8fa;
+    transition: border-color 0.2s;
+}
+.profesional-filtro-input:focus {
+    border-color: #5e72e4;
+    outline: none;
+}
+.profesional-filtro-limpiar-btn {
+    background: transparent;
+    border: none;
+    color: #c0392b;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+.profesional-filtro-limpiar-btn:hover { color: #e74c3c; }
+
+.profesional-disponibilidades-topbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.2rem;
+    margin-bottom: 1.1rem;
+}
+
+.profesional-disponibilidades-filtro {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0;
+    justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .profesional-disponibilidades-card {
+        min-height: 150px;
+        padding: 1.5rem 0.6rem 1.2rem 0.6rem;
+        max-width: 99vw;
+    }
+    .profesional-main-content {
+        padding-top: 4.5rem;
+    }
+    .profesional-disponibilidad-table th, .profesional-disponibilidad-table td {
+        font-size: 0.99rem;
+        padding: 0.42rem 0.4rem;
+    }
+}

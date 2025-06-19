@@ -1,0 +1,149 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* ----------- LUGARES DISPONIBLES ----------- */
+
+.cliente-section {
+    background: #f5f7fa;
+    border-radius: 12px;
+    padding: 32px 24px 24px 24px;
+    margin-top: 32px;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.08);
+}
+
+.cliente-title-with-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.cliente-title {
+    color: #294bb2;
+    font-size: 1.7rem;
+    margin-bottom: 18px;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cliente-btn-volver {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1.2rem;
+    background: #fff;
+    border: 2px solid #007bff;
+    color: #007bff;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s, border 0.15s;
+    cursor: pointer;
+    gap: 0.5em;
+}
+.cliente-btn-volver i {
+    font-size: 1.1em;
+}
+.cliente-btn-volver:hover {
+    background: #007bff;
+    color: #fff;
+    border-color: #0056b3;
+}
+
+.cliente-lugares-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
+    width: 100%;
+    max-width: 1800px; /* 5 x 360px + gaps, ajusta si quieres otro tamaño */
+    margin: 0 auto;
+    justify-items: center;
+}
+.cliente-lugar-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    transition: transform 0.13s, box-shadow 0.18s;
+    cursor: pointer;
+    text-decoration: none;
+    color: #222;
+    border: 1.5px solid #e0e6f7;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 180px;
+    width: 340px;
+    max-width: 340px;
+}
+
+.cliente-lugar-card:hover {
+    transform: scale(1.01) translateY(-2px);
+    box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
+    border: 1.5px solid #294bb2;
+}
+.cliente-lugar-title {
+    font-size: 1.13rem;
+    font-weight: 600;
+    color: #294bb2;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.cliente-lugar-horario {
+    font-size: 0.96rem;
+    color: #294bb2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.2rem;
+}
+
+/* Responsive para menos de 5 columnas */
+@media (max-width: 1700px) {
+    .cliente-lugares-grid {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1440px;
+    }
+}
+@media (max-width: 1350px) {
+    .cliente-lugares-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1080px;
+    }
+}
+@media (max-width: 1050px) {
+    .cliente-lugares-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 720px;
+    }
+}
+@media (max-width: 700px) {
+    .cliente-section {
+        padding: 1.2rem 0.6rem 1rem 0.6rem;
+        margin-top: 32px;
+    }
+    .cliente-lugares-grid {
+        grid-template-columns: 1fr;
+        max-width: 340px;
+        gap: 1rem;
+    }
+    .cliente-lugar-card {
+        min-height: 120px;
+        padding: 1rem 0.5rem 0.8rem 0.5rem;
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* ----------- FIN LUGARES DISPONIBLES ----------- */

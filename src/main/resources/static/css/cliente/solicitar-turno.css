@@ -1,0 +1,381 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.navbar {
+    width: 100%;
+    background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
+    box-shadow: 0 2px 16px rgba(44, 62, 80, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem 2.2rem;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.navbar .brand {
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    letter-spacing: 0.5px;
+}
+
+.profile-icon {
+    font-size: 1.8rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.navbar .profile-icon:hover {
+    color: #e4e4e4;
+}
+
+.solicitar-turno-title-with-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    margin-top: 32px; /* O el valor que prefieras */
+}
+
+.solicitar-turno-title {
+    color: #294bb2;
+    font-size: 1.7rem;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.solicitar-turno-volver-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1.2rem;
+    background: #fff;
+    border: 2px solid #007bff;
+    color: #007bff;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s, border 0.15s;
+    cursor: pointer;
+    gap: 0.5em;
+}
+
+.solicitar-turno-volver-btn i {
+    font-size: 1.1em;
+}
+
+.solicitar-turno-volver-btn:hover {
+    background: #007bff;
+    color: #fff;
+    border-color: #0056b3;
+}
+
+.solicitar-turno-servicios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 32px auto;
+}
+
+.solicitar-turno-servicio-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    transition: transform 0.16s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: #222;
+    border: 1.5px solid #e0e6f7;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 180px;
+}
+.solicitar-turno-servicio-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
+    border: 1.5px solid #294bb2;
+}
+.solicitar-turno-servicio-title {
+    font-size: 1.13rem;
+    font-weight: 600;
+    color: #294bb2;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.solicitar-turno-servicio-info {
+    font-size: 0.97rem;
+    color: #444;
+    display: flex;
+    gap: 1.3rem;
+    margin-bottom: 0.3rem;
+    flex-wrap: wrap;
+}
+.solicitar-turno-servicio-precio {
+    font-size: 0.96rem;
+    color: #294bb2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.2rem;
+}
+
+/* === LUGARES (pantalla de lugares para un servicio) === */
+.solicitar-turno-section {
+    background: #fff;
+    border-radius: 12px;
+    border: 1.5px solid #e0e6f7;
+    box-shadow: 0 2px 12px rgba(41, 75, 178, 0.08);
+    padding: 1.5rem 1rem 1.2rem 1rem;
+    margin: 1.5rem auto 2rem auto;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /* Extra: fade-in animation */
+    animation: fadeInPanel 0.4s;
+}
+@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateY(12px);}
+  to { opacity: 1; transform: none;}
+}
+
+.solicitar-turno-title-with-btn {
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid #e0e6f7;
+    padding-bottom: 0.8rem;
+}
+
+.solicitar-turno-section > .solicitar-turno-title-with-btn {
+    margin-top: 0;
+}
+
+.solicitar-turno-section .solicitar-turno-lugares-grid,
+.solicitar-turno-section .solicitar-turno-profesionales-grid {
+    margin-top: 1.2rem;
+}
+
+.solicitar-turno-lugares-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto 32px auto;
+}
+
+.solicitar-turno-lugar-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    transition: transform 0.16s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: #222;
+    border: 1.5px solid #e0e6f7;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 180px;
+}
+.solicitar-turno-lugar-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
+    border: 1.5px solid #294bb2;
+}
+.solicitar-turno-lugar-title {
+    font-size: 1.13rem;
+    font-weight: 600;
+    color: #294bb2;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.solicitar-turno-lugar-info {
+    font-size: 0.97rem;
+    color: #444;
+    display: flex;
+    gap: 1.3rem;
+    margin-bottom: 0.3rem;
+    flex-wrap: wrap;
+}
+.solicitar-turno-lugar-horario {
+    font-size: 0.96rem;
+    color: #294bb2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.2rem;
+}
+
+/* ...todo lo anterior... */
+
+/* === PROFESIONALES (pantalla de elegir profesional) === */
+.solicitar-turno-profesionales-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin: 0 auto 32px auto;
+}
+
+.solicitar-turno-profesional-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(41, 75, 178, 0.13);
+    padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+    transition: transform 0.16s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    color: #222;
+    border: 1.5px solid #e0e6f7;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 120px;
+}
+.solicitar-turno-profesional-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 12px 40px rgba(41, 75, 178, 0.18);
+    border: 1.5px solid #294bb2;
+}
+.solicitar-turno-profesional-title {
+    font-size: 1.13rem;
+    font-weight: 600;
+    color: #294bb2;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.elegir-btn {
+    background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 0.7rem 1.3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.14s, box-shadow 0.14s;
+    box-shadow: 0 2px 8px rgba(94, 114, 228, 0.07);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    margin-top: 0.8rem;
+    align-self: flex-end;
+}
+.elegir-btn:hover {
+    background: linear-gradient(135deg, #2935b2 0%, #4258e4 100%);
+}
+
+/* Opcional: colorear filas alternas si usas bg1/bg2 */
+.solicitar-turno-profesional-card.bg1 { background: #f7f9fc; }
+.solicitar-turno-profesional-card.bg2 { background: #fff; }
+
+/* === Confirmación de Turno: Botones (más chicos, no ocupan todo el ancho) === */
+.confirmar-turno-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.confirmar-btn,
+.cancelar-btn {
+    min-width: 130px;
+    max-width: 210px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.3rem;
+    font-size: 1.04rem;
+    font-weight: 500;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    transition: background 0.16s, transform 0.12s, box-shadow 0.15s, color 0.12s;
+    border: none;
+    text-align: center;
+}
+.confirmar-btn {
+    background: linear-gradient(90deg, #5e72e4 0%, #4242a5 100%);
+    color: #fff;
+}
+.confirmar-btn:hover, .confirmar-btn:focus {
+    background: linear-gradient(90deg, #4242a5 0%, #5e72e4 100%);
+    transform: scale(1.03);
+    color: #f5f5f5;
+    box-shadow: 0 3px 12px rgba(44,62,80,0.13);
+}
+
+.cancelar-btn {
+    background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+    color: #fff;
+}
+.cancelar-btn:hover, .cancelar-btn:focus {
+    background: linear-gradient(90deg, #c0392b 0%, #e74c3c 100%);
+    color: #fff;
+    transform: scale(1.03);
+    box-shadow: 0 3px 12px rgba(44,62,80,0.13);
+}
+
+@media (max-width: 600px) {
+    .solicitar-turno-profesionales-grid {
+        gap: 1rem;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+    .solicitar-turno-profesional-card {
+        min-height: 90px;
+        padding: 1rem 0.5rem 0.8rem 0.5rem;
+    }
+	
+	.solicitar-turno-section {
+        padding: 0.8rem 0.3rem 0.7rem 0.3rem;
+        border-radius: 7px;
+        margin: 0.7rem 0 1.2rem 0;
+    }
+    .solicitar-turno-section .solicitar-turno-title-with-btn {
+        padding-bottom: 0.4rem;
+        font-size: 1.07rem;
+    }
+	.confirmar-turno-btns {
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-top: 1rem;
+    }
+    .confirmar-btn,
+    .cancelar-btn {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        font-size: 1rem;
+        padding: 0.65rem 0;
+    }
+}
