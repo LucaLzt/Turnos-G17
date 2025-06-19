@@ -31,11 +31,21 @@ public class UsersSeeder implements CommandLineRunner {
     private void loadUsers() {
         if (userRepository.count() == 0){
             loadUserAdmin();
+            loadUserCliente();
+            loadUserProfesional();
         }
     }
     
     private void loadUserAdmin() {
         userRepository.save(buildUserAdmin("admin1234@admin.com", "admin1234"));
+    }
+    
+    private void loadUserCliente() {
+        userRepository.save(buildUserCliente("cliente1234@cliente.com", "cliente1234"));
+    }
+    
+    private void loadUserProfesional() {
+        userRepository.save(buildUserProfesional("profesional1234@profesional.com", "profesional1234"));
     }
     
     private UserEntity buildUserAdmin(String username, String password) {
@@ -44,6 +54,24 @@ public class UsersSeeder implements CommandLineRunner {
     			.active(true)
     			.password(encryptPassword(password))
                 .roleEntities(Set.of(roleRepository.findByType(RoleType.ADMIN).get()))
+                .build();
+    }
+    
+    private UserEntity buildUserCliente(String username, String password) {
+    	return UserEntity.builder()
+    			.username(username)
+    			.active(true)
+    			.password(encryptPassword(password))
+                .roleEntities(Set.of(roleRepository.findByType(RoleType.CLIENTE).get()))
+                .build();
+    }
+    
+    private UserEntity buildUserProfesional(String username, String password) {
+    	return UserEntity.builder()
+    			.username(username)
+    			.active(true)
+    			.password(encryptPassword(password))
+                .roleEntities(Set.of(roleRepository.findByType(RoleType.PROFESIONAL).get()))
                 .build();
     }
     
