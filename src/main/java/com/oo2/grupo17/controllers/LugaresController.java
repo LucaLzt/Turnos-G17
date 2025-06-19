@@ -128,7 +128,7 @@ public class LugaresController {
 		if (result.hasErrors()) {
 			model.addAttribute("provincias", provinciaService.findAll());
 	        model.addAttribute("localidades", localidadService.findAll());
-			return ViewRouteHelper.LUGARES_AGREGAR;
+			return ViewRouteHelper.LUGARES_MODIFICAR;
 		}
 		direccionService.actualizarDireccion(lugarDto, lugarDto.getDireccion());
 		return "redirect:/lugares/modificar?modificado=ok";
