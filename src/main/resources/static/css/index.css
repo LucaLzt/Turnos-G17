@@ -16,37 +16,11 @@ body {
     opacity: 0.08;
     color: #5e72e4;
 }
+
 .fondo-icon-1 { top: 60px; left: 40px; font-size: 7rem; }
 .fondo-icon-2 { bottom: 60px; right: 80px; font-size: 5rem; }
 
 * { box-sizing: border-box; }
-
-.navbar {
-    width: 100%;
-    background: linear-gradient(135deg, #294bb2 0%, #5e72e4 100%);
-    box-shadow: 0 2px 16px rgba(44, 62, 80, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.8rem 2.2rem;
-    top: 0;
-    left: 0;
-    z-index: 100;
-}
-
-.navbar .brand {
-    font-size: 2rem;
-    font-weight: 700;
-    color: rgb(255, 255, 255);
-    letter-spacing: 0.5px;
-}
-
-.profile-icon {
-    font-size: 1.8rem;
-    color: #fff;
-    cursor: pointer;
-}
-.navbar .profile-icon:hover { color: #e4e4e4; }
 
 .main-content {
     padding-top: 5.5rem;
@@ -299,6 +273,11 @@ body {
     text-align: center;
 }
 
+.admin-card-title,
+.admin-card-desc {
+	text-align: center;
+}
+
 /* ----------- Responsive ----------- */
 @media (max-width: 1100px) {
     .cliente-actions-grid,
@@ -330,9 +309,6 @@ body {
     .admin-card {
         min-height: 150px;
         padding: 1.5rem 0.6rem 1.2rem 0.6rem;
-    }
-    .navbar {
-        padding: 0.7rem 1.1rem;
     }
     .main-content {
         padding-top: 4.5rem;

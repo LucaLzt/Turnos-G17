@@ -4,50 +4,51 @@
     <meta charset="UTF-8">
     <title>Editar Servicio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+	<link th:href="@{/css/admin/servicios/modificar.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
     <div class="navbar">
-        <div class="brand">MiTurno</div>
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
     </div>
-    <div class="form-container">
-        <div class="form-title">
+    <div class="admin-section">
+        <div class="admin-title">
             <i class="fas fa-edit"></i> Modificar Servicio
         </div>
-        <form th:action="@{'/servicios/' + ${servicio.id} + '/modificar'}" th:object="${servicio}" method="post">
-            <div class="form-group">
+        <form th:action="@{'/servicios/' + ${servicio.id} + '/modificar'}" th:object="${servicio}" method="post" class="admin-form">
+            <div class="admin-form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Consulta médica"/>
-				<div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                <div class="admin-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
             </div>
-            <div class="form-group">
+            <div class="admin-form-group">
                 <label for="descripcion">Descripción</label>
                 <textarea id="descripcion" th:field="*{descripcion}" rows="3" placeholder="Describa el servicio"></textarea>
-				<div class="error" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
-			</div>
-            <div class="form-group">
+                <div class="admin-error" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+            </div>
+            <div class="admin-form-group">
                 <label for="precio">Precio</label>
                 <input type="number" id="precio" th:field="*{precio}" placeholder="Ej: 1200"/>
-				<div class="error" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></div>
+                <div class="admin-error" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></div>
             </div>
-			<div>
-			    <label>Lugares:</label>
-			    <div th:each="lugar : ${lugares}">
-			        <label>
-			            <input type="checkbox"
-			                   th:value="${lugar.id}"
-			                   th:field="*{lugaresIds}"
-			                   th:checked="${servicio.lugaresIds != null and #lists.contains(servicio.lugaresIds, lugar.id)}"/>
-			            <span th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"></span>
-			        </label>
-			    </div>
-			</div>
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">
+            <div class="admin-form-group">
+                <label>Lugares:</label>
+                <div class="admin-checkbox-group" th:each="lugar : ${lugares}">
+                    <label class="admin-checkbox-label">
+                        <input type="checkbox"
+                               th:value="${lugar.id}"
+                               th:field="*{lugaresIds}"
+                               th:checked="${servicio.lugaresIds != null and #lists.contains(servicio.lugaresIds, lugar.id)}"/>
+                        <span th:text="${lugar.direccion.calle + ' ' + lugar.direccion.altura}"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn-submit">
                     <i class="fas fa-save"></i> Actualizar
                 </button>
-                <a th:href="@{/admin/administrar-servicios}" class="btn-cancel">Cancelar</a>
+                <a th:href="@{/admin/administrar-servicios}" class="admin-btn-cancel">Cancelar</a>
             </div>
         </form>
     </div>

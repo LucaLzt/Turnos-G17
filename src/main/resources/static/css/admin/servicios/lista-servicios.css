@@ -3,7 +3,6 @@ html, body {
     padding: 0;
     background: #f5f7fa;
 }
-
 * { box-sizing: border-box; }
 
 /* Sección central */
@@ -18,7 +17,6 @@ html, body {
     display: flex;
     flex-direction: column;
 }
-
 .lp-title-with-btn {
     display: flex;
     align-items: center;
@@ -27,7 +25,6 @@ html, body {
     margin-bottom: 2.2rem;
     flex-wrap: wrap;
 }
-
 .lp-title {
     color: #294bb2;
     font-size: 1.42rem;
@@ -37,7 +34,6 @@ html, body {
     gap: 0.7rem;
     letter-spacing: 0.5px;
 }
-
 .lp-volver-btn {
     background: #fff;
     color: #294bb2;
@@ -53,7 +49,6 @@ html, body {
     transition: background 0.16s, color 0.16s, border 0.16s, box-shadow 0.13s;
     cursor: pointer;
 }
-
 .lp-volver-btn:hover,
 .lp-volver-btn:focus {
     background: #294bb2;
@@ -61,7 +56,6 @@ html, body {
     border-color: #1a2a6c;
     box-shadow: 0 4px 12px rgba(41,75,178,0.12);
 }
-
 .lp-volver-btn i { margin-right: 0.4em; }
 
 /* Grilla con 3 columnas y alto uniforme */
@@ -74,7 +68,7 @@ html, body {
     justify-items: stretch;
 }
 
-/* Tarjeta común de lugar */
+/* Tarjeta común de servicio */
 .lp-card {
     background: #f8fafd;
     border-radius: 13px;
@@ -98,7 +92,6 @@ html, body {
     box-sizing: border-box;
     justify-content: flex-start;
 }
-
 .lp-card:active,
 .lp-card:focus,
 .lp-card:hover {
@@ -108,7 +101,6 @@ html, body {
     border-color: #5e72e4;
     color: #294bb2;
 }
-
 .lp-card-title {
     font-size: 1.15rem;
     font-weight: 600;
@@ -118,7 +110,6 @@ html, body {
     gap: 0.53em;
     margin-bottom: 0.2rem;
 }
-
 .lp-card-info {
     display: flex;
     flex-wrap: wrap;
@@ -126,7 +117,6 @@ html, body {
     font-size: 1.05rem;
     color: #425082;
 }
-
 .lp-card-horario {
     display: flex;
     align-items: center;
@@ -135,7 +125,6 @@ html, body {
     color: #425082;
     margin-top: 0.2rem;
 }
-
 .lp-card-title i, .lp-card-info i, .lp-card-horario i,
 .lp-card > div > i {
     color: #5e72e4;
@@ -143,23 +132,8 @@ html, body {
     margin-right: 0.45em;
     vertical-align: middle;
 }
-
 form {
     margin: 0;
-}
-
-/* SOLO para la lista de eliminar lugares */
-.lp-card-form {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.lp-card-form .lp-card {
-    width: 100%;
-    height: 100%;
 }
 
 /* Responsive */

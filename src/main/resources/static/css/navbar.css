@@ -25,6 +25,8 @@ body {
     font-weight: 700;
     color: rgb(255, 255, 255);
     letter-spacing: 0.5px;
+	text-decoration: none;
+	color: #fff;
 }
 
 .navbar-profile-icon {

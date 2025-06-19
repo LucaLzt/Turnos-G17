@@ -10,13 +10,13 @@
 </head>
 <body>
     <div class="navbar">
-        <div class="brand">MiTurno</div>
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
         <!-- Según el rol, el perfil lleva a distintas rutas -->
         <a th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" th:href="@{/cliente/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user profile-icon"></i>
+            <i class="fas fa-user navbar-profile-icon"></i>
         </a>
         <a th:if="${#authorization.expression('hasRole(''PROFESIONAL'')')}" th:href="@{/profesional/perfil}" title="Ir a mi perfil">
-            <i class="fas fa-user-md profile-icon"></i>
+            <i class="fas fa-user-md navbar-profile-icon"></i>
         </a>
     </div>
     <div class="main-content" style="background:none;">
@@ -72,8 +72,8 @@
                     <div class="profesional-card-title">Ver Disponibilidades</div>
                     <div class="profesional-card-desc">Consultá las disponibilidades ocupadas y libres</div>
                 </a>
-                <form th:action="@{/logout}" method="post" style="display:inline;">
-                    <button type="submit" class="profesional-card" style="border:none;background:none;cursor:pointer;">
+				<form th:action="@{/logout}" method="post">
+                    <button type="submit" class="profesional-card">
                         <i class="fas fa-sign-out-alt profesional-card-icon"></i>
                         <div class="profesional-card-title">Cerrar Sesión</div>
                         <div class="profesional-card-desc">Finalizá tu sesión de profesional de forma segura.</div>
@@ -128,8 +128,8 @@
                         <div class="admin-card-title">Contactar Profesional</div>
                         <div class="admin-card-desc">Enviá mensajes o notificaciones a los profesionales del sistema.</div>
                     </a>
-                    <form th:action="@{/logout}" method="post" style="display:inline;">
-                        <button type="submit" class="admin-card" style="border:none;background:none;cursor:pointer;">
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="admin-card">
                             <i class="fas fa-sign-out-alt admin-card-icon"></i>
                             <div class="admin-card-title">Cerrar Sesión</div>
                             <div class="admin-card-desc">Finalizá tu sesión de administrador de forma segura.</div>

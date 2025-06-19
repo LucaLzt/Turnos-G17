@@ -4,28 +4,33 @@
     <meta charset="UTF-8">
     <title>Agregar Especialidad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+	<link th:href="@{/css/admin/especialidades/agregar.css}" rel="stylesheet"/>
+	<link th:href="@{/css/navbar.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
     <div class="navbar">
-        <div class="brand">MiTurno</div>
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
     </div>
-    <div class="form-container">
-        <div class="form-title">
+    <div class="admin-section">
+        <div class="admin-title">
             <i class="fas fa-plus-square"></i> Agregar Especialidad
         </div>
-        <form th:action="@{/especialidades/agregar}" th:object="${especialidad}" method="post">
-            <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Traumatologo"/>
-				<div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+        <form class="admin-form" th:action="@{/especialidades/agregar}" th:object="${especialidad}" method="post">
+            <div class="admin-form-group">
+                <label for="nombre">
+                    <i class="fas fa-tag"></i> Nombre
+                </label>
+                <input type="text" id="nombre" th:field="*{nombre}" placeholder="Ej: Traumatología"/>
+                <div class="admin-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
             </div>
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">
+            <div class="admin-form-actions">
+                <button type="submit" class="admin-btn-submit">
                     <i class="fas fa-check"></i> Guardar
                 </button>
-                <a th:href="@{/admin/administrar-especialidades}" class="btn-cancel">Cancelar</a>
+                <a th:href="@{/admin/administrar-especialidades}" class="admin-btn-cancel">
+                    <i class="fas fa-times"></i> Cancelar
+                </a>
             </div>
         </form>
     </div>
