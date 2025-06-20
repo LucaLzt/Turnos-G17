@@ -173,7 +173,6 @@ public class ProfesionalController {
         Long profesionalId = profesional.getId();
         
         List<Turno> turnos = turnoService.buscarTurnosPorProfesionalId(profesionalId);
-        System.out.println(turnos.get(0).getId());
         model.addAttribute("turnos", turnos);
 
         return ViewRouteHelper.PROFESIONAL_TURNOS;
