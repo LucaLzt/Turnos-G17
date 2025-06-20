@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reprogramar Turno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/cliente/solicitar-turno.css}" rel="stylesheet"/>
+    <link th:href="@{/css/disponibilidad.css}" rel="stylesheet"/>
+    <link th:href="@{/css/reprogramar-turno.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <div class="navbar">
+        <a th:href="@{/index}" class="navbar-brand">MiTurno</a>
+        <a th:href="@{/cliente/perfil}" title="Ir a mi perfil">
+            <i class="fas fa-user navbar-profile-icon"></i>
+        </a>
+    </div><!-- Fin Detalle parcial -->
+    <div class="solicitar-turno-section">
+        <div class="solicitar-turno-title-with-btn">
+            <div class="solicitar-turno-title">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Elegí una nueva disponibilidad para reprogramar</span>
+            </div>
+            <a th:href="@{/cliente/turnos}" class="solicitar-turno-volver-btn" title="Volver a mis turnos">
+                <i class="fas fa-arrow-left"></i>
+                <span>Volver a mis turnos</span>
+            </a>
+        </div>
+        <div class="filtro-fecha-wrapper">
+            <label for="filtroFecha"><i class="fas fa-calendar-day"></i> Filtrar por fecha:</label>
+            <input type="date" id="filtroFecha" name="filtroFecha">
+        </div>
+        <!-- Disponibilidades -->
+        <div th:if="${disponibilidades != null and !disponibilidades.isEmpty()}" class="horarios-grid">
+            <form th:each="disponibilidad, iterStat : ${disponibilidades}"
+                  th:action="@{'/cliente/reprogramar-turno-post/' + ${turno.id}}" 
+                  method="post" 
+                  th:object="${turno}" 
+                  th:class="'profesional-card ' + (${iterStat.index} % 2 == 0 ? 'bg1' : 'bg2')"
+                  th:attr="data-fecha=${#temporals.format(disponibilidad.inicio, 'yyyy-MM-dd')}">
+                <input type="hidden" name="nuevaDisponibilidadId" th:value="${disponibilidad.id}" />
+                <div class="profesional-title">
+                    <i class="fas fa-clock"></i>
+                    <span th:text="${#temporals.format(disponibilidad.inicio, 'EEEE dd/MM/yyyy')}"></span>
+                </div>
+                <div style="margin: 0.5em 0 1em 0;">
+                  <span class="badge-info">
+                    <i class="fas fa-hourglass-start"></i>
+                    <span th:text="${#temporals.format(disponibilidad.inicio, 'HH:mm')}"></span>
+                    <span th:text="' - ' + ${disponibilidad.duracion.toMinutes()} + ' min.'"></span>
+                  </span>
+                </div>
+                <button type="submit" class="elegir-btn">
+                    Reprogramar
+                </button>
+            </form>
+        </div>
+        <div th:if="${disponibilidades == null or disponibilidades.isEmpty()}" style="color: #c00; margin-top: 2em;">
+            <i class="fas fa-exclamation-circle"></i>
+            No hay disponibilidades para este profesional.
+        </div>
+    </div>
+    <script src="/js/filtrar-disponibilidad.js"></script>
+</body>
+</html>

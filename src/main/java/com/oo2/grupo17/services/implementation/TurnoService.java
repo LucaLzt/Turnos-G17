@@ -27,6 +27,8 @@ import lombok.Builder;
 
 @Service @Builder
 public class TurnoService implements ITurnoService {
+
+    private final DisponibilidadService disponibilidadService;
 	
 	private final ITurnoRepository turnoRepository;
 	private final IClienteRepository clienteRepository;
@@ -129,5 +131,32 @@ public class TurnoService implements ITurnoService {
 		return modelMapper.map(turno, TurnoDto.class);
 		
 	}
+	
+	@Override
+	public boolean reprogramarTurno(long id, long nuevaDisponibilidad) {
+		Turno turno = turnoRepository.findById(id)
+				.orElseThrow();
+		Disponibilidad disponibilidad = disponibilidadRepository.findById(nuevaDisponibilidad)
+				.orElseThrow();
+		
+		if(disponibilidad.isOcupado()) {
+			return false;
+		}
+		
+		Disponibilidad anterior = turno.getDisponibilidad();
+		if (anterior != null) {
+			anterior.setOcupado(false);
+			disponibilidadRepository.save(anterior);
+		}
+		
+		turno.setDisponibilidad(disponibilidad);
+		disponibilidadService.updateOcupacion(disponibilidad.getId());
+		
+		disponibilidadRepository.save(disponibilidad);
+		turnoRepository.save(turno);
+		
+		return true;
+		
+	};
 
 }

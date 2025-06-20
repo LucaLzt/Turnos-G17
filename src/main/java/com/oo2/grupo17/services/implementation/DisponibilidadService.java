@@ -54,7 +54,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 	}
 
 	@Override
-	public DisponibilidadDto updateOcupacion(Long id, DisponibilidadDto disponbilidadDto) {
+	public DisponibilidadDto updateOcupacion(Long id) {
 		Disponibilidad disp = disponibilidadRepository.findById(id)
 				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el disponibilidad con ID: " + id));
 		if(disp.isOcupado() == false) {

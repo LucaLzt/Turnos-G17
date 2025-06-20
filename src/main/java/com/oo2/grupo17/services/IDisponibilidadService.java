@@ -15,7 +15,7 @@ public interface IDisponibilidadService {
     
     List<DisponibilidadDto> findAll();
 
-    DisponibilidadDto updateOcupacion(Long id, DisponibilidadDto disponbilidadDto);
+    DisponibilidadDto updateOcupacion(Long id);
 
     void deleteById(Long id);
     

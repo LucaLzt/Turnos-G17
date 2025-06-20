@@ -24,5 +24,7 @@ public interface ITurnoService {
     List<Turno> buscarTurnosPorProfesionalId(Long profesionalId);
 
 	TurnoDto findByIdDisponibilidad(Long id);
+
+	boolean reprogramarTurno(long id, long nuevaDisponibilidad);
 	
 }
