@@ -2410,3 +2410,49 @@ INSERT INTO `localidad` (`id`, `provincia_id`, `nombre`) VALUES
 (2380, 25, 'Yánima'),
 (2381, 25, 'Yerba Buena'),
 (2382, 25, 'Yerba Buena (S)');
+
+-- Direcciones
+INSERT INTO direccion (altura, calle, localidad_id, provincia_id) VALUES
+  (1200, 'Calle 12', 1, 1),
+  (300, 'Av. Siempre Viva', 2, 2);
+
+-- Lugares
+INSERT INTO lugar (horario_apertura, horario_cierre, direccion_id) VALUES
+  ('08:00:00', '18:00:00', 1),
+  ('09:00:00', '20:00:00', 2);
+
+-- Especialidades
+INSERT INTO especialidad (nombre) VALUES 
+('Pediatría'), 
+('Cardiología');
+
+-- Servicios
+INSERT INTO servicio (descripcion, nombre, precio) VALUES
+  ('Consulta pediátrica general', 'Consulta Pediátrica', 4500),
+  ('Electrocardiograma de rutina', 'Electrocardiograma', 6000),
+  ('Control de presión arterial', 'Control Presión', 2000);
+
+-- Servicios en lugares
+INSERT INTO servicios_lugares (servicio_id, lugar_id) VALUES 
+(1, 1), 
+(2, 1), 
+(2, 2), 
+(3, 2);
+
+-- Relación servicios-profesionales
+INSERT INTO servicios_profesionales (servicio_id, profesional_id) VALUES (1, 2), (2, 2);
+
+-- Relación profesional-entidad
+UPDATE persona SET especialidad_id = 1 WHERE id = 2;
+
+-- Relación profesional-lugar
+UPDATE persona SET lugar_id = 1 WHERE id = 2;
+
+-- Disponibilidad del profesional
+INSERT INTO disponibilidad (duracion, inicio, ocupado, profesional_id) VALUES
+  (30, '2025-07-20 09:00:00', b'1', 2), -- Turno ya ocupado
+  (30, '2025-07-20 09:30:00', b'0', 2); -- Turno libre
+
+-- Turno dado
+INSERT INTO turno (cliente_id, disponibilidad_id, lugar_id, profesional_id, servicio_id)
+VALUES (1, 1, 1, 2, 1);
