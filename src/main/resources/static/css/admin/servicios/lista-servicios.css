@@ -180,3 +180,59 @@ form {
     }
     .lp-card-title { font-size: 0.97rem; }
 }
+
+/* Reset para que los botones ocupen toda la celda de la grilla y no hereden styles nativos */
+.lp-grid form {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.lp-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 2px solid #f8fafd;
+    background: #f8fafd;
+    border-radius: 13px;
+    box-shadow: 0 4px 16px rgba(41, 75, 178, 0.08);
+    padding: 2.1rem 1.6rem 1.5rem 1.6rem;
+    color: #2d3e50;
+    font-size: 0.95rem;
+    cursor: pointer;
+    outline: none;
+    transition: box-shadow 0.15s, transform 0.13s, background 0.15s;
+    /* Reset estilos nativos de botón */
+    border-width: 2px;
+    border-style: solid;
+    border-color: #f8fafd;
+    background: #f8fafd;
+    box-sizing: border-box;
+    margin: 0;
+    font-family: inherit;
+}
+
+.lp-card:focus {
+    outline: none;
+    box-shadow: 0 4px 16px rgba(41, 75, 178, 0.08);
+    border-color: #f8fafd;
+    color: #2d3e50;
+    background: #f8fafd;
+}
+
+.lp-card:hover,
+.lp-card:active {
+    box-shadow: 0 10px 28px rgba(41, 75, 178, 0.16);
+    transform: translateY(-2px) scale(1.012);
+    background: #e7edfa;
+    border-color: #5e72e4;
+    color: #294bb2;
+}
+
+/* Quita estilos nativos de botón */
+.lp-card::-moz-focus-inner { border: 0; }
+.lp-card::-webkit-focus-inner { border: 0; }

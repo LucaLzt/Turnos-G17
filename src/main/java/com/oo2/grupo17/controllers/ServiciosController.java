@@ -81,7 +81,7 @@ public class ServiciosController {
 		return ViewRouteHelper.SERVICIOS_LISTA_ELIMINAR;
 	}
 	
-	@GetMapping("/{id}/eliminar")
+	@PostMapping("/{id}/eliminar")
 	public String eliminarServicio(@ModelAttribute("id") Long id, Model model) {
 		servicioService.deleteById(id);
 		return "redirect:/servicios/eliminar?eliminado=ok";

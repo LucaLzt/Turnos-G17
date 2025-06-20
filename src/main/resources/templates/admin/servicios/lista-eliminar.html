@@ -22,10 +22,13 @@
                 <span>Volver</span>
             </a>
         </div>
-        <div class="lp-grid">
-            <a th:each="servicio : ${servicios}"
-               th:href="@{'/servicios/' + ${servicio.id} + '/eliminar'}"
-               class="lp-card">
+		<div class="lp-grid">
+	        <form th:each="servicio : ${servicios}"
+	              th:action="@{'/servicios/' + ${servicio.id} + '/eliminar'}"
+	              method="post"
+				  class="lp-card-form"
+	              style="margin:0;">
+	            <button type="submit" class="lp-card">
                 <div class="lp-card-title">
                     <i class="fas fa-concierge-bell"></i>
                     <span th:text="${servicio.nombre}"></span>
@@ -38,8 +41,8 @@
                     <i class="fas fa-dollar-sign"></i>
                     <span th:text="${#numbers.formatDecimal(servicio.precio, 1, 'COMMA', 2, 'POINT')}"></span>
                 </div>
-            </a>
-        </div>
+	        </form>
+	    </div>
     </div>
 </body>
 </html>
