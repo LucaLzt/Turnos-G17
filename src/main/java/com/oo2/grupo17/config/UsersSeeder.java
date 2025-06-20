@@ -1,26 +1,30 @@
 package com.oo2.grupo17.config;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.oo2.grupo17.dtos.ClienteRegistroDto;
+import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
 import com.oo2.grupo17.entities.RoleEntity;
 import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.UserEntity;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
+import com.oo2.grupo17.services.IClienteService;
+import com.oo2.grupo17.services.IProfesionalService;
+
+import lombok.Builder;
 
 import java.util.Set;
 
-@Component
+@Component @Builder
 public class UsersSeeder implements CommandLineRunner {
 
     private final IUserRepository userRepository;
     private final IRoleRepository roleRepository;
-
-    public UsersSeeder(IUserRepository userRepository, IRoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
+    private final IClienteService clienteService;
+    private final IProfesionalService profesionalService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -41,11 +45,25 @@ public class UsersSeeder implements CommandLineRunner {
     }
     
     private void loadUserCliente() {
-        userRepository.save(buildUserCliente("cliente1234@cliente.com", "cliente1234"));
+        ClienteRegistroDto clienteRegistro = new ClienteRegistroDto();
+        clienteRegistro.setEmail("cliente1234@cliente.com");
+        clienteRegistro.setDni(12345678);
+        clienteRegistro.setNombre("Cliente");
+        clienteRegistro.setMovil(1234567890);
+        clienteRegistro.setTelefono(12345678);
+        clienteRegistro.setPassword("cliente1234");
+        clienteService.registrarCliente(clienteRegistro);
     }
     
     private void loadUserProfesional() {
-        userRepository.save(buildUserProfesional("profesional1234@profesional.com", "profesional1234"));
+    	ProfesionalRegistradoDto profesionalRegistro = new ProfesionalRegistradoDto();
+    	profesionalRegistro.setEmail("profesional1234@profesional.com");
+    	profesionalRegistro.setDni(87654321);
+    	profesionalRegistro.setNombre("Profesional");
+    	profesionalRegistro.setMatricula(000001);
+    	profesionalRegistro.setMovil(1234567890);
+    	profesionalRegistro.setTelefono(87654321);
+    	profesionalService.registrarProfesional(profesionalRegistro, "profesional1234");
     }
     
     private UserEntity buildUserAdmin(String username, String password) {
@@ -54,24 +72,6 @@ public class UsersSeeder implements CommandLineRunner {
     			.active(true)
     			.password(encryptPassword(password))
                 .roleEntities(Set.of(roleRepository.findByType(RoleType.ADMIN).get()))
-                .build();
-    }
-    
-    private UserEntity buildUserCliente(String username, String password) {
-    	return UserEntity.builder()
-    			.username(username)
-    			.active(true)
-    			.password(encryptPassword(password))
-                .roleEntities(Set.of(roleRepository.findByType(RoleType.CLIENTE).get()))
-                .build();
-    }
-    
-    private UserEntity buildUserProfesional(String username, String password) {
-    	return UserEntity.builder()
-    			.username(username)
-    			.active(true)
-    			.password(encryptPassword(password))
-                .roleEntities(Set.of(roleRepository.findByType(RoleType.PROFESIONAL).get()))
                 .build();
     }
     

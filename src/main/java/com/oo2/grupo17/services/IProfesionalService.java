@@ -25,7 +25,9 @@ public interface IProfesionalService {
     
     void eliminarProfesional(Long id);
     
-    public void registrarProfesional(ProfesionalRegistradoDto registroDto);
+    void registrarProfesional(ProfesionalRegistradoDto registroDto);
+    
+    void registrarProfesional(ProfesionalRegistradoDto registroDto, String password);
 
 	ProfesionalDto findByEmail(String email);
 
