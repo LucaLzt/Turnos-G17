@@ -4,13 +4,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
-import com.oo2.grupo17.dtos.DireccionDto;
 import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.entities.Cliente;
-import com.oo2.grupo17.entities.Direccion;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Profesional;
