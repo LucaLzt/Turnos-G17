@@ -66,9 +66,17 @@
                 </div>
             </div>
             <div class="profesional-detalle-btns">
-                <a th:href="@{/profesional/turnos}" class="profesional-profile-btn">
+				<a th:if="${origen} == 'turnos'" 
+					th:href="@{/profesional/turnos}" 
+					class="profesional-profile-btn">
                     <i class="fas fa-arrow-left"></i>
-                    <span>Volver a mis turnos</span>
+                    <span>Volver atrás</span>
+                </a>
+                <a th:if="${origen} == 'disp'" 
+					th:href="@{/profesional/ver-disponibilidades}" 
+					class="profesional-profile-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Volver atrás</span>
                 </a>
             </div>
         </div>

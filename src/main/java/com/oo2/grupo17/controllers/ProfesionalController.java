@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ContactoDto;
@@ -179,22 +180,28 @@ public class ProfesionalController {
     }
 	
 	@GetMapping("/detalle/{id}")
-    public String detalleTurno(@PathVariable("id") long id, Model model) {
+    public String detalleTurno(@PathVariable long id, 
+    		@RequestParam(value = "origen", required = false) String origen,
+    		Model model) {
         TurnoDto turno = turnoService.findById(id);
         model.addAttribute("turno", turno);
+        model.addAttribute("origen", origen);
         return ViewRouteHelper.PROFESIONAL_DETALLE_TURNO;
     }
 	
-	@GetMapping("/eliminar/{id}")
+	@PostMapping("/eliminar/{id}")
     public String eliminarTurno(@PathVariable Long id) {
         turnoService.deleteById(id);
-        return "redirect:/profesional/cancelar-turno"; 
+        return "redirect:/profesional/turnos?eliminado=ok"; 
     }
 	
 	@GetMapping("/disponibilidad/{id}")
-	public String verDetallesTurno(@PathVariable Long id, Model model) {
+	public String verDetallesTurno(@PathVariable Long id, 
+			@RequestParam(value = "origen", required = false) String origen,
+			Model model) {
 		TurnoDto turno = turnoService.findByIdDisponibilidad(id);
 		model.addAttribute("turno", turno);
+		model.addAttribute("origen", origen);
 		return ViewRouteHelper.PROFESIONAL_DETALLE_TURNO;
 	}
 	

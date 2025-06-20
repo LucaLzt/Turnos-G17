@@ -45,19 +45,19 @@
                             <td th:text="${#temporals.format(turno.disponibilidad.inicio, 'dd/MM/yyyy')}">Fecha</td>
                             <td th:text="${#temporals.format(turno.disponibilidad.inicio, 'HH:mm')}">Hora</td>
                             <td>
-                                <a th:href="@{'/profesional/detalle/' + ${turno.id}}">
+                                <a th:href="@{'/profesional/detalle/' + ${turno.id} + '?origen=turnos'}">
                                     <button class="profesional-ver-btn">
                                         <i class="fa fa-eye"></i>
                                         Ver Detalle
                                     </button>
                                 </a>
-                                <a th:href="@{'/profesional/eliminar/' + ${turno.id}}"
-                                   onclick="return confirm('¿Estás seguro de eliminar este turno?')">
-                                    <button class="profesional-cancelar-btn">
-                                        <i class="fa fa-trash"></i>
-                                        Eliminar
-                                    </button>
-                                </a>
+								<form th:action="@{'/profesional/eliminar/' + ${turno.id}}" method="post" 
+								onsubmit="return confirm('¿Estás seguro de eliminar este turno?')">
+								    <button type="submit" class="profesional-cancelar-btn">
+								        <i class="fa fa-trash"></i>
+								        Eliminar
+								    </button>
+								</form>
                             </td>
                         </tr>
                         <tr th:if="${#lists.isEmpty(turnos)}">

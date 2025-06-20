@@ -50,7 +50,9 @@
                             <span th:unless="${disp.ocupado}" class="profesional-estado-libre">LIBRE</span>
                         </td>
                         <td>
-                            <a th:if="${disp.ocupado}" th:href="@{'/profesional/disponibilidad/' + ${disp.id}}" class="profesional-detalle-btn" title="Ver detalles">
+                            <a th:if="${disp.ocupado}" th:href="@{'/profesional/disponibilidad/' + ${disp.id} + '?origen=disp'}" 
+							class="profesional-detalle-btn" 
+							title="Ver detalles">
                                 <i class="fas fa-eye"></i> Detalles
                             </a>
                             <a th:unless="${disp.ocupado}" href="#" class="profesional-detalle-btn disabled" title="Solo disponible si está ocupado">
