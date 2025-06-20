@@ -44,4 +44,7 @@ public class Lugar {
 	@ManyToMany(mappedBy = "lugares")
 	private Set<Servicio> servicios = new HashSet<>();
 	
+	@OneToMany(mappedBy = "lugar", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Turno> turnos = new HashSet<>();
+	
 }

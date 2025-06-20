@@ -1,7 +1,9 @@
 package com.oo2.grupo17.services.implementation;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -18,6 +20,7 @@ import com.oo2.grupo17.repositories.ILocalidadRepository;
 import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IProvinciaRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
+import com.oo2.grupo17.repositories.ITurnoRepository;
 import com.oo2.grupo17.services.ILugarService;
 
 import lombok.Builder;
@@ -29,6 +32,7 @@ public class LugarService implements ILugarService {
 	private final IServicioRepository servicioRepository;
 	private final ILocalidadRepository localidadRepository;
 	private final IProvinciaRepository provinciaRepository;
+	private final ITurnoRepository turnoRepository;
 	private final ModelMapper modelMapper;
 
 	@Override
@@ -104,5 +108,17 @@ public class LugarService implements ILugarService {
 				.map(object -> modelMapper.map(object, LugarDto.class))
 				.collect(Collectors.toList());
 	};
+	
+	@Override
+	public Map<Long, Long> getCantidadTurnosPorLugar() {
+		List<Object[]> resultados = turnoRepository.countTurnosGroupByLugar();
+		Map<Long, Long> turnosPorLugar = new HashMap<>();
+		for(Object[] resultado : resultados) {
+			Long lugarId = (Long) resultado[0];
+			Long cantidadTurnos = (Long) resultado[1];
+			turnosPorLugar.put(lugarId, cantidadTurnos);
+		}
+		return turnosPorLugar;
+	}
 
 }

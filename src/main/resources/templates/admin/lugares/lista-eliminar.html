@@ -28,7 +28,10 @@
                   method="post"
                   class="lp-card-form">
                 <button type="submit"
-						class="lp-card">
+				  		class="lp-card"
+				        th:disabled="${turnosPorLugar[lugar.id] != null and turnosPorLugar[lugar.id] > 0}"
+				        th:title="${turnosPorLugar[lugar.id] != null and turnosPorLugar[lugar.id] > 0 ?
+							 	'No se puede eliminar: tiene turnos asignados' : 'Eliminar lugar'}">
                     <div class="lp-card-title">
                         <i class="fas fa-map-marker-alt"></i>
                         <span th:text="${lugar.direccion.calle} + ' ' + ${lugar.direccion.altura}"></span>

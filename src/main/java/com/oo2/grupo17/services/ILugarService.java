@@ -1,6 +1,7 @@
 package com.oo2.grupo17.services;
 
 import java.util.List;
+import java.util.Map;
 
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.entities.Lugar;
@@ -21,4 +22,6 @@ public interface ILugarService {
     List<Lugar> obtenerLugaresPorServicio(Long servicioId);
 
 	List<LugarDto> findAllById(List<Long> lugares);
+
+	Map<Long, Long> getCantidadTurnosPorLugar();
 }
