@@ -2413,46 +2413,89 @@ INSERT INTO `localidad` (`id`, `provincia_id`, `nombre`) VALUES
 
 -- Direcciones
 INSERT INTO direccion (altura, calle, localidad_id, provincia_id) VALUES
-  (1200, 'Calle 12', 1, 1),
-  (300, 'Av. Siempre Viva', 2, 2);
+(1200, 'Calle 12', 1, 1),
+(300, 'Av. Siempre Viva', 2, 2),
+(800, 'Av. Central', 1, 1),
+(150, 'Calle Nueva', 2, 1),
+(950, 'Boulevard Sur', 1, 2),
+(400, 'Diagonal Norte', 2, 2),
+(123, 'Pasaje Este', 1, 2);
 
 -- Lugares
 INSERT INTO lugar (horario_apertura, horario_cierre, direccion_id) VALUES
-  ('08:00:00', '18:00:00', 1),
-  ('09:00:00', '20:00:00', 2);
+('08:00:00', '18:00:00', 1),
+('09:00:00', '20:00:00', 2),
+('07:00:00', '15:00:00', 3),
+('08:30:00', '19:00:00', 4),
+('09:00:00', '21:00:00', 5),
+('10:00:00', '17:00:00', 6),
+('07:30:00', '18:00:00', 7);
 
 -- Especialidades
 INSERT INTO especialidad (nombre) VALUES 
 ('Pediatría'), 
-('Cardiología');
+('Cardiología'),
+('Dermatología'),
+('Neurología'),
+('Traumatología'),
+('Oftalmología'),
+('Gastroenterología'),
+('Medicina General');
 
 -- Servicios
 INSERT INTO servicio (descripcion, nombre, precio) VALUES
-  ('Consulta pediátrica general', 'Consulta Pediátrica', 4500),
-  ('Electrocardiograma de rutina', 'Electrocardiograma', 6000),
-  ('Control de presión arterial', 'Control Presión', 2000);
+('Consulta pediátrica general', 'Consulta Pediátrica', 4500),
+('Electrocardiograma de rutina', 'Electrocardiograma', 6000),
+('Control de presión arterial', 'Control Presión', 2000),
+('Consulta dermatológica', 'Consulta Dermatológica', 5000),
+('Estudio neurológico básico', 'Estudio Neurológico', 7000),
+('Radiografía traumatológica', 'Radiografía', 6500),
+('Control de agudeza visual', 'Control Visual', 3000),
+('Consulta gastroenterológica', 'Consulta Gastro', 5500); 
 
 -- Servicios en lugares
 INSERT INTO servicios_lugares (servicio_id, lugar_id) VALUES 
 (1, 1), 
 (2, 1), 
 (2, 2), 
-(3, 2);
+(3, 2),
+(4, 3),
+(5, 4),
+(6, 1),
+(7, 1),
+(6, 5),
+(7, 7),
+(8, 7);
 
 -- Relación servicios-profesionales
-INSERT INTO servicios_profesionales (servicio_id, profesional_id) VALUES (1, 2), (2, 2);
+INSERT INTO servicios_profesionales (servicio_id, profesional_id) VALUES 
+(1, 2), 
+(2, 2),
+(6, 2),
+(7, 2),
+(3, 2),
+(4, 2),
+(5, 2);
 
 -- Relación profesional-entidad
-UPDATE persona SET especialidad_id = 1 WHERE id = 2;
+UPDATE persona SET especialidad_id = 8 WHERE id = 2;
 
 -- Relación profesional-lugar
 UPDATE persona SET lugar_id = 1 WHERE id = 2;
 
 -- Disponibilidad del profesional
 INSERT INTO disponibilidad (duracion, inicio, ocupado, profesional_id) VALUES
-  (30, '2025-07-20 09:00:00', b'1', 2), -- Turno ya ocupado
-  (30, '2025-07-20 09:30:00', b'0', 2); -- Turno libre
+(30, '2025-07-20 09:00:00', b'1', 2), -- Turno ya ocupado
+(30, '2025-07-20 09:30:00', b'0', 2), -- Turno libre
+(30, '2025-07-20 11:00:00', b'0', 2),
+(30, '2025-07-20 11:30:00', b'0', 2),
+(30, '2025-07-21 09:00:00', b'1', 2),
+(30, '2025-07-21 09:30:00', b'1', 2),
+(30, '2025-07-21 10:00:00', b'0', 2);
 
 -- Turno dado
 INSERT INTO turno (cliente_id, disponibilidad_id, lugar_id, profesional_id, servicio_id)
-VALUES (1, 1, 1, 2, 1);
+VALUES 
+(1, 1, 1, 2, 1),
+(1, 5, 1, 2, 6),
+(1, 6, 1, 2, 7);
