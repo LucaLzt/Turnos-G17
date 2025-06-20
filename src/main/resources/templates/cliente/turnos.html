@@ -41,7 +41,8 @@
                     <tbody>
                         <tr th:each="turno : ${turnos}">
                             <td th:text="${turno.profesional.nombre}">Nombre Profesional</td>
-                            <td th:text="${turno.profesional.especialidad.nombre}">Nombre Especialidad</td>
+                            <td th:if="${turno.profesional.especialidad != null}" th:text="${turno.profesional.especialidad.nombre}">Nombre Especialidad</td>
+							<td th:if="${turno.profesional.especialidad == null}" th:text="'Sin especialidad'">Nombre Especialidad</td>
                             <td th:text="${#temporals.format(turno.disponibilidad.inicio, 'dd/MM/yyyy')}">Fecha</td>
                             <td th:text="${#temporals.format(turno.disponibilidad.inicio, 'HH:mm')}">Hora</td>
                             <td>
