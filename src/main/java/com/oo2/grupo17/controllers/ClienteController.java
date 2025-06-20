@@ -21,6 +21,7 @@ import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
+import com.oo2.grupo17.dtos.DisponibilidadDto;
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.dtos.TurnoDto;
@@ -33,6 +34,7 @@ import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IDireccionService;
+import com.oo2.grupo17.services.IDisponibilidadService;
 import com.oo2.grupo17.services.ILocalidadService;
 import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IProvinciaService;
@@ -54,6 +56,7 @@ public class ClienteController {
 	private final IDireccionService direccionService;
 	private final IProvinciaService provinciaService;
 	private final ILocalidadService localidadService;
+	private final IDisponibilidadService disponibilidadService;
 	private final ITurnoService turnoService;
 
 	// Muestra el perfil del cliente
@@ -232,6 +235,24 @@ public class ClienteController {
         model.addAttribute("turno", turno);
         return "cliente/detalle-turno";
     }
+	
+	@GetMapping("/reprogramar-turno/{id}")
+	public String reprogramarTurno(@PathVariable long id, Model model) {
+		TurnoDto turno = turnoService.findById(id);
+		List<DisponibilidadDto> disponibilidades = disponibilidadService.obtenerDisponibilidadesPorProfesionalLibres(turno.getProfesional().getId());
+		model.addAttribute("turno", turno);
+		model.addAttribute("disponibilidades", disponibilidades);
+		return "cliente/reprogramar-turno";
+	}
+	
+	@PostMapping("/reprogramar-turno-post/{id}")
+	public String reprogramarTurno(@PathVariable long id, @RequestParam("nuevaDisponibilidadId") long nuevaDisponibilidad) {
+		boolean exito = turnoService.reprogramarTurno(id, nuevaDisponibilidad);
+		if(!exito) {
+			return "cliente/reprogramar-turno";
+		}
+		return "redirect:/cliente/turnos?reprogramado=ok";
+	}
     
     @GetMapping("/eliminar/{id}")
     public String eliminarTurno(@PathVariable Long id) {

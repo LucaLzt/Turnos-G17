@@ -64,9 +64,13 @@
                 </div>
             </div>
             <div class="cliente-detalle-btns">
+				<a th:href="@{'/cliente/reprogramar-turno/' + ${turno.id}}" class="cliente-profile-btn">
+				    <i class="fas fa-calendar-alt"></i>
+				    <span>Reprogramar</span>
+				</a>
                 <a th:href="@{/cliente/turnos}" class="cliente-profile-btn">
                     <i class="fas fa-arrow-left"></i>
-                    <span>Volver a mis turnos</span>
+                    <span>Volver atrás</span>
                 </a>
             </div>
         </div>
