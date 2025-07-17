@@ -12,7 +12,7 @@ import io.swagger.v3.oas.models.info.License;
 public class SwaggerConfig {
 	
 	@Bean
-	public OpenAPI customOpenAPI() {
+	OpenAPI customOpenAPI() {
 		return new OpenAPI()
 				.info(new Info()
 					.title("Turnos G17 API")
@@ -22,4 +22,4 @@ public class SwaggerConfig {
 					.license(new License().name("MIT").url("https://opensource.org/license/mit/"))
 					);
 	}
-}
+} 
