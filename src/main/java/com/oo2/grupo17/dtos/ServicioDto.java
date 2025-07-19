@@ -30,5 +30,14 @@ public class ServicioDto {
     private Double precio;
     
 	private List<Long> lugaresIds = new ArrayList<>();
+
+	public ServicioDto(String nombre,String descripcion,Double precio,List<Long> lugaresIds) {
+		super();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.precio = precio;
+		this.lugaresIds = lugaresIds;
+	}
+	
 	
 }
