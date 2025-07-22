@@ -70,7 +70,7 @@ public class UserController {
 	
 	@PostMapping("/register-profesional")
 	@Operation(summary = "Registro de un nuevo profesional", 
-		description = "Permite registrar un nuevo profesional en el sistema ." +
+		description = "Permite registrar un nuevo profesional en el sistema." +
 		"**La contraseña se enviará automáticamente al email proporcionado.**")	
 	@ApiResponses(value = {
 	    @ApiResponse(responseCode = "201", description = "Registro exitoso"),
@@ -98,7 +98,7 @@ public class UserController {
 		} catch (EntidadDuplicadaException e) {
 			return ResponseEntity.status(409).body("El profesional ya existe: " + e.getMessage());
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("Error al profesional el usuario: " + e.getMessage());
+			return ResponseEntity.status(500).body("Error al registrar el profesional: " + e.getMessage());
 		}
 	}
 	

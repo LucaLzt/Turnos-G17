@@ -14,7 +14,7 @@ public record RegisterProfesionalDto (
 		@NotBlank String nombre,
 		@NotNull @Min(10000000) @Max(99999999) int dni,
 		@NotNull @Min(1) int matricula,
-		@NotNull @Min(1000000000) @Max(9999999999L) int movil,
+		@NotNull @Min(1000000000) @Max(9999999999L) long movil,
 		@Min(1000000) @Max(99999999) int telefono
 		
 ) {}
