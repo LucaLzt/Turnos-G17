@@ -22,4 +22,6 @@ public interface ILugarRepository extends JpaRepository<Lugar, Long>{
 	        Localidad localidad,
 	        Provincia provincia
 	    );
+	
+	List<Lugar> findByDireccion_CalleContainingIgnoreCase(String nombre);
 }

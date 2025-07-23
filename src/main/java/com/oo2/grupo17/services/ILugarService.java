@@ -24,4 +24,6 @@ public interface ILugarService {
 	List<LugarDto> findAllById(List<Long> lugares);
 
 	Map<Long, Long> getCantidadTurnosPorLugar();
+
+	List<LugarDto> findByCalle(String nombre);
 }

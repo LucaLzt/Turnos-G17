@@ -29,7 +29,7 @@ import lombok.Builder;
 @Builder
 @RestController
 @RequestMapping("auth/users")
-public class UserController {
+public class UserRestController {
 	
 	private final IClienteService clienteService;
 	private final IProfesionalService profesionalService;
