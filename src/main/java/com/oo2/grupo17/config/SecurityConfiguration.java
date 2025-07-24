@@ -44,12 +44,17 @@ public class SecurityConfiguration {
                     		"/api/lugares/obtenerLugarPorId",
                     		"/api/lugares/buscarPorCalle"
                     ).permitAll();
+                    auth.requestMatchers(
+                    		"/api/servicio/traer",
+                    		"/api/servicio/{id}/traer"
+					).permitAll();
                     
                     // API Privadas
                     auth.requestMatchers("/api/profesional/**").hasRole("PROFESIONAL");
                     auth.requestMatchers("/api/cliente/**").hasRole("CLIENTE");
                     auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/api/lugares/**").hasRole("ADMIN");
+                    auth.requestMatchers("/api/servicio/**").hasRole("ADMIN");
                     
                     auth.anyRequest().authenticated();
                 })

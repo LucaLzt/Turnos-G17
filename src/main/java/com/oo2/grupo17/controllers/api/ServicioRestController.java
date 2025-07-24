@@ -17,16 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oo2.grupo17.dtos.ServicioDto;
-import com.oo2.grupo17.dtos.records.ServicioGetDto;
-import com.oo2.grupo17.dtos.records.ServicioPostDto;
-import com.oo2.grupo17.dtos.records.ServicioPutDto;
+import com.oo2.grupo17.dtos.records.ServicioRequestAuxDto;
+import com.oo2.grupo17.dtos.records.ServicioRequestDto;
+import com.oo2.grupo17.dtos.records.ServicioResponseDto;
 import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.services.IServicioService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.Builder;
@@ -39,75 +42,176 @@ public class ServicioRestController {
 	private IServicioService servicioService;
 	
 	@GetMapping("/{id}/traer")
-	@Operation(summary = "Traer servicio", description = "Se trae un Servicio por ID")
+	@Operation(summary = "Traer servicio", description = "Se trae un Servicio por ID. **Público**")
 	@ApiResponses( value = {
-		@ApiResponse(responseCode = "200", description = "Servicio encontrado."),
-		@ApiResponse(responseCode = "404", description = "Servicio no encontrado."),
-		@ApiResponse(responseCode = "500", description = "Probremas en el sistema.")
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Servicio encontrado.",
+					content = @Content( 
+							mediaType = "application/json",
+							schema = @Schema(implementation = ServicioResponseDto.class)
+					)
+			),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Servicio no encontrado.",
+					content = @Content( 
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al traer el Servicio: {errorMessage}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500", 
+					description = "Probremas en el sistema.",
+					content = @Content( 
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error en el Sistema: {errorMessage}")
+					)
+			)
 	})
 	public ResponseEntity<?> getServicio(@PathVariable Long id){
 		try {
 		ServicioDto dto = servicioService.findById(id);
-		ServicioGetDto getDto = new ServicioGetDto(dto.getId(), 
+		ServicioResponseDto responseDto = new ServicioResponseDto(dto.getId(), 
 				dto.getNombre(), 
 				dto.getDescripcion(), 
 				dto.getPrecio(), 
 				dto.getLugaresIds());
-		return ResponseEntity.ok(getDto);
+		return ResponseEntity.ok(responseDto);
 		} catch (EntidadNoEncontradaException e) {
 			return ResponseEntity.status(404).body("Error al traer el Servicio: " + e.getMessage());
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("Error en el Sistema.");
+			return ResponseEntity.status(500).body("Error en el Sistema: " + e.getMessage());
 		}
 	}
 	
 	@GetMapping("/traer")
-	@Operation(summary = "Traer todos los Servicios", description = "Se traen todos los servicios.")
+	@Operation(summary = "Traer todos los Servicios", description = "Se traen todos los servicios. **Público**")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Servicios encontrados."),
-			@ApiResponse(responseCode = "500", description = "Problemas en el Sistema.")
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Servicios encontrados.",
+					content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = ServicioResponseDto.class)
+					)
+			),
+			@ApiResponse(
+					responseCode = "500", 
+					description = "Problemas en el Sistema.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error en el Sistema: {errorMessage}")
+					)
+			)
 	})
 	public ResponseEntity<?> traerServicios() {
 		try {
-			List<ServicioDto> getsDto = servicioService.findAll();
-			return ResponseEntity.status(200).body(getsDto);
+			List<ServicioDto> dtos = servicioService.findAll();
+			List<ServicioResponseDto> responseDtos = new ArrayList<>();
+			for(ServicioDto dto : dtos) {
+				responseDtos.add(new ServicioResponseDto(
+						dto.getId(),
+						dto.getNombre(),
+						dto.getDescripcion(),
+						dto.getPrecio(),
+						dto.getLugaresIds()
+						));
+			}
+			return ResponseEntity.status(200).body(responseDtos);
 		} catch (Exception e){
-			return ResponseEntity.status(500).body("Error en el Sistema.");
+			return ResponseEntity.status(500).body("Error en el Sistema: " + e.getMessage());
 		}
 	}
 	
 	@PostMapping("/agregar")
-	@Operation(summary = "Agregar Servicio", description = "Se agrega un Servicio")
+	@SecurityRequirement(name = "basicAuth")
+	@Operation(summary = "Agregar Servicio", description = "Se agrega un Servicio. **Privado ADMIN**")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Servicio agregado."),
-			@ApiResponse(responseCode = "422", description = "Datos inválidos."),
-			@ApiResponse(responseCode = "409", description = "Servicio ya creado."),
-			@ApiResponse(responseCode = "500", description = "Problemas en el sistema.")
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Servicio agregado.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Servicio agregado correctamente.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "422", 
+					description = "Datos inválidos.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error en los datos ingresados: {errorMessage}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "409", 
+					description = "Servicio ya creado.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al agregar el Servicio: {errorMessage}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500", 
+					description = "Problemas en el sistema.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error en el Sistema: {errorMessage}")
+					)
+			)
 	})
-	public ResponseEntity<String> agregarServicio(@Valid @RequestBody ServicioPostDto postDto, BindingResult results){
+	public ResponseEntity<String> agregarServicio(@Valid @RequestBody ServicioRequestDto requestDto, BindingResult results){
 		if(results.hasErrors()) {
 			String errors = results.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; \n"));
 			return ResponseEntity.status(422).body("Error en los datos ingresados: " + errors);
 		}
 		
 		try {
-			ServicioDto dto = new ServicioDto(postDto.nombre(), postDto.descripcion(), postDto.precio(), new ArrayList<>());
+			ServicioDto dto = new ServicioDto(
+					null, // ID se asigna automáticamente
+					requestDto.nombre(), 
+					requestDto.descripcion(), 
+					requestDto.precio(), 
+					new ArrayList<>());
 			servicioService.save(dto);
 			return ResponseEntity.status(200).body("Servicio agregado correctamente.");
 		} catch (EntidadDuplicadaException e) {
 			return ResponseEntity.status(409).body("Error al agregar el Servicio: " + e.getMessage());
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("Error en el Sistema.");
+			return ResponseEntity.status(500).body("Error en el Sistema: " + e.getMessage());
 		}
 		
 	}
 	
 	@DeleteMapping("/{id}/eliminar")
-	@Operation(summary = "Eliminar Servicio", description = "Se elimina un Servicio por ID.")
+	@SecurityRequirement(name = "basicAuth")
+	@Operation(summary = "Eliminar Servicio", description = "Se elimina un Servicio por ID. **Privado ADMIN**")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Servicio eliminado."),
-			@ApiResponse(responseCode = "404", description = "Servicio no encontrado."),
-			@ApiResponse(responseCode = "500", description = "Problemas en el sistema.")
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Servicio eliminado.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Servicio eliminado correctamente.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Servicio no encontrado.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al eliminar el Servicio: {errorMessage}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500", 
+					description = "Problemas en el sistema.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error en el Sistema: {errorMessage}")
+					)
+			)
 	})
 	public ResponseEntity<String> eliminarServicio(@PathVariable Long id){
 		try {
@@ -116,27 +220,68 @@ public class ServicioRestController {
 		} catch (EntidadNoEncontradaException e) {
 			return ResponseEntity.status(404).body("Error al eliminar el Servicio: " + e.getMessage());
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("Error en el Sistema.");
+			return ResponseEntity.status(500).body("Error en el Sistema: " + e.getMessage());
 		}
 
 	}
 	
 	@PutMapping("/{id}/modificar")
-	@Operation(summary = "Modificar Servicio", description = "Se modifica un Servicio por ID.")
+	@SecurityRequirement(name = "basicAuth")
+	@Operation(summary = "Modificar Servicio", description = "Se modifica un Servicio por ID. **Privado ADMIN**")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Servicio modificado."),
-			@ApiResponse(responseCode = "404", description = "Servicio no encontrado."),
-			@ApiResponse(responseCode = "409", description = "Servicio ya creado."),
-			@ApiResponse(responseCode = "422", description = "Datos inválidos."),
-			@ApiResponse(responseCode = "500", description = "Problemas en el sistema")
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Servicio modificado.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Servicio modificado correctamente.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "Servicio no encontrado.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al modificar el Servicio: {errorMessage}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "409", 
+					description = "Servicio ya creado.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al modificar el Servicio: {errorMessage}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "422", 
+					description = "Datos inválidos.",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error en los datos ingresados: {errorMessage}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500", 
+					description = "Problemas en el sistema",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error en el Sistema: {errorMessage}")
+					)
+			)
 	})
-	public ResponseEntity<String> modificarServicio(@PathVariable Long id, @RequestBody ServicioPutDto putDto, BindingResult results){
+	public ResponseEntity<String> modificarServicio(@PathVariable Long id, @Valid @RequestBody ServicioRequestAuxDto requestDto, BindingResult results){
 		if(results.hasErrors()) {
 			String errors = results.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining("; \n"));
 			return ResponseEntity.status(422).body("Error en los datos ingresados: " + errors);
 		}
 				try {
-			ServicioDto dto = new ServicioDto(putDto.nombre(), putDto.descripcion(), putDto.precio(), putDto.idsLugares());
+			ServicioDto dto = new ServicioDto(
+					null, // ID se asigna automáticamente
+					requestDto.nombre(), 
+					requestDto.descripcion(), 
+					requestDto.precio(), 
+					requestDto.idsLugares());
 			servicioService.update(id, dto);
 			return ResponseEntity.status(200).body("Servicio modificado correctamente.");
 		} catch (EntidadNoEncontradaException e){
@@ -144,7 +289,7 @@ public class ServicioRestController {
 		} catch (EntidadDuplicadaException e){
 			return ResponseEntity.status(409).body("Error al modificar el Servicio: " + e.getMessage());
 		} catch (Exception e) {
-			return ResponseEntity.status(500).body("Error en el Sistema.");
+			return ResponseEntity.status(500).body("Error en el Sistema: " + e.getMessage());
 		}
 	}
 }
