@@ -97,8 +97,12 @@ public class TurnoService implements ITurnoService {
 	    disponibilidadRepository.save(disponibilidad);
 	}
 	
-	public List<Turno> buscarTurnosPorClienteId(Long clienteId) {
-	    return turnoRepository.findByClienteId(clienteId);
+	@Override
+	public List<TurnoDto> buscarTurnosPorClienteId(Long clienteId) {
+	    return turnoRepository.findByClienteId(clienteId)
+	    		.stream()
+	    		.map(object -> modelMapper.map(object, TurnoDto.class))
+	    		.collect(Collectors.toList());
 	}
 	
 	@Override

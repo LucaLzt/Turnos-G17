@@ -8,8 +8,8 @@ import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 
 public interface IClienteService {
-	
-    ClienteDto save(ClienteDto clienteDto);
+
+	ClienteDto save(ClienteDto clienteDto);
 
     ClienteDto findById(Long id);
    
@@ -28,5 +28,9 @@ public interface IClienteService {
 	void eliminarCuenta(String email, String password, int dni);
 
 	void cambiarContrasena(ClienteDto cliente, CambioPasswordDto cambioPasswordDto);
+
+	boolean tieneTurno(Long turnoId, Long clienteId);
+	
+	boolean cancelarTurno(Long turnoId, Long clienteId);
 	
 }

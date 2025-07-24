@@ -1,6 +1,7 @@
 package com.oo2.grupo17.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,6 @@ public interface IServicioRepository extends JpaRepository<Servicio, Long>{
 	List<Servicio> findAllByLugares_Id(Long id);
 	
 	boolean existsByNombre(String nombre);
+
+	Optional<Servicio> findByNombre(String servicio);
 }

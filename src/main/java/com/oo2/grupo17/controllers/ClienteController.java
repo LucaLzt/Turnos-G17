@@ -29,7 +29,6 @@ import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Lugar;
 import com.oo2.grupo17.entities.Provincia;
 import com.oo2.grupo17.entities.Servicio;
-import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
@@ -224,7 +223,7 @@ public class ClienteController {
     	String email = principal.getName();
     	ClienteDto cliente = clienteService.findByEmail(email);
         Long clienteId = cliente.getId();
-        List<Turno> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
+        List<TurnoDto> turnos = turnoService.buscarTurnosPorClienteId(clienteId);
         model.addAttribute("turnos", turnos);
         return "cliente/turnos"; 
     }

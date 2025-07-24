@@ -38,5 +38,7 @@ public interface IProfesionalService {
 	void asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds);
 
 	void cambiarContrasena(ProfesionalDto profesional, CambioPasswordDto cambioPasswordDto);
+
+	ProfesionalDto findByNombre(String profesional);
 	
 }

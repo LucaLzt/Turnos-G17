@@ -121,4 +121,28 @@ public class LugarService implements ILugarService {
 		return turnosPorLugar;
 	}
 
+	@Override
+	public List<LugarDto> findByCalle(String nombre) {
+		if (nombre == null || nombre.isEmpty()) {
+			return findAll();
+		}
+		
+		List<Lugar> lugares = lugarRepository.findByDireccion_CalleContainingIgnoreCase(nombre);
+		if (lugares.isEmpty()) {
+			throw new EntidadNoEncontradaException("No se encontraron lugares con el nombre: " + nombre);
+		}
+		
+		return lugares.stream()
+				.map(lugar -> modelMapper.map(lugar, LugarDto.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public LugarDto findByCalleAndAltura(String direccion, int altura) {
+		return modelMapper.map(
+				lugarRepository.findByDireccion_CalleAndDireccion_Altura(direccion, altura),
+				LugarDto.class
+				);
+	}
+
 }

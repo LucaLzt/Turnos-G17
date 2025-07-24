@@ -2,6 +2,7 @@ package com.oo2.grupo17.services;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -25,5 +26,7 @@ public interface IDisponibilidadService {
 	List<DisponibilidadDto> obtenerDisponibilidadesPorProfesionalLibres(Long profesionalId);
 
 	List<DisponibilidadDto> obtenerDisponibilidadesPorProfesional(Long profesionalId);
+
+	DisponibilidadDto findByProfesionalAndInicio(Long id, LocalDateTime disponibilidad);
     
 }

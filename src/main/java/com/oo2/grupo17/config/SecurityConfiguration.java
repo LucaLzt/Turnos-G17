@@ -3,6 +3,7 @@ package com.oo2.grupo17.config;
 import com.oo2.grupo17.services.implementation.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @Configuration
 @EnableWebSecurity
@@ -31,11 +33,28 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/css/**", "/js/**",
-                    		"/swagger-ui/**", "/v3/api-docs/**",
-                    		"/api/**").permitAll();
-                    auth.requestMatchers("/auth/**").permitAll();
+                	// Públicos
+                    auth.requestMatchers("/css/**", "/js/**", "/auth/**").permitAll();
+                    auth.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
+                    
+                    // API Públicas
+                    auth.requestMatchers(
+                    		"/api/lugares/obtenerTodos",
+                    		"/api/lugares/obtener/{id}",
+                    		"/api/lugares/obtenerLugarPorId",
+                    		"/api/lugares/buscarPorCalle"
+                    ).permitAll();
+                    
+                    // API Privadas
+                    auth.requestMatchers("/api/profesional/**").hasRole("PROFESIONAL");
+                    auth.requestMatchers("/api/cliente/**").hasRole("CLIENTE");
+                    auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
+                    auth.requestMatchers("/api/lugares/**").hasRole("ADMIN");
+                    
                     auth.anyRequest().authenticated();
+                })
+                .httpBasic(httpBasic -> {
+                	httpBasic.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
                 })
                 .formLogin(login -> {
                     login.loginPage("/auth/login");
@@ -52,6 +71,7 @@ public class SecurityConfiguration {
                     .clearAuthentication(true)
                     .deleteCookies("JSESSIONID")
                 )
+                .authenticationProvider(authenticationProvider())
                 .build();
     }
 

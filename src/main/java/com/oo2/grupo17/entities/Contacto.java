@@ -29,7 +29,7 @@ public class Contacto {
 	private String email;
 	
 	@Column(name = "movil")
-	private int movil;
+	private long movil;
 	
 	@Column(name = "telefono")
 	private int telefono;
