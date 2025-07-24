@@ -20,17 +20,20 @@ import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
 import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.dtos.ServicioDto;
+import com.oo2.grupo17.dtos.TurnoDto;
 import com.oo2.grupo17.dtos.records.ContactoRequestAuxDto;
 import com.oo2.grupo17.dtos.records.DireccionRequestDto;
 import com.oo2.grupo17.dtos.records.DireccionResponseDto;
 import com.oo2.grupo17.dtos.records.LugarResponseDto;
 import com.oo2.grupo17.dtos.records.ServicioResponseDto;
+import com.oo2.grupo17.dtos.records.TurnoResponseDto;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IDireccionService;
 import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IServicioService;
+import com.oo2.grupo17.services.ITurnoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -52,6 +55,7 @@ import lombok.Builder;
 public class ClienteRestController {
 
 	private final ILugarService lugarService;
+	private final ITurnoService turnoService;
 	private final IClienteService clienteService;
 	private final IContactoService contactoService;
 	private final IServicioService servicioService;
@@ -65,14 +69,16 @@ public class ClienteRestController {
 	 *  	- Modificar contraseña cliente
 	 *  	- Ver servicios disponibles
 	 *  	- Ver lugares disponibles
-	 *  	- Ver turnos disponibles <-- Falta
+	 *  	- Ver turnos disponibles
 	 *  	- Cancelar turno
 	 */
 	
 	@PostMapping("/modificarContacto")
 	@Operation(
 			summary = "Modificar contacto del cliente",
-			description = "Permite al cliente modificar su información de contacto, incluyendo email, móvil y teléfono."
+			description = "Permite al cliente modificar su información de contacto, incluyendo email, móvil y teléfono. " +
+					"Si se modifica el email, se invalidará la sesión actual y se requerirá un nuevo inicio de sesión." +
+					" **Privado CLIENTE**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -143,7 +149,7 @@ public class ClienteRestController {
 	@PostMapping("/modificarDireccion")
 	@Operation(
 			summary = "Modificar dirección del cliente",
-			description = "Permite al cliente modificar su dirección de contacto."
+			description = "Permite al cliente modificar su dirección de contacto. **Privado CLIENTE**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -185,6 +191,14 @@ public class ClienteRestController {
 		// Obtener el email del usuario autenticado
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
+        
+        if(authentication == null || email == null) {
+			return ResponseEntity.status(401).body("Usuario no autenticado.");
+		}
+        
+        if(authentication == null || email == null) {
+			return ResponseEntity.status(401).body("Usuario no autenticado.");
+		}
 		
 		try {
 			DireccionDto direccionNueva = new DireccionDto(
@@ -211,7 +225,7 @@ public class ClienteRestController {
 	@PostMapping("/modificarContrasena")
 	@Operation(
 			summary = "Modificar contraseña del cliente",
-			description = "Permite al cliente modificar su contraseña."
+			description = "Permite al cliente modificar su contraseña. **Privado CLIENTE**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -266,7 +280,7 @@ public class ClienteRestController {
 	@GetMapping("/verServiciosDisponibles")
 	@Operation(
 			summary = "Ver servicios disponibles",
-			description = "Permite al cliente ver los servicios disponibles."
+			description = "Permite al cliente ver los servicios disponibles. **Privado CLIENTE**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -318,7 +332,7 @@ public class ClienteRestController {
 	@GetMapping("/verLugaresDisponibles")
 	@Operation(
 			summary = "Ver lugares disponibles",
-			description = "Permite al cliente ver los lugares disponibles."
+			description = "Permite al cliente ver los lugares disponibles. **Privado CLIENTE**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -370,10 +384,87 @@ public class ClienteRestController {
 		}
 	}
 	
+	@GetMapping("/verTurnosDisponibles")
+	@Operation(
+			summary = "Ver turnos disponibles",
+			description = "Permite al cliente ver los turnos disponibles. **Privado CLIENTE**"
+	)
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200",
+					description = "Turnos disponibles obtenidos correctamente",
+					content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = TurnoResponseDto.class)
+					)
+			),
+			@ApiResponse(
+					responseCode = "400",
+					description = "No hay turnos disponibles en este momento",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "No hay turnos disponibles en este momento.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "404",
+					description = "Cliente no encontrado",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Cliente no encontrado: {mensaje de error}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500",
+					description = "Error al obtener los turnos disponibles",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al obtener los turnos disponibles: {mensaje de error}")
+					)
+			)
+	})
+	public ResponseEntity<?> verTurnosDisponibles(Principal principal) {
+		
+		// Obtener el email del usuario autenticado
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        
+        try {
+        	
+        	// Busco al cliente por email y obtengo sus turnos disponibles
+        	ClienteDto cliente = clienteService.findByEmail(email);
+        	List<TurnoDto> turnosDisponibles = turnoService.buscarTurnosPorClienteId(cliente.getId());
+        	
+        	if(turnosDisponibles.isEmpty()) {
+        		return ResponseEntity.status(400).body("No hay turnos disponibles en este momento.");
+			} else {
+				// Mapear los turnos a un formato adecuado para la respuesta
+				List<TurnoResponseDto> turnosResponse = turnosDisponibles.stream()
+						.map(turno -> new TurnoResponseDto(
+								turno.getId(),
+								turno.getCliente().getNombre(),
+								turno.getProfesional().getNombre(),
+								turno.getLugar().getDireccion().getCalle() + " " + turno.getLugar().getDireccion().getAltura(),
+								turno.getServicio().getNombre(),
+								turno.getDisponibilidad().getInicio()
+								)
+						)
+						.toList();
+				return ResponseEntity.ok(turnosResponse);
+        	}
+        	
+        } catch (EntidadNoEncontradaException e) {
+			return ResponseEntity.status(404).body("Cliente no encontrado: " + e.getMessage());
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("Error al obtener los turnos disponibles: " + e.getMessage());
+		}
+        
+	}
+	
 	@PostMapping("/cancelarTurno")
 	@Operation(
 			summary = "Cancelar turno",
-			description = "Permite al cliente cancelar un turno previamente reservado."
+			description = "Permite al cliente cancelar un turno previamente reservado. **Privado CLIENTE**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
