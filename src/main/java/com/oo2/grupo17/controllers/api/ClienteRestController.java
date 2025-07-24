@@ -12,26 +12,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.oo2.grupo17.dtos.CambioPasswordDto;
 import com.oo2.grupo17.dtos.ClienteDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.DireccionDto;
+import com.oo2.grupo17.dtos.DisponibilidadDto;
 import com.oo2.grupo17.dtos.LugarDto;
+import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.dtos.TurnoDto;
+import com.oo2.grupo17.dtos.records.ClienteResponseDto;
 import com.oo2.grupo17.dtos.records.ContactoRequestAuxDto;
+import com.oo2.grupo17.dtos.records.ContactoResponseDto;
 import com.oo2.grupo17.dtos.records.DireccionRequestDto;
 import com.oo2.grupo17.dtos.records.DireccionResponseDto;
 import com.oo2.grupo17.dtos.records.LugarResponseDto;
 import com.oo2.grupo17.dtos.records.ServicioResponseDto;
+import com.oo2.grupo17.dtos.records.TurnoRequestDto;
 import com.oo2.grupo17.dtos.records.TurnoResponseDto;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
 import com.oo2.grupo17.services.IDireccionService;
+import com.oo2.grupo17.services.IDisponibilidadService;
 import com.oo2.grupo17.services.ILugarService;
+import com.oo2.grupo17.services.IProfesionalService;
 import com.oo2.grupo17.services.IServicioService;
 import com.oo2.grupo17.services.ITurnoService;
 
@@ -45,6 +53,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
 @RestController @Builder
@@ -60,18 +70,68 @@ public class ClienteRestController {
 	private final IContactoService contactoService;
 	private final IServicioService servicioService;
 	private final IDireccionService direccionService;
+	private final IProfesionalService profesionalService;
+	private final IDisponibilidadService disponibilidadService;
 	
 	/*
 	 *  Se realizará la implementación de los métodos de la API REST para el cliente.
 	 *  * Los métodos incluirán:
+	 *  	- Ver Datos Cliente
 	 *  	- Modificar contacto cliente
 	 *  	- Modificar dirección cliente
 	 *  	- Modificar contraseña cliente
 	 *  	- Ver servicios disponibles
 	 *  	- Ver lugares disponibles
 	 *  	- Ver turnos disponibles
+	 *  	- Solicitar turno
+	 *  	- Reprogramar Turno
 	 *  	- Cancelar turno
 	 */
+	
+	@GetMapping("/verDatosCliente")
+	@Operation(
+			summary = "Ver datos del cliente",
+			description = "Permite al cliente ver sus datos personales, incluyendo nombre, email, móvil y teléfono. " +
+					"**Privado CLIENTE**"
+	)
+	public ResponseEntity<?> verDatosCliente(Principal principal) {
+		
+		// Obtener el email del usuario autenticado
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		
+		try {
+			ClienteDto clienteDto = clienteService.findByEmail(email);
+			
+			ClienteResponseDto clienteResponse = new ClienteResponseDto(
+					clienteDto.getId(),
+					clienteDto.getNombre(),
+					clienteDto.getDni(),
+					clienteDto.getNroCliente(),
+					new ContactoResponseDto(
+							clienteDto.getContacto().getId(),
+							clienteDto.getContacto().getEmail(),
+							clienteDto.getContacto().getMovil(),
+							clienteDto.getContacto().getTelefono(),
+							clienteDto.getContacto().getDireccion() != null ?
+								new DireccionResponseDto(
+										clienteDto.getContacto().getDireccion().getId(),
+										clienteDto.getContacto().getDireccion().getCalle(),
+										clienteDto.getContacto().getDireccion().getAltura(),
+										clienteDto.getContacto().getDireccion().getProvincia().getId(),
+										clienteDto.getContacto().getDireccion().getLocalidad().getId()
+								) : null // Si la dirección es null, no se incluye en la respuesta
+					)
+			);
+			
+			return ResponseEntity.ok(clienteResponse);
+		} catch(EntidadNoEncontradaException e) {
+			return ResponseEntity.status(404).body("Cliente no encontrado: " + e.getMessage());
+		} catch(Exception e) {
+			return ResponseEntity.status(500).body("Error al obtener los datos del cliente: " + e.getMessage());
+		}
+		
+	}
 	
 	@PostMapping("/modificarContacto")
 	@Operation(
@@ -451,6 +511,176 @@ public class ClienteRestController {
 			return ResponseEntity.status(500).body("Error al obtener los turnos disponibles: " + e.getMessage());
 		}
         
+	}
+	
+	@PostMapping("/solicitarTurno")
+	@Operation(
+			summary = "Solicitar turno",
+			description = "Permite al cliente solicitar un turno para un servicio específico. **Privado CLIENTE**"
+	)
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200",
+					description = "Turno solicitado exitosamente",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Turno solicitado exitosamente.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "400",
+					description = "Datos del turno inválidos o disponibilidad ocupada",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Datos del turno inválidos o la disponibilidad seleccionada ya está ocupada.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "404",
+					description = "Cliente/Servicio/Lugar/Profesional no encontrado",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Cliente/Servicio/Lugar/Profesional no encontrado: {mensaje de error}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500",
+					description = "Error al solicitar el turno",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al solicitar el turno: {mensaje de error}")
+					)
+			)
+	})
+	public ResponseEntity<String> solicitarTurno(
+			@Valid @RequestBody TurnoRequestDto turnoDto,
+			BindingResult result,
+			Principal principal) {
+	
+		if(result.hasErrors()) {
+			return ResponseEntity.badRequest().body("Datos del turno inválidos.");
+		}
+		
+		// Obtener el email del usuario autenticado
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		
+		try {
+			// Buscar al cliente por email
+			ClienteDto cliente = clienteService.findByEmail(email);
+			
+			// Buscar Profesional, Lugar y Servicio por nombre
+			// Buscar Disponibilidad por Profesional y fecha
+			ProfesionalDto profesional = profesionalService.findByNombre(turnoDto.profesional());
+			LugarDto lugar = lugarService.findByCalleAndAltura(turnoDto.direccion(), turnoDto.altura());
+			ServicioDto servicio = servicioService.findByNombre(turnoDto.servicio());
+			DisponibilidadDto disponibilidad = disponibilidadService.findByProfesionalAndInicio(
+					profesional.getId(), turnoDto.disponibilidad());
+			
+			// Crear el Turno
+			TurnoDto turnoNuevo = new TurnoDto(
+					null, // ID se asigna automáticamente
+					cliente,
+					profesional,
+					lugar,
+					servicio,
+					disponibilidad
+			);
+			
+			// Validar que la disponibilidad no esté ocupada
+			if(disponibilidad.isOcupado()) {
+				return ResponseEntity.status(400).body("La disponibilidad seleccionada ya está ocupada.");
+			}
+			
+			turnoService.crearTurno(turnoNuevo);
+			
+			return ResponseEntity.ok("Turno solicitado exitosamente.");
+			
+		} catch(EntidadNoEncontradaException e) {
+			return ResponseEntity.status(404).body("Cliente/Servicio/Lugar/Profesional no encontrado: " + e.getMessage());
+		} catch(Exception e) {
+			return ResponseEntity.status(500).body("Error al solicitar el turno: " + e.getMessage());
+		}
+		
+	}
+	
+	@PostMapping("/reprogramarTurno")
+	@Operation(
+			summary = "Reprogramar turno",
+			description = "Permite al cliente reprogramar un turno previamente reservado. **Privado CLIENTE**"
+	)
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200",
+					description = "Turno reprogramado correctamente",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Turno reprogramado correctamente.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "400",
+					description = "Datos de reprogramación inválidos o disponibilidad ocupada",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Datos de reprogramación inválidos o la disponibilidad seleccionada ya está ocupada.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "404",
+					description = "Cliente/Servicio/Lugar/Profesional no encontrado o cliente no autorizado para reprogramar el turno",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Cliente/Servicio/Lugar/Profesional no encontrado: {mensaje de error}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500",
+					description = "Error al reprogramar el turno",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al reprogramar el turno: {mensaje de error}")
+					)
+			)
+	})
+	public ResponseEntity<String> reprogramarTurno(
+			@RequestParam @NotNull @Positive Long turnoId,
+			@RequestParam @NotNull @Positive Long disponibilidadId,
+			Principal principal) {
+		
+		// Obtener el email del usuario autenticado
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		
+		try {
+			// Buscar al cliente por email
+			ClienteDto cliente = clienteService.findByEmail(email);
+			
+			// Validar que el turnoId perteneza al cliente autorizado
+			if(!clienteService.tieneTurno(turnoId, cliente.getId())) {
+				return ResponseEntity.status(404).body("Cliente no autorizado para reprogramar este turno.");
+			}
+			
+			// Reprogramar el turno
+			if(turnoService.reprogramarTurno(turnoId, disponibilidadId)) {
+				return ResponseEntity.ok("Turno reprogramado correctamente.");
+			} else {
+				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
+				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
+				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
+				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
+				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
+				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
+				
+				return ResponseEntity.status(400).body("No se pudo reprogramar el turno.");
+			}
+			
+		} catch(EntidadNoEncontradaException e) {
+			return ResponseEntity.status(404).body("Cliente/Servicio/Lugar/Profesional no encontrado: " + e.getMessage());
+		} catch(Exception e) {
+			return ResponseEntity.status(500).body("Error al reprogramar el turno: " + e.getMessage());
+		}
+		
 	}
 	
 	@PostMapping("/cancelarTurno")

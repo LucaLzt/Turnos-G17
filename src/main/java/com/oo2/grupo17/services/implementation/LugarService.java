@@ -137,4 +137,12 @@ public class LugarService implements ILugarService {
 				.collect(Collectors.toList());
 	}
 
+	@Override
+	public LugarDto findByCalleAndAltura(String direccion, int altura) {
+		return modelMapper.map(
+				lugarRepository.findByDireccion_CalleAndDireccion_Altura(direccion, altura),
+				LugarDto.class
+				);
+	}
+
 }

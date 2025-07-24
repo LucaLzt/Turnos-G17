@@ -106,5 +106,12 @@ public class ServicioService implements IServicioService {
 	public List<Servicio> findAllByIds(Set<Long> todosLosServiciosIds) {
 		return servicioRepository.findAllById(todosLosServiciosIds);
 	}
+
+	@Override
+	public ServicioDto findByNombre(String servicio) {
+		return modelMapper.map(
+				servicioRepository.findByNombre(servicio),
+				ServicioDto.class);
+	}
 	
 }

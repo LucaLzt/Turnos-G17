@@ -137,4 +137,11 @@ public class DisponibilidadService implements IDisponibilidadService {
 				fecha.getDayOfWeek() == DayOfWeek.SUNDAY;
 	}
 
+	@Override
+	public DisponibilidadDto findByProfesionalAndInicio(Long id, LocalDateTime disponibilidad) {
+		return modelMapper.map(
+				disponibilidadRepository.findByProfesional_IdAndInicio(id, disponibilidad),
+				DisponibilidadDto.class);
+	}
+
 }

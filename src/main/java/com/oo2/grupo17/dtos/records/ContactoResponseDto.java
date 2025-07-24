@@ -4,7 +4,7 @@ public record ContactoResponseDto (
 
 		Long id,
 		String email,
-		int movil,
+		long movil,
 		int telefono,
 		DireccionResponseDto direccion
 		

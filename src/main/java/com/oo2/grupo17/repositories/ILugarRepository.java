@@ -1,6 +1,7 @@
 package com.oo2.grupo17.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -24,4 +25,5 @@ public interface ILugarRepository extends JpaRepository<Lugar, Long>{
 	    );
 	
 	List<Lugar> findByDireccion_CalleContainingIgnoreCase(String nombre);
+	Optional<Lugar> findByDireccion_CalleAndDireccion_Altura(String direccion, int altura);
 }
