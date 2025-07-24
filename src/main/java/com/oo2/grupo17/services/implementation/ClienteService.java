@@ -25,6 +25,7 @@ import com.oo2.grupo17.exceptions.RolNoEncontradoException;
 import com.oo2.grupo17.repositories.IClienteRepository;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
+import com.oo2.grupo17.repositories.ITurnoRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IClienteService;
 import com.oo2.grupo17.services.IContactoService;
@@ -37,6 +38,7 @@ public class ClienteService implements IClienteService {
 	
 	private final IUserRepository userRepository;
 	private final IRoleRepository roleRepository;
+	private final ITurnoRepository turnoRepostitory;
 	private final IContactoRepository contactoRepository;
 	private final IClienteRepository clienteRepository;
 	private final IContactoService contactoService;
@@ -211,5 +213,21 @@ public class ClienteService implements IClienteService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(7);
         return passwordEncoder.encode(password);
     }
+
+	@Override
+	public boolean tieneTurno(Long turnoId, Long clienteId) {
+		Cliente cliente = clienteRepository.findById(clienteId)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + clienteId));
+		return turnoRepostitory.existsByIdAndClienteId(turnoId, cliente.getId());
+	}
+
+	@Override
+	public boolean cancelarTurno(Long turnoId, Long clienteId) {
+		if (!tieneTurno(turnoId, clienteId)) {
+			throw new EntidadNoEncontradaException("El cliente no tiene un turno con ID: " + turnoId);
+		}
+		turnoRepostitory.deleteById(turnoId);
+		return true;
+	}
 	
 }

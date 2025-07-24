@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.Builder;
@@ -42,7 +43,7 @@ public class LugaresRestController {
 	private final IDireccionService direccionService;
 
 	/*
-	 * 	Se realizará la implementación de los métodos de la API REST para gestionar lugares.
+	 *  Se realizará la implementación de los métodos de la API REST para gestionar lugares.
 	 *  * Los métodos estarán protegidos por autenticación y autorización.
 	 * 	* Los métodos incluirán:
 	 * 		- Crear un nuevo lugar.
@@ -55,9 +56,10 @@ public class LugaresRestController {
 	
 	
 	@PostMapping("/crearLugar")
+	@SecurityRequirement(name = "basicAuth")
 	@Operation(
 			summary = "Crear un nuevo lugar",
-			description = "Crea un nuevo lugar junto con su dirección asociada."
+			description = "Crea un nuevo lugar junto con su dirección asociada. **Privado ADMIN**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -127,7 +129,7 @@ public class LugaresRestController {
 	@GetMapping("/obtenerTodos")
 	@Operation(
 			summary = "Listar todos los lugares",
-			description = "Obtiene una lista de todos los lugares registrados."
+			description = "Obtiene una lista de todos los lugares registrados.  **Público**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -171,7 +173,7 @@ public class LugaresRestController {
 	@GetMapping("/obtener/{id}")
 	@Operation(
 			summary = "Obtener un lugar por ID",
-			description = "Obtiene los detalles de un lugar específico por su ID."
+			description = "Obtiene los detalles de un lugar específico por su ID.  **Público**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -221,9 +223,10 @@ public class LugaresRestController {
 	}
 	
 	@PutMapping("/actualizar/{id}")
+	@SecurityRequirement(name = "basicAuth")
 	@Operation(
 			summary = "Actualizar un lugar",
-			description = "Actualiza los detalles de un lugar existente por su ID."
+			description = "Actualiza los detalles de un lugar existente por su ID.  **Privado ADMIN**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -291,9 +294,10 @@ public class LugaresRestController {
 	}
 	
 	@DeleteMapping("/eliminar/{id}")
+	@SecurityRequirement(name = "basicAuth")
 	@Operation(
 			summary = "Eliminar un lugar",
-			description = "Elimina un lugar existente por su ID."
+			description = "Elimina un lugar existente por su ID.  **Privado ADMIN**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -332,10 +336,10 @@ public class LugaresRestController {
 		}
 	}
 	
-	@GetMapping("/buscar")
+	@GetMapping("/buscarPorCalle")
 	@Operation(
 			summary = "Buscar lugares por nombre de calle",
-			description = "Busca lugares que coincidan con el nombre de la calle proporcionada."
+			description = "Busca lugares que coincidan con el nombre de la calle proporcionada.  **Público**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -355,7 +359,7 @@ public class LugaresRestController {
 					)
 			)
 	})
-	public ResponseEntity<?> buscarLugares(@RequestParam(required = false) String calle) {
+	public ResponseEntity<?> buscarLugaresPorCalle(@RequestParam(required = false) String calle) {
 		try {
 			List<LugarDto> lugares;
 			List<LugarResponseDto> lugaresResponses;
