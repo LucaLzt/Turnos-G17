@@ -120,5 +120,12 @@ public class ServicioService implements IServicioService {
 	public List<Servicio> findAllByIds(Set<Long> todosLosServiciosIds) {
 		return servicioRepository.findAllById(todosLosServiciosIds);
 	}
+
+	@Override
+	public ServicioDto findByNombre(String servicio) {
+		Servicio servicioEntity = servicioRepository.findByNombre(servicio)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el servicio con nombre: " + servicio));
+		return modelMapper.map(servicioEntity, ServicioDto.class);
+	}
 	
 }
