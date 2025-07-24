@@ -23,7 +23,6 @@ import com.oo2.grupo17.dtos.DisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.dtos.TurnoDto;
-import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.entities.Localidad;
 import com.oo2.grupo17.entities.Provincia;
@@ -173,7 +172,7 @@ public class ProfesionalController {
     	ProfesionalDto profesional = profesionalService.findByEmail(email);
         Long profesionalId = profesional.getId();
         
-        List<Turno> turnos = turnoService.buscarTurnosPorProfesionalId(profesionalId);
+        List<TurnoDto> turnos = turnoService.buscarTurnosPorProfesionalId(profesionalId);
         model.addAttribute("turnos", turnos);
 
         return ViewRouteHelper.PROFESIONAL_TURNOS;
