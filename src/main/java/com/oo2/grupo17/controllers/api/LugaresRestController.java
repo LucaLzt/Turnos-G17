@@ -201,7 +201,7 @@ public class LugaresRestController {
 					)
 			)
 	})
-	public ResponseEntity<?> obtenerLugarPorId(Long id) {
+	public ResponseEntity<?> obtenerLugarPorId(@PathVariable Long id) {
 		try {
 			LugarDto lugar = lugarService.findById(id);
 			LugarResponseDto lugarResponse = new LugarResponseDto(
@@ -234,7 +234,7 @@ public class LugaresRestController {
 					description = "Lugar actualizado exitosamente",
 					content = @Content(
 							mediaType = "text/plain",
-							schema = @Schema(type = "string", example = "Error al buscar los lugares: {errorMessage}")
+							schema = @Schema(type = "string", example = "Lugar actualizado exitosamente")
 					)
 			),
 			@ApiResponse(
@@ -242,7 +242,7 @@ public class LugaresRestController {
 					description = "Lugar no encontrado",
 					content = @Content(
 							mediaType = "text/plain",
-							schema = @Schema(type = "string", example = "Lugar actualizado exitosamente")
+							schema = @Schema(type = "string", example = "Lugar no encontrado")
 					)
 			),
 			@ApiResponse(

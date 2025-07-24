@@ -109,9 +109,9 @@ public class ServicioService implements IServicioService {
 
 	@Override
 	public ServicioDto findByNombre(String servicio) {
-		return modelMapper.map(
-				servicioRepository.findByNombre(servicio),
-				ServicioDto.class);
+		Servicio servicioEntity = servicioRepository.findByNombre(servicio)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el servicio con nombre: " + servicio));
+		return modelMapper.map(servicioEntity, ServicioDto.class);
 	}
 	
 }

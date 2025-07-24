@@ -401,9 +401,9 @@ public class ProfesionalService implements IProfesionalService {
 
 	@Override
 	public ProfesionalDto findByNombre(String profesional) {
-		return modelMapper.map(
-				profesionalRepository.findByNombre(profesional),
-				ProfesionalDto.class);
+		Profesional profesionalEntity = profesionalRepository.findByNombre(profesional)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con nombre: " + profesional));
+		return modelMapper.map(profesionalEntity, ProfesionalDto.class);
 	}
 	
 }

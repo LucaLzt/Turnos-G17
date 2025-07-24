@@ -139,9 +139,9 @@ public class DisponibilidadService implements IDisponibilidadService {
 
 	@Override
 	public DisponibilidadDto findByProfesionalAndInicio(Long id, LocalDateTime disponibilidad) {
-		return modelMapper.map(
-				disponibilidadRepository.findByProfesional_IdAndInicio(id, disponibilidad),
-				DisponibilidadDto.class);
+		Disponibilidad disp = disponibilidadRepository.findByProfesional_IdAndInicio(id, disponibilidad)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la disponibilidad con ID: " + id + " y fecha: " + disponibilidad));
+		return modelMapper.map(disp, DisponibilidadDto.class);
 	}
 
 }
