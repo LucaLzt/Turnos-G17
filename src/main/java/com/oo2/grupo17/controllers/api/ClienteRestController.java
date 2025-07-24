@@ -191,14 +191,6 @@ public class ClienteRestController {
 		// Obtener el email del usuario autenticado
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        
-        if(authentication == null || email == null) {
-			return ResponseEntity.status(401).body("Usuario no autenticado.");
-		}
-        
-        if(authentication == null || email == null) {
-			return ResponseEntity.status(401).body("Usuario no autenticado.");
-		}
 		
 		try {
 			DireccionDto direccionNueva = new DireccionDto(
@@ -260,7 +252,7 @@ public class ClienteRestController {
 			HttpServletResponse response) {
 		
 		if(result.hasErrors()) {
-			return ResponseEntity.status(422).body("Error en en los datos: " 
+			return ResponseEntity.status(422).body("Error en los datos: " 
 					+ result.getAllErrors().get(0).getDefaultMessage());
 		}
 		

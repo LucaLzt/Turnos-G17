@@ -38,7 +38,7 @@ public class ClienteService implements IClienteService {
 	
 	private final IUserRepository userRepository;
 	private final IRoleRepository roleRepository;
-	private final ITurnoRepository turnoRepostitory;
+	private final ITurnoRepository turnoRepository;
 	private final IContactoRepository contactoRepository;
 	private final IClienteRepository clienteRepository;
 	private final IContactoService contactoService;
@@ -218,7 +218,7 @@ public class ClienteService implements IClienteService {
 	public boolean tieneTurno(Long turnoId, Long clienteId) {
 		Cliente cliente = clienteRepository.findById(clienteId)
 				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + clienteId));
-		return turnoRepostitory.existsByIdAndClienteId(turnoId, cliente.getId());
+		return turnoRepository.existsByIdAndClienteId(turnoId, cliente.getId());
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public class ClienteService implements IClienteService {
 		if (!tieneTurno(turnoId, clienteId)) {
 			throw new EntidadNoEncontradaException("El cliente no tiene un turno con ID: " + turnoId);
 		}
-		turnoRepostitory.deleteById(turnoId);
+		turnoRepository.deleteById(turnoId);
 		return true;
 	}
 	
