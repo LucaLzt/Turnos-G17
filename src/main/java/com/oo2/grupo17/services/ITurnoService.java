@@ -19,7 +19,7 @@ public interface ITurnoService {
     
 	void crearTurno(TurnoDto turnoDto);
     
-    List<Turno> buscarTurnosPorClienteId(Long clienteId);
+    List<TurnoDto> buscarTurnosPorClienteId(Long clienteId);
     
     List<Turno> buscarTurnosPorProfesionalId(Long profesionalId);
 
