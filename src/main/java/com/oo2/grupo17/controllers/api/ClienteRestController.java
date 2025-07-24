@@ -631,7 +631,8 @@ public class ClienteRestController {
 					description = "Cliente/Servicio/Lugar/Profesional no encontrado o cliente no autorizado para reprogramar el turno",
 					content = @Content(
 							mediaType = "text/plain",
-							schema = @Schema(type = "string", example = "Cliente/Servicio/Lugar/Profesional no encontrado: {mensaje de error}")
+							schema = @Schema(type = "string", example = "Cliente/Servicio/Lugar/Profesional no encontrado: {mensaje de error}\n" +
+									"Cliente no autorizado para reprogramar este turno.")
 					)
 			),
 			@ApiResponse(
@@ -665,13 +666,6 @@ public class ClienteRestController {
 			if(turnoService.reprogramarTurno(turnoId, disponibilidadId)) {
 				return ResponseEntity.ok("Turno reprogramado correctamente.");
 			} else {
-				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
-				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
-				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
-				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
-				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
-				System.out.println("Turno no reprogramado, disponibilidad ocupada o datos inválidos.");
-				
 				return ResponseEntity.status(400).body("No se pudo reprogramar el turno.");
 			}
 			
