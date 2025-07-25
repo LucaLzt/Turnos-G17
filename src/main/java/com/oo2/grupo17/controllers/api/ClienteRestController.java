@@ -253,8 +253,12 @@ public class ClienteRestController {
         String email = authentication.getName();
 		
 		try {
+			
+			ContactoDto contactoDto = contactoService.findByEmail(email);
+			
 			DireccionDto direccionNueva = new DireccionDto(
-					null, // ID se asigna automáticamente
+					// Si la dirección ya existe, se usa su ID, si no, se asigna null para crear una nueva
+					contactoDto.getDireccion().getId() != null ? contactoDto.getDireccion().getId() : null, 
 					direccionDto.calle(),
 					direccionDto.altura(),
 					direccionDto.provinciaId(),
