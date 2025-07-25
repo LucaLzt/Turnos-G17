@@ -244,7 +244,8 @@ public class ProfesionalService implements IProfesionalService {
 	
 	@Override
 	public void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto) {
-        // 1. Buscar el profesional por ID
+
+		// 1. Buscar el profesional por ID
         Profesional profesional = profesionalRepository.findById(dto.getProfesionalId())
             .orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + dto.getProfesionalId()));
 
@@ -270,6 +271,7 @@ public class ProfesionalService implements IProfesionalService {
             // 6. Avanzar al siguiente día
             fecha = fecha.plusDays(1);
         }
+
     }
 	
 	@Override
