@@ -40,21 +40,10 @@ public class AdminRestController {
 	/*
 	 *  Se realizará la implementación de los métodos de la API REST para el administrador.
 	 *  * Los métodos incluirán:
-	 *  	- Modificar Turnos
 	 *  	- Modificar Profesionales
 	 *  	- Eliminar Profesionales
 	 *  	- Generar Disponibilidades
 	 */
-	
-	@PutMapping("/modificarTurno")
-	@Operation(
-			summary = "Modificar un turno existente",
-			description = "Permite al administrador modificar los detalles de un turno existente, como la fecha, hora y profesional asignado."
-	)
-	public ResponseEntity<String> modificarTurno(@RequestParam Long turnoId) {
-		// Ver como hacer
-		return ResponseEntity.ok("Turno modificado exitosamente con ID: " + turnoId);
-	}
 	
 	@PutMapping("/modificarProfesional")
 	@Operation(
