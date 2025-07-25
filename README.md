@@ -40,3 +40,4 @@ El sistema fue desarrollado como trabajo práctico integrador. Este proyecto per
     - Ingresar como **ADMIN**: admin1234@admin.com **password**: admin1234
     - Ingresar como **CLIENTE**: cliente1234@cliente.com **password**: cliente1234
     - Ingresar como **PROFESIONAL**: profesional1234@profesional.com **password**: profesional1234
+- Para probar los endpoints acceder a: [[http//localhots:8080/swagger-ui](http://localhost:8080/swagger-ui/index.html#/)]
