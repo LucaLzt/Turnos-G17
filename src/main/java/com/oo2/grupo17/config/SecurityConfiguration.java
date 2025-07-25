@@ -55,6 +55,8 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
                     auth.requestMatchers("/api/lugares/**").hasRole("ADMIN");
                     auth.requestMatchers("/api/servicio/**").hasRole("ADMIN");
+                    auth.requestMatchers("/api/turno/traer").hasRole("ADMIN");
+                    auth.requestMatchers("/api/turno/traer/*").hasAnyRole("CLIENTE", "PROFESIONAL", "ADMIN");
                     
                     auth.anyRequest().authenticated();
                 })

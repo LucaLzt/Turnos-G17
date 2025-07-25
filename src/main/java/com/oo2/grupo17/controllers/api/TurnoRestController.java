@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 
@@ -30,7 +33,7 @@ public class TurnoRestController {
 	private ITurnoService turnoService;
 	
 	@GetMapping("/traer/{id}")
-	@Operation(summary = "Traer un Turno", description = "Se trae un Turno por ID.")
+	@Operation(summary = "Traer un Turno", description = "Se trae un Turno por ID. **Privado**")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Turno encontrado.",
 					content = @Content(
@@ -46,20 +49,33 @@ public class TurnoRestController {
 							schema = @Schema(type = "string", example = "Problemas en el sistema: {error_message}"))
 			)
 	})
-	public ResponseEntity<?> traerTurno(@PathVariable Long id){
+	public ResponseEntity<?> traerTurno(@PathVariable Long id) {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String email = authentication.getName();
+		
 		try {
 			TurnoDto dto = turnoService.findById(id);
-			TurnoResponseDto responseDto = new TurnoResponseDto(
-					dto.getId(), 
-					dto.getCliente().getNombre(), 
-					dto.getProfesional().getNombre(), 
-					dto.getLugar().getDireccion().getCalle() + " " 
-							+ dto.getLugar().getDireccion().getAltura() + ", " 
-							+ dto.getLugar().getDireccion().getProvinciaId() + ", " 
-							+ dto.getLugar().getDireccion().getLocalidadId(),
-					dto.getServicio().getNombre(), 
-					dto.getDisponibilidad().getInicio());
-			return ResponseEntity.status(200).body(responseDto);
+			
+			// Solo puede ver el turno el Admin o el Cliente/Profesional asociado al turno.
+			if (dto.getCliente().getContacto().getEmail().equals(email) || 
+					dto.getProfesional().getContacto().getEmail().equals(email) || 
+					email.equals("admin1234@admin.com")) {
+				TurnoResponseDto responseDto = new TurnoResponseDto(
+						dto.getId(), 
+						dto.getCliente().getNombre(), 
+						dto.getProfesional().getNombre(), 
+						dto.getLugar().getDireccion().getCalle() + " " 
+								+ dto.getLugar().getDireccion().getAltura() + ", " 
+								+ dto.getLugar().getDireccion().getProvinciaId() + ", " 
+								+ dto.getLugar().getDireccion().getLocalidadId(),
+						dto.getServicio().getNombre(), 
+						dto.getDisponibilidad().getInicio());
+				return ResponseEntity.status(200).body(responseDto);
+			} else {
+				return ResponseEntity.status(403).body("No tiene permiso para ver este Turno.");
+			}
+			
 		} catch (EntidadNoEncontradaException e) {
 			return ResponseEntity.status(404).body("Error al traer Turno: " + e.getMessage());
 		} catch (Exception e) {
@@ -68,7 +84,8 @@ public class TurnoRestController {
 	}
 	
 	@GetMapping("/traer")
-	@Operation(summary = "Traer todos los Turnos", description = "Se traen todos los Turnos.")
+	@SecurityRequirement(name = "basicAuth")
+	@Operation(summary = "Traer todos los Turnos", description = "Se traen todos los Turnos. **Privado ADMIN**")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", 
 					description = "Turnos encontrados.",
