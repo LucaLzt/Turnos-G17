@@ -54,7 +54,7 @@ import lombok.Builder;
 @RestController() @Builder
 @RequestMapping("/api/profesional")
 @PreAuthorize("hasRole('ROLE_PROFESIONAL')")
-@Tag(name = "Profesional", description = "Operaciones relacionadas con los profesionales")
+@Tag(name = "Profesional API", description = "API para la gestión de funcionalidades del profesional")
 public class ProfesionalRestController {
 	
 	

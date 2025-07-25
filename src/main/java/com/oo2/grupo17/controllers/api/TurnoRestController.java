@@ -27,13 +27,13 @@ import lombok.Builder;
 
 @RestController @Builder
 @RequestMapping("/api/turno")
-@Tag(name = "Turno", description = "Operaciones sobre Turno.")
+@Tag(name = "Turno API", description = "API para gestionar turnos")
 public class TurnoRestController {
 	
 	private ITurnoService turnoService;
 	
 	@GetMapping("/traer/{id}")
-	@Operation(summary = "Traer un Turno", description = "Se trae un Turno por ID. **Privado**")
+	@Operation(summary = "Traer un Turno", description = "Se trae un Turno por ID. **Privado ADMIN-CLIENTE-PROFESIONAL**")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Turno encontrado.",
 					content = @Content(

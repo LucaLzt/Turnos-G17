@@ -105,7 +105,7 @@ public class UserRestController {
 	@Operation(
 		summary = "Registro de un nuevo profesional", 
 		description = "Permite registrar un nuevo profesional en el sistema." +
-		"**La contraseña se enviará automáticamente al email proporcionado.**"
+		" **La contraseña se enviará automáticamente al email proporcionado.**"
 	)	
 	@ApiResponses(value = {
 	    @ApiResponse(

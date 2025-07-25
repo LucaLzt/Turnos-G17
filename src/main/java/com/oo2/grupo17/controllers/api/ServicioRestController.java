@@ -36,7 +36,7 @@ import lombok.Builder;
 
 @RestController @Builder
 @RequestMapping("api/servicio")
-@Tag(name = "Servicio", description = "Operaciones sobre Servicio")
+@Tag(name = "Servicio API", description = "API para gestionar servicios")
 public class ServicioRestController {
 	
 	private IServicioService servicioService;

@@ -63,7 +63,7 @@ import lombok.Builder;
 @RequestMapping("/api/clientes")
 @SecurityRequirement(name = "basicAuth")
 @PreAuthorize("hasRole('ROLE_CLIENTE')")
-@Tag (name = "Cliente API", description = "API para la gestión de clientes")
+@Tag (name = "Cliente API", description = "API para la gestión de funcionalidades del cliente")
 public class ClienteRestController {
 
 	private final ILugarService lugarService;
@@ -400,18 +400,17 @@ public class ClienteRestController {
 			
 			DireccionDto direccionNueva = new DireccionDto(
 					// Si la dirección ya existe, se usa su ID, si no, se asigna null para crear una nueva
-					contactoDto.getDireccion().getId() != null ? contactoDto.getDireccion().getId() : null, 
+					contactoDto.getDireccion() != null ? contactoDto.getDireccion().getId() : null, 
 					direccionDto.calle(),
 					direccionDto.altura(),
 					direccionDto.provinciaId(),
 					direccionDto.localidadId()
 			);
-			ContactoDto contactoActual = contactoService.findByEmail(email);
-			if(contactoActual.getDireccion() == null) {
-				direccionService.crearDireccion(contactoActual, direccionNueva);
+			if(contactoDto.getDireccion() == null) {
+				direccionService.crearDireccion(contactoDto, direccionNueva);
 				return ResponseEntity.ok("Dirección creada correctamente.");
 			} else {
-				direccionService.actualizarDireccion(contactoActual, direccionNueva);
+				direccionService.actualizarDireccion(contactoDto, direccionNueva);
 				return ResponseEntity.ok("Dirección modificada correctamente.");
 			}
 			
@@ -1129,7 +1128,7 @@ public class ClienteRestController {
 			)
 	})
 	public ResponseEntity<String> cancelarTurno(
-			@RequestBody Long turnoId,
+			@RequestParam Long turnoId,
 			Principal principal) {
 		
 		// Validar que el turnoId no sea nulo o negativo
