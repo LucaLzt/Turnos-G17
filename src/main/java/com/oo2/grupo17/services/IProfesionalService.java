@@ -40,5 +40,9 @@ public interface IProfesionalService {
 	void cambiarContrasena(ProfesionalDto profesional, CambioPasswordDto cambioPasswordDto);
 
 	ProfesionalDto findByNombre(String profesional);
+
+	boolean tieneTurno(Long profesionalId, Long turnoId);
+
+	boolean cancelarTurno(Long profesionalId, Long turnoId);
 	
 }
