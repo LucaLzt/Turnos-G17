@@ -1,25 +1,31 @@
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui/index.html
+  api-docs:
+    path: /api/v3/api-docs
+
 spring:
- datasource:
-  url: ${DB_URL}
-  username: ${USERNAME} 
-  password: ${PASSWORD}
- jpa:
-  show-sql: false
-  hibernate:
-   ddl-auto: update
-  properties:
-   dialect: org.hibernate.dialect.MySQL5Dialect
- thymeleaf:
-  cache: false
- mail:
-  host: smtp.gmail.com
-  port: 587
-  username: ${MAIL_USERNAME}
-  password: ${MAIL_PASSWORD}
-  properties:
-   mail:
-    smtp:
-     auth: true
-     starttls:
-      enable: true
-      required: true
+  datasource:
+    url: ${DB_URL}
+    username: ${USERNAME}
+    password: ${PASSWORD}
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+  thymeleaf:
+    cache: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
