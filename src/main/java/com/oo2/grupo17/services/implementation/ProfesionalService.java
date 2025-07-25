@@ -282,9 +282,7 @@ public class ProfesionalService implements IProfesionalService {
 	@Override
 	public void asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds) {
 		Profesional profesional = profesionalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profesional no encontrado"));
-		System.out.println(profesionalDto.getEspecialidad());
-		System.out.println(profesionalDto.getEspecialidad());
-		System.out.println(profesionalDto.getEspecialidad());
+		
 		// Asignar Especialidad
 		if(profesionalDto.getEspecialidad() != null) {
 			Especialidad especialidad = especialidadRepository.findById(profesionalDto.getEspecialidad().getId()).orElseThrow(()-> new EntityNotFoundException("Especialidad no encontrada"));
