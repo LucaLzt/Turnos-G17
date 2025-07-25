@@ -68,6 +68,44 @@ public class AdminRestController {
 					)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/admin/modificarProfesional",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/admin/modificarProfesional",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Profesional no encontrado",
 					content = @Content(
@@ -119,6 +157,44 @@ public class AdminRestController {
 					)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/admin/eliminarProfesional",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/admin/eliminarProfesional",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "404", 
 					description = "Profesional no encontrado",
 					content = @Content(
@@ -160,6 +236,44 @@ public class AdminRestController {
 							schema = @Schema(type = "string", example = "Disponibilidades generadas exitosamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/admin/generarDisponibilidad",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/admin/generarDisponibilidad",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "404", 
 					description = "Profesional no encontrado",

@@ -14,7 +14,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
@@ -125,7 +127,7 @@ public class SecurityConfiguration {
     			response.setContentType("application/json;charset=UTF-8");
     			
     			String message = determineAuthErrorMessage(authException);
-    			String jsonResponse = createErrorJson("Unauthorized", message, 401);
+    			String jsonResponse = createErrorJson("Unauthorized", message, 401, requestURI);
     			response.getWriter().write(jsonResponse);
     			
     		} else {
@@ -150,7 +152,7 @@ public class SecurityConfiguration {
                 response.setContentType("application/json;charset=UTF-8");
                 
                 String message = "Acceso denegado: No tienes los permisos necesarios para realizar esta operación";
-                String jsonResponse = createErrorJson("Forbidden", message, 403);
+                String jsonResponse = createErrorJson("Forbidden", message, 403, requestURI);
                 response.getWriter().write(jsonResponse);
             } else {
                 // Redirección a página de error para peticiones web
@@ -171,14 +173,24 @@ public class SecurityConfiguration {
         }
     }
     
-    private String createErrorJson(String error, String message, int status) {
+    private String createErrorJson(String error, String message, int status, String requestPath) {
         return String.format(
-            "{\"error\":\"%s\",\"message\":\"%s\",\"status\":%d,\"timestamp\":\"%s\",\"path\":\"%s\"}",
+            "{\"error\":\"%s\",\"message\":\"%s\",\"status\":%d,\"timestamp\":\"%s\",\"path\":\"%s\",\"user\":\"%s\"}",
             error, message, status, 
             java.time.Instant.now().toString(),
-            "API_REQUEST"
+            requestPath,
+            getCurrentUser()
         );
     }
+    
+    private String getCurrentUser() {
+		try {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			return auth != null ? auth.getName() : "anonymous";
+		} catch (Exception e) {
+			return "unknown";
+		} 
+	}
     
 }
 	

@@ -67,6 +67,44 @@ public class EspecialidadRestController {
 		    		)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/especialidades/agregarEspecialidad",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/especialidades/agregarEspecialidad",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "409",
 					description = "La especialidad ya existe.",
 					content = @Content(
@@ -206,6 +244,44 @@ public class EspecialidadRestController {
 							schema = @Schema(type = "string", example = "Especialidad actualizada exitosamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/especialidades/actualizar/{id}",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/especialidades/actualizar/{id}",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
     		@ApiResponse(
 					responseCode = "404",
 					description = "Especialidad no encontrada.",
@@ -272,6 +348,44 @@ public class EspecialidadRestController {
 							schema = @Schema(type = "string", example = "Especialidad eliminada exitosamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/especialidades/eliminar/{id}",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/especialidades/eliminar/{id}",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "404",
 					description = "Especialidad no encontrada.",
