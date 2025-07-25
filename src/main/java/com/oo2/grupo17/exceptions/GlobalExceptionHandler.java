@@ -1,10 +1,11 @@
 package com.oo2.grupo17.exceptions;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice(annotations = Controller.class)
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(EntidadNoEncontradaException.class)
