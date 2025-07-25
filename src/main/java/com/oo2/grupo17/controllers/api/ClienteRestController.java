@@ -8,8 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,6 +96,32 @@ public class ClienteRestController {
 			description = "Permite al cliente ver sus datos personales, incluyendo nombre, email, móvil y teléfono. " +
 					"**Privado CLIENTE**"
 	)
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200",
+					description = "Datos del cliente obtenidos correctamente",
+					content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = ClienteResponseDto.class)
+					)
+			),
+			@ApiResponse(
+					responseCode = "404",
+					description = "Cliente no encontrado",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Cliente no encontrado: {mensaje de error}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500",
+					description = "Error al obtener los datos del cliente",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al obtener los datos del cliente: {mensaje de error}")
+					)
+			)
+	})
 	public ResponseEntity<?> verDatosCliente(Principal principal) {
 		
 		// Obtener el email del usuario autenticado
@@ -133,7 +161,7 @@ public class ClienteRestController {
 		
 	}
 	
-	@PostMapping("/modificarContacto")
+	@PutMapping("/modificarContacto")
 	@Operation(
 			summary = "Modificar contacto del cliente",
 			description = "Permite al cliente modificar su información de contacto, incluyendo email, móvil y teléfono. " +
@@ -278,7 +306,7 @@ public class ClienteRestController {
 		}
 	}
 	
-	@PostMapping("/modificarContrasena")
+	@PutMapping("/modificarContrasena")
 	@Operation(
 			summary = "Modificar contraseña del cliente",
 			description = "Permite al cliente modificar su contraseña. **Privado CLIENTE**"
@@ -608,7 +636,7 @@ public class ClienteRestController {
 		
 	}
 	
-	@PostMapping("/reprogramarTurno")
+	@PutMapping("/reprogramarTurno")
 	@Operation(
 			summary = "Reprogramar turno",
 			description = "Permite al cliente reprogramar un turno previamente reservado. **Privado CLIENTE**"
@@ -681,7 +709,7 @@ public class ClienteRestController {
 		
 	}
 	
-	@PostMapping("/cancelarTurno")
+	@DeleteMapping("/cancelarTurno")
 	@Operation(
 			summary = "Cancelar turno",
 			description = "Permite al cliente cancelar un turno previamente reservado. **Privado CLIENTE**"
