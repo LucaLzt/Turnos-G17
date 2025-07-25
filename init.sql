@@ -2485,13 +2485,13 @@ UPDATE persona SET lugar_id = 1 WHERE id = 2;
 
 -- Disponibilidad del profesional
 INSERT INTO disponibilidad (duracion, inicio, ocupado, profesional_id) VALUES
-(30, '2025-07-20 09:00:00', b'1', 2), -- Turno ya ocupado
-(30, '2025-07-20 09:30:00', b'0', 2), -- Turno libre
-(30, '2025-07-20 11:00:00', b'0', 2),
-(30, '2025-07-20 11:30:00', b'0', 2),
-(30, '2025-07-21 09:00:00', b'1', 2),
-(30, '2025-07-21 09:30:00', b'1', 2),
-(30, '2025-07-21 10:00:00', b'0', 2);
+(30, '2025-08-25 09:00:00', b'1', 2), -- Turno ya ocupado
+(30, '2025-08-25 09:30:00', b'0', 2), -- Turno libre
+(30, '2025-08-25 11:00:00', b'0', 2),
+(30, '2025-08-25 11:30:00', b'0', 2),
+(30, '2025-08-26 09:00:00', b'1', 2),
+(30, '2025-08-26 09:30:00', b'1', 2),
+(30, '2025-08-26 10:00:00', b'0', 2);
 
 -- Turno dado
 INSERT INTO turno (cliente_id, disponibilidad_id, lugar_id, profesional_id, servicio_id)

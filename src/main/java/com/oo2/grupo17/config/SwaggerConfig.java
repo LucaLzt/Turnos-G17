@@ -18,8 +18,25 @@ public class SwaggerConfig {
 		return new OpenAPI()
 			.info(new Info()
 				.title("Turnos G17 API")
+				.description("""
+						API documentation para la aplicación Turnos G17
+						
+	                    ## Autenticación
+	                    Esta API utiliza **HTTP Basic Authentication**.
+	                    
+	                    ## Roles disponibles:
+	                    - **CLIENTE**: Acceso a endpoints de cliente (`/api/clientes/**`)
+	                    - **PROFESIONAL**: Acceso a endpoints de profesional (`/api/profesionales/**`)
+	                    - **ADMINISTRADOR**: Acceso a endpoints de admin (`/api/admin/**`)
+	                    
+	                    ## Códigos de error comunes:
+	                    - **401**: Usuario no autenticado (credenciales faltantes o inválidas)
+	                    - **403**: Acceso denegado (sin permisos para el rol requerido)
+	                    - **404**: Recurso no encontrado
+	                    - **422**: Error en validación de datos
+	                    - **500**: Error interno del servidor
+	                    """)
 				.version("1.0.0")
-				.description("API documentation for Turnos G17 application")
 				.contact(new Contact().name("Grupo 17"))
 				)
 			.addSecurityItem(new SecurityRequirement().addList("basicAuth"))

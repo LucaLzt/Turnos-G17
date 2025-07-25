@@ -8,8 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,6 +96,70 @@ public class ClienteRestController {
 			description = "Permite al cliente ver sus datos personales, incluyendo nombre, email, móvil y teléfono. " +
 					"**Privado CLIENTE**"
 	)
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200",
+					description = "Datos del cliente obtenidos correctamente",
+					content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = ClienteResponseDto.class)
+					)
+			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
+					responseCode = "404",
+					description = "Cliente no encontrado",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Cliente no encontrado: {mensaje de error}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500",
+					description = "Error al obtener los datos del cliente",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al obtener los datos del cliente: {mensaje de error}")
+					)
+			)
+	})
 	public ResponseEntity<?> verDatosCliente(Principal principal) {
 		
 		// Obtener el email del usuario autenticado
@@ -133,7 +199,7 @@ public class ClienteRestController {
 		
 	}
 	
-	@PostMapping("/modificarContacto")
+	@PutMapping("/modificarContacto")
 	@Operation(
 			summary = "Modificar contacto del cliente",
 			description = "Permite al cliente modificar su información de contacto, incluyendo email, móvil y teléfono. " +
@@ -149,6 +215,44 @@ public class ClienteRestController {
 							schema = @Schema(type = "string", example = "Contacto modificado correctamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/modificarContacto",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/modificarContacto",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "422",
 					description = "Error en los datos de contacto",
@@ -221,6 +325,44 @@ public class ClienteRestController {
 					)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/modificarDireccion",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/modificarDireccion",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "422",
 					description = "Error en los datos de contacto",
 					content = @Content(
@@ -253,8 +395,12 @@ public class ClienteRestController {
         String email = authentication.getName();
 		
 		try {
+			
+			ContactoDto contactoDto = contactoService.findByEmail(email);
+			
 			DireccionDto direccionNueva = new DireccionDto(
-					null, // ID se asigna automáticamente
+					// Si la dirección ya existe, se usa su ID, si no, se asigna null para crear una nueva
+					contactoDto.getDireccion().getId() != null ? contactoDto.getDireccion().getId() : null, 
 					direccionDto.calle(),
 					direccionDto.altura(),
 					direccionDto.provinciaId(),
@@ -274,7 +420,7 @@ public class ClienteRestController {
 		}
 	}
 	
-	@PostMapping("/modificarContrasena")
+	@PutMapping("/modificarContrasena")
 	@Operation(
 			summary = "Modificar contraseña del cliente",
 			description = "Permite al cliente modificar su contraseña. **Privado CLIENTE**"
@@ -288,6 +434,44 @@ public class ClienteRestController {
 							schema = @Schema(type = "string", example = "Contraseña modificada correctamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/modificarContrasena",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/modificarContrasena",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "422",
 					description = "Error en los datos de la contraseña",
@@ -352,6 +536,44 @@ public class ClienteRestController {
 					)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verServiciosDisponibles",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verServiciosDisponibles",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "500",
 					description = "Error al obtener los servicios disponibles",
 					content = @Content(
@@ -403,6 +625,44 @@ public class ClienteRestController {
 							schema = @Schema(type = "string", example = "No hay lugares disponibles en este momento.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verLugaresDisponibles",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verLugaresDisponibles",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "500",
 					description = "Error al obtener los lugares disponibles",
@@ -458,6 +718,44 @@ public class ClienteRestController {
 							schema = @Schema(type = "string", example = "No hay turnos disponibles en este momento.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verTurnosDisponibles",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+	        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verTurnosDisponibles",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "404",
 					description = "Cliente no encontrado",
@@ -536,6 +834,44 @@ public class ClienteRestController {
 					)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/solicitarTurno",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/solicitarTurno",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "404",
 					description = "Cliente/Servicio/Lugar/Profesional no encontrado",
 					content = @Content(
@@ -604,7 +940,7 @@ public class ClienteRestController {
 		
 	}
 	
-	@PostMapping("/reprogramarTurno")
+	@PutMapping("/reprogramarTurno")
 	@Operation(
 			summary = "Reprogramar turno",
 			description = "Permite al cliente reprogramar un turno previamente reservado. **Privado CLIENTE**"
@@ -626,6 +962,44 @@ public class ClienteRestController {
 							schema = @Schema(type = "string", example = "Datos de reprogramación inválidos o la disponibilidad seleccionada ya está ocupada.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/reprogramarTurno",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/reprogramarTurno",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "404",
 					description = "Cliente/Servicio/Lugar/Profesional no encontrado o cliente no autorizado para reprogramar el turno",
@@ -677,7 +1051,7 @@ public class ClienteRestController {
 		
 	}
 	
-	@PostMapping("/cancelarTurno")
+	@DeleteMapping("/cancelarTurno")
 	@Operation(
 			summary = "Cancelar turno",
 			description = "Permite al cliente cancelar un turno previamente reservado. **Privado CLIENTE**"
@@ -699,6 +1073,44 @@ public class ClienteRestController {
 							schema = @Schema(type = "string", example = "El ID del turno es inválido.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/cancelarTurno",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de CLIENTE",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/cancelarTurno",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "404",
 					description = "Turno no encontrado o cliente no autorizado para cancelar el turno",

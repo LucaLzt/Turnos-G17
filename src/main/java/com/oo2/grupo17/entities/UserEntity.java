@@ -19,7 +19,12 @@ import java.util.stream.Collectors;
 @Builder
 public class UserEntity implements UserDetails {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8348831740536100881L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
     @Setter(AccessLevel.NONE)

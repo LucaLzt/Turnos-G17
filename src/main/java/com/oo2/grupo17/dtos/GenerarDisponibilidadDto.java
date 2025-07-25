@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class GenerarDisponibilidadDto {
 	
 	@NotNull(message = "Debe seleccionar un profesional")
@@ -31,7 +33,7 @@ public class GenerarDisponibilidadDto {
 
     @NotNull(message = "Debe ingresar la fecha de fin")
     private LocalDate fechaFin;
-
+    
     @AssertTrue(message = "La hora de fin debe ser posterior a la hora de inicio")
     public boolean isRangoHorasValido() {
         if (horaInicio == null || horaFin == null) return true; // No mostrar error duplicado
