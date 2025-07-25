@@ -3,7 +3,6 @@ package com.oo2.grupo17.services;
 import java.util.List;
 
 import com.oo2.grupo17.dtos.TurnoDto;
-import com.oo2.grupo17.entities.Turno;
 
 public interface ITurnoService {
 	
@@ -21,7 +20,7 @@ public interface ITurnoService {
     
     List<TurnoDto> buscarTurnosPorClienteId(Long clienteId);
     
-    List<Turno> buscarTurnosPorProfesionalId(Long profesionalId);
+    List<TurnoDto> buscarTurnosPorProfesionalId(Long profesionalId);
 
 	TurnoDto findByIdDisponibilidad(Long id);
 

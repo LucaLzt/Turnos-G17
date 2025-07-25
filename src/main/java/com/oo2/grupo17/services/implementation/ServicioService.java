@@ -57,10 +57,21 @@ public class ServicioService implements IServicioService {
 
 	@Override
 	public List<ServicioDto> findAll() {
-		return servicioRepository.findAll()
+		
+		List<Servicio> servicios = servicioRepository.findAll();
+		List<ServicioDto> serviciosDto = servicioRepository.findAll()
 				.stream()
 				.map(object -> modelMapper.map(object, ServicioDto.class))
-				.collect(Collectors.toList());
+				.collect(Collectors.toList()); 
+				
+		for(int i = 0; i<servicios.size(); i++) {
+			Servicio servicio = servicios.get(i);
+			ServicioDto servicioDto = serviciosDto.get(i);
+			List<Long> lugares = servicio.getLugares().stream().map(Lugar::getId).collect(Collectors.toList());
+			servicioDto.setLugaresIds(lugares);
+		}
+		
+		return serviciosDto;
 	}
 
 	@Override
@@ -86,6 +97,9 @@ public class ServicioService implements IServicioService {
 
 	@Override
 	public void deleteById(Long id) {
+		if(!servicioRepository.existsById(id)) {
+			throw new EntidadNoEncontradaException("No existe el Servicio de ID: " + id);
+		}
 		servicioRepository.deleteById(id);
 	}
 	

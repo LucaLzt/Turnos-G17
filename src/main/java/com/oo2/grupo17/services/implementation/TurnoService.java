@@ -48,7 +48,7 @@ public class TurnoService implements ITurnoService {
 	@Override
 	public TurnoDto findById(Long id) {
 		Turno turno = turnoRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el turno con ID: " + id));
 		return modelMapper.map(turno, TurnoDto.class);
 	}
 
@@ -97,17 +97,19 @@ public class TurnoService implements ITurnoService {
 	    disponibilidadRepository.save(disponibilidad);
 	}
 	
-	@Override
 	public List<TurnoDto> buscarTurnosPorClienteId(Long clienteId) {
 	    return turnoRepository.findByClienteId(clienteId)
-	    		.stream()
-	    		.map(object -> modelMapper.map(object, TurnoDto.class))
-	    		.collect(Collectors.toList());
+				.stream()
+				.map(object -> modelMapper.map(object, TurnoDto.class))
+				.collect(Collectors.toList());
 	}
 	
 	@Override
-	public List<Turno> buscarTurnosPorProfesionalId(Long profesionalId) {
-	    return turnoRepository.findByProfesionalId(profesionalId);
+	public List<TurnoDto> buscarTurnosPorProfesionalId(Long profesionalId) {
+	    return turnoRepository.findByProfesionalId(profesionalId)
+				.stream()
+				.map(object -> modelMapper.map(object, TurnoDto.class))
+				.collect(Collectors.toList());
 	}
 	
 	public TurnoDto update(Long id, TurnoDto turnoDto) {
@@ -139,9 +141,9 @@ public class TurnoService implements ITurnoService {
 	@Override
 	public boolean reprogramarTurno(long id, long nuevaDisponibilidad) {
 		Turno turno = turnoRepository.findById(id)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el turno con ID: " + id));
 		Disponibilidad disponibilidad = disponibilidadRepository.findById(nuevaDisponibilidad)
-				.orElseThrow();
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la disponibilidad con ID: " + nuevaDisponibilidad));
 		
 		if(disponibilidad.isOcupado()) {
 			return false;
