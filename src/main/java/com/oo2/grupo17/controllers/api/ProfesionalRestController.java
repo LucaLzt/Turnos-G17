@@ -46,6 +46,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -53,6 +54,7 @@ import lombok.Builder;
 
 @RestController() @Builder
 @RequestMapping("/api/profesional")
+@SecurityRequirement(name = "basicAuth")
 @PreAuthorize("hasRole('ROLE_PROFESIONAL')")
 @Tag(name = "Profesional API", description = "API para la gestión de funcionalidades del profesional")
 public class ProfesionalRestController {
@@ -88,6 +90,44 @@ public class ProfesionalRestController {
 							schema = @Schema(implementation = TurnoResponseDto.class)
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "500",
 					description = "Problemas en el sistema",
@@ -135,6 +175,44 @@ public class ProfesionalRestController {
 							schema = @Schema(implementation = ServicioResponseDto.class)
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "500",
 					description = "Problemas en el Sistema.",
@@ -184,6 +262,44 @@ public class ProfesionalRestController {
 					)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "500",
 					description = "Problemas en el Sistema.",
 					content = @Content(
@@ -217,7 +333,9 @@ public class ProfesionalRestController {
 	}
 	
 	@GetMapping("/verDatosProfesional")
-	@Operation(summary = "Ver Datos del Profesional", description = "Se traen los datos del Profesional autenticado. **Privado PROFESIONAL**")
+	@Operation(
+			summary = "Ver Datos del Profesional", 
+			description = "Se traen los datos del Profesional autenticado. **Privado PROFESIONAL**")
 	@ApiResponses(value = {
 			@ApiResponse(
 					responseCode = "200",
@@ -227,6 +345,44 @@ public class ProfesionalRestController {
 							schema = @Schema(implementation = ProfesionalResponseDto.class)
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "500",
 					description = "Problemas en el Sistema.",
@@ -284,6 +440,44 @@ public class ProfesionalRestController {
 							schema = @Schema(type = "string", example = "Contacto modificado correctamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "422",
 					description = "Error en los datos ingresados.",
@@ -347,6 +541,44 @@ public class ProfesionalRestController {
 					)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "422",
 					description = "Error en los datos ingresados.",
 					content = @Content(
@@ -404,6 +636,44 @@ public class ProfesionalRestController {
 					)
 			),
 			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
 					responseCode = "422",
 					description = "Error en los datos ingresados.",
 					content = @Content(
@@ -450,6 +720,44 @@ public class ProfesionalRestController {
 							schema = @Schema(type = "string", example = "Turno cancelado correctamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "404",
 					description = "Turno no encontrado.",

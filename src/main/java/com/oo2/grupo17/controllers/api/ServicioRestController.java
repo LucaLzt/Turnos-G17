@@ -42,7 +42,9 @@ public class ServicioRestController {
 	private IServicioService servicioService;
 	
 	@GetMapping("/{id}/traer")
-	@Operation(summary = "Traer servicio", description = "Se trae un Servicio por ID. **Público**")
+	@Operation(
+			summary = "Traer servicio", 
+			description = "Se trae un Servicio por ID. **Público**")
 	@ApiResponses( value = {
 			@ApiResponse(
 					responseCode = "200", 
@@ -86,7 +88,9 @@ public class ServicioRestController {
 	}
 	
 	@GetMapping("/traer")
-	@Operation(summary = "Traer todos los Servicios", description = "Se traen todos los servicios. **Público**")
+	@Operation(
+			summary = "Traer todos los Servicios", 
+			description = "Se traen todos los servicios. **Público**")
 	@ApiResponses(value = {
 			@ApiResponse(
 					responseCode = "200", 
@@ -126,7 +130,9 @@ public class ServicioRestController {
 	
 	@PostMapping("/agregar")
 	@SecurityRequirement(name = "basicAuth")
-	@Operation(summary = "Agregar Servicio", description = "Se agrega un Servicio. **Privado ADMIN**")
+	@Operation(
+			summary = "Agregar Servicio", 
+			description = "Se agrega un Servicio. **Privado ADMIN**")
 	@ApiResponses(value = {
 			@ApiResponse(
 					responseCode = "200", 
@@ -136,6 +142,44 @@ public class ServicioRestController {
 							schema = @Schema(type = "string", example = "Servicio agregado correctamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "422", 
 					description = "Datos inválidos.",
@@ -186,7 +230,9 @@ public class ServicioRestController {
 	
 	@DeleteMapping("/{id}/eliminar")
 	@SecurityRequirement(name = "basicAuth")
-	@Operation(summary = "Eliminar Servicio", description = "Se elimina un Servicio por ID. **Privado ADMIN**")
+	@Operation(
+			summary = "Eliminar Servicio", 
+			description = "Se elimina un Servicio por ID. **Privado ADMIN**")
 	@ApiResponses(value = {
 			@ApiResponse(
 					responseCode = "200", 
@@ -196,6 +242,44 @@ public class ServicioRestController {
 							schema = @Schema(type = "string", example = "Servicio eliminado correctamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "404", 
 					description = "Servicio no encontrado.",
@@ -227,7 +311,9 @@ public class ServicioRestController {
 	
 	@PutMapping("/{id}/modificar")
 	@SecurityRequirement(name = "basicAuth")
-	@Operation(summary = "Modificar Servicio", description = "Se modifica un Servicio por ID. **Privado ADMIN**")
+	@Operation(
+			summary = "Modificar Servicio", 
+			description = "Se modifica un Servicio por ID. **Privado ADMIN**")
 	@ApiResponses(value = {
 			@ApiResponse(
 					responseCode = "200", 
@@ -237,6 +323,44 @@ public class ServicioRestController {
 							schema = @Schema(type = "string", example = "Servicio modificado correctamente.")
 					)
 			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
 			@ApiResponse(
 					responseCode = "404", 
 					description = "Servicio no encontrado.",

@@ -33,20 +33,72 @@ public class TurnoRestController {
 	private ITurnoService turnoService;
 	
 	@GetMapping("/traer/{id}")
-	@Operation(summary = "Traer un Turno", description = "Se trae un Turno por ID. **Privado ADMIN-CLIENTE-PROFESIONAL**")
+	@SecurityRequirement(name = "basicAuth")
+	@Operation(
+			summary = "Traer un Turno", 
+			description = "Se trae un Turno por ID. **Privado ADMIN-CLIENTE-PROFESIONAL**")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Turno encontrado.",
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Turno encontrado.",
 					content = @Content(
 							mediaType = "application/json",
-							schema = @Schema(implementation = TurnoResponseDto.class))),
-			@ApiResponse(responseCode = "404", description = "No se encontro el Turno.", 
+							schema = @Schema(implementation = TurnoResponseDto.class)
+					)
+			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN-CLIENTE-PROFESIONAL",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "No se encontro el Turno.", 
 					content = @Content(
 							mediaType = "text/plain",
-							schema = @Schema(type = "string", example = "Error al traer Turno: {error_message}"))),
-			@ApiResponse(responseCode = "500", description = "Problemas en el sistema", 
+							schema = @Schema(type = "string", example = "Error al traer Turno: {error_message}")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500", 
+					description = "Problemas en el sistema", 
 					content = @Content(
 							mediaType = "text/plain",
-							schema = @Schema(type = "string", example = "Problemas en el sistema: {error_message}"))
+							schema = @Schema(type = "string", example = "Problemas en el sistema: {error_message}")
+					)
 			)
 	})
 	public ResponseEntity<?> traerTurno(@PathVariable Long id) {
@@ -85,20 +137,63 @@ public class TurnoRestController {
 	
 	@GetMapping("/traer")
 	@SecurityRequirement(name = "basicAuth")
-	@Operation(summary = "Traer todos los Turnos", description = "Se traen todos los Turnos. **Privado ADMIN**")
+	@Operation(
+			summary = "Traer todos los Turnos", 
+			description = "Se traen todos los Turnos. **Privado ADMIN**")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", 
+			@ApiResponse(
+					responseCode = "200", 
 					description = "Turnos encontrados.",
 					content = @Content(
 							mediaType = "application/json",
 							schema = @Schema(implementation = TurnoResponseDto.class)
-					)),
-			@ApiResponse(responseCode = "500", 
+					)
+			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+			@ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/clientes/verDatosCliente",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+            		)
+	        ),
+			@ApiResponse(
+					responseCode = "500", 
 					description = "Problemas en el Sistema.",
 					content = @Content(
 							mediaType = "text/plain",
 							schema = @Schema(type = "string", example = "Problemas en el Sistema: {error_message}")
-							)
+					)
 			)
 	})
 	public ResponseEntity<?> traerTurnos(){
