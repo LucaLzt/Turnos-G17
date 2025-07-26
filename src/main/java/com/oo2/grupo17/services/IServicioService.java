@@ -23,4 +23,6 @@ public interface IServicioService {
     List<Servicio> traerServiciosPorLugar(Long lugarId);
 
 	List<Servicio> findAllByIds(Set<Long> todosLosServiciosIds);
+
+	ServicioDto findByNombre(String servicio);
 }

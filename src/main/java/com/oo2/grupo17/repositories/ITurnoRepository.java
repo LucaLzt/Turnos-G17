@@ -22,5 +22,8 @@ public interface ITurnoRepository extends JpaRepository<Turno, Long> {
 	@Query("SELECT t.lugar.id, COUNT(t) FROM Turno t GROUP BY t.lugar.id")
 	List<Object[]> countTurnosGroupByLugar();
 	
+	boolean existsByIdAndClienteId(Long turnoId, Long id);
+	
+	boolean existsByIdAndProfesionalId(Long turnoId, Long profesionalId);
 	
 }

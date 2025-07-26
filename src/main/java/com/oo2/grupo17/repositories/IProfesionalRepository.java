@@ -21,5 +21,9 @@ public interface IProfesionalRepository extends JpaRepository<Profesional, Long>
 	boolean existsByDni(int dni);
 	
 	List<Profesional> findByLugar_id(Long lugarId);
+
+	Optional<Profesional> findByNombre(String profesional);
+	
+	Optional<Profesional> findById(Long id);
 	
 }

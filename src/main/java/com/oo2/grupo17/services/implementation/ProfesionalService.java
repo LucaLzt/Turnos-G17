@@ -20,6 +20,7 @@ import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
 import com.oo2.grupo17.dtos.ProfesionalRegistradoDto;
+import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Especialidad;
@@ -28,10 +29,12 @@ import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.entities.RoleEntity;
 import com.oo2.grupo17.entities.RoleType;
 import com.oo2.grupo17.entities.Servicio;
+import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.entities.UserEntity;
 import com.oo2.grupo17.exceptions.ContraseñaIncorrectaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.exceptions.RolNoEncontradoException;
+import com.oo2.grupo17.repositories.IClienteRepository;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.IEspecialidadRepository;
@@ -39,8 +42,10 @@ import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.IServicioRepository;
+import com.oo2.grupo17.repositories.ITurnoRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
 import com.oo2.grupo17.services.IContactoService;
+import com.oo2.grupo17.services.IDisponibilidadService;
 import com.oo2.grupo17.services.IProfesionalService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -63,7 +68,10 @@ public class ProfesionalService implements IProfesionalService {
 	private final IContactoService contactoService;
 	private final EmailService emailService;
 	private final ModelMapper modelMapper;
-
+	private final ITurnoRepository turnoRepository;
+	private final IClienteRepository clienteRepository;
+	private final IDisponibilidadService disponibilidadService;
+	
 	@Override
 	public ProfesionalDto save(ProfesionalDto profesionalDto) {
 		Profesional profesional = modelMapper.map(profesionalDto, Profesional.class);
@@ -244,7 +252,8 @@ public class ProfesionalService implements IProfesionalService {
 	
 	@Override
 	public void generarDisponibilidadesAutomaticas(GenerarDisponibilidadDto dto) {
-        // 1. Buscar el profesional por ID
+
+		// 1. Buscar el profesional por ID
         Profesional profesional = profesionalRepository.findById(dto.getProfesionalId())
             .orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con ID: " + dto.getProfesionalId()));
 
@@ -270,6 +279,7 @@ public class ProfesionalService implements IProfesionalService {
             // 6. Avanzar al siguiente día
             fecha = fecha.plusDays(1);
         }
+
     }
 	
 	@Override
@@ -280,9 +290,7 @@ public class ProfesionalService implements IProfesionalService {
 	@Override
 	public void asignarDatosProfesional(Long id, ProfesionalDto profesionalDto, List<Long> serviciosIds) {
 		Profesional profesional = profesionalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profesional no encontrado"));
-		System.out.println(profesionalDto.getEspecialidad());
-		System.out.println(profesionalDto.getEspecialidad());
-		System.out.println(profesionalDto.getEspecialidad());
+		
 		// Asignar Especialidad
 		if(profesionalDto.getEspecialidad() != null) {
 			Especialidad especialidad = especialidadRepository.findById(profesionalDto.getEspecialidad().getId()).orElseThrow(()-> new EntityNotFoundException("Especialidad no encontrada"));
@@ -398,5 +406,46 @@ public class ProfesionalService implements IProfesionalService {
 	    profesional.setContacto(contacto);
 	    profesionalRepository.save(profesional);
 	}
+
+	@Override
+	public ProfesionalDto findByNombre(String profesional) {
+		Profesional profesionalEntity = profesionalRepository.findByNombre(profesional)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el profesional con nombre: " + profesional));
+		return modelMapper.map(profesionalEntity, ProfesionalDto.class);
+	}
 	
+	@Override
+	public boolean tieneTurno(Long profesionalId, Long turnoId) {
+		Profesional profesional = profesionalRepository.findById(profesionalId)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el Profesional con ID: " + profesionalId));
+		Turno turno = turnoRepository.findById(turnoId)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el Turno con ID: " + turnoId));
+		return turnoRepository.existsByIdAndProfesionalId(turno.getId(), profesional.getId());
+	}
+	
+	@Transactional
+	@Override 
+	public boolean cancelarTurno(Long profesionalId, Long turnoId) {
+		if(!tieneTurno(profesionalId, turnoId)) {
+			throw new EntidadNoEncontradaException("El profesional no tiene un turno con ID: " + turnoId);
+		} else {
+			Turno turno = turnoRepository.findById(turnoId)
+					 .orElseThrow(() -> new EntidadNoEncontradaException("No se encontro el Turno con ID: " + turnoId));
+			
+			 Disponibilidad dispo = turno.getDisponibilidad();
+			 disponibilidadService.updateOcupacion(dispo.getId());
+			
+			 Profesional prof = turno.getProfesional();
+			 prof.getLstTurnos().remove(turno);
+			 profesionalRepository.save(prof);
+			 
+			 Cliente cliente = turno.getCliente();
+			 cliente.getLstTurnos().remove(turno);
+			 clienteRepository.save(cliente);
+			 
+			 turnoRepository.deleteById(turnoId);
+
+			return true;
+		}
+	}
 }
