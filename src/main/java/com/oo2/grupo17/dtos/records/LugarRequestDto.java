@@ -5,9 +5,14 @@ import java.time.LocalTime;
 import jakarta.validation.constraints.NotNull;
 
 public record LugarRequestDto (
-		
-		@NotNull DireccionRequestDto direccion,
-		@NotNull LocalTime horarioApertura,
-		@NotNull LocalTime horarioCierre
+
+	    @NotNull(message = "La dirección es obligatoria")
+		DireccionRequestDto direccion,
+
+	    @NotNull(message = "El horario de apertura es obligatorio")
+		LocalTime horarioApertura,
+
+	    @NotNull(message = "El horario de cierre es obligatorio")
+		LocalTime horarioCierre
 		
 ){}

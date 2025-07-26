@@ -4,9 +4,16 @@ import jakarta.validation.constraints.NotNull;
 
 public record DireccionRequestDto (
 		
-		@NotBlank String calle,
-		@NotNull int altura,
-		@NotNull Long provinciaId,
-		@NotNull Long localidadId
+		@NotBlank(message = "La calle es obligatoria")
+		String calle,
+
+	    @NotNull(message = "La altura es obligatoria")
+		int altura,
+
+	    @NotNull(message = "La provincia es obligatoria")
+		Long provinciaId,
+
+	    @NotNull(message = "La localidad es obligatoria")
+		Long localidadId
 		
 ){}
