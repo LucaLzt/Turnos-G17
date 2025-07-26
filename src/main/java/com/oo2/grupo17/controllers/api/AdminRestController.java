@@ -86,7 +86,7 @@ public class AdminRestController {
 			                )
 		            )
 	        ),
-		        @ApiResponse(
+		    @ApiResponse(
 		            responseCode = "403",
 		            description = "Acceso denegado - No tienes rol de ADMIN",
 		            content = @Content(
@@ -131,7 +131,16 @@ public class AdminRestController {
 		}
 		
 		try {
-			ProfesionalDto profesionalNuevo = profesionalService.findById(profesionalId);
+			ProfesionalDto profesionalNuevo = new ProfesionalDto(
+					profesionalDto.nombre(),
+					profesionalDto.dni(),
+					null, // El contacto se maneja en el DTO, no es necesario pasarlo aquí
+					profesionalDto.matricula(),
+					null, // La especialidad se maneja en el DTO, no es necesario pasarlo aquí
+					null, // Los servicios se manejan en el DTO, no es necesario pasarlos aquí
+					null, // El lugar se maneja en el DTO, no es necesario pasarlo aquí
+					null // Los turnos se manejan en el DTO, no es necesario pasarlos aquí
+			);
 			profesionalService.update(profesionalId, profesionalNuevo);
 			return ResponseEntity.ok("Profesional modificado exitosamente.");
 		} catch (EntidadNoEncontradaException e) {
