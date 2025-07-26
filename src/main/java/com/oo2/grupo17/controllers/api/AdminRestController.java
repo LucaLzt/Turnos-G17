@@ -1,9 +1,13 @@
 package com.oo2.grupo17.controllers.api;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oo2.grupo17.dtos.GenerarDisponibilidadDto;
 import com.oo2.grupo17.dtos.ProfesionalDto;
+import com.oo2.grupo17.dtos.records.ContactoResponseDto;
+import com.oo2.grupo17.dtos.records.DireccionResponseDto;
+import com.oo2.grupo17.dtos.records.EspecialidadResponseDto;
 import com.oo2.grupo17.dtos.records.GenerarDisponibilidadesRecordDto;
 import com.oo2.grupo17.dtos.records.ProfesionalRequestDto;
+import com.oo2.grupo17.dtos.records.ProfesionalResponseAuxDto;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.services.IProfesionalService;
 
@@ -43,6 +51,7 @@ public class AdminRestController {
 	 *  	- Modificar Profesionales
 	 *  	- Eliminar Profesionales
 	 *  	- Generar Disponibilidades
+	 *  	- Traer todos los profesionales
 	 */
 	
 	@PutMapping("/modificarProfesional")
@@ -184,7 +193,7 @@ public class AdminRestController {
 			                )
 		            )
 	        ),
-		        @ApiResponse(
+		    @ApiResponse(
 		            responseCode = "403",
 		            description = "Acceso denegado - No tienes rol de ADMIN",
 		            content = @Content(
@@ -264,7 +273,7 @@ public class AdminRestController {
 			                )
 		            )
 	        ),
-		        @ApiResponse(
+		    @ApiResponse(
 		            responseCode = "403",
 		            description = "Acceso denegado - No tienes rol de ADMIN",
 		            content = @Content(
@@ -336,6 +345,118 @@ public class AdminRestController {
 			return ResponseEntity.status(500).body("Error al generar disponibilidades: " + e.getMessage());
 		}
 		
+	}
+	
+	@GetMapping("/traerProfesionales")
+	@Operation(
+			summary = "Obtener todos los profesionales",
+			description = "Permite al administrador obtener una lista de todos los profesionales registrados en el sistema."
+	)
+	@ApiResponses(value = {
+			@ApiResponse(
+					responseCode = "200", 
+					description = "Profesionales obtenidos exitosamente",
+					content = @Content(
+							mediaType = "application/json",
+							schema = @Schema(implementation = ProfesionalResponseAuxDto.class)
+					)
+			),
+			@ApiResponse(
+		            responseCode = "401",
+		            description = "Usuario no autenticado",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Unauthorized",
+			                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+			                          "status": 401,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/admin/traerProfesionales",
+			                          "user": "anonymous"
+			                        }
+			                        """
+			                )
+		            )
+	        ),
+		        @ApiResponse(
+		            responseCode = "403",
+		            description = "Acceso denegado - No tienes rol de ADMIN",
+		            content = @Content(
+			                mediaType = "application/json",
+			                schema = @Schema(
+			                    example = """
+			                        {
+			                          "error": "Forbidden",
+			                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+			                          "status": 403,
+			                          "timestamp": "2025-07-25T19:15:36Z",
+			                          "path": "/api/admin/traerProfesionales",
+			                          "user": "LucaLzt"
+			                        }
+			                        """
+			                )
+					)
+	        ),
+			@ApiResponse(
+					responseCode = "404", 
+					description = "No se encontraron profesionales",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "No se encontraron profesionales.")
+					)
+			),
+			@ApiResponse(
+					responseCode = "500", 
+					description = "Error interno del servidor",
+					content = @Content(
+							mediaType = "text/plain",
+							schema = @Schema(type = "string", example = "Error al obtener los profesionales: {mensaje de error}")
+					)
+			)
+	})
+	public ResponseEntity<?> traerProfesionales() {
+		try {
+			List<ProfesionalDto> profesionales = profesionalService.findAll();
+			
+			if (profesionales.isEmpty()) {
+				return ResponseEntity.status(404).body("No se encontraron profesionales.");
+			}
+			
+			List<ProfesionalResponseAuxDto> profesionalesResponse = profesionales.stream()
+					.map(object -> new ProfesionalResponseAuxDto(
+							object.getId(),
+							object.getNombre(),
+							object.getDni(),
+							new ContactoResponseDto(
+									object.getContacto().getId(),
+									object.getContacto().getEmail(),
+									object.getContacto().getMovil(),
+									object.getContacto().getTelefono(),
+									object.getContacto().getDireccion() != null ? new DireccionResponseDto(
+											object.getContacto().getDireccion().getId(),
+											object.getContacto().getDireccion().getCalle(),
+											object.getContacto().getDireccion().getAltura(),
+											object.getContacto().getDireccion().getLocalidad().getId(),
+											object.getContacto().getDireccion().getProvincia().getId()
+									) : null
+							),
+							object.getMatricula(),
+							object.getEspecialidad() != null ? new EspecialidadResponseDto(
+									object.getEspecialidad().getId(),
+									object.getEspecialidad().getNombre()
+							) : null,
+							object.getServiciosIds(),
+							object.getLugar() != null ? object.getLugar().getId() : null
+					))
+					.collect(Collectors.toList());
+							
+			
+			return ResponseEntity.ok(profesionalesResponse);
+		} catch (Exception e) {
+			return ResponseEntity.status(500).body("Error al obtener los profesionales: " + e.getMessage());
+		}
 	}
 	
 }

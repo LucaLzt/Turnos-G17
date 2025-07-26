@@ -6,6 +6,4 @@ public record ProfesionalResponseDto (
 		int dni,
 		Integer matricula,
 		ContactoResponseDto contacto
-		){
-
-}
+){}
