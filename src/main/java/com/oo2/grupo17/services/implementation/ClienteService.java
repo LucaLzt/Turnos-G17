@@ -14,8 +14,10 @@ import com.oo2.grupo17.dtos.ClienteRegistroDto;
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.entities.Cliente;
 import com.oo2.grupo17.entities.Contacto;
+import com.oo2.grupo17.entities.Profesional;
 import com.oo2.grupo17.entities.RoleEntity;
 import com.oo2.grupo17.entities.RoleType;
+import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.entities.UserEntity;
 import com.oo2.grupo17.exceptions.ContraseñaIncorrectaException;
 import com.oo2.grupo17.exceptions.DniIncorrectoException;
@@ -24,6 +26,7 @@ import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.exceptions.RolNoEncontradoException;
 import com.oo2.grupo17.repositories.IClienteRepository;
 import com.oo2.grupo17.repositories.IContactoRepository;
+import com.oo2.grupo17.repositories.IProfesionalRepository;
 import com.oo2.grupo17.repositories.IRoleRepository;
 import com.oo2.grupo17.repositories.ITurnoRepository;
 import com.oo2.grupo17.repositories.IUserRepository;
@@ -41,7 +44,9 @@ public class ClienteService implements IClienteService {
 	private final ITurnoRepository turnoRepository;
 	private final IContactoRepository contactoRepository;
 	private final IClienteRepository clienteRepository;
+	private final IProfesionalRepository profesionalRepository;
 	private final IContactoService contactoService;
+	private final DisponibilidadService disponibilidadService;
 	private final BCryptPasswordEncoder encoder;
     private final ModelMapper modelMapper;
 
@@ -226,6 +231,20 @@ public class ClienteService implements IClienteService {
 		if (!tieneTurno(turnoId, clienteId)) {
 			throw new EntidadNoEncontradaException("El cliente no tiene un turno con ID: " + turnoId);
 		}
+		disponibilidadService.updateOcupacionByTurnoId(turnoId);
+		
+		Turno turno = turnoRepository.findById(turnoId)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el turno con ID: " + turnoId));
+		
+		Profesional profesional = turno.getProfesional();
+		profesional.getLstTurnos().remove(turno);
+		profesionalRepository.save(profesional);
+		
+		Cliente cliente = clienteRepository.findById(clienteId)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el cliente con ID: " + clienteId));
+		cliente.getLstTurnos().remove(turno);
+		clienteRepository.save(cliente);
+		
 		turnoRepository.deleteById(turnoId);
 		return true;
 	}

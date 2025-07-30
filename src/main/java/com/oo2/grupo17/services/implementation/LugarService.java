@@ -140,8 +140,11 @@ public class LugarService implements ILugarService {
 
 	@Override
 	public LugarDto findByCalleAndAltura(String direccion, int altura) {
+		Lugar lugar = lugarRepository.findByDireccion_CalleAndDireccion_Altura(direccion, altura)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el lugar con dirección: " 
+						+ direccion + " y altura: " + altura));
 		return modelMapper.map(
-				lugarRepository.findByDireccion_CalleAndDireccion_Altura(direccion, altura),
+				lugar,
 				LugarDto.class
 				);
 	}

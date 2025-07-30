@@ -57,7 +57,8 @@ public class AdminRestController {
 	@PutMapping("/modificarProfesional")
 	@Operation(
 			summary = "Modificar un profesional existente",
-			description = "Permite al administrador modificar los detalles de un profesional, como su especialidad, disponibilidad y datos de contacto."
+			description = "Permite al administrador modificar los detalles de un profesional, como su especialidad, " + 
+						"disponibilidad y datos de contacto. **Privado ADMIN**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -163,7 +164,8 @@ public class AdminRestController {
 	@DeleteMapping("/eliminarProfesional")
 	@Operation(
 			summary = "Eliminar un profesional existente",
-			description = "Permite al administrador eliminar un profesional del sistema, liberando sus turnos y disponibilidades."
+			description = "Permite al administrador eliminar un profesional del sistema, " + 
+						"liberando sus turnos y disponibilidades. **Privado ADMIN**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -243,7 +245,8 @@ public class AdminRestController {
 	@PostMapping("/generarDisponibilidad")
 	@Operation(
 			summary = "Generar disponibilidades para un profesional",
-			description = "Permite al administrador generar disponibilidades para un profesional, especificando fechas y horas disponibles."
+			description = "Permite al administrador generar disponibilidades para un profesional, " + 
+						"especificando fechas y horas disponibles. **Privado ADMIN**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(
@@ -350,7 +353,7 @@ public class AdminRestController {
 	@GetMapping("/traerProfesionales")
 	@Operation(
 			summary = "Obtener todos los profesionales",
-			description = "Permite al administrador obtener una lista de todos los profesionales registrados en el sistema."
+			description = "Permite al administrador obtener una lista de todos los profesionales registrados en el sistema. **Privado ADMIN**"
 	)
 	@ApiResponses(value = {
 			@ApiResponse(

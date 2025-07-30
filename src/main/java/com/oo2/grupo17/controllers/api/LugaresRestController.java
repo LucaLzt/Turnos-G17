@@ -349,7 +349,7 @@ public class LugaresRestController {
 		}
 		try {
 			LugarDto lugarNuevo = new LugarDto(
-					null, // ID del lugar a actualizar
+					id, // ID del lugar a actualizar
 					new DireccionDto(
 							null, // ID se generará automáticamente
 							lugarDto.direccion().calle(),
@@ -359,7 +359,7 @@ public class LugaresRestController {
 					),
 					lugarDto.horarioApertura(),
 					lugarDto.horarioCierre());	 
-			lugarService.update(id, lugarNuevo);
+			direccionService.actualizarDireccion(lugarNuevo, lugarNuevo.getDireccion());
 			return ResponseEntity.ok("Lugar actualizado exitosamente");
 		} catch (EntidadNoEncontradaException e) {
 			return ResponseEntity.status(404).body("Lugar no encontrado: " + e.getMessage());

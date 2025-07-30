@@ -15,10 +15,12 @@ import org.springframework.stereotype.Service;
 import com.oo2.grupo17.dtos.DisponibilidadDto;
 import com.oo2.grupo17.entities.Disponibilidad;
 import com.oo2.grupo17.entities.Profesional;
+import com.oo2.grupo17.entities.Turno;
 import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IDisponibilidadRepository;
 import com.oo2.grupo17.repositories.IProfesionalRepository;
+import com.oo2.grupo17.repositories.ITurnoRepository;
 import com.oo2.grupo17.services.IDisponibilidadService;
 
 import jakarta.transaction.Transactional;
@@ -29,6 +31,7 @@ public class DisponibilidadService implements IDisponibilidadService {
 	
 	private final IProfesionalRepository profesionalRepository;
 	private final IDisponibilidadRepository disponibilidadRepository;
+	private final ITurnoRepository turnoRepository;
 	private final ModelMapper modelMapper;
 	
 	@Override
@@ -57,6 +60,21 @@ public class DisponibilidadService implements IDisponibilidadService {
 	public DisponibilidadDto updateOcupacion(Long id) {
 		Disponibilidad disp = disponibilidadRepository.findById(id)
 				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el disponibilidad con ID: " + id));
+		if(disp.isOcupado() == false) {
+			disp.setOcupado(true);
+		} else {
+			disp.setOcupado(false);
+		}
+		Disponibilidad updated = disponibilidadRepository.save(disp);
+		return modelMapper.map(updated, DisponibilidadDto.class);
+	}
+
+	@Override
+	public DisponibilidadDto updateOcupacionByTurnoId(Long turnoId) {
+		Turno turno = turnoRepository.findById(turnoId)
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el turno con ID: " + turnoId));
+		Disponibilidad disp = disponibilidadRepository.findById(turno.getDisponibilidad().getId())
+				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el disponibilidad con ID: " + turno.getDisponibilidad().getId()));
 		if(disp.isOcupado() == false) {
 			disp.setOcupado(true);
 		} else {

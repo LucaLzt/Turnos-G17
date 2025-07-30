@@ -188,19 +188,25 @@ public class DireccionService implements IDireccionService {
 	    // 3. Obtener la dirección asociada al lugar
 	    Direccion direccion = lugarEntity.getDireccion();
 
-	    // 4. Actualizar los campos de la dirección
-	    direccion.setCalle(direccionDto.getCalle());
-	    direccion.setAltura(direccionDto.getAltura());
-	    direccion.setLocalidad(localidadRepository.findById(direccionDto.getLocalidadId()).orElseThrow());
-	    direccion.setProvincia(provinciaRepository.findById(direccionDto.getProvinciaId()).orElseThrow());
-	    
-	    // 5. Verificar si ya existe un lugar con la misma dirección
+	    // 4. Verificar si ya existe un lugar con la misma dirección
 	    if (lugarRepository.existsByDireccion_CalleAndDireccion_AlturaAndDireccion_LocalidadAndDireccion_Provincia(
-	            direccion.getCalle(),
-	            direccion.getAltura(),
-	            direccion.getLocalidad(), direccion.getProvincia())) {
+	            direccionDto.getCalle(),
+	            direccionDto.getAltura(),
+	            localidadRepository.findById(direccionDto.getLocalidadId())
+	            	.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la localidad con ID: " + direccionDto.getLocalidadId())), 
+	            provinciaRepository.findById(direccionDto.getProvinciaId())
+	            	.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la provincia con ID: " + direccionDto.getProvinciaId())))) {
 	        throw new EntidadDuplicadaException("El lugar con la dirección ingresada ya existe.");
 	    }
+	    
+	    // 5. Actualizar los campos de la dirección
+	    direccion.setCalle(direccionDto.getCalle());
+	    direccion.setAltura(direccionDto.getAltura());
+	    direccion.setLocalidad(localidadRepository.findById(direccionDto.getLocalidadId())
+	    		.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la localidad con ID: " + direccionDto.getLocalidadId())));
+	    direccion.setProvincia(provinciaRepository.findById(direccionDto.getProvinciaId())
+	    		.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró la provincia con ID: " + direccionDto.getProvinciaId())));
+
 
 	    // 6. Guardar la dirección y luego el lugar
 	    direccionRepository.save(direccion);

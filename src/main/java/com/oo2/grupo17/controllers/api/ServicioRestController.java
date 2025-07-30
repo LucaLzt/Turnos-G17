@@ -23,6 +23,7 @@ import com.oo2.grupo17.dtos.records.ServicioResponseDto;
 import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.services.IServicioService;
+import com.oo2.grupo17.services.ITurnoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,7 +40,8 @@ import lombok.Builder;
 @Tag(name = "Servicio API", description = "API para gestionar servicios")
 public class ServicioRestController {
 	
-	private IServicioService servicioService;
+	private final IServicioService servicioService;
+	private final ITurnoService turnoService;
 	
 	@GetMapping("/{id}/traer")
 	@Operation(
@@ -299,7 +301,8 @@ public class ServicioRestController {
 	})
 	public ResponseEntity<String> eliminarServicio(@PathVariable Long id){
 		try {
-			servicioService.deleteById(id, false);
+			boolean tieneTurnos = turnoService.existsByServicio(id);
+			servicioService.deleteById(id, tieneTurnos);
 			return ResponseEntity.status(200).body("Servicio eliminado correctamente.");
 		} catch (EntidadNoEncontradaException e) {
 			return ResponseEntity.status(404).body("Error al eliminar el Servicio: " + e.getMessage());

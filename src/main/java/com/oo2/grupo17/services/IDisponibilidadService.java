@@ -28,5 +28,7 @@ public interface IDisponibilidadService {
 	List<DisponibilidadDto> obtenerDisponibilidadesPorProfesional(Long profesionalId);
 
 	DisponibilidadDto findByProfesionalAndInicio(Long id, LocalDateTime disponibilidad);
+
+	DisponibilidadDto updateOcupacionByTurnoId(Long turnoId);
     
 }

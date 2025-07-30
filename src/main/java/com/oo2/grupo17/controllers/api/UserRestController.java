@@ -1,6 +1,7 @@
 package com.oo2.grupo17.controllers.api;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,12 +26,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.Builder;
 
 @RestController @Builder
-@RequestMapping("auth/users")
+@RequestMapping("/api/users")
 @Tag(name = "User API", description = "API para gestionar usuarios del sistema")
 public class UserRestController {
 	
@@ -102,10 +104,13 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/registrarProfesional")
+	@SecurityRequirement(name = "basicAuth")
+	@PreAuthorize("hasRole('ADMIN')")
 	@Operation(
 		summary = "Registro de un nuevo profesional", 
-		description = "Permite registrar un nuevo profesional en el sistema." +
-		" **La contraseña se enviará automáticamente al email proporcionado.**"
+		description = "Permite registrar un nuevo profesional en el sistema. " +
+					"**La contraseña se enviará automáticamente al email proporcionado.** " + 
+					"**Privado ADMIN**"
 	)	
 	@ApiResponses(value = {
 	    @ApiResponse(
@@ -116,6 +121,44 @@ public class UserRestController {
 	    				schema = @Schema(type = "string", example = "Profesional registrado exitosamente")
 	    		)
 	    ),
+	    @ApiResponse(
+	            responseCode = "401",
+	            description = "Usuario no autenticado",
+	            content = @Content(
+		                mediaType = "application/json",
+		                schema = @Schema(
+		                    example = """
+		                        {
+		                          "error": "Unauthorized",
+		                          "message": "Credenciales inválidas. Verifica tu usuario y contraseña.",
+		                          "status": 401,
+		                          "timestamp": "2025-07-25T19:15:36Z",
+		                          "path": "/api/clientes/verDatosCliente",
+		                          "user": "anonymous"
+		                        }
+		                        """
+		                )
+	            )
+        ),
+	    @ApiResponse(
+	            responseCode = "403",
+	            description = "Acceso denegado - No tienes rol de CLIENTE",
+	            content = @Content(
+		                mediaType = "application/json",
+		                schema = @Schema(
+		                    example = """
+		                        {
+		                          "error": "Forbidden",
+		                          "message": "Acceso denegado: No tienes permisos para realizar esta operación.",
+		                          "status": 403,
+		                          "timestamp": "2025-07-25T19:15:36Z",
+		                          "path": "/api/clientes/verDatosCliente",
+		                          "user": "LucaLzt"
+		                        }
+		                        """
+		                )
+        		)
+        ),
 	    @ApiResponse(
 	    		responseCode = "409", 
 	    		description = "El profesional ya existe",

@@ -125,7 +125,7 @@ public class TurnoRestController {
 						dto.getDisponibilidad().getInicio());
 				return ResponseEntity.status(200).body(responseDto);
 			} else {
-				return ResponseEntity.status(403).body("No tiene permiso para ver este Turno.");
+				return ResponseEntity.status(403).body("El turno que intentas ver no pertenece al usuario actual.");
 			}
 			
 		} catch (EntidadNoEncontradaException e) {
