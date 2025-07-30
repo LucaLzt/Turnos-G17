@@ -80,25 +80,34 @@ public class ServicioService implements IServicioService {
 		Servicio servicio = servicioRepository.findById(id)
 				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el servicio con ID: " + id));
 		
-		// 2. Actualizo los campos simples del servicio
+		// 2. Verifico si el nombre del servicio ya existe y no es el mismo que el actual
+		if (servicioRepository.existsByNombre(servicioDto.getNombre()) && 
+				!servicio.getNombre().equals(servicioDto.getNombre())) {
+			throw new EntidadDuplicadaException("El servicio con nombre " + servicioDto.getNombre() + " ya existe.");
+		}
+		
+		// 3. Actualizo los campos simples del servicio
 		servicio.setNombre(servicioDto.getNombre());
 		servicio.setPrecio(servicioDto.getPrecio());
 		servicio.setDescripcion(servicioDto.getDescripcion());
 		
-		// 3. Actualizo la relación muchos a muchos con los lugares
+		// 4. Actualizo la relación muchos a muchos con los lugares
 		List<Lugar> lugares = lugarRepository.findAllById(servicioDto.getLugaresIds());
 		Set<Lugar> lugaresSet = lugares.stream().collect(Collectors.toSet());
 		servicio.setLugares(lugaresSet);
 		
-		// 4. Guardo los cambios en la base de datos
+		// 5. Guardo los cambios en la base de datos
 		Servicio updated = servicioRepository.save(servicio);
 		return modelMapper.map(updated, ServicioDto.class);
 	}
 
 	@Override
-	public void deleteById(Long id) {
+	public void deleteById(Long id, boolean eliminar) {
 		if(!servicioRepository.existsById(id)) {
 			throw new EntidadNoEncontradaException("No existe el Servicio de ID: " + id);
+		}
+		if(eliminar) {
+			throw new EntidadNoEncontradaException("No se puede eliminar el servicio con ID: " + id + " porque tiene turnos asociados.");
 		}
 		servicioRepository.deleteById(id);
 	}

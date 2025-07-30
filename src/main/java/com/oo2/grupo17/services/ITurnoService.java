@@ -25,5 +25,7 @@ public interface ITurnoService {
 	TurnoDto findByIdDisponibilidad(Long id);
 
 	boolean reprogramarTurno(long id, long nuevaDisponibilidad);
+
+	boolean existsByServicio(Long id);
 	
 }

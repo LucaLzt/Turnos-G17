@@ -26,4 +26,6 @@ public interface ITurnoRepository extends JpaRepository<Turno, Long> {
 	
 	boolean existsByIdAndProfesionalId(Long turnoId, Long profesionalId);
 	
+	boolean existsByServicioId(Long id);
+	
 }

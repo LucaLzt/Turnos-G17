@@ -17,6 +17,7 @@ import com.oo2.grupo17.dtos.ServicioDto;
 import com.oo2.grupo17.helpers.ViewRouteHelper;
 import com.oo2.grupo17.services.ILugarService;
 import com.oo2.grupo17.services.IServicioService;
+import com.oo2.grupo17.services.ITurnoService;
 
 import jakarta.validation.Valid;
 import lombok.Builder;
@@ -27,6 +28,7 @@ import lombok.Builder;
 public class ServiciosController {
 	
 	private final IServicioService servicioService;
+	private final ITurnoService turnoService;
 	private final ILugarService lugarService;
 	
 	@GetMapping("/agregar")
@@ -78,12 +80,15 @@ public class ServiciosController {
 	public String eliminarServicio(Model model) {
 		List<ServicioDto> servicios = servicioService.findAll();
 		model.addAttribute("servicios", servicios);
+		
+		
 		return ViewRouteHelper.SERVICIOS_LISTA_ELIMINAR;
 	}
 	
 	@PostMapping("/{id}/eliminar")
 	public String eliminarServicio(@ModelAttribute("id") Long id, Model model) {
-		servicioService.deleteById(id);
+		boolean eliminar = turnoService.existsByServicio(id);
+		servicioService.deleteById(id, eliminar);
 		return "redirect:/servicios/eliminar?eliminado=ok";
 	}
 }

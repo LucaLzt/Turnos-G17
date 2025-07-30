@@ -299,7 +299,7 @@ public class ServicioRestController {
 	})
 	public ResponseEntity<String> eliminarServicio(@PathVariable Long id){
 		try {
-			servicioService.deleteById(id);
+			servicioService.deleteById(id, false);
 			return ResponseEntity.status(200).body("Servicio eliminado correctamente.");
 		} catch (EntidadNoEncontradaException e) {
 			return ResponseEntity.status(404).body("Error al eliminar el Servicio: " + e.getMessage());

@@ -58,7 +58,7 @@
                 <i class="fas fa-user-md"></i>
                 <span>Profesionales disponibles:</span>
             </div>
-            <a th:href="@{'/cliente/solicitar-turno/' + ${lugar.id} + '/elegir-lugar'}" class="solicitar-turno-volver-btn" title="Volver a Lugares">
+            <a th:href="@{'/cliente/solicitar-turno/' + ${turno.servicio.id} + '/elegir-lugar'}" class="solicitar-turno-volver-btn" title="Volver a Lugares">
                 <i class="fas fa-arrow-left"></i>
                 <span>Volver a lugares</span>
             </a>

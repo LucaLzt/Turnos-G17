@@ -163,6 +163,11 @@ public class TurnoService implements ITurnoService {
 		
 		return true;
 		
+	}
+
+	@Override
+	public boolean existsByServicio(Long id) {
+		return turnoRepository.existsByServicioId(id);
 	};
 
 }

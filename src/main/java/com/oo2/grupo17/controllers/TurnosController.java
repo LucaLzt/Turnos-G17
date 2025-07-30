@@ -81,7 +81,7 @@ public class TurnosController {
         List<Profesional> profesionales = profesionalService.obtenerProfesionalesPorLugar(lugarId);
 
         turno.setLugar(modelMapper.map(lugar, LugarDto.class));
-
+        
         model.addAttribute("lugar", lugar);
         model.addAttribute("provincia", provincia);
         model.addAttribute("localidad", localidad);

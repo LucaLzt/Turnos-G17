@@ -51,6 +51,7 @@ public class LugarService implements ILugarService {
 		        localidad, provincia)) {
 			throw new EntidadDuplicadaException("El lugar con la dirección ingresada ya existe.");
 		}
+		
 		Lugar lugar = modelMapper.map(lugarDto, Lugar.class);
 		Lugar saved = lugarRepository.save(lugar);
 		return modelMapper.map(saved, LugarDto.class);

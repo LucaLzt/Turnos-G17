@@ -52,7 +52,7 @@ public class LugaresController {
 	        model.addAttribute("localidades", localidadService.findAll());
 			return ViewRouteHelper.LUGARES_AGREGAR;
 		}
-		direccionService.crearDireccion(lugarDto, lugarDto.getDireccion());	
+		direccionService.crearDireccion(lugarDto, lugarDto.getDireccion());
 		return "redirect:/admin/administrar-lugares?agregado=ok";
 	}
 	

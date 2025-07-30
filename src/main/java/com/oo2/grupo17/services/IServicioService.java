@@ -16,7 +16,7 @@ public interface IServicioService {
 
     ServicioDto update(Long id, ServicioDto servicioDto);
 
-    void deleteById(Long id);
+    void deleteById(Long id, boolean eliminar);
 
     List<ServicioDto> findAllByOrderByNombreAsc();
     
@@ -25,4 +25,5 @@ public interface IServicioService {
 	List<Servicio> findAllByIds(Set<Long> todosLosServiciosIds);
 
 	ServicioDto findByNombre(String servicio);
+
 }

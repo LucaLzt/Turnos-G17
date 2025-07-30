@@ -12,6 +12,7 @@ import com.oo2.grupo17.dtos.LugarDto;
 import com.oo2.grupo17.entities.Contacto;
 import com.oo2.grupo17.entities.Direccion;
 import com.oo2.grupo17.entities.Lugar;
+import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.repositories.IDireccionRepository;
@@ -20,6 +21,7 @@ import com.oo2.grupo17.repositories.ILugarRepository;
 import com.oo2.grupo17.repositories.IProvinciaRepository;
 import com.oo2.grupo17.services.IDireccionService;
 
+import jakarta.transaction.Transactional;
 import lombok.Builder;
 
 @Service @Builder
@@ -129,7 +131,7 @@ public class DireccionService implements IDireccionService {
 		return modelMapper.map(updated, DireccionDto.class);
 	}
 
-	@Override
+	@Override @Transactional
 	public DireccionDto crearDireccion(LugarDto lugarDto, DireccionDto direccionDto) {
 		// 1. Crear y guardar la dirección
 	    Direccion direccion = modelMapper.map(direccionDto, Direccion.class);
@@ -144,18 +146,36 @@ public class DireccionService implements IDireccionService {
 	    if(lugarDto.getId() == null) {								// Si el lugar no existe, lo creo
 	    	lugarEntity = modelMapper.map(lugarDto, Lugar.class);
 	    	lugarEntity.setDireccion(savedDireccion);
+	    	
+	    	// Verifico si ya existe un lugar con la misma dirección
+	    	if (lugarRepository.existsByDireccion_CalleAndDireccion_AlturaAndDireccion_LocalidadAndDireccion_Provincia(
+			        lugarDto.getDireccion().getCalle(),
+			        lugarDto.getDireccion().getAltura(),
+			        savedDireccion.getLocalidad(), savedDireccion.getProvincia())) {
+				throw new EntidadDuplicadaException("El lugar con la dirección ingresada ya existe.");
+			}
+	    	
 	    	lugarRepository.save(lugarEntity);
 	    } else {                       								// Si el lugar ya existe, lo actualizo
 	    	lugarEntity = lugarRepository.findById(lugarDto.getId())
 	    			.orElseThrow();
 		    lugarEntity.setDireccion(savedDireccion);
+		    
+	    	// Verifico si ya existe un lugar con la misma dirección
+	    	if (lugarRepository.existsByDireccion_CalleAndDireccion_AlturaAndDireccion_LocalidadAndDireccion_Provincia(
+			        lugarDto.getDireccion().getCalle(),
+			        lugarDto.getDireccion().getAltura(),
+			        savedDireccion.getLocalidad(), savedDireccion.getProvincia())) {
+				throw new EntidadDuplicadaException("El lugar con la dirección ingresada ya existe.");
+			}
+		    
 		    lugarRepository.save(lugarEntity);
 	    }
 
 	    return modelMapper.map(savedDireccion, DireccionDto.class);
 	}
 
-	@Override
+	@Override @Transactional
 	public DireccionDto actualizarDireccion(LugarDto lugarDto, DireccionDto direccionDto) {
 	    // 1. Buscar el lugar existente
 	    Lugar lugarEntity = lugarRepository.findById(lugarDto.getId())
@@ -173,8 +193,16 @@ public class DireccionService implements IDireccionService {
 	    direccion.setAltura(direccionDto.getAltura());
 	    direccion.setLocalidad(localidadRepository.findById(direccionDto.getLocalidadId()).orElseThrow());
 	    direccion.setProvincia(provinciaRepository.findById(direccionDto.getProvinciaId()).orElseThrow());
+	    
+	    // 5. Verificar si ya existe un lugar con la misma dirección
+	    if (lugarRepository.existsByDireccion_CalleAndDireccion_AlturaAndDireccion_LocalidadAndDireccion_Provincia(
+	            direccion.getCalle(),
+	            direccion.getAltura(),
+	            direccion.getLocalidad(), direccion.getProvincia())) {
+	        throw new EntidadDuplicadaException("El lugar con la dirección ingresada ya existe.");
+	    }
 
-	    // 5. Guardar la dirección y luego el lugar
+	    // 6. Guardar la dirección y luego el lugar
 	    direccionRepository.save(direccion);
 	    lugarRepository.save(lugarEntity);
 
