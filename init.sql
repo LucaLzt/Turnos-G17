@@ -2419,7 +2419,10 @@ INSERT INTO direccion (altura, calle, localidad_id, provincia_id) VALUES
 (150, 'Calle Nueva', 2, 1),
 (950, 'Boulevard Sur', 1, 2),
 (400, 'Diagonal Norte', 2, 2),
-(123, 'Pasaje Este', 1, 2);
+(123, 'Pasaje Este', 1, 2),
+(567, 'Av. Libertador', 1, 1),
+(890, 'Calle San Martín', 2, 1),
+(234, 'Av. Corrientes', 1, 2);
 
 -- Lugares
 INSERT INTO lugar (horario_apertura, horario_cierre, direccion_id) VALUES
@@ -2429,7 +2432,10 @@ INSERT INTO lugar (horario_apertura, horario_cierre, direccion_id) VALUES
 ('08:30:00', '19:00:00', 4),
 ('09:00:00', '21:00:00', 5),
 ('10:00:00', '17:00:00', 6),
-('07:30:00', '18:00:00', 7);
+('07:30:00', '18:00:00', 7),
+('08:00:00', '19:30:00', 8),
+('09:30:00', '20:30:00', 9),
+('07:00:00', '16:00:00', 10);
 
 -- Especialidades
 INSERT INTO especialidad (nombre) VALUES 
@@ -2440,7 +2446,11 @@ INSERT INTO especialidad (nombre) VALUES
 ('Traumatología'),
 ('Oftalmología'),
 ('Gastroenterología'),
-('Medicina General');
+('Medicina General'),
+('Psicología'),
+('Odontología'),
+('Ginecología'),
+('Urología');
 
 -- Servicios
 INSERT INTO servicio (descripcion, nombre, precio) VALUES
@@ -2451,51 +2461,115 @@ INSERT INTO servicio (descripcion, nombre, precio) VALUES
 ('Estudio neurológico básico', 'Estudio Neurológico', 7000),
 ('Radiografía traumatológica', 'Radiografía', 6500),
 ('Control de agudeza visual', 'Control Visual', 3000),
-('Consulta gastroenterológica', 'Consulta Gastro', 5500); 
+('Consulta gastroenterológica', 'Consulta Gastro', 5500),
+('Terapia psicológica individual', 'Sesión Psicología', 8000),
+('Limpieza dental', 'Limpieza Dental', 4000),
+('Control ginecológico', 'Control Ginecológico', 5500),
+('Consulta urológica', 'Consulta Urológica', 6000),
+('Vacunación infantil', 'Vacunación', 3500),
+('Holter 24hs', 'Holter', 12000),
+('Ecografía abdominal', 'Ecografía', 8500);
 
 -- Servicios en lugares
 INSERT INTO servicios_lugares (servicio_id, lugar_id) VALUES 
-(1, 1), 
-(2, 1), 
-(2, 2), 
-(3, 2),
-(4, 3),
-(5, 4),
-(6, 1),
-(7, 1),
-(6, 5),
-(7, 7),
-(8, 7);
+(1, 1), (1, 8), -- Pediatría en lugar 1 y 8
+(2, 1), (2, 2), (2, 9), -- Electrocardiograma en varios lugares
+(3, 2), (3, 5), (3, 7), -- Control presión distribuido
+(4, 3), (4, 6), (4, 10), -- Dermatología en 3 lugares
+(5, 4), (5, 8), -- Neurología
+(6, 1), (6, 5), (6, 9), -- Radiografía
+(7, 1), (7, 7), (7, 10), -- Control visual
+(8, 7), (8, 9), -- Gastroenterología
+(9, 4), (9, 6), (9, 8), -- Psicología
+(10, 2), (10, 3), (10, 5), -- Odontología
+(11, 6), (11, 10), -- Ginecología
+(12, 5), (12, 7), -- Urología
+(13, 1), (13, 8), -- Vacunación
+(14, 2), (14, 9), -- Holter
+(15, 3), (15, 6), (15, 10); -- Ecografía
 
--- Relación servicios-profesionales
+-- Actualizar especialidades de los profesionales
+UPDATE persona SET especialidad_id = 1 WHERE id = 4; -- Profesional Uno: Pediatría
+UPDATE persona SET especialidad_id = 2 WHERE id = 5; -- Profesional Dos: Cardiología
+UPDATE persona SET especialidad_id = 3 WHERE id = 6; -- Profesional Tres: Dermatología
+
+-- Actualizar lugares de trabajo de los profesionales
+UPDATE persona SET lugar_id = 1 WHERE id = 4; -- Profesional Uno en lugar 1
+UPDATE persona SET lugar_id = 2 WHERE id = 5; -- Profesional Dos en lugar 2
+UPDATE persona SET lugar_id = 3 WHERE id = 6; -- Profesional Tres en lugar 3
+
+-- Servicios por profesionales
 INSERT INTO servicios_profesionales (servicio_id, profesional_id) VALUES 
-(1, 2), 
-(2, 2),
-(6, 2),
-(7, 2),
-(3, 2),
-(4, 2),
-(5, 2);
+-- Profesional Uno (Pediatría)
+(1, 4), (13, 4), (3, 4), -- Consulta pediátrica, vacunación, control presión
 
--- Relación profesional-entidad
-UPDATE persona SET especialidad_id = 8 WHERE id = 2;
+-- Profesional Dos (Cardiología)
+(2, 5), (14, 5), (3, 5), -- Electrocardiograma, holter, control presión
 
--- Relación profesional-lugar
-UPDATE persona SET lugar_id = 1 WHERE id = 2;
+-- Profesional Tres (Dermatología)
+(4, 6), (15, 6); -- Consulta dermatológica, ecografía
 
--- Disponibilidad del profesional
+-- Disponibilidad de los profesionales
 INSERT INTO disponibilidad (duracion, inicio, ocupado, profesional_id) VALUES
-(30, '2025-08-25 09:00:00', b'1', 2), -- Turno ya ocupado
-(30, '2025-08-25 09:30:00', b'0', 2), -- Turno libre
-(30, '2025-08-25 11:00:00', b'0', 2),
-(30, '2025-08-25 11:30:00', b'0', 2),
-(30, '2025-08-26 09:00:00', b'1', 2),
-(30, '2025-08-26 09:30:00', b'1', 2),
-(30, '2025-08-26 10:00:00', b'0', 2);
+-- Profesional Uno (id=4) - Pediatra
+(30, '2025-08-25 09:00:00', b'1', 4), -- Ocupado
+(30, '2025-08-25 09:30:00', b'0', 4), -- Libre
+(30, '2025-08-25 10:00:00', b'0', 4), -- Libre
+(30, '2025-08-25 10:30:00', b'1', 4), -- Ocupado
+(30, '2025-08-25 11:00:00', b'0', 4), -- Libre
+(30, '2025-08-26 09:00:00', b'1', 4), -- Ocupado
+(30, '2025-08-26 09:30:00', b'1', 4), -- Ocupado
+(30, '2025-08-26 10:00:00', b'1', 4), -- Ocupado
+(30, '2025-08-27 14:00:00', b'1', 4), -- Ocupado
+(30, '2025-08-27 14:30:00', b'0', 4), -- Libre
 
--- Turno dado
+-- Profesional Dos (id=5) - Cardiólogo
+(45, '2025-08-25 08:30:00', b'1', 5), -- Ocupado
+(45, '2025-08-25 09:15:00', b'0', 5), -- Libre
+(45, '2025-08-25 10:00:00', b'1', 5), -- Ocupado
+(45, '2025-08-25 10:45:00', b'0', 5), -- Libre
+(45, '2025-08-25 11:30:00', b'0', 5), -- Libre
+(45, '2025-08-26 08:00:00', b'1', 5), -- Ocupado
+(45, '2025-08-26 09:00:00', b'0', 5), -- Libre
+(45, '2025-08-26 09:45:00', b'1', 5), -- Ocupado
+(45, '2025-08-27 15:00:00', b'1', 5), -- Ocupado
+(45, '2025-08-27 15:45:00', b'1', 5), -- Ocupado
+
+-- Profesional Tres (id=6) - Dermatólogo
+(30, '2025-08-25 10:00:00', b'0', 6), -- Libre
+(30, '2025-08-25 10:30:00', b'1', 6), -- Ocupado
+(30, '2025-08-25 11:00:00', b'0', 6), -- Libre
+(30, '2025-08-25 11:30:00', b'0', 6), -- Libre
+(30, '2025-08-25 14:00:00', b'1', 6), -- Ocupado
+(30, '2025-08-26 10:00:00', b'1', 6), -- Ocupado
+(30, '2025-08-26 10:30:00', b'1', 6), -- Ocupado
+(30, '2025-08-26 11:00:00', b'0', 6), -- Libre
+(30, '2025-08-27 09:00:00', b'1', 6), -- Ocupado
+(30, '2025-08-27 10:00:00', b'1', 6); -- Ocupado
+
+-- Turnos para los clientes y profesionales
 INSERT INTO turno (cliente_id, disponibilidad_id, lugar_id, profesional_id, servicio_id)
 VALUES 
-(1, 1, 1, 2, 1),
-(1, 5, 1, 2, 6),
-(1, 6, 1, 2, 7);
+-- Turnos para Cliente Uno (id=1)
+(1, 1, 1, 4, 1),   -- Consulta pediátrica con Profesional Uno
+(1, 11, 2, 5, 2),  -- Electrocardiograma con Profesional Dos
+(1, 16, 2, 5, 2),  -- Electrocardiograma con Profesional Dos
+(1, 20, 2, 5, 14), -- Holter con Profesional Dos
+(1, 22, 3, 6, 4),  -- Consulta dermatológica con Profesional Tres
+(1, 27, 3, 6, 4),  -- Dermatología con Profesional Tres
+
+-- Turnos para Cliente Dos (id=2)
+(2, 4, 1, 4, 13),  -- Vacunación con Profesional Uno
+(2, 8, 1, 4, 1),   -- Consulta pediátrica con Profesional Uno
+(2, 13, 2, 5, 14), -- Holter con Profesional Dos
+(2, 19, 2, 5, 3),  -- Control presión Profesional Dos
+(2, 26, 3, 6, 15), -- Ecografía con Profesional Tres
+(2, 30, 3, 6, 4),  -- Dermatología con Profesional Tres
+
+-- Turnos para Cliente Tres (id=3)
+(3, 6, 1, 4, 1);   -- Consulta pediátrica con Profesional Uno
+(3, 7, 1, 4, 3),   -- Control presión con Profesional Uno
+(3, 9, 1, 4, 13),  -- Vacunación con Profesional Uno
+(3, 18, 2, 5, 3),  -- Control presión con Profesional Dos
+(3, 25, 3, 6, 4),  -- Consulta dermatológica con Profesional Tres
+(3, 29, 3, 6, 15), -- Ecografía con Profesional Tres

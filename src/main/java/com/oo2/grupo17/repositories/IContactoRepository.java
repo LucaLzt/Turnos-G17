@@ -12,5 +12,7 @@ public interface IContactoRepository extends JpaRepository<Contacto, Long>{
 	
 	// Ver que poner
 	Optional<Contacto> findByEmail(String email);
+
+	boolean existsByEmailAndIdNot(String email, Long id);
 	
 }
