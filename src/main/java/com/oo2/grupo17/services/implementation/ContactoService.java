@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.oo2.grupo17.dtos.ContactoDto;
 import com.oo2.grupo17.entities.Contacto;
+import com.oo2.grupo17.exceptions.EntidadDuplicadaException;
 import com.oo2.grupo17.exceptions.EntidadNoEncontradaException;
 import com.oo2.grupo17.repositories.IContactoRepository;
 import com.oo2.grupo17.services.IContactoService;
@@ -46,6 +47,12 @@ public class ContactoService implements IContactoService {
 	public ContactoDto update(Long id, ContactoDto contactoDto) {
 		Contacto contacto = contactoRepository.findById(id)
 				.orElseThrow(() -> new EntidadNoEncontradaException("No se encontró el contacto con ID: " + id));
+		
+		// Verificar que el email no esté duplicado
+		if (contactoRepository.existsByEmailAndIdNot(contactoDto.getEmail(), id)) {
+			throw new EntidadDuplicadaException("Ya existe un contacto con el email: " + contactoDto.getEmail());
+		}
+		
 		contacto.setEmail(contactoDto.getEmail());
 		contacto.setMovil(contactoDto.getMovil());
 		contacto.setTelefono(contactoDto.getTelefono());
